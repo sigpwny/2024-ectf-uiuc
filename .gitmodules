@@ -1,3 +1,7 @@
 [submodule "msdk"]
 	path = msdk
 	url = https://github.com/Analog-Devices-MSDK/msdk
+[submodule "custom_nix_pkgs/openocd"]
+	path = custom_nix_pkgs/openocd
+	url = https://github.com/analogdevicesinc/openocd
+	branch = release
