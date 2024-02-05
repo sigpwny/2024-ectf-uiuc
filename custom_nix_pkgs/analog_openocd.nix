@@ -35,11 +35,12 @@ stdenv.mkDerivation {
   pname = "openocd-analog";
   version = "0.12.0";
 
-  src = builtins.fetchGit {
-    url = "https://github.com/analogdevicesinc/openocd.git";
-    ref = "release";
-    submodules = true;
-  };
+  # src = builtins.fetchGit {
+  #   url = "https://github.com/analogdevicesinc/openocd.git";
+  #   ref = "release";
+  #   submodules = true;
+  # };
+  src = ./openocd;
 
   nativeBuiltInputs = [ pkg-config ];
 
@@ -65,7 +66,7 @@ stdenv.mkDerivation {
     substituteInPlace src/jtag/drivers/libjaylink/autogen.sh --replace "LIBTOOLIZE=glibtoolize" "LIBTOOLIZE=libtoolize"
   '';
 
-  enableParallelBuilding = true;
+  enableParallelBuilding = false;
 
   configurePhase = ''
     SKIP_SUBMODULE=1 ./bootstrap
