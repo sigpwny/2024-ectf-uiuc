@@ -4,9 +4,12 @@ authors = ["SIGPwny <ctf@sigpwny.com>"]
 edition = "2021"
 version = "0.1.0"
 
+<<<<<<< HEAD
 [lib]
 path = "src/lib.rs"
 
+=======
+>>>>>>> 9b204d7 (Bootstrap Rust code for AP and MSDK HAL)
 [dependencies]
 argon2 = "0.5.3"
 cortex-m = "0.7.7"

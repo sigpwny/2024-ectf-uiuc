@@ -1,6 +1,7 @@
 #![no_std]
 #![no_main]
 
+<<<<<<< HEAD
 use crate::*;
 use cortex_m_rt::entry;
 // Argon2 hashing docs: https://docs.rs/argon2/latest/argon2/
@@ -86,4 +87,13 @@ fn boot_verify() {
 
 fn post_boot() {
 
+=======
+use cortex_m_rt::entry;
+
+#[entry]
+fn main() -> ! {
+    loop {
+        // TODO
+    }
+>>>>>>> 9b204d7 (Bootstrap Rust code for AP and MSDK HAL)
 }
