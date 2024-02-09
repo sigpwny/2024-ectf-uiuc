@@ -1,6 +1,16 @@
 #![no_std]
 #![no_main]
 
+use cortex_m_rt::entry;
+
+#[entry]
+fn main() -> ! {
+    loop {
+        // TODO
+    }
+}#![no_std]
+#![no_main]
+
 <<<<<<< HEAD
 use crate::*;
 use cortex_m_rt::entry;

@@ -21,6 +21,7 @@
 pkgs.mkShell {
   buildInputs = [
     pkgs.rustup
+    pkgs.rustup
     pkgs.rustfmt
     pkgs.libclang
     pkgs.gnumake
