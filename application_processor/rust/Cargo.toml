@@ -1,6 +1,7 @@
 [package]
 name = "ap"
 version = "0.1.0"
+<<<<<<< HEAD
 
 [dependencies]
 argon2 = "0.5.3"
@@ -17,7 +18,15 @@ version = "0.1.0"
 [lib]
 path = "src/lib.rs"
 edition = "2021"
+=======
 
+<<<<<<< HEAD
+[lib]
+path = "src/lib.rs"
+>>>>>>> 0d9312c (Bootstrap Rust code for AP and MSDK HAL)
+
+=======
+>>>>>>> 9b204d7 (Bootstrap Rust code for AP and MSDK HAL)
 =======
 >>>>>>> 9b204d7 (Bootstrap Rust code for AP and MSDK HAL)
 [dependencies]

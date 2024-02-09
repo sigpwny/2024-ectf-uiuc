@@ -1,6 +1,11 @@
 #![no_std]
 #![no_main]
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+use crate::*;
+>>>>>>> 0d9312c (Bootstrap Rust code for AP and MSDK HAL)
 use cortex_m_rt::entry;
 use max78000_hal::tmr0;
 use board::{Board, Led, u8_to_hex_string, u32_to_hex_string};
@@ -122,8 +127,20 @@ use cortex_m_rt::entry;
 
 #[entry]
 fn main() -> ! {
+<<<<<<< HEAD
     loop {
         // TODO
     }
+=======
+=======
+use cortex_m_rt::entry;
+
+#[entry]
+fn main() -> ! {
+    loop {
+        // TODO
+    }
+>>>>>>> 9b204d7 (Bootstrap Rust code for AP and MSDK HAL)
+>>>>>>> 0d9312c (Bootstrap Rust code for AP and MSDK HAL)
 }>>>>>>> 9b204d7 (Bootstrap Rust code for AP and MSDK HAL)
 }
