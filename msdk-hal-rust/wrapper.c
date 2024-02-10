@@ -16,3 +16,7 @@ void init_system(void) {
 }
 
 // TODO: Add any other wrapper functions here
+
+void led_on(unsigned int idx) {
+  LED_On(idx);
+}
