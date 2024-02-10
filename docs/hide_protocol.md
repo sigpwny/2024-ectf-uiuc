@@ -1,2 +1,4 @@
 # HIDE Protocol
 
+```mermaid
+sequenceDiagram
