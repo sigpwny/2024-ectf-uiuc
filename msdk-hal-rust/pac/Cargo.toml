@@ -1,0 +1,11 @@
+[package]
+name = "max78000-pac"
+authors = ["SIGPwny <ctf@sigpwny.com>"]
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bare-metal = "1.0.0"
+cortex-m = "0.7.7"
+cortex-m-rt = "0.7.3"
+vcell = "0.1.3"
