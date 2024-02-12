@@ -21,6 +21,7 @@
 pkgs.mkShell {
   buildInputs = [
     pkgs.rustup
+    pkgs.rustfmt
     pkgs.gnumake
     pkgs.python39
     pkgs.gcc-arm-embedded
