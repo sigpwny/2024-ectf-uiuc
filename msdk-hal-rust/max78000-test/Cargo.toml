@@ -4,9 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-cortex-m-rt = "0.7.3"
+cortex-m = { version = "0.7.7", features = ["critical-section-single-core"] }
+cortex-m-rt = { version = "0.7.3", features = ["set-sp", "set-vtor"] }
+# cortex-m-semihosting = "0.5.0"
+max78000-pac = { version = "0.1.0", features = ["rt"], path = "../pac" }
+# panic-semihosting = "0.6.0"
 panic-halt = "0.2.0"
-
-[dependencies.max78000-pac]
-version = "0.1.0"
-path = "../pac"
