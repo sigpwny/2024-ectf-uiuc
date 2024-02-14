@@ -7,3 +7,4 @@ MEMORY {
     RAM        (rwx): ORIGIN = 0x20000000, LENGTH = 0x00010000 /* 64kB RAM */
 }
 
+_stext = ORIGIN(FLASH) + 0x200; /* Jump point for bootloader */

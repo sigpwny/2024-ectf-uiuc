@@ -5,3 +5,5 @@ debug:
 release:
 	cargo build --release
 	arm-none-eabi-objcopy -O binary target/thumbv7em-none-eabihf/release/max78000-test max78000-test-release.bin
+clean:
+	cargo clean

@@ -23,608 +23,528 @@
  <resetMask>0xFFFFFFFF</resetMask>
  <peripherals>
   <peripheral>
-    <name>_EXCEPTIONS</name>
-    <description>All exceptions</description>
-    <baseAddress>0</baseAddress>
-    <interrupt>
-      <name>Reset_IRQ</name>
-      <description>Reset</description>
-      <value>1</value>
-    </interrupt>
-    <interrupt>
-      <name>NonMaskableInt_IRQ</name>
-      <description>Non-Maskable Interrupt</description>
-      <value>2</value>
-    </interrupt>
-    <interrupt>
-      <name>HardFault_IRQ</name>
-      <description>Hard Fault</description>
-      <value>3</value>
-    </interrupt>
-    <interrupt>
-      <name>MemoryManagement_IRQ</name>
-      <description>Memory Management Fault</description>
-      <value>4</value>
-    </interrupt>
-    <interrupt>
-      <name>BusFault_IRQ</name>
-      <description>Bus Fault</description>
-      <value>5</value>
-    </interrupt>
-    <interrupt>
-      <name>UsageFault_IRQ</name>
-      <description>Usage Fault</description>
-      <value>6</value>
-    </interrupt>
-    <interrupt>
-      <name>Reserved7</name>
-      <description>Reserved</description>
-      <value>7</value>
-    </interrupt>
-    <interrupt>
-      <name>Reserved8</name>
-      <description>Reserved</description>
-      <value>8</value>
-    </interrupt>
-    <interrupt>
-      <name>Reserved9</name>
-      <description>Reserved</description>
-      <value>9</value>
-    </interrupt>
-    <interrupt>
-      <name>Reserved10</name>
-      <description>Reserved</description>
-      <value>10</value>
-    </interrupt>
-    <interrupt>
-      <name>SVCall_IRQ</name>
-      <description>Supervisor Call Exception</description>
-      <value>11</value>
-    </interrupt>
-    <interrupt>
-      <name>DebugMonitor_IRQ</name>
-      <description>Debug Monitor Exception</description>
-      <value>12</value>
-    </interrupt>
-    <interrupt>
-      <name>Reserved13</name>
-      <description>Reserved</description>
-      <value>13</value>
-    </interrupt>
-    <interrupt>
-      <name>PendSV_IRQ</name>
-      <description>Request Pending for System Service</description>
-      <value>14</value>
-    </interrupt>
-    <interrupt>
-      <name>SysTick_IRQ</name>
-      <description>System Tick Timer</description>
-      <value>15</value>
-    </interrupt>
-  </peripheral>
-  <peripheral>
     <name>_INTERRUPTS</name>
     <description>All interrupts</description>
     <baseAddress>0</baseAddress>
     <interrupt>
       <name>PF_IRQ</name>
       <description>Power Fail Interrupt</description>
-      <value>16</value>
+      <value>0</value>
     </interrupt>
     <interrupt>
       <name>WDT0_IRQ</name>
       <description>Windowed Watchdog Timer 0 Interrupt</description>
-      <value>17</value>
+      <value>1</value>
     </interrupt>
     <interrupt>
       <name>Reserved18</name>
       <description>Reserved</description>
-      <value>18</value>
+      <value>2</value>
     </interrupt>
     <interrupt>
       <name>RTC_IRQ</name>
       <description>Reserved</description>
-      <value>19</value>
+      <value>3</value>
     </interrupt>
     <interrupt>
       <name>TRNG_IRQ</name>
       <description>True Random Number Generator Interrupt</description>
-      <value>20</value>
+      <value>4</value>
     </interrupt>
     <interrupt>
       <name>TMR0_IRQ</name>
       <description>Timer 0 Interrupt</description>
-      <value>21</value>
+      <value>5</value>
     </interrupt>
     <interrupt>
       <name>TMR1_IRQ</name>
       <description>Timer 1 Interrupt</description>
-      <value>22</value>
+      <value>6</value>
     </interrupt>
     <interrupt>
       <name>TMR2_IRQ</name>
       <description>Timer 2 Interrupt</description>
-      <value>23</value>
+      <value>7</value>
     </interrupt>
     <interrupt>
       <name>TMR3_IRQ</name>
       <description>Timer 3 Interrupt</description>
-      <value>24</value>
+      <value>8</value>
     </interrupt>
     <interrupt>
       <name>TMR4_IRQ</name>
       <description>Timer 4 (LPTMR0) Interrupt</description>
-      <value>25</value>
+      <value>9</value>
     </interrupt>
     <interrupt>
       <name>TMR5_IRQ</name>
       <description>Timer 5 (LPTMR1) Interrupt</description>
-      <value>26</value>
+      <value>10</value>
     </interrupt>
     <interrupt>
       <name>Reserved27</name>
       <description>Reserved</description>
-      <value>27</value>
+      <value>11</value>
     </interrupt>
     <interrupt>
       <name>Reserved28</name>
       <description>Reserved</description>
-      <value>28</value>
+      <value>12</value>
     </interrupt>
     <interrupt>
       <name>I2C0_IRQ</name>
       <description>I2C Port 0 Interrupt</description>
-      <value>29</value>
+      <value>13</value>
     </interrupt>
     <interrupt>
       <name>UART0_IRQ</name>
       <description>UART Port 0 Interrupt</description>
-      <value>30</value>
+      <value>14</value>
     </interrupt>
     <interrupt>
       <name>UART1_IRQ</name>
       <description>UART Port 1 Interrupt</description>
-      <value>31</value>
+      <value>15</value>
     </interrupt>
     <interrupt>
       <name>SPI1_IRQ</name>
       <description>SPI Port 1 Interrupt</description>
-      <value>32</value>
+      <value>16</value>
     </interrupt>
     <interrupt>
       <name>Reserved33</name>
       <description>Reserved</description>
-      <value>33</value>
+      <value>17</value>
     </interrupt>
     <interrupt>
       <name>Reserved34</name>
       <description>Reserved</description>
-      <value>34</value>
+      <value>18</value>
     </interrupt>
     <interrupt>
       <name>Reserved35</name>
       <description>Reserved</description>
-      <value>35</value>
+      <value>19</value>
     </interrupt>
     <interrupt>
       <name>ADC_IRQ</name>
       <description>ADC Interrupt</description>
-      <value>36</value>
+      <value>20</value>
     </interrupt>
     <interrupt>
       <name>Reserved37</name>
       <description>Reserved</description>
-      <value>37</value>
+      <value>21</value>
     </interrupt>
     <interrupt>
       <name>Reserved38</name>
       <description>Reserved</description>
-      <value>38</value>
+      <value>22</value>
     </interrupt>
     <interrupt>
       <name>FLC0_IRQ</name>
       <description>Flash Controller 0 Interrupt</description>
-      <value>39</value>
+      <value>23</value>
     </interrupt>
     <interrupt>
       <name>GPIO0_IRQ</name>
       <description>GPIO Port 0 Interrupt</description>
-      <value>40</value>
+      <value>24</value>
     </interrupt>
     <interrupt>
       <name>GPIO1_IRQ</name>
       <description>GPIO Port 1 Interrupt</description>
-      <value>41</value>
+      <value>25</value>
     </interrupt>
     <interrupt>
       <name>GPIO2_IRQ</name>
       <description>GPIO Port 2 Interrupt</description>
-      <value>42</value>
+      <value>26</value>
     </interrupt>
     <interrupt>
       <name>Reserved43</name>
       <description>Reserved</description>
-      <value>43</value>
+      <value>27</value>
     </interrupt>
     <interrupt>
       <name>DMA0_IRQ</name>
       <description>DMA0 Interrupt</description>
-      <value>44</value>
+      <value>28</value>
     </interrupt>
     <interrupt>
       <name>DMA1_IRQ</name>
       <description>DMA1 Interrupt</description>
-      <value>45</value>
+      <value>29</value>
     </interrupt>
     <interrupt>
       <name>DMA2_IRQ</name>
       <description>DMA2 Interrupt</description>
-      <value>46</value>
+      <value>30</value>
     </interrupt>
     <interrupt>
       <name>DMA3_IRQ</name>
       <description>DMA3 Interrupt</description>
-      <value>47</value>
+      <value>31</value>
     </interrupt>
     <interrupt>
       <name>Reserved48</name>
       <description>Reserved</description>
-      <value>48</value>
+      <value>32</value>
     </interrupt>
     <interrupt>
       <name>Reserved49</name>
       <description>Reserved</description>
-      <value>49</value>
+      <value>33</value>
     </interrupt>
     <interrupt>
       <name>UART2_IRQ</name>
       <description>UART Port 2 Interrupt</description>
-      <value>50</value>
+      <value>34</value>
     </interrupt>
     <interrupt>
       <name>Reserved51</name>
       <description>Reserved</description>
-      <value>51</value>
+      <value>35</value>
     </interrupt>
     <interrupt>
       <name>I2C1_IRQ</name>
       <description>I2C Port 1 Interrupt</description>
-      <value>52</value>
+      <value>36</value>
     </interrupt>
     <interrupt>
       <name>Reserved53</name>
       <description>Reserved</description>
-      <value>53</value>
+      <value>37</value>
     </interrupt>
     <interrupt>
       <name>Reserved54</name>
       <description>Reserved</description>
-      <value>54</value>
+      <value>38</value>
     </interrupt>
     <interrupt>
       <name>Reserved55</name>
       <description>Reserved</description>
-      <value>55</value>
+      <value>39</value>
     </interrupt>
     <interrupt>
       <name>Reserved56</name>
       <description>Reserved</description>
-      <value>56</value>
+      <value>40</value>
     </interrupt>
     <interrupt>
       <name>Reserved57</name>
       <description>Reserved</description>
-      <value>57</value>
+      <value>41</value>
     </interrupt>
     <interrupt>
       <name>Reserved58</name>
       <description>Reserved</description>
-      <value>58</value>
+      <value>42</value>
     </interrupt>
     <interrupt>
       <name>Reserved59</name>
       <description>Reserved</description>
-      <value>59</value>
+      <value>43</value>
     </interrupt>
     <interrupt>
       <name>Reserved60</name>
       <description>Reserved</description>
-      <value>60</value>
+      <value>44</value>
     </interrupt>
     <interrupt>
       <name>Reserved61</name>
       <description>Reserved</description>
-      <value>61</value>
+      <value>45</value>
     </interrupt>
     <interrupt>
       <name>Reserved62</name>
       <description>Reserved</description>
-      <value>62</value>
+      <value>46</value>
     </interrupt>
     <interrupt>
       <name>Reserved63</name>
       <description>Reserved</description>
-      <value>63</value>
+      <value>47</value>
     </interrupt>
     <interrupt>
       <name>Reserved64</name>
       <description>Reserved</description>
-      <value>64</value>
+      <value>48</value>
     </interrupt>
     <interrupt>
       <name>Reserved65</name>
       <description>Reserved</description>
-      <value>65</value>
+      <value>49</value>
     </interrupt>
     <interrupt>
       <name>Reserved66</name>
       <description>Reserved</description>
-      <value>66</value>
+      <value>50</value>
     </interrupt>
     <interrupt>
       <name>Reserved67</name>
       <description>Reserved</description>
-      <value>67</value>
+      <value>51</value>
     </interrupt>
     <interrupt>
       <name>Reserved68</name>
       <description>Reserved</description>
-      <value>68</value>
+      <value>52</value>
     </interrupt>
     <interrupt>
       <name>WUT_IRQ</name>
       <description>Wakeup Timer Interrupt</description>
-      <value>69</value>
+      <value>53</value>
     </interrupt>
     <interrupt>
       <name>GPIOWAKE_IRQ</name>
       <description>GPIO Wakeup Interrupt</description>
-      <value>70</value>
+      <value>54</value>
     </interrupt>
     <interrupt>
       <name>Reserved71</name>
       <description>Reserved</description>
-      <value>71</value>
+      <value>55</value>
     </interrupt>
     <interrupt>
       <name>SPI0_IRQ</name>
       <description>SPI Port 0 Interrupt</description>
-      <value>72</value>
+      <value>56</value>
     </interrupt>
     <interrupt>
       <name>WDT1_IRQ</name>
       <description>Low Power Watchdog Timer 0 (WDT1) Interrupt</description>
-      <value>73</value>
+      <value>57</value>
     </interrupt>
     <interrupt>
       <name>Reserved74</name>
       <description>Reserved</description>
-      <value>74</value>
+      <value>58</value>
     </interrupt>
     <interrupt>
       <name>PT_IRQ</name>
       <description>Pulse Train Interrupt</description>
-      <value>75</value>
+      <value>59</value>
     </interrupt>
     <interrupt>
       <name>Reserved76</name>
       <description>Reserved</description>
-      <value>76</value>
+      <value>60</value>
     </interrupt>
     <interrupt>
       <name>Reserved77</name>
       <description>Reserved</description>
-      <value>77</value>
+      <value>61</value>
     </interrupt>
     <interrupt>
       <name>I2C2_IRQ</name>
       <description>I2C Port 2 Interrupt</description>
-      <value>78</value>
+      <value>62</value>
     </interrupt>
     <interrupt>
       <name>RISCV_IRQ</name>
       <description>CPU1 (RV32) Interrupt</description>
-      <value>79</value>
+      <value>63</value>
     </interrupt>
     <interrupt>
       <name>Reserved80</name>
       <description>Reserved</description>
-      <value>80</value>
+      <value>64</value>
     </interrupt>
     <interrupt>
       <name>Reserved81</name>
       <description>Reserved</description>
-      <value>81</value>
+      <value>65</value>
     </interrupt>
     <interrupt>
       <name>Reserved82</name>
       <description>Reserved</description>
-      <value>82</value>
+      <value>66</value>
     </interrupt>
     <interrupt>
       <name>OWM_IRQ</name>
       <description>1-Wire Master Interrupt</description>
-      <value>83</value>
+      <value>67</value>
     </interrupt>
     <interrupt>
       <name>Reserved84</name>
       <description>Reserved</description>
-      <value>84</value>
+      <value>68</value>
     </interrupt>
     <interrupt>
       <name>Reserved85</name>
       <description>Reserved</description>
-      <value>85</value>
+      <value>69</value>
     </interrupt>
     <interrupt>
       <name>Reserved86</name>
       <description>Reserved</description>
-      <value>86</value>
+      <value>70</value>
     </interrupt>
     <interrupt>
       <name>Reserved87</name>
       <description>Reserved</description>
-      <value>87</value>
+      <value>71</value>
     </interrupt>
     <interrupt>
       <name>Reserved88</name>
       <description>Reserved</description>
-      <value>88</value>
+      <value>72</value>
     </interrupt>
     <interrupt>
       <name>Reserved89</name>
       <description>Reserved</description>
-      <value>89</value>
+      <value>73</value>
     </interrupt>
     <interrupt>
       <name>Reserved90</name>
       <description>Reserved</description>
-      <value>90</value>
+      <value>74</value>
     </interrupt>
     <interrupt>
       <name>Reserved91</name>
       <description>Reserved</description>
-      <value>91</value>
+      <value>75</value>
     </interrupt>
     <interrupt>
       <name>Reserved92</name>
       <description>Reserved</description>
-      <value>92</value>
+      <value>76</value>
     </interrupt>
     <interrupt>
       <name>Reserved93</name>
       <description>Reserved</description>
-      <value>93</value>
+      <value>77</value>
     </interrupt>
     <interrupt>
       <name>Reserved94</name>
       <description>Reserved</description>
-      <value>94</value>
+      <value>78</value>
     </interrupt>
     <interrupt>
       <name>Reserved95</name>
       <description>Reserved</description>
-      <value>95</value>
+      <value>79</value>
     </interrupt>
     <interrupt>
       <name>Reserved96</name>
       <description>Reserved</description>
-      <value>96</value>
+      <value>80</value>
     </interrupt>
     <interrupt>
       <name>Reserved97</name>
       <description>Reserved</description>
-      <value>97</value>
+      <value>81</value>
     </interrupt>
     <interrupt>
       <name>ECC_IRQ</name>
       <description>Error Correction Coding Block Interrupt</description>
-      <value>98</value>
+      <value>82</value>
     </interrupt>
     <interrupt>
       <name>DVS_IRQ</name>
       <description>Digital Voltage Scaling Interrupt</description>
-      <value>99</value>
+      <value>83</value>
     </interrupt>
     <interrupt>
       <name>SIMO_IRQ</name>
       <description>Single Input Multiple Output Interrupt</description>
-      <value>100</value>
+      <value>84</value>
     </interrupt>
     <interrupt>
       <name>Reserved101</name>
       <description>Reserved</description>
-      <value>101</value>
+      <value>85</value>
     </interrupt>
     <interrupt>
       <name>Reserved102</name>
       <description>Reserved</description>
-      <value>102</value>
+      <value>86</value>
     </interrupt>
     <interrupt>
       <name>Reserved103</name>
       <description>Reserved</description>
-      <value>103</value>
+      <value>87</value>
     </interrupt>
     <interrupt>
       <name>UART3_IRQ</name>
       <description>UART3 (LPUART0) Interrupt</description>
-      <value>104</value>
+      <value>88</value>
     </interrupt>
     <interrupt>
       <name>Reserved105</name>
       <description>Reserved</description>
-      <value>105</value>
+      <value>89</value>
     </interrupt>
     <interrupt>
       <name>Reserved106</name>
       <description>Reserved</description>
-      <value>106</value>
+      <value>90</value>
     </interrupt>
     <interrupt>
       <name>PCIF_IRQ</name>
       <description>Parallel Camera Interface Interrupt</description>
-      <value>107</value>
+      <value>91</value>
     </interrupt>
     <interrupt>
       <name>Reserved108</name>
       <description>Reserved</description>
-      <value>108</value>
+      <value>92</value>
     </interrupt>
     <interrupt>
       <name>Reserved109</name>
       <description>Reserved</description>
-      <value>109</value>
+      <value>93</value>
     </interrupt>
     <interrupt>
       <name>Reserved110</name>
       <description>Reserved</description>
-      <value>110</value>
+      <value>94</value>
     </interrupt>
     <interrupt>
       <name>Reserved111</name>
       <description>Reserved</description>
-      <value>111</value>
+      <value>95</value>
     </interrupt>
     <interrupt>
       <name>Reserved112</name>
       <description>Reserved</description>
-      <value>112</value>
+      <value>96</value>
     </interrupt>
     <interrupt>
       <name>AES_IRQ</name>
       <description>AES Interrupt</description>
-      <value>113</value>
+      <value>97</value>
     </interrupt>
     <interrupt>
       <name>Reserved114</name>
       <description>Reserved</description>
-      <value>114</value>
+      <value>98</value>
     </interrupt>
     <interrupt>
       <name>I2S_IRQ</name>
       <description>I2S Interrupt</description>
-      <value>115</value>
+      <value>99</value>
     </interrupt>
     <interrupt>
       <name>CNN_FIFO_IRQ</name>
       <description>CNN FIFO Interrupt</description>
-      <value>116</value>
+      <value>100</value>
     </interrupt>
     <interrupt>
       <name>CNN_IRQ</name>
       <description>CNN Interrupt</description>
-      <value>117</value>
+      <value>101</value>
     </interrupt>
     <interrupt>
       <name>Reserved118</name>
       <description>Reserved</description>
-      <value>118</value>
+      <value>102</value>
     </interrupt>
     <interrupt>
       <name>LPCMP_IRQ</name>
       <description>Low Power Comparator Interrupt</description>
-      <value>119</value>
+      <value>103</value>
     </interrupt>
   </peripheral>
   <peripheral>
