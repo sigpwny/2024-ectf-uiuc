@@ -22,6 +22,7 @@ pkgs.mkShell {
   buildInputs = [
     pkgs.rustup
     pkgs.rustfmt
+    pkgs.libclang
     pkgs.gnumake
     pkgs.python39
     pkgs.gcc-arm-embedded
@@ -30,6 +31,9 @@ pkgs.mkShell {
     (pkgs.callPackage custom_nix_pkgs/analog_openocd.nix { })
     pkgs.minicom
   ];
+
+  LIBCLANG_PATH = "${pkgs.libclang.lib}/lib";
+  GCC_ARM_PATH = "${pkgs.gcc-arm-embedded}";
 
   shellHook =
     ''
