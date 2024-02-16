@@ -33,7 +33,8 @@ fn main() -> ! {
     array[2] = uart_bclksrc;
     // array[4] = flc_clkdiv;
 
-    // TODO: Setup peripheral clock (GCR.pclkdiv)
+    // Setup system clock
+    system_clock_ipo_init(&peripherals);
 
     // Initialize GPIO0
     let gpio_status = mxc_gpio0_init(&peripherals);
@@ -77,6 +78,20 @@ fn main() -> ! {
         int32 += 1;
         continue;
     }
+}
+
+fn system_clock_ipo_init(peripherals: &Peripherals) {
+    // Enable the Internal Primary Oscillator (IPO)
+    peripherals.GCR.clkctrl().modify(|_, w| w.ipo_en().en());
+    // Wait for IPO to be ready
+    while peripherals.GCR.clkctrl().read().ipo_rdy().bit_is_clear() { }
+    // Set the system clock to IPO and the divisor to 1
+    peripherals.GCR.clkctrl().modify(|_, w| w
+        .sysclk_sel().ipo()
+        .sysclk_div().div1()
+    );
+    // Wait for the system clock to be ready
+    while peripherals.GCR.clkctrl().read().sysclk_rdy().bit_is_clear() { }
 }
 
 fn mxc_gpio0_init(peripherals: &Peripherals) -> i32 {
