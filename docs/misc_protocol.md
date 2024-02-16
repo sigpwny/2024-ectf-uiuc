@@ -61,12 +61,12 @@ sequenceDiagram
   participant H as Host
   participant AP as Application Processor
   H ->> AP: Send Replacement Token Attempt, Old Component ID, and New Component ID
-  Note over H, AP: “AP waits for 3 seconds”
-  Note over AP	: “Append Replacement Token Salt to received Replacement Token Attempt and compute Argon2 hash”
-  Note over AP: “Compare Token Attempt hash to stored Correct Token hash”
-  Note over H, AP: “Wait until 4.8 seconds total time elapsed since beginning of transaction”
+  Note over H, AP: AP waits for 3 seconds
+  Note over AP	: Append Replacement Token Salt to received Replacement Token Attempt and compute Argon2 hash
+  Note over AP: Compare Token Attempt hash to stored Correct Token hash
+  Note over H, AP: Wait until 4.8 seconds total time elapsed since beginning of transaction
   alt Correct Replacement Token
-     Note over AP: “Updates Component ID list with new Component ID”
+     Note over AP: Updates Component ID list with new Component ID
   end 
 
 ```
