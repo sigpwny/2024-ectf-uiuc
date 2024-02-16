@@ -60,7 +60,7 @@ Description TODO.
 sequenceDiagram
   participant H as Host
   participant AP as Application Processor
-  H ->> AP: “Send Replacement Token Attempt, Old Component ID, and New Component ID”
+  H ->> AP: Send Replacement Token Attempt, Old Component ID, and New Component ID
   Note over H, AP: “AP waits for 3 seconds”
   Note over AP	: “Append Replacement Token Salt to received Replacement Token Attempt and compute Argon2 hash”
   Note over AP: “Compare Token Attempt hash to stored Correct Token hash”
