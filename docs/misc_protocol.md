@@ -8,14 +8,44 @@ Description TODO. All MISC messages are sent over the [HIDE protocol](./hide_pro
 ## List Components
 Description TODO.
 
+```mermaid
+```
+
+### COMMAND_NAME
+Description TODO.
+
+| Name      | Offset | Size (bytes) | Content |
+| --------- | ------ | ------------ | ------- |
+| Magic     | `0x00` | 1            | `\x50`  |
+| TODO      | TODO   | TODO         | TODO    |
 
 ## Attest Components
 Description TODO.
 
+```mermaid
+```
+
+### COMMAND_NAME
+Description TODO.
+
+| Name      | Offset | Size (bytes) | Content |
+| --------- | ------ | ------------ | ------- |
+| Magic     | `0x00` | 1            | `\x60`  |
+| TODO      | TODO   | TODO         | TODO    |
 
 ## Replace Components
 Description TODO.
 
+```mermaid
+```
+
+### COMMAND_NAME
+Description TODO.
+
+| Name      | Offset | Size (bytes) | Content |
+| --------- | ------ | ------------ | ------- |
+| Magic     | `0x00` | 1            | `\x70`  |
+| TODO      | TODO   | TODO         | TODO    |
 
 ## Boot Verification
 Description TODO.
@@ -61,7 +91,6 @@ Description TODO.
 | Name      | Offset | Size (bytes) | Content |
 | --------- | ------ | ------------ | ------- |
 | Magic     | `0x00` | 1            | `\x80`  |
-| TODO      | TODO   | TODO         | TODO    |
 
 ### BOOT_PONG
 Description TODO.
@@ -69,7 +98,6 @@ Description TODO.
 | Name      | Offset | Size (bytes) | Content |
 | --------- | ------ | ------------ | ------- |
 | Magic     | `0x00` | 1            | `\x81`  |
-| TODO      | TODO   | TODO         | TODO    |
 
 ### BOOT_NOW
 Description TODO.
@@ -77,7 +105,6 @@ Description TODO.
 | Name      | Offset | Size (bytes) | Content |
 | --------- | ------ | ------------ | ------- |
 | Magic     | `0x00` | 1            | `\x82`  |
-| TODO      | TODO   | TODO         | TODO    |
 
 ## Post-Boot Communication
 Description TODO.
