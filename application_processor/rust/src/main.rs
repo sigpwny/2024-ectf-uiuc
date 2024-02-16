@@ -29,6 +29,9 @@ const LEN_MAX_HOST:   usize = 32;
  const MAGIC_BOOT_NOW:  u8 = 0x82;
 
 
+// Reference Rust code from last year: https://github.com/sigpwny/2023-ectf-sigpwny/blob/main/docker_env/src/bin/car.rs
+
+
 #[entry]
 fn main() -> ! {
     // TODO: Initialization
