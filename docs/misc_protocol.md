@@ -15,10 +15,9 @@ sequenceDiagram
   participant C1 as Component 1
   participant C2 as Component 2
   H ->> AP: "list component request"
-  AP ->> H: "Log component IDs"
   Note over AP, C2: The request is sent to both components are the same time
-  AP ->> C1: PING with component ID
-  AP ->> C2: PING with component ID
+  AP ->> C1: PING
+  AP ->> C2: PING
   C1 ->> AP: PONG with component ID
   AP ->> H: Log Component 1 as found
   alt C1 response > 1s
