@@ -20,6 +20,7 @@
 
 pkgs.mkShell {
   buildInputs = [
+    pkgs.rustup
     pkgs.gnumake
     pkgs.python39
     pkgs.gcc-arm-embedded
@@ -33,5 +34,8 @@ pkgs.mkShell {
     ''
       chmod -R u+rwX,go+rX,go-w $PWD/msdk
       export MAXIM_PATH=$PWD/msdk
+
+      rustup default nightly
+      rustup target add thumbv7em-none-eabihf
     '';
 }
