@@ -1,11 +1,11 @@
 #![no_std]
 #![no_main]
 
-fn secure_send(u32 id, message: &[u8; 64]) {
+fn secure_send(message: &[u8; 64]) {
     // TODO
 }
 
-fn secure_recv(u32 id, message: &mut [u8; 64]) {
+fn secure_recv(message: &mut [u8; 64]) {
     // TODO
 }
 
