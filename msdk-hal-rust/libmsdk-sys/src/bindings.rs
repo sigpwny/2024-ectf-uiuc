@@ -1364,49 +1364,49 @@ pub const MXC_F_WDT_CTRL_RST_LATE_POS: u32 = 31;
 pub const MXC_F_WDT_RST_RESET_POS: u32 = 0;
 pub const MXC_F_WDT_CLKSEL_SOURCE_POS: u32 = 0;
 pub const MXC_F_WDT_CNT_COUNT_POS: u32 = 0;
-pub type __int8_t = ::std::os::raw::c_schar;
-pub type __uint8_t = ::std::os::raw::c_uchar;
-pub type __int16_t = ::std::os::raw::c_short;
-pub type __uint16_t = ::std::os::raw::c_ushort;
-pub type __int32_t = ::std::os::raw::c_int;
-pub type __uint32_t = ::std::os::raw::c_uint;
-pub type __int64_t = ::std::os::raw::c_longlong;
-pub type __uint64_t = ::std::os::raw::c_ulonglong;
-pub type __int_least8_t = ::std::os::raw::c_schar;
-pub type __uint_least8_t = ::std::os::raw::c_uchar;
-pub type __int_least16_t = ::std::os::raw::c_short;
-pub type __uint_least16_t = ::std::os::raw::c_ushort;
-pub type __int_least32_t = ::std::os::raw::c_int;
-pub type __uint_least32_t = ::std::os::raw::c_uint;
-pub type __int_least64_t = ::std::os::raw::c_longlong;
-pub type __uint_least64_t = ::std::os::raw::c_ulonglong;
-pub type __intmax_t = ::std::os::raw::c_longlong;
-pub type __uintmax_t = ::std::os::raw::c_ulonglong;
-pub type __intptr_t = ::std::os::raw::c_int;
-pub type __uintptr_t = ::std::os::raw::c_uint;
-pub type wchar_t = ::std::os::raw::c_uint;
+pub type __int8_t = ::core::ffi::c_schar;
+pub type __uint8_t = ::core::ffi::c_uchar;
+pub type __int16_t = ::core::ffi::c_short;
+pub type __uint16_t = ::core::ffi::c_ushort;
+pub type __int32_t = ::core::ffi::c_int;
+pub type __uint32_t = ::core::ffi::c_uint;
+pub type __int64_t = ::core::ffi::c_longlong;
+pub type __uint64_t = ::core::ffi::c_ulonglong;
+pub type __int_least8_t = ::core::ffi::c_schar;
+pub type __uint_least8_t = ::core::ffi::c_uchar;
+pub type __int_least16_t = ::core::ffi::c_short;
+pub type __uint_least16_t = ::core::ffi::c_ushort;
+pub type __int_least32_t = ::core::ffi::c_int;
+pub type __uint_least32_t = ::core::ffi::c_uint;
+pub type __int_least64_t = ::core::ffi::c_longlong;
+pub type __uint_least64_t = ::core::ffi::c_ulonglong;
+pub type __intmax_t = ::core::ffi::c_longlong;
+pub type __uintmax_t = ::core::ffi::c_ulonglong;
+pub type __intptr_t = ::core::ffi::c_int;
+pub type __uintptr_t = ::core::ffi::c_uint;
+pub type wchar_t = ::core::ffi::c_uint;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct max_align_t {
-    pub __clang_max_align_nonce1: ::std::os::raw::c_longlong,
+    pub __clang_max_align_nonce1: ::core::ffi::c_longlong,
     pub __clang_max_align_nonce2: f64,
 }
 #[test]
 fn bindgen_test_layout_max_align_t() {
-    const UNINIT: ::std::mem::MaybeUninit<max_align_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<max_align_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<max_align_t>(),
+        ::core::mem::size_of::<max_align_t>(),
         16usize,
         concat!("Size of: ", stringify!(max_align_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<max_align_t>(),
+        ::core::mem::align_of::<max_align_t>(),
         8usize,
         concat!("Alignment of ", stringify!(max_align_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).__clang_max_align_nonce1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).__clang_max_align_nonce1) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -1416,7 +1416,7 @@ fn bindgen_test_layout_max_align_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).__clang_max_align_nonce2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).__clang_max_align_nonce2) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -1428,56 +1428,56 @@ fn bindgen_test_layout_max_align_t() {
 }
 pub type __gnuc_va_list = u32;
 pub type va_list = __gnuc_va_list;
-pub type wint_t = ::std::os::raw::c_int;
-pub type __blkcnt_t = ::std::os::raw::c_long;
-pub type __blksize_t = ::std::os::raw::c_long;
+pub type wint_t = ::core::ffi::c_int;
+pub type __blkcnt_t = ::core::ffi::c_long;
+pub type __blksize_t = ::core::ffi::c_long;
 pub type __fsblkcnt_t = __uint64_t;
 pub type __fsfilcnt_t = __uint32_t;
-pub type _off_t = ::std::os::raw::c_long;
-pub type __pid_t = ::std::os::raw::c_int;
-pub type __dev_t = ::std::os::raw::c_short;
-pub type __uid_t = ::std::os::raw::c_ushort;
-pub type __gid_t = ::std::os::raw::c_ushort;
+pub type _off_t = ::core::ffi::c_long;
+pub type __pid_t = ::core::ffi::c_int;
+pub type __dev_t = ::core::ffi::c_short;
+pub type __uid_t = ::core::ffi::c_ushort;
+pub type __gid_t = ::core::ffi::c_ushort;
 pub type __id_t = __uint32_t;
-pub type __ino_t = ::std::os::raw::c_ushort;
+pub type __ino_t = ::core::ffi::c_ushort;
 pub type __mode_t = __uint32_t;
-pub type _off64_t = ::std::os::raw::c_longlong;
+pub type _off64_t = ::core::ffi::c_longlong;
 pub type __off_t = _off_t;
 pub type __loff_t = _off64_t;
-pub type __key_t = ::std::os::raw::c_long;
-pub type _fpos_t = ::std::os::raw::c_long;
-pub type __size_t = ::std::os::raw::c_uint;
-pub type _ssize_t = ::std::os::raw::c_int;
+pub type __key_t = ::core::ffi::c_long;
+pub type _fpos_t = ::core::ffi::c_long;
+pub type __size_t = ::core::ffi::c_uint;
+pub type _ssize_t = ::core::ffi::c_int;
 pub type __ssize_t = _ssize_t;
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct _mbstate_t {
-    pub __count: ::std::os::raw::c_int,
+    pub __count: ::core::ffi::c_int,
     pub __value: _mbstate_t__bindgen_ty_1,
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub union _mbstate_t__bindgen_ty_1 {
     pub __wch: wint_t,
-    pub __wchb: [::std::os::raw::c_uchar; 4usize],
+    pub __wchb: [::core::ffi::c_uchar; 4usize],
 }
 #[test]
 fn bindgen_test_layout__mbstate_t__bindgen_ty_1() {
-    const UNINIT: ::std::mem::MaybeUninit<_mbstate_t__bindgen_ty_1> =
-        ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<_mbstate_t__bindgen_ty_1> =
+        ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<_mbstate_t__bindgen_ty_1>(),
+        ::core::mem::size_of::<_mbstate_t__bindgen_ty_1>(),
         4usize,
         concat!("Size of: ", stringify!(_mbstate_t__bindgen_ty_1))
     );
     assert_eq!(
-        ::std::mem::align_of::<_mbstate_t__bindgen_ty_1>(),
+        ::core::mem::align_of::<_mbstate_t__bindgen_ty_1>(),
         4usize,
         concat!("Alignment of ", stringify!(_mbstate_t__bindgen_ty_1))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).__wch) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).__wch) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -1487,7 +1487,7 @@ fn bindgen_test_layout__mbstate_t__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).__wchb) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).__wchb) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -1499,20 +1499,20 @@ fn bindgen_test_layout__mbstate_t__bindgen_ty_1() {
 }
 #[test]
 fn bindgen_test_layout__mbstate_t() {
-    const UNINIT: ::std::mem::MaybeUninit<_mbstate_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<_mbstate_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<_mbstate_t>(),
+        ::core::mem::size_of::<_mbstate_t>(),
         8usize,
         concat!("Size of: ", stringify!(_mbstate_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<_mbstate_t>(),
+        ::core::mem::align_of::<_mbstate_t>(),
         4usize,
         concat!("Alignment of ", stringify!(_mbstate_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).__count) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).__count) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -1522,7 +1522,7 @@ fn bindgen_test_layout__mbstate_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).__value) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).__value) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -1532,20 +1532,20 @@ fn bindgen_test_layout__mbstate_t() {
         )
     );
 }
-pub type _iconv_t = *mut ::std::os::raw::c_void;
-pub type __clock_t = ::std::os::raw::c_ulong;
+pub type _iconv_t = *mut ::core::ffi::c_void;
+pub type __clock_t = ::core::ffi::c_ulong;
 pub type __time_t = __int_least64_t;
-pub type __clockid_t = ::std::os::raw::c_ulong;
-pub type __daddr_t = ::std::os::raw::c_long;
-pub type __timer_t = ::std::os::raw::c_ulong;
+pub type __clockid_t = ::core::ffi::c_ulong;
+pub type __daddr_t = ::core::ffi::c_long;
+pub type __timer_t = ::core::ffi::c_ulong;
 pub type __sa_family_t = __uint8_t;
 pub type __socklen_t = __uint32_t;
-pub type __nl_item = ::std::os::raw::c_int;
-pub type __nlink_t = ::std::os::raw::c_ushort;
-pub type __suseconds_t = ::std::os::raw::c_long;
-pub type __useconds_t = ::std::os::raw::c_ulong;
+pub type __nl_item = ::core::ffi::c_int;
+pub type __nlink_t = ::core::ffi::c_ushort;
+pub type __suseconds_t = ::core::ffi::c_long;
+pub type __useconds_t = ::core::ffi::c_ulong;
 pub type __va_list = u32;
-pub type __ULong = ::std::os::raw::c_ulong;
+pub type __ULong = ::core::ffi::c_ulong;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct __lock {
@@ -1571,10 +1571,10 @@ extern "C" {
     pub fn __retarget_lock_acquire_recursive(lock: _LOCK_T);
 }
 extern "C" {
-    pub fn __retarget_lock_try_acquire(lock: _LOCK_T) -> ::std::os::raw::c_int;
+    pub fn __retarget_lock_try_acquire(lock: _LOCK_T) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn __retarget_lock_try_acquire_recursive(lock: _LOCK_T) -> ::std::os::raw::c_int;
+    pub fn __retarget_lock_try_acquire_recursive(lock: _LOCK_T) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn __retarget_lock_release(lock: _LOCK_T);
@@ -1592,28 +1592,28 @@ pub struct __locale_t {
 #[derive(Debug, Copy, Clone)]
 pub struct _Bigint {
     pub _next: *mut _Bigint,
-    pub _k: ::std::os::raw::c_int,
-    pub _maxwds: ::std::os::raw::c_int,
-    pub _sign: ::std::os::raw::c_int,
-    pub _wds: ::std::os::raw::c_int,
+    pub _k: ::core::ffi::c_int,
+    pub _maxwds: ::core::ffi::c_int,
+    pub _sign: ::core::ffi::c_int,
+    pub _wds: ::core::ffi::c_int,
     pub _x: [__ULong; 1usize],
 }
 #[test]
 fn bindgen_test_layout__Bigint() {
-    const UNINIT: ::std::mem::MaybeUninit<_Bigint> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<_Bigint> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<_Bigint>(),
+        ::core::mem::size_of::<_Bigint>(),
         24usize,
         concat!("Size of: ", stringify!(_Bigint))
     );
     assert_eq!(
-        ::std::mem::align_of::<_Bigint>(),
+        ::core::mem::align_of::<_Bigint>(),
         4usize,
         concat!("Alignment of ", stringify!(_Bigint))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._next) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._next) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -1623,7 +1623,7 @@ fn bindgen_test_layout__Bigint() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._k) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._k) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -1633,7 +1633,7 @@ fn bindgen_test_layout__Bigint() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._maxwds) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._maxwds) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -1643,7 +1643,7 @@ fn bindgen_test_layout__Bigint() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._sign) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._sign) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -1653,7 +1653,7 @@ fn bindgen_test_layout__Bigint() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._wds) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._wds) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -1663,7 +1663,7 @@ fn bindgen_test_layout__Bigint() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._x) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._x) as usize - ptr as usize },
         20usize,
         concat!(
             "Offset of field: ",
@@ -1676,32 +1676,32 @@ fn bindgen_test_layout__Bigint() {
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct __tm {
-    pub __tm_sec: ::std::os::raw::c_int,
-    pub __tm_min: ::std::os::raw::c_int,
-    pub __tm_hour: ::std::os::raw::c_int,
-    pub __tm_mday: ::std::os::raw::c_int,
-    pub __tm_mon: ::std::os::raw::c_int,
-    pub __tm_year: ::std::os::raw::c_int,
-    pub __tm_wday: ::std::os::raw::c_int,
-    pub __tm_yday: ::std::os::raw::c_int,
-    pub __tm_isdst: ::std::os::raw::c_int,
+    pub __tm_sec: ::core::ffi::c_int,
+    pub __tm_min: ::core::ffi::c_int,
+    pub __tm_hour: ::core::ffi::c_int,
+    pub __tm_mday: ::core::ffi::c_int,
+    pub __tm_mon: ::core::ffi::c_int,
+    pub __tm_year: ::core::ffi::c_int,
+    pub __tm_wday: ::core::ffi::c_int,
+    pub __tm_yday: ::core::ffi::c_int,
+    pub __tm_isdst: ::core::ffi::c_int,
 }
 #[test]
 fn bindgen_test_layout___tm() {
-    const UNINIT: ::std::mem::MaybeUninit<__tm> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<__tm> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<__tm>(),
+        ::core::mem::size_of::<__tm>(),
         36usize,
         concat!("Size of: ", stringify!(__tm))
     );
     assert_eq!(
-        ::std::mem::align_of::<__tm>(),
+        ::core::mem::align_of::<__tm>(),
         4usize,
         concat!("Alignment of ", stringify!(__tm))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).__tm_sec) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).__tm_sec) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -1711,7 +1711,7 @@ fn bindgen_test_layout___tm() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).__tm_min) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).__tm_min) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -1721,7 +1721,7 @@ fn bindgen_test_layout___tm() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).__tm_hour) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).__tm_hour) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -1731,7 +1731,7 @@ fn bindgen_test_layout___tm() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).__tm_mday) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).__tm_mday) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -1741,7 +1741,7 @@ fn bindgen_test_layout___tm() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).__tm_mon) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).__tm_mon) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -1751,7 +1751,7 @@ fn bindgen_test_layout___tm() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).__tm_year) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).__tm_year) as usize - ptr as usize },
         20usize,
         concat!(
             "Offset of field: ",
@@ -1761,7 +1761,7 @@ fn bindgen_test_layout___tm() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).__tm_wday) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).__tm_wday) as usize - ptr as usize },
         24usize,
         concat!(
             "Offset of field: ",
@@ -1771,7 +1771,7 @@ fn bindgen_test_layout___tm() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).__tm_yday) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).__tm_yday) as usize - ptr as usize },
         28usize,
         concat!(
             "Offset of field: ",
@@ -1781,7 +1781,7 @@ fn bindgen_test_layout___tm() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).__tm_isdst) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).__tm_isdst) as usize - ptr as usize },
         32usize,
         concat!(
             "Offset of field: ",
@@ -1794,27 +1794,27 @@ fn bindgen_test_layout___tm() {
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct _on_exit_args {
-    pub _fnargs: [*mut ::std::os::raw::c_void; 32usize],
-    pub _dso_handle: [*mut ::std::os::raw::c_void; 32usize],
+    pub _fnargs: [*mut ::core::ffi::c_void; 32usize],
+    pub _dso_handle: [*mut ::core::ffi::c_void; 32usize],
     pub _fntypes: __ULong,
     pub _is_cxa: __ULong,
 }
 #[test]
 fn bindgen_test_layout__on_exit_args() {
-    const UNINIT: ::std::mem::MaybeUninit<_on_exit_args> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<_on_exit_args> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<_on_exit_args>(),
+        ::core::mem::size_of::<_on_exit_args>(),
         264usize,
         concat!("Size of: ", stringify!(_on_exit_args))
     );
     assert_eq!(
-        ::std::mem::align_of::<_on_exit_args>(),
+        ::core::mem::align_of::<_on_exit_args>(),
         4usize,
         concat!("Alignment of ", stringify!(_on_exit_args))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._fnargs) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._fnargs) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -1824,7 +1824,7 @@ fn bindgen_test_layout__on_exit_args() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._dso_handle) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._dso_handle) as usize - ptr as usize },
         128usize,
         concat!(
             "Offset of field: ",
@@ -1834,7 +1834,7 @@ fn bindgen_test_layout__on_exit_args() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._fntypes) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._fntypes) as usize - ptr as usize },
         256usize,
         concat!(
             "Offset of field: ",
@@ -1844,7 +1844,7 @@ fn bindgen_test_layout__on_exit_args() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._is_cxa) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._is_cxa) as usize - ptr as usize },
         260usize,
         concat!(
             "Offset of field: ",
@@ -1858,26 +1858,26 @@ fn bindgen_test_layout__on_exit_args() {
 #[derive(Debug, Copy, Clone)]
 pub struct _atexit {
     pub _next: *mut _atexit,
-    pub _ind: ::std::os::raw::c_int,
-    pub _fns: [::std::option::Option<unsafe extern "C" fn()>; 32usize],
+    pub _ind: ::core::ffi::c_int,
+    pub _fns: [::core::option::Option<unsafe extern "C" fn()>; 32usize],
     pub _on_exit_args: _on_exit_args,
 }
 #[test]
 fn bindgen_test_layout__atexit() {
-    const UNINIT: ::std::mem::MaybeUninit<_atexit> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<_atexit> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<_atexit>(),
+        ::core::mem::size_of::<_atexit>(),
         400usize,
         concat!("Size of: ", stringify!(_atexit))
     );
     assert_eq!(
-        ::std::mem::align_of::<_atexit>(),
+        ::core::mem::align_of::<_atexit>(),
         4usize,
         concat!("Alignment of ", stringify!(_atexit))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._next) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._next) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -1887,7 +1887,7 @@ fn bindgen_test_layout__atexit() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._ind) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._ind) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -1897,7 +1897,7 @@ fn bindgen_test_layout__atexit() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._fns) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._fns) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -1907,7 +1907,7 @@ fn bindgen_test_layout__atexit() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._on_exit_args) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._on_exit_args) as usize - ptr as usize },
         136usize,
         concat!(
             "Offset of field: ",
@@ -1920,25 +1920,25 @@ fn bindgen_test_layout__atexit() {
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct __sbuf {
-    pub _base: *mut ::std::os::raw::c_uchar,
-    pub _size: ::std::os::raw::c_int,
+    pub _base: *mut ::core::ffi::c_uchar,
+    pub _size: ::core::ffi::c_int,
 }
 #[test]
 fn bindgen_test_layout___sbuf() {
-    const UNINIT: ::std::mem::MaybeUninit<__sbuf> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<__sbuf> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<__sbuf>(),
+        ::core::mem::size_of::<__sbuf>(),
         8usize,
         concat!("Size of: ", stringify!(__sbuf))
     );
     assert_eq!(
-        ::std::mem::align_of::<__sbuf>(),
+        ::core::mem::align_of::<__sbuf>(),
         4usize,
         concat!("Alignment of ", stringify!(__sbuf))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._base) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._base) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -1948,7 +1948,7 @@ fn bindgen_test_layout___sbuf() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._size) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._size) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -1961,73 +1961,73 @@ fn bindgen_test_layout___sbuf() {
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct __sFILE {
-    pub _p: *mut ::std::os::raw::c_uchar,
-    pub _r: ::std::os::raw::c_int,
-    pub _w: ::std::os::raw::c_int,
-    pub _flags: ::std::os::raw::c_short,
-    pub _file: ::std::os::raw::c_short,
+    pub _p: *mut ::core::ffi::c_uchar,
+    pub _r: ::core::ffi::c_int,
+    pub _w: ::core::ffi::c_int,
+    pub _flags: ::core::ffi::c_short,
+    pub _file: ::core::ffi::c_short,
     pub _bf: __sbuf,
-    pub _lbfsize: ::std::os::raw::c_int,
-    pub _cookie: *mut ::std::os::raw::c_void,
-    pub _read: ::std::option::Option<
+    pub _lbfsize: ::core::ffi::c_int,
+    pub _cookie: *mut ::core::ffi::c_void,
+    pub _read: ::core::option::Option<
         unsafe extern "C" fn(
             arg1: *mut _reent,
-            arg2: *mut ::std::os::raw::c_void,
-            arg3: *mut ::std::os::raw::c_char,
-            arg4: ::std::os::raw::c_int,
-        ) -> ::std::os::raw::c_int,
+            arg2: *mut ::core::ffi::c_void,
+            arg3: *mut ::core::ffi::c_char,
+            arg4: ::core::ffi::c_int,
+        ) -> ::core::ffi::c_int,
     >,
-    pub _write: ::std::option::Option<
+    pub _write: ::core::option::Option<
         unsafe extern "C" fn(
             arg1: *mut _reent,
-            arg2: *mut ::std::os::raw::c_void,
-            arg3: *const ::std::os::raw::c_char,
-            arg4: ::std::os::raw::c_int,
-        ) -> ::std::os::raw::c_int,
+            arg2: *mut ::core::ffi::c_void,
+            arg3: *const ::core::ffi::c_char,
+            arg4: ::core::ffi::c_int,
+        ) -> ::core::ffi::c_int,
     >,
-    pub _seek: ::std::option::Option<
+    pub _seek: ::core::option::Option<
         unsafe extern "C" fn(
             arg1: *mut _reent,
-            arg2: *mut ::std::os::raw::c_void,
+            arg2: *mut ::core::ffi::c_void,
             arg3: _fpos_t,
-            arg4: ::std::os::raw::c_int,
+            arg4: ::core::ffi::c_int,
         ) -> _fpos_t,
     >,
-    pub _close: ::std::option::Option<
+    pub _close: ::core::option::Option<
         unsafe extern "C" fn(
             arg1: *mut _reent,
-            arg2: *mut ::std::os::raw::c_void,
-        ) -> ::std::os::raw::c_int,
+            arg2: *mut ::core::ffi::c_void,
+        ) -> ::core::ffi::c_int,
     >,
     pub _ub: __sbuf,
-    pub _up: *mut ::std::os::raw::c_uchar,
-    pub _ur: ::std::os::raw::c_int,
-    pub _ubuf: [::std::os::raw::c_uchar; 3usize],
-    pub _nbuf: [::std::os::raw::c_uchar; 1usize],
+    pub _up: *mut ::core::ffi::c_uchar,
+    pub _ur: ::core::ffi::c_int,
+    pub _ubuf: [::core::ffi::c_uchar; 3usize],
+    pub _nbuf: [::core::ffi::c_uchar; 1usize],
     pub _lb: __sbuf,
-    pub _blksize: ::std::os::raw::c_int,
+    pub _blksize: ::core::ffi::c_int,
     pub _offset: _off_t,
     pub _data: *mut _reent,
     pub _lock: _flock_t,
     pub _mbstate: _mbstate_t,
-    pub _flags2: ::std::os::raw::c_int,
+    pub _flags2: ::core::ffi::c_int,
 }
 #[test]
 fn bindgen_test_layout___sFILE() {
-    const UNINIT: ::std::mem::MaybeUninit<__sFILE> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<__sFILE> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<__sFILE>(),
+        ::core::mem::size_of::<__sFILE>(),
         104usize,
         concat!("Size of: ", stringify!(__sFILE))
     );
     assert_eq!(
-        ::std::mem::align_of::<__sFILE>(),
+        ::core::mem::align_of::<__sFILE>(),
         4usize,
         concat!("Alignment of ", stringify!(__sFILE))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._p) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._p) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -2037,7 +2037,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._r) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._r) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -2047,7 +2047,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._w) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._w) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -2057,7 +2057,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._flags) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._flags) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -2067,7 +2067,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._file) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._file) as usize - ptr as usize },
         14usize,
         concat!(
             "Offset of field: ",
@@ -2077,7 +2077,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._bf) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._bf) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -2087,7 +2087,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._lbfsize) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._lbfsize) as usize - ptr as usize },
         24usize,
         concat!(
             "Offset of field: ",
@@ -2097,7 +2097,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._cookie) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._cookie) as usize - ptr as usize },
         28usize,
         concat!(
             "Offset of field: ",
@@ -2107,7 +2107,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._read) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._read) as usize - ptr as usize },
         32usize,
         concat!(
             "Offset of field: ",
@@ -2117,7 +2117,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._write) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._write) as usize - ptr as usize },
         36usize,
         concat!(
             "Offset of field: ",
@@ -2127,7 +2127,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._seek) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._seek) as usize - ptr as usize },
         40usize,
         concat!(
             "Offset of field: ",
@@ -2137,7 +2137,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._close) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._close) as usize - ptr as usize },
         44usize,
         concat!(
             "Offset of field: ",
@@ -2147,7 +2147,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._ub) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._ub) as usize - ptr as usize },
         48usize,
         concat!(
             "Offset of field: ",
@@ -2157,7 +2157,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._up) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._up) as usize - ptr as usize },
         56usize,
         concat!(
             "Offset of field: ",
@@ -2167,7 +2167,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._ur) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._ur) as usize - ptr as usize },
         60usize,
         concat!(
             "Offset of field: ",
@@ -2177,7 +2177,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._ubuf) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._ubuf) as usize - ptr as usize },
         64usize,
         concat!(
             "Offset of field: ",
@@ -2187,7 +2187,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._nbuf) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._nbuf) as usize - ptr as usize },
         67usize,
         concat!(
             "Offset of field: ",
@@ -2197,7 +2197,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._lb) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._lb) as usize - ptr as usize },
         68usize,
         concat!(
             "Offset of field: ",
@@ -2207,7 +2207,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._blksize) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._blksize) as usize - ptr as usize },
         76usize,
         concat!(
             "Offset of field: ",
@@ -2217,7 +2217,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._offset) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._offset) as usize - ptr as usize },
         80usize,
         concat!(
             "Offset of field: ",
@@ -2227,7 +2227,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._data) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._data) as usize - ptr as usize },
         84usize,
         concat!(
             "Offset of field: ",
@@ -2237,7 +2237,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._lock) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._lock) as usize - ptr as usize },
         88usize,
         concat!(
             "Offset of field: ",
@@ -2247,7 +2247,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._mbstate) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._mbstate) as usize - ptr as usize },
         92usize,
         concat!(
             "Offset of field: ",
@@ -2257,7 +2257,7 @@ fn bindgen_test_layout___sFILE() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._flags2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._flags2) as usize - ptr as usize },
         100usize,
         concat!(
             "Offset of field: ",
@@ -2275,25 +2275,25 @@ extern "C" {
 #[derive(Debug, Copy, Clone)]
 pub struct _glue {
     pub _next: *mut _glue,
-    pub _niobs: ::std::os::raw::c_int,
+    pub _niobs: ::core::ffi::c_int,
     pub _iobs: *mut __FILE,
 }
 #[test]
 fn bindgen_test_layout__glue() {
-    const UNINIT: ::std::mem::MaybeUninit<_glue> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<_glue> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<_glue>(),
+        ::core::mem::size_of::<_glue>(),
         12usize,
         concat!("Size of: ", stringify!(_glue))
     );
     assert_eq!(
-        ::std::mem::align_of::<_glue>(),
+        ::core::mem::align_of::<_glue>(),
         4usize,
         concat!("Alignment of ", stringify!(_glue))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._next) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._next) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -2303,7 +2303,7 @@ fn bindgen_test_layout__glue() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._niobs) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._niobs) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -2313,7 +2313,7 @@ fn bindgen_test_layout__glue() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._iobs) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._iobs) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -2329,26 +2329,26 @@ extern "C" {
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct _rand48 {
-    pub _seed: [::std::os::raw::c_ushort; 3usize],
-    pub _mult: [::std::os::raw::c_ushort; 3usize],
-    pub _add: ::std::os::raw::c_ushort,
+    pub _seed: [::core::ffi::c_ushort; 3usize],
+    pub _mult: [::core::ffi::c_ushort; 3usize],
+    pub _add: ::core::ffi::c_ushort,
 }
 #[test]
 fn bindgen_test_layout__rand48() {
-    const UNINIT: ::std::mem::MaybeUninit<_rand48> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<_rand48> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<_rand48>(),
+        ::core::mem::size_of::<_rand48>(),
         14usize,
         concat!("Size of: ", stringify!(_rand48))
     );
     assert_eq!(
-        ::std::mem::align_of::<_rand48>(),
+        ::core::mem::align_of::<_rand48>(),
         2usize,
         concat!("Alignment of ", stringify!(_rand48))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._seed) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._seed) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -2358,7 +2358,7 @@ fn bindgen_test_layout__rand48() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._mult) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._mult) as usize - ptr as usize },
         6usize,
         concat!(
             "Offset of field: ",
@@ -2368,7 +2368,7 @@ fn bindgen_test_layout__rand48() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._add) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._add) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -2381,22 +2381,22 @@ fn bindgen_test_layout__rand48() {
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct _reent {
-    pub _errno: ::std::os::raw::c_int,
+    pub _errno: ::core::ffi::c_int,
     pub _stdin: *mut __FILE,
     pub _stdout: *mut __FILE,
     pub _stderr: *mut __FILE,
-    pub _inc: ::std::os::raw::c_int,
-    pub _emergency: [::std::os::raw::c_char; 25usize],
+    pub _inc: ::core::ffi::c_int,
+    pub _emergency: [::core::ffi::c_char; 25usize],
     pub _locale: *mut __locale_t,
-    pub __cleanup: ::std::option::Option<unsafe extern "C" fn(arg1: *mut _reent)>,
+    pub __cleanup: ::core::option::Option<unsafe extern "C" fn(arg1: *mut _reent)>,
     pub _result: *mut _Bigint,
-    pub _result_k: ::std::os::raw::c_int,
+    pub _result_k: ::core::ffi::c_int,
     pub _p5s: *mut _Bigint,
     pub _freelist: *mut *mut _Bigint,
-    pub _cvtlen: ::std::os::raw::c_int,
-    pub _cvtbuf: *mut ::std::os::raw::c_char,
+    pub _cvtlen: ::core::ffi::c_int,
+    pub _cvtbuf: *mut ::core::ffi::c_char,
     pub _new: _reent__bindgen_ty_1,
-    pub _sig_func: *mut ::std::option::Option<unsafe extern "C" fn(arg1: ::std::os::raw::c_int)>,
+    pub _sig_func: *mut ::core::option::Option<unsafe extern "C" fn(arg1: ::core::ffi::c_int)>,
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -2406,37 +2406,37 @@ pub union _reent__bindgen_ty_1 {
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct _reent__bindgen_ty_1__bindgen_ty_1 {
-    pub _strtok_last: *mut ::std::os::raw::c_char,
-    pub _asctime_buf: [::std::os::raw::c_char; 26usize],
+    pub _strtok_last: *mut ::core::ffi::c_char,
+    pub _asctime_buf: [::core::ffi::c_char; 26usize],
     pub _localtime_buf: __tm,
-    pub _gamma_signgam: ::std::os::raw::c_int,
-    pub _rand_next: ::std::os::raw::c_ulonglong,
+    pub _gamma_signgam: ::core::ffi::c_int,
+    pub _rand_next: ::core::ffi::c_ulonglong,
     pub _r48: _rand48,
     pub _mblen_state: _mbstate_t,
     pub _mbtowc_state: _mbstate_t,
     pub _wctomb_state: _mbstate_t,
-    pub _l64a_buf: [::std::os::raw::c_char; 8usize],
-    pub _signal_buf: [::std::os::raw::c_char; 24usize],
-    pub _getdate_err: ::std::os::raw::c_int,
+    pub _l64a_buf: [::core::ffi::c_char; 8usize],
+    pub _signal_buf: [::core::ffi::c_char; 24usize],
+    pub _getdate_err: ::core::ffi::c_int,
     pub _mbrlen_state: _mbstate_t,
     pub _mbrtowc_state: _mbstate_t,
     pub _mbsrtowcs_state: _mbstate_t,
     pub _wcrtomb_state: _mbstate_t,
     pub _wcsrtombs_state: _mbstate_t,
-    pub _h_errno: ::std::os::raw::c_int,
+    pub _h_errno: ::core::ffi::c_int,
 }
 #[test]
 fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
-    const UNINIT: ::std::mem::MaybeUninit<_reent__bindgen_ty_1__bindgen_ty_1> =
-        ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<_reent__bindgen_ty_1__bindgen_ty_1> =
+        ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<_reent__bindgen_ty_1__bindgen_ty_1>(),
+        ::core::mem::size_of::<_reent__bindgen_ty_1__bindgen_ty_1>(),
         200usize,
         concat!("Size of: ", stringify!(_reent__bindgen_ty_1__bindgen_ty_1))
     );
     assert_eq!(
-        ::std::mem::align_of::<_reent__bindgen_ty_1__bindgen_ty_1>(),
+        ::core::mem::align_of::<_reent__bindgen_ty_1__bindgen_ty_1>(),
         8usize,
         concat!(
             "Alignment of ",
@@ -2444,7 +2444,7 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._strtok_last) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._strtok_last) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -2454,7 +2454,7 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._asctime_buf) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._asctime_buf) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -2464,7 +2464,7 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._localtime_buf) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._localtime_buf) as usize - ptr as usize },
         32usize,
         concat!(
             "Offset of field: ",
@@ -2474,7 +2474,7 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._gamma_signgam) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._gamma_signgam) as usize - ptr as usize },
         68usize,
         concat!(
             "Offset of field: ",
@@ -2484,7 +2484,7 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._rand_next) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._rand_next) as usize - ptr as usize },
         72usize,
         concat!(
             "Offset of field: ",
@@ -2494,7 +2494,7 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._r48) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._r48) as usize - ptr as usize },
         80usize,
         concat!(
             "Offset of field: ",
@@ -2504,7 +2504,7 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._mblen_state) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._mblen_state) as usize - ptr as usize },
         96usize,
         concat!(
             "Offset of field: ",
@@ -2514,7 +2514,7 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._mbtowc_state) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._mbtowc_state) as usize - ptr as usize },
         104usize,
         concat!(
             "Offset of field: ",
@@ -2524,7 +2524,7 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._wctomb_state) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._wctomb_state) as usize - ptr as usize },
         112usize,
         concat!(
             "Offset of field: ",
@@ -2534,7 +2534,7 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._l64a_buf) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._l64a_buf) as usize - ptr as usize },
         120usize,
         concat!(
             "Offset of field: ",
@@ -2544,7 +2544,7 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._signal_buf) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._signal_buf) as usize - ptr as usize },
         128usize,
         concat!(
             "Offset of field: ",
@@ -2554,7 +2554,7 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._getdate_err) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._getdate_err) as usize - ptr as usize },
         152usize,
         concat!(
             "Offset of field: ",
@@ -2564,7 +2564,7 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._mbrlen_state) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._mbrlen_state) as usize - ptr as usize },
         156usize,
         concat!(
             "Offset of field: ",
@@ -2574,7 +2574,7 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._mbrtowc_state) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._mbrtowc_state) as usize - ptr as usize },
         164usize,
         concat!(
             "Offset of field: ",
@@ -2584,7 +2584,7 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._mbsrtowcs_state) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._mbsrtowcs_state) as usize - ptr as usize },
         172usize,
         concat!(
             "Offset of field: ",
@@ -2594,7 +2594,7 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._wcrtomb_state) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._wcrtomb_state) as usize - ptr as usize },
         180usize,
         concat!(
             "Offset of field: ",
@@ -2604,7 +2604,7 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._wcsrtombs_state) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._wcsrtombs_state) as usize - ptr as usize },
         188usize,
         concat!(
             "Offset of field: ",
@@ -2614,7 +2614,7 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._h_errno) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._h_errno) as usize - ptr as usize },
         196usize,
         concat!(
             "Offset of field: ",
@@ -2626,20 +2626,21 @@ fn bindgen_test_layout__reent__bindgen_ty_1__bindgen_ty_1() {
 }
 #[test]
 fn bindgen_test_layout__reent__bindgen_ty_1() {
-    const UNINIT: ::std::mem::MaybeUninit<_reent__bindgen_ty_1> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<_reent__bindgen_ty_1> =
+        ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<_reent__bindgen_ty_1>(),
+        ::core::mem::size_of::<_reent__bindgen_ty_1>(),
         200usize,
         concat!("Size of: ", stringify!(_reent__bindgen_ty_1))
     );
     assert_eq!(
-        ::std::mem::align_of::<_reent__bindgen_ty_1>(),
+        ::core::mem::align_of::<_reent__bindgen_ty_1>(),
         8usize,
         concat!("Alignment of ", stringify!(_reent__bindgen_ty_1))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._reent) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._reent) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -2651,20 +2652,20 @@ fn bindgen_test_layout__reent__bindgen_ty_1() {
 }
 #[test]
 fn bindgen_test_layout__reent() {
-    const UNINIT: ::std::mem::MaybeUninit<_reent> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<_reent> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<_reent>(),
+        ::core::mem::size_of::<_reent>(),
         288usize,
         concat!("Size of: ", stringify!(_reent))
     );
     assert_eq!(
-        ::std::mem::align_of::<_reent>(),
+        ::core::mem::align_of::<_reent>(),
         8usize,
         concat!("Alignment of ", stringify!(_reent))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._errno) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._errno) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -2674,7 +2675,7 @@ fn bindgen_test_layout__reent() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._stdin) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._stdin) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -2684,7 +2685,7 @@ fn bindgen_test_layout__reent() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._stdout) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._stdout) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -2694,7 +2695,7 @@ fn bindgen_test_layout__reent() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._stderr) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._stderr) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -2704,7 +2705,7 @@ fn bindgen_test_layout__reent() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._inc) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._inc) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -2714,7 +2715,7 @@ fn bindgen_test_layout__reent() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._emergency) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._emergency) as usize - ptr as usize },
         20usize,
         concat!(
             "Offset of field: ",
@@ -2724,7 +2725,7 @@ fn bindgen_test_layout__reent() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._locale) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._locale) as usize - ptr as usize },
         48usize,
         concat!(
             "Offset of field: ",
@@ -2734,7 +2735,7 @@ fn bindgen_test_layout__reent() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).__cleanup) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).__cleanup) as usize - ptr as usize },
         52usize,
         concat!(
             "Offset of field: ",
@@ -2744,7 +2745,7 @@ fn bindgen_test_layout__reent() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._result) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._result) as usize - ptr as usize },
         56usize,
         concat!(
             "Offset of field: ",
@@ -2754,7 +2755,7 @@ fn bindgen_test_layout__reent() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._result_k) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._result_k) as usize - ptr as usize },
         60usize,
         concat!(
             "Offset of field: ",
@@ -2764,7 +2765,7 @@ fn bindgen_test_layout__reent() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._p5s) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._p5s) as usize - ptr as usize },
         64usize,
         concat!(
             "Offset of field: ",
@@ -2774,7 +2775,7 @@ fn bindgen_test_layout__reent() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._freelist) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._freelist) as usize - ptr as usize },
         68usize,
         concat!(
             "Offset of field: ",
@@ -2784,7 +2785,7 @@ fn bindgen_test_layout__reent() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._cvtlen) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._cvtlen) as usize - ptr as usize },
         72usize,
         concat!(
             "Offset of field: ",
@@ -2794,7 +2795,7 @@ fn bindgen_test_layout__reent() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._cvtbuf) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._cvtbuf) as usize - ptr as usize },
         76usize,
         concat!(
             "Offset of field: ",
@@ -2804,7 +2805,7 @@ fn bindgen_test_layout__reent() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._new) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._new) as usize - ptr as usize },
         80usize,
         concat!(
             "Offset of field: ",
@@ -2814,7 +2815,7 @@ fn bindgen_test_layout__reent() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr)._sig_func) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr)._sig_func) as usize - ptr as usize },
         280usize,
         concat!(
             "Offset of field: ",
@@ -2837,7 +2838,7 @@ extern "C" {
     pub static mut __atexit0: _atexit;
 }
 extern "C" {
-    pub static mut __stdio_exit_handler: ::std::option::Option<unsafe extern "C" fn()>;
+    pub static mut __stdio_exit_handler: ::core::option::Option<unsafe extern "C" fn()>;
 }
 extern "C" {
     pub fn _reclaim_reent(arg1: *mut _reent);
@@ -2845,166 +2846,158 @@ extern "C" {
 extern "C" {
     pub fn _fwalk_sglue(
         arg1: *mut _reent,
-        arg2: ::std::option::Option<
-            unsafe extern "C" fn(arg1: *mut _reent, arg2: *mut __FILE) -> ::std::os::raw::c_int,
+        arg2: ::core::option::Option<
+            unsafe extern "C" fn(arg1: *mut _reent, arg2: *mut __FILE) -> ::core::ffi::c_int,
         >,
         arg3: *mut _glue,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 pub type FILE = __FILE;
 pub type fpos_t = _fpos_t;
 pub type off_t = __off_t;
 extern "C" {
-    pub fn ctermid(arg1: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
+    pub fn ctermid(arg1: *mut ::core::ffi::c_char) -> *mut ::core::ffi::c_char;
 }
 extern "C" {
     pub fn tmpfile() -> *mut FILE;
 }
 extern "C" {
-    pub fn tmpnam(arg1: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
+    pub fn tmpnam(arg1: *mut ::core::ffi::c_char) -> *mut ::core::ffi::c_char;
 }
 extern "C" {
     pub fn tempnam(
-        arg1: *const ::std::os::raw::c_char,
-        arg2: *const ::std::os::raw::c_char,
-    ) -> *mut ::std::os::raw::c_char;
+        arg1: *const ::core::ffi::c_char,
+        arg2: *const ::core::ffi::c_char,
+    ) -> *mut ::core::ffi::c_char;
 }
 extern "C" {
-    pub fn fclose(arg1: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn fclose(arg1: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn fflush(arg1: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn fflush(arg1: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn freopen(
-        arg1: *const ::std::os::raw::c_char,
-        arg2: *const ::std::os::raw::c_char,
+        arg1: *const ::core::ffi::c_char,
+        arg2: *const ::core::ffi::c_char,
         arg3: *mut FILE,
     ) -> *mut FILE;
 }
 extern "C" {
-    pub fn setbuf(arg1: *mut FILE, arg2: *mut ::std::os::raw::c_char);
+    pub fn setbuf(arg1: *mut FILE, arg2: *mut ::core::ffi::c_char);
 }
 extern "C" {
     pub fn setvbuf(
         arg1: *mut FILE,
-        arg2: *mut ::std::os::raw::c_char,
-        arg3: ::std::os::raw::c_int,
+        arg2: *mut ::core::ffi::c_char,
+        arg3: ::core::ffi::c_int,
         arg4: usize,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn fprintf(
-        arg1: *mut FILE,
-        arg2: *const ::std::os::raw::c_char,
-        ...
-    ) -> ::std::os::raw::c_int;
+    pub fn fprintf(arg1: *mut FILE, arg2: *const ::core::ffi::c_char, ...) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn fscanf(
-        arg1: *mut FILE,
-        arg2: *const ::std::os::raw::c_char,
-        ...
-    ) -> ::std::os::raw::c_int;
+    pub fn fscanf(arg1: *mut FILE, arg2: *const ::core::ffi::c_char, ...) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn printf(arg1: *const ::std::os::raw::c_char, ...) -> ::std::os::raw::c_int;
+    pub fn printf(arg1: *const ::core::ffi::c_char, ...) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn scanf(arg1: *const ::std::os::raw::c_char, ...) -> ::std::os::raw::c_int;
+    pub fn scanf(arg1: *const ::core::ffi::c_char, ...) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn sscanf(
-        arg1: *const ::std::os::raw::c_char,
-        arg2: *const ::std::os::raw::c_char,
+        arg1: *const ::core::ffi::c_char,
+        arg2: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn vfprintf(
         arg1: *mut FILE,
-        arg2: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
         arg3: u32,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn vprintf(arg1: *const ::std::os::raw::c_char, arg2: u32) -> ::std::os::raw::c_int;
+    pub fn vprintf(arg1: *const ::core::ffi::c_char, arg2: u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn vsprintf(
-        arg1: *mut ::std::os::raw::c_char,
-        arg2: *const ::std::os::raw::c_char,
+        arg1: *mut ::core::ffi::c_char,
+        arg2: *const ::core::ffi::c_char,
         arg3: u32,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn fgetc(arg1: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn fgetc(arg1: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn fgets(
-        arg1: *mut ::std::os::raw::c_char,
-        arg2: ::std::os::raw::c_int,
+        arg1: *mut ::core::ffi::c_char,
+        arg2: ::core::ffi::c_int,
         arg3: *mut FILE,
-    ) -> *mut ::std::os::raw::c_char;
+    ) -> *mut ::core::ffi::c_char;
 }
 extern "C" {
-    pub fn fputc(arg1: ::std::os::raw::c_int, arg2: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn fputc(arg1: ::core::ffi::c_int, arg2: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn fputs(arg1: *const ::std::os::raw::c_char, arg2: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn fputs(arg1: *const ::core::ffi::c_char, arg2: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn getc(arg1: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn getc(arg1: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn getchar() -> ::std::os::raw::c_int;
+    pub fn getchar() -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn gets(arg1: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
+    pub fn gets(arg1: *mut ::core::ffi::c_char) -> *mut ::core::ffi::c_char;
 }
 extern "C" {
-    pub fn putc(arg1: ::std::os::raw::c_int, arg2: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn putc(arg1: ::core::ffi::c_int, arg2: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn putchar(arg1: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+    pub fn putchar(arg1: ::core::ffi::c_int) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn puts(arg1: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
+    pub fn puts(arg1: *const ::core::ffi::c_char) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn ungetc(arg1: ::std::os::raw::c_int, arg2: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn ungetc(arg1: ::core::ffi::c_int, arg2: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn fread(
-        arg1: *mut ::std::os::raw::c_void,
-        _size: ::std::os::raw::c_uint,
-        _n: ::std::os::raw::c_uint,
+        arg1: *mut ::core::ffi::c_void,
+        _size: ::core::ffi::c_uint,
+        _n: ::core::ffi::c_uint,
         arg2: *mut FILE,
-    ) -> ::std::os::raw::c_uint;
+    ) -> ::core::ffi::c_uint;
 }
 extern "C" {
     pub fn fwrite(
-        arg1: *const ::std::os::raw::c_void,
-        _size: ::std::os::raw::c_uint,
-        _n: ::std::os::raw::c_uint,
+        arg1: *const ::core::ffi::c_void,
+        _size: ::core::ffi::c_uint,
+        _n: ::core::ffi::c_uint,
         arg2: *mut FILE,
-    ) -> ::std::os::raw::c_uint;
+    ) -> ::core::ffi::c_uint;
 }
 extern "C" {
-    pub fn fgetpos(arg1: *mut FILE, arg2: *mut fpos_t) -> ::std::os::raw::c_int;
+    pub fn fgetpos(arg1: *mut FILE, arg2: *mut fpos_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn fseek(
         arg1: *mut FILE,
-        arg2: ::std::os::raw::c_long,
-        arg3: ::std::os::raw::c_int,
-    ) -> ::std::os::raw::c_int;
+        arg2: ::core::ffi::c_long,
+        arg3: ::core::ffi::c_int,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn fsetpos(arg1: *mut FILE, arg2: *const fpos_t) -> ::std::os::raw::c_int;
+    pub fn fsetpos(arg1: *mut FILE, arg2: *const fpos_t) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn ftell(arg1: *mut FILE) -> ::std::os::raw::c_long;
+    pub fn ftell(arg1: *mut FILE) -> ::core::ffi::c_long;
 }
 extern "C" {
     pub fn rewind(arg1: *mut FILE);
@@ -3013,451 +3006,420 @@ extern "C" {
     pub fn clearerr(arg1: *mut FILE);
 }
 extern "C" {
-    pub fn feof(arg1: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn feof(arg1: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn ferror(arg1: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn ferror(arg1: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn perror(arg1: *const ::std::os::raw::c_char);
+    pub fn perror(arg1: *const ::core::ffi::c_char);
 }
 extern "C" {
-    pub fn fopen(
-        _name: *const ::std::os::raw::c_char,
-        _type: *const ::std::os::raw::c_char,
-    ) -> *mut FILE;
+    pub fn fopen(_name: *const ::core::ffi::c_char, _type: *const ::core::ffi::c_char)
+        -> *mut FILE;
 }
 extern "C" {
     pub fn sprintf(
-        arg1: *mut ::std::os::raw::c_char,
-        arg2: *const ::std::os::raw::c_char,
+        arg1: *mut ::core::ffi::c_char,
+        arg2: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn remove(arg1: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
+    pub fn remove(arg1: *const ::core::ffi::c_char) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn rename(
-        arg1: *const ::std::os::raw::c_char,
-        arg2: *const ::std::os::raw::c_char,
-    ) -> ::std::os::raw::c_int;
+        arg1: *const ::core::ffi::c_char,
+        arg2: *const ::core::ffi::c_char,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn fseeko(
-        arg1: *mut FILE,
-        arg2: off_t,
-        arg3: ::std::os::raw::c_int,
-    ) -> ::std::os::raw::c_int;
+    pub fn fseeko(arg1: *mut FILE, arg2: off_t, arg3: ::core::ffi::c_int) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn ftello(arg1: *mut FILE) -> off_t;
 }
 extern "C" {
     pub fn snprintf(
-        arg1: *mut ::std::os::raw::c_char,
-        arg2: ::std::os::raw::c_uint,
-        arg3: *const ::std::os::raw::c_char,
+        arg1: *mut ::core::ffi::c_char,
+        arg2: ::core::ffi::c_uint,
+        arg3: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn vsnprintf(
-        arg1: *mut ::std::os::raw::c_char,
-        arg2: ::std::os::raw::c_uint,
-        arg3: *const ::std::os::raw::c_char,
+        arg1: *mut ::core::ffi::c_char,
+        arg2: ::core::ffi::c_uint,
+        arg3: *const ::core::ffi::c_char,
         arg4: u32,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn vfscanf(
         arg1: *mut FILE,
-        arg2: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
         arg3: u32,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn vscanf(arg1: *const ::std::os::raw::c_char, arg2: u32) -> ::std::os::raw::c_int;
+    pub fn vscanf(arg1: *const ::core::ffi::c_char, arg2: u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn vsscanf(
-        arg1: *const ::std::os::raw::c_char,
-        arg2: *const ::std::os::raw::c_char,
+        arg1: *const ::core::ffi::c_char,
+        arg2: *const ::core::ffi::c_char,
         arg3: u32,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn asiprintf(
-        arg1: *mut *mut ::std::os::raw::c_char,
-        arg2: *const ::std::os::raw::c_char,
+        arg1: *mut *mut ::core::ffi::c_char,
+        arg2: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn asniprintf(
-        arg1: *mut ::std::os::raw::c_char,
+        arg1: *mut ::core::ffi::c_char,
         arg2: *mut usize,
-        arg3: *const ::std::os::raw::c_char,
+        arg3: *const ::core::ffi::c_char,
         ...
-    ) -> *mut ::std::os::raw::c_char;
+    ) -> *mut ::core::ffi::c_char;
 }
 extern "C" {
     pub fn asnprintf(
-        arg1: *mut ::std::os::raw::c_char,
+        arg1: *mut ::core::ffi::c_char,
         arg2: *mut usize,
-        arg3: *const ::std::os::raw::c_char,
+        arg3: *const ::core::ffi::c_char,
         ...
-    ) -> *mut ::std::os::raw::c_char;
+    ) -> *mut ::core::ffi::c_char;
 }
 extern "C" {
     pub fn diprintf(
-        arg1: ::std::os::raw::c_int,
-        arg2: *const ::std::os::raw::c_char,
+        arg1: ::core::ffi::c_int,
+        arg2: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn fiprintf(
-        arg1: *mut FILE,
-        arg2: *const ::std::os::raw::c_char,
-        ...
-    ) -> ::std::os::raw::c_int;
+    pub fn fiprintf(arg1: *mut FILE, arg2: *const ::core::ffi::c_char, ...) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn fiscanf(
-        arg1: *mut FILE,
-        arg2: *const ::std::os::raw::c_char,
-        ...
-    ) -> ::std::os::raw::c_int;
+    pub fn fiscanf(arg1: *mut FILE, arg2: *const ::core::ffi::c_char, ...) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn iprintf(arg1: *const ::std::os::raw::c_char, ...) -> ::std::os::raw::c_int;
+    pub fn iprintf(arg1: *const ::core::ffi::c_char, ...) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn iscanf(arg1: *const ::std::os::raw::c_char, ...) -> ::std::os::raw::c_int;
+    pub fn iscanf(arg1: *const ::core::ffi::c_char, ...) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn siprintf(
-        arg1: *mut ::std::os::raw::c_char,
-        arg2: *const ::std::os::raw::c_char,
+        arg1: *mut ::core::ffi::c_char,
+        arg2: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn siscanf(
-        arg1: *const ::std::os::raw::c_char,
-        arg2: *const ::std::os::raw::c_char,
+        arg1: *const ::core::ffi::c_char,
+        arg2: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn sniprintf(
-        arg1: *mut ::std::os::raw::c_char,
+        arg1: *mut ::core::ffi::c_char,
         arg2: usize,
-        arg3: *const ::std::os::raw::c_char,
+        arg3: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn vasiprintf(
-        arg1: *mut *mut ::std::os::raw::c_char,
-        arg2: *const ::std::os::raw::c_char,
+        arg1: *mut *mut ::core::ffi::c_char,
+        arg2: *const ::core::ffi::c_char,
         arg3: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn vasniprintf(
-        arg1: *mut ::std::os::raw::c_char,
+        arg1: *mut ::core::ffi::c_char,
         arg2: *mut usize,
-        arg3: *const ::std::os::raw::c_char,
+        arg3: *const ::core::ffi::c_char,
         arg4: __gnuc_va_list,
-    ) -> *mut ::std::os::raw::c_char;
+    ) -> *mut ::core::ffi::c_char;
 }
 extern "C" {
     pub fn vasnprintf(
-        arg1: *mut ::std::os::raw::c_char,
+        arg1: *mut ::core::ffi::c_char,
         arg2: *mut usize,
-        arg3: *const ::std::os::raw::c_char,
+        arg3: *const ::core::ffi::c_char,
         arg4: __gnuc_va_list,
-    ) -> *mut ::std::os::raw::c_char;
+    ) -> *mut ::core::ffi::c_char;
 }
 extern "C" {
     pub fn vdiprintf(
-        arg1: ::std::os::raw::c_int,
-        arg2: *const ::std::os::raw::c_char,
+        arg1: ::core::ffi::c_int,
+        arg2: *const ::core::ffi::c_char,
         arg3: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn vfiprintf(
         arg1: *mut FILE,
-        arg2: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
         arg3: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn vfiscanf(
         arg1: *mut FILE,
-        arg2: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
         arg3: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn viprintf(
-        arg1: *const ::std::os::raw::c_char,
-        arg2: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    pub fn viprintf(arg1: *const ::core::ffi::c_char, arg2: __gnuc_va_list) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn viscanf(
-        arg1: *const ::std::os::raw::c_char,
-        arg2: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    pub fn viscanf(arg1: *const ::core::ffi::c_char, arg2: __gnuc_va_list) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn vsiprintf(
-        arg1: *mut ::std::os::raw::c_char,
-        arg2: *const ::std::os::raw::c_char,
+        arg1: *mut ::core::ffi::c_char,
+        arg2: *const ::core::ffi::c_char,
         arg3: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn vsiscanf(
-        arg1: *const ::std::os::raw::c_char,
-        arg2: *const ::std::os::raw::c_char,
+        arg1: *const ::core::ffi::c_char,
+        arg2: *const ::core::ffi::c_char,
         arg3: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn vsniprintf(
-        arg1: *mut ::std::os::raw::c_char,
+        arg1: *mut ::core::ffi::c_char,
         arg2: usize,
-        arg3: *const ::std::os::raw::c_char,
+        arg3: *const ::core::ffi::c_char,
         arg4: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn fdopen(arg1: ::std::os::raw::c_int, arg2: *const ::std::os::raw::c_char) -> *mut FILE;
+    pub fn fdopen(arg1: ::core::ffi::c_int, arg2: *const ::core::ffi::c_char) -> *mut FILE;
 }
 extern "C" {
-    pub fn fileno(arg1: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn fileno(arg1: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn pclose(arg1: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn pclose(arg1: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn popen(
-        arg1: *const ::std::os::raw::c_char,
-        arg2: *const ::std::os::raw::c_char,
-    ) -> *mut FILE;
+    pub fn popen(arg1: *const ::core::ffi::c_char, arg2: *const ::core::ffi::c_char) -> *mut FILE;
 }
 extern "C" {
-    pub fn setbuffer(
-        arg1: *mut FILE,
-        arg2: *mut ::std::os::raw::c_char,
-        arg3: ::std::os::raw::c_int,
-    );
+    pub fn setbuffer(arg1: *mut FILE, arg2: *mut ::core::ffi::c_char, arg3: ::core::ffi::c_int);
 }
 extern "C" {
-    pub fn setlinebuf(arg1: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn setlinebuf(arg1: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn getw(arg1: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn getw(arg1: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn putw(arg1: ::std::os::raw::c_int, arg2: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn putw(arg1: ::core::ffi::c_int, arg2: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn getc_unlocked(arg1: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn getc_unlocked(arg1: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn getchar_unlocked() -> ::std::os::raw::c_int;
+    pub fn getchar_unlocked() -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn flockfile(arg1: *mut FILE);
 }
 extern "C" {
-    pub fn ftrylockfile(arg1: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn ftrylockfile(arg1: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn funlockfile(arg1: *mut FILE);
 }
 extern "C" {
-    pub fn putc_unlocked(arg1: ::std::os::raw::c_int, arg2: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn putc_unlocked(arg1: ::core::ffi::c_int, arg2: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn putchar_unlocked(arg1: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+    pub fn putchar_unlocked(arg1: ::core::ffi::c_int) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn dprintf(
-        arg1: ::std::os::raw::c_int,
-        arg2: *const ::std::os::raw::c_char,
+        arg1: ::core::ffi::c_int,
+        arg2: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn fmemopen(
-        arg1: *mut ::std::os::raw::c_void,
+        arg1: *mut ::core::ffi::c_void,
         arg2: usize,
-        arg3: *const ::std::os::raw::c_char,
+        arg3: *const ::core::ffi::c_char,
     ) -> *mut FILE;
 }
 extern "C" {
-    pub fn open_memstream(arg1: *mut *mut ::std::os::raw::c_char, arg2: *mut usize) -> *mut FILE;
+    pub fn open_memstream(arg1: *mut *mut ::core::ffi::c_char, arg2: *mut usize) -> *mut FILE;
 }
 extern "C" {
     pub fn vdprintf(
-        arg1: ::std::os::raw::c_int,
-        arg2: *const ::std::os::raw::c_char,
+        arg1: ::core::ffi::c_int,
+        arg2: *const ::core::ffi::c_char,
         arg3: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn renameat(
-        arg1: ::std::os::raw::c_int,
-        arg2: *const ::std::os::raw::c_char,
-        arg3: ::std::os::raw::c_int,
-        arg4: *const ::std::os::raw::c_char,
-    ) -> ::std::os::raw::c_int;
+        arg1: ::core::ffi::c_int,
+        arg2: *const ::core::ffi::c_char,
+        arg3: ::core::ffi::c_int,
+        arg4: *const ::core::ffi::c_char,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _asiprintf_r(
         arg1: *mut _reent,
-        arg2: *mut *mut ::std::os::raw::c_char,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: *mut *mut ::core::ffi::c_char,
+        arg3: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _asniprintf_r(
         arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_char,
+        arg2: *mut ::core::ffi::c_char,
         arg3: *mut usize,
-        arg4: *const ::std::os::raw::c_char,
+        arg4: *const ::core::ffi::c_char,
         ...
-    ) -> *mut ::std::os::raw::c_char;
+    ) -> *mut ::core::ffi::c_char;
 }
 extern "C" {
     pub fn _asnprintf_r(
         arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_char,
+        arg2: *mut ::core::ffi::c_char,
         arg3: *mut usize,
-        arg4: *const ::std::os::raw::c_char,
+        arg4: *const ::core::ffi::c_char,
         ...
-    ) -> *mut ::std::os::raw::c_char;
+    ) -> *mut ::core::ffi::c_char;
 }
 extern "C" {
     pub fn _asprintf_r(
         arg1: *mut _reent,
-        arg2: *mut *mut ::std::os::raw::c_char,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: *mut *mut ::core::ffi::c_char,
+        arg3: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _diprintf_r(
         arg1: *mut _reent,
-        arg2: ::std::os::raw::c_int,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: ::core::ffi::c_int,
+        arg3: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _dprintf_r(
         arg1: *mut _reent,
-        arg2: ::std::os::raw::c_int,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: ::core::ffi::c_int,
+        arg3: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn _fclose_r(arg1: *mut _reent, arg2: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn _fclose_r(arg1: *mut _reent, arg2: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn _fcloseall_r(arg1: *mut _reent) -> ::std::os::raw::c_int;
+    pub fn _fcloseall_r(arg1: *mut _reent) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _fdopen_r(
         arg1: *mut _reent,
-        arg2: ::std::os::raw::c_int,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: ::core::ffi::c_int,
+        arg3: *const ::core::ffi::c_char,
     ) -> *mut FILE;
 }
 extern "C" {
-    pub fn _fflush_r(arg1: *mut _reent, arg2: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn _fflush_r(arg1: *mut _reent, arg2: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn _fgetc_r(arg1: *mut _reent, arg2: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn _fgetc_r(arg1: *mut _reent, arg2: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn _fgetc_unlocked_r(arg1: *mut _reent, arg2: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn _fgetc_unlocked_r(arg1: *mut _reent, arg2: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _fgets_r(
         arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_char,
-        arg3: ::std::os::raw::c_int,
+        arg2: *mut ::core::ffi::c_char,
+        arg3: ::core::ffi::c_int,
         arg4: *mut FILE,
-    ) -> *mut ::std::os::raw::c_char;
+    ) -> *mut ::core::ffi::c_char;
 }
 extern "C" {
     pub fn _fgets_unlocked_r(
         arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_char,
-        arg3: ::std::os::raw::c_int,
+        arg2: *mut ::core::ffi::c_char,
+        arg3: ::core::ffi::c_int,
         arg4: *mut FILE,
-    ) -> *mut ::std::os::raw::c_char;
+    ) -> *mut ::core::ffi::c_char;
 }
 extern "C" {
-    pub fn _fgetpos_r(
-        arg1: *mut _reent,
-        arg2: *mut FILE,
-        arg3: *mut fpos_t,
-    ) -> ::std::os::raw::c_int;
+    pub fn _fgetpos_r(arg1: *mut _reent, arg2: *mut FILE, arg3: *mut fpos_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _fsetpos_r(
         arg1: *mut _reent,
         arg2: *mut FILE,
         arg3: *const fpos_t,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _fiprintf_r(
         arg1: *mut _reent,
         arg2: *mut FILE,
-        arg3: *const ::std::os::raw::c_char,
+        arg3: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _fiscanf_r(
         arg1: *mut _reent,
         arg2: *mut FILE,
-        arg3: *const ::std::os::raw::c_char,
+        arg3: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _fmemopen_r(
         arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_void,
+        arg2: *mut ::core::ffi::c_void,
         arg3: usize,
-        arg4: *const ::std::os::raw::c_char,
+        arg4: *const ::core::ffi::c_char,
     ) -> *mut FILE;
 }
 extern "C" {
     pub fn _fopen_r(
         arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_char,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
+        arg3: *const ::core::ffi::c_char,
     ) -> *mut FILE;
 }
 extern "C" {
     pub fn _freopen_r(
         arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_char,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
+        arg3: *const ::core::ffi::c_char,
         arg4: *mut FILE,
     ) -> *mut FILE;
 }
@@ -3465,45 +3427,45 @@ extern "C" {
     pub fn _fprintf_r(
         arg1: *mut _reent,
         arg2: *mut FILE,
-        arg3: *const ::std::os::raw::c_char,
+        arg3: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn _fpurge_r(arg1: *mut _reent, arg2: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn _fpurge_r(arg1: *mut _reent, arg2: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _fputc_r(
         arg1: *mut _reent,
-        arg2: ::std::os::raw::c_int,
+        arg2: ::core::ffi::c_int,
         arg3: *mut FILE,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _fputc_unlocked_r(
         arg1: *mut _reent,
-        arg2: ::std::os::raw::c_int,
+        arg2: ::core::ffi::c_int,
         arg3: *mut FILE,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _fputs_r(
         arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
         arg3: *mut FILE,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _fputs_unlocked_r(
         arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
         arg3: *mut FILE,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _fread_r(
         arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_void,
+        arg2: *mut ::core::ffi::c_void,
         _size: usize,
         _n: usize,
         arg3: *mut FILE,
@@ -3512,7 +3474,7 @@ extern "C" {
 extern "C" {
     pub fn _fread_unlocked_r(
         arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_void,
+        arg2: *mut ::core::ffi::c_void,
         _size: usize,
         _n: usize,
         arg3: *mut FILE,
@@ -3522,28 +3484,28 @@ extern "C" {
     pub fn _fscanf_r(
         arg1: *mut _reent,
         arg2: *mut FILE,
-        arg3: *const ::std::os::raw::c_char,
+        arg3: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _fseek_r(
         arg1: *mut _reent,
         arg2: *mut FILE,
-        arg3: ::std::os::raw::c_long,
-        arg4: ::std::os::raw::c_int,
-    ) -> ::std::os::raw::c_int;
+        arg3: ::core::ffi::c_long,
+        arg4: ::core::ffi::c_int,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _fseeko_r(
         arg1: *mut _reent,
         arg2: *mut FILE,
         arg3: _off_t,
-        arg4: ::std::os::raw::c_int,
-    ) -> ::std::os::raw::c_int;
+        arg4: ::core::ffi::c_int,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn _ftell_r(arg1: *mut _reent, arg2: *mut FILE) -> ::std::os::raw::c_long;
+    pub fn _ftell_r(arg1: *mut _reent, arg2: *mut FILE) -> ::core::ffi::c_long;
 }
 extern "C" {
     pub fn _ftello_r(arg1: *mut _reent, arg2: *mut FILE) -> _off_t;
@@ -3554,7 +3516,7 @@ extern "C" {
 extern "C" {
     pub fn _fwrite_r(
         arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_void,
+        arg2: *const ::core::ffi::c_void,
         _size: usize,
         _n: usize,
         arg3: *mut FILE,
@@ -3563,355 +3525,340 @@ extern "C" {
 extern "C" {
     pub fn _fwrite_unlocked_r(
         arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_void,
+        arg2: *const ::core::ffi::c_void,
         _size: usize,
         _n: usize,
         arg3: *mut FILE,
     ) -> usize;
 }
 extern "C" {
-    pub fn _getc_r(arg1: *mut _reent, arg2: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn _getc_r(arg1: *mut _reent, arg2: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn _getc_unlocked_r(arg1: *mut _reent, arg2: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn _getc_unlocked_r(arg1: *mut _reent, arg2: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn _getchar_r(arg1: *mut _reent) -> ::std::os::raw::c_int;
+    pub fn _getchar_r(arg1: *mut _reent) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn _getchar_unlocked_r(arg1: *mut _reent) -> ::std::os::raw::c_int;
+    pub fn _getchar_unlocked_r(arg1: *mut _reent) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn _gets_r(
-        arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_char,
-    ) -> *mut ::std::os::raw::c_char;
+    pub fn _gets_r(arg1: *mut _reent, arg2: *mut ::core::ffi::c_char) -> *mut ::core::ffi::c_char;
 }
 extern "C" {
     pub fn _iprintf_r(
         arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _iscanf_r(
         arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _open_memstream_r(
         arg1: *mut _reent,
-        arg2: *mut *mut ::std::os::raw::c_char,
+        arg2: *mut *mut ::core::ffi::c_char,
         arg3: *mut usize,
     ) -> *mut FILE;
 }
 extern "C" {
-    pub fn _perror_r(arg1: *mut _reent, arg2: *const ::std::os::raw::c_char);
+    pub fn _perror_r(arg1: *mut _reent, arg2: *const ::core::ffi::c_char);
 }
 extern "C" {
     pub fn _printf_r(
         arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _putc_r(
         arg1: *mut _reent,
-        arg2: ::std::os::raw::c_int,
+        arg2: ::core::ffi::c_int,
         arg3: *mut FILE,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _putc_unlocked_r(
         arg1: *mut _reent,
-        arg2: ::std::os::raw::c_int,
+        arg2: ::core::ffi::c_int,
         arg3: *mut FILE,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn _putchar_unlocked_r(
-        arg1: *mut _reent,
-        arg2: ::std::os::raw::c_int,
-    ) -> ::std::os::raw::c_int;
+    pub fn _putchar_unlocked_r(arg1: *mut _reent, arg2: ::core::ffi::c_int) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn _putchar_r(arg1: *mut _reent, arg2: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+    pub fn _putchar_r(arg1: *mut _reent, arg2: ::core::ffi::c_int) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn _puts_r(arg1: *mut _reent, arg2: *const ::std::os::raw::c_char)
-        -> ::std::os::raw::c_int;
+    pub fn _puts_r(arg1: *mut _reent, arg2: *const ::core::ffi::c_char) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn _remove_r(
-        arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_char,
-    ) -> ::std::os::raw::c_int;
+    pub fn _remove_r(arg1: *mut _reent, arg2: *const ::core::ffi::c_char) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _rename_r(
         arg1: *mut _reent,
-        _old: *const ::std::os::raw::c_char,
-        _new: *const ::std::os::raw::c_char,
-    ) -> ::std::os::raw::c_int;
+        _old: *const ::core::ffi::c_char,
+        _new: *const ::core::ffi::c_char,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn _scanf_r(
-        arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_char,
-        ...
-    ) -> ::std::os::raw::c_int;
+    pub fn _scanf_r(arg1: *mut _reent, arg2: *const ::core::ffi::c_char, ...)
+        -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _siprintf_r(
         arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_char,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: *mut ::core::ffi::c_char,
+        arg3: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _siscanf_r(
         arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_char,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
+        arg3: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _sniprintf_r(
         arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_char,
+        arg2: *mut ::core::ffi::c_char,
         arg3: usize,
-        arg4: *const ::std::os::raw::c_char,
+        arg4: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _snprintf_r(
         arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_char,
+        arg2: *mut ::core::ffi::c_char,
         arg3: usize,
-        arg4: *const ::std::os::raw::c_char,
+        arg4: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _sprintf_r(
         arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_char,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: *mut ::core::ffi::c_char,
+        arg3: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _sscanf_r(
         arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_char,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
+        arg3: *const ::core::ffi::c_char,
         ...
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _tempnam_r(
         arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_char,
-        arg3: *const ::std::os::raw::c_char,
-    ) -> *mut ::std::os::raw::c_char;
+        arg2: *const ::core::ffi::c_char,
+        arg3: *const ::core::ffi::c_char,
+    ) -> *mut ::core::ffi::c_char;
 }
 extern "C" {
     pub fn _tmpfile_r(arg1: *mut _reent) -> *mut FILE;
 }
 extern "C" {
-    pub fn _tmpnam_r(
-        arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_char,
-    ) -> *mut ::std::os::raw::c_char;
+    pub fn _tmpnam_r(arg1: *mut _reent, arg2: *mut ::core::ffi::c_char)
+        -> *mut ::core::ffi::c_char;
 }
 extern "C" {
     pub fn _ungetc_r(
         arg1: *mut _reent,
-        arg2: ::std::os::raw::c_int,
+        arg2: ::core::ffi::c_int,
         arg3: *mut FILE,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _vasiprintf_r(
         arg1: *mut _reent,
-        arg2: *mut *mut ::std::os::raw::c_char,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: *mut *mut ::core::ffi::c_char,
+        arg3: *const ::core::ffi::c_char,
         arg4: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _vasniprintf_r(
         arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_char,
+        arg2: *mut ::core::ffi::c_char,
         arg3: *mut usize,
-        arg4: *const ::std::os::raw::c_char,
+        arg4: *const ::core::ffi::c_char,
         arg5: __gnuc_va_list,
-    ) -> *mut ::std::os::raw::c_char;
+    ) -> *mut ::core::ffi::c_char;
 }
 extern "C" {
     pub fn _vasnprintf_r(
         arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_char,
+        arg2: *mut ::core::ffi::c_char,
         arg3: *mut usize,
-        arg4: *const ::std::os::raw::c_char,
+        arg4: *const ::core::ffi::c_char,
         arg5: __gnuc_va_list,
-    ) -> *mut ::std::os::raw::c_char;
+    ) -> *mut ::core::ffi::c_char;
 }
 extern "C" {
     pub fn _vasprintf_r(
         arg1: *mut _reent,
-        arg2: *mut *mut ::std::os::raw::c_char,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: *mut *mut ::core::ffi::c_char,
+        arg3: *const ::core::ffi::c_char,
         arg4: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _vdiprintf_r(
         arg1: *mut _reent,
-        arg2: ::std::os::raw::c_int,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: ::core::ffi::c_int,
+        arg3: *const ::core::ffi::c_char,
         arg4: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _vdprintf_r(
         arg1: *mut _reent,
-        arg2: ::std::os::raw::c_int,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: ::core::ffi::c_int,
+        arg3: *const ::core::ffi::c_char,
         arg4: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _vfiprintf_r(
         arg1: *mut _reent,
         arg2: *mut FILE,
-        arg3: *const ::std::os::raw::c_char,
+        arg3: *const ::core::ffi::c_char,
         arg4: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _vfiscanf_r(
         arg1: *mut _reent,
         arg2: *mut FILE,
-        arg3: *const ::std::os::raw::c_char,
+        arg3: *const ::core::ffi::c_char,
         arg4: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _vfprintf_r(
         arg1: *mut _reent,
         arg2: *mut FILE,
-        arg3: *const ::std::os::raw::c_char,
+        arg3: *const ::core::ffi::c_char,
         arg4: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _vfscanf_r(
         arg1: *mut _reent,
         arg2: *mut FILE,
-        arg3: *const ::std::os::raw::c_char,
+        arg3: *const ::core::ffi::c_char,
         arg4: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _viprintf_r(
         arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
         arg3: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _viscanf_r(
         arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
         arg3: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _vprintf_r(
         arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
         arg3: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _vscanf_r(
         arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
         arg3: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _vsiprintf_r(
         arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_char,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: *mut ::core::ffi::c_char,
+        arg3: *const ::core::ffi::c_char,
         arg4: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _vsiscanf_r(
         arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_char,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
+        arg3: *const ::core::ffi::c_char,
         arg4: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _vsniprintf_r(
         arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_char,
+        arg2: *mut ::core::ffi::c_char,
         arg3: usize,
-        arg4: *const ::std::os::raw::c_char,
+        arg4: *const ::core::ffi::c_char,
         arg5: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _vsnprintf_r(
         arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_char,
+        arg2: *mut ::core::ffi::c_char,
         arg3: usize,
-        arg4: *const ::std::os::raw::c_char,
+        arg4: *const ::core::ffi::c_char,
         arg5: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _vsprintf_r(
         arg1: *mut _reent,
-        arg2: *mut ::std::os::raw::c_char,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: *mut ::core::ffi::c_char,
+        arg3: *const ::core::ffi::c_char,
         arg4: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn _vsscanf_r(
         arg1: *mut _reent,
-        arg2: *const ::std::os::raw::c_char,
-        arg3: *const ::std::os::raw::c_char,
+        arg2: *const ::core::ffi::c_char,
+        arg3: *const ::core::ffi::c_char,
         arg4: __gnuc_va_list,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn fpurge(arg1: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn fpurge(arg1: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn __getdelim(
-        arg1: *mut *mut ::std::os::raw::c_char,
+        arg1: *mut *mut ::core::ffi::c_char,
         arg2: *mut usize,
-        arg3: ::std::os::raw::c_int,
+        arg3: ::core::ffi::c_int,
         arg4: *mut FILE,
     ) -> isize;
 }
 extern "C" {
     pub fn __getline(
-        arg1: *mut *mut ::std::os::raw::c_char,
+        arg1: *mut *mut ::core::ffi::c_char,
         arg2: *mut usize,
         arg3: *mut FILE,
     ) -> isize;
@@ -3920,26 +3867,26 @@ extern "C" {
     pub fn clearerr_unlocked(arg1: *mut FILE);
 }
 extern "C" {
-    pub fn feof_unlocked(arg1: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn feof_unlocked(arg1: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn ferror_unlocked(arg1: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn ferror_unlocked(arg1: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn fileno_unlocked(arg1: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn fileno_unlocked(arg1: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn fflush_unlocked(arg1: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn fflush_unlocked(arg1: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn fgetc_unlocked(arg1: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn fgetc_unlocked(arg1: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn fputc_unlocked(arg1: ::std::os::raw::c_int, arg2: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn fputc_unlocked(arg1: ::core::ffi::c_int, arg2: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn fread_unlocked(
-        arg1: *mut ::std::os::raw::c_void,
+        arg1: *mut ::core::ffi::c_void,
         _size: usize,
         _n: usize,
         arg2: *mut FILE,
@@ -3947,78 +3894,78 @@ extern "C" {
 }
 extern "C" {
     pub fn fwrite_unlocked(
-        arg1: *const ::std::os::raw::c_void,
+        arg1: *const ::core::ffi::c_void,
         _size: usize,
         _n: usize,
         arg2: *mut FILE,
     ) -> usize;
 }
 extern "C" {
-    pub fn __srget_r(arg1: *mut _reent, arg2: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn __srget_r(arg1: *mut _reent, arg2: *mut FILE) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn __swbuf_r(
         arg1: *mut _reent,
-        arg2: ::std::os::raw::c_int,
+        arg2: ::core::ffi::c_int,
         arg3: *mut FILE,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     pub fn funopen(
-        __cookie: *const ::std::os::raw::c_void,
-        __readfn: ::std::option::Option<
+        __cookie: *const ::core::ffi::c_void,
+        __readfn: ::core::option::Option<
             unsafe extern "C" fn(
-                __cookie: *mut ::std::os::raw::c_void,
-                __buf: *mut ::std::os::raw::c_char,
-                __n: ::std::os::raw::c_int,
-            ) -> ::std::os::raw::c_int,
+                __cookie: *mut ::core::ffi::c_void,
+                __buf: *mut ::core::ffi::c_char,
+                __n: ::core::ffi::c_int,
+            ) -> ::core::ffi::c_int,
         >,
-        __writefn: ::std::option::Option<
+        __writefn: ::core::option::Option<
             unsafe extern "C" fn(
-                __cookie: *mut ::std::os::raw::c_void,
-                __buf: *const ::std::os::raw::c_char,
-                __n: ::std::os::raw::c_int,
-            ) -> ::std::os::raw::c_int,
+                __cookie: *mut ::core::ffi::c_void,
+                __buf: *const ::core::ffi::c_char,
+                __n: ::core::ffi::c_int,
+            ) -> ::core::ffi::c_int,
         >,
-        __seekfn: ::std::option::Option<
+        __seekfn: ::core::option::Option<
             unsafe extern "C" fn(
-                __cookie: *mut ::std::os::raw::c_void,
+                __cookie: *mut ::core::ffi::c_void,
                 __off: fpos_t,
-                __whence: ::std::os::raw::c_int,
+                __whence: ::core::ffi::c_int,
             ) -> fpos_t,
         >,
-        __closefn: ::std::option::Option<
-            unsafe extern "C" fn(__cookie: *mut ::std::os::raw::c_void) -> ::std::os::raw::c_int,
+        __closefn: ::core::option::Option<
+            unsafe extern "C" fn(__cookie: *mut ::core::ffi::c_void) -> ::core::ffi::c_int,
         >,
     ) -> *mut FILE;
 }
 extern "C" {
     pub fn _funopen_r(
         arg1: *mut _reent,
-        __cookie: *const ::std::os::raw::c_void,
-        __readfn: ::std::option::Option<
+        __cookie: *const ::core::ffi::c_void,
+        __readfn: ::core::option::Option<
             unsafe extern "C" fn(
-                __cookie: *mut ::std::os::raw::c_void,
-                __buf: *mut ::std::os::raw::c_char,
-                __n: ::std::os::raw::c_int,
-            ) -> ::std::os::raw::c_int,
+                __cookie: *mut ::core::ffi::c_void,
+                __buf: *mut ::core::ffi::c_char,
+                __n: ::core::ffi::c_int,
+            ) -> ::core::ffi::c_int,
         >,
-        __writefn: ::std::option::Option<
+        __writefn: ::core::option::Option<
             unsafe extern "C" fn(
-                __cookie: *mut ::std::os::raw::c_void,
-                __buf: *const ::std::os::raw::c_char,
-                __n: ::std::os::raw::c_int,
-            ) -> ::std::os::raw::c_int,
+                __cookie: *mut ::core::ffi::c_void,
+                __buf: *const ::core::ffi::c_char,
+                __n: ::core::ffi::c_int,
+            ) -> ::core::ffi::c_int,
         >,
-        __seekfn: ::std::option::Option<
+        __seekfn: ::core::option::Option<
             unsafe extern "C" fn(
-                __cookie: *mut ::std::os::raw::c_void,
+                __cookie: *mut ::core::ffi::c_void,
                 __off: fpos_t,
-                __whence: ::std::os::raw::c_int,
+                __whence: ::core::ffi::c_int,
             ) -> fpos_t,
         >,
-        __closefn: ::std::option::Option<
-            unsafe extern "C" fn(__cookie: *mut ::std::os::raw::c_void) -> ::std::os::raw::c_int,
+        __closefn: ::core::option::Option<
+            unsafe extern "C" fn(__cookie: *mut ::core::ffi::c_void) -> ::core::ffi::c_int,
         >,
     ) -> *mut FILE;
 }
@@ -4032,14 +3979,14 @@ pub type int_least32_t = __int_least32_t;
 pub type uint_least32_t = __uint_least32_t;
 pub type int_least64_t = __int_least64_t;
 pub type uint_least64_t = __uint_least64_t;
-pub type int_fast8_t = ::std::os::raw::c_schar;
-pub type uint_fast8_t = ::std::os::raw::c_uchar;
-pub type int_fast16_t = ::std::os::raw::c_short;
-pub type uint_fast16_t = ::std::os::raw::c_ushort;
-pub type int_fast32_t = ::std::os::raw::c_int;
-pub type uint_fast32_t = ::std::os::raw::c_uint;
-pub type int_fast64_t = ::std::os::raw::c_longlong;
-pub type uint_fast64_t = ::std::os::raw::c_ulonglong;
+pub type int_fast8_t = ::core::ffi::c_schar;
+pub type uint_fast8_t = ::core::ffi::c_uchar;
+pub type int_fast16_t = ::core::ffi::c_short;
+pub type uint_fast16_t = ::core::ffi::c_ushort;
+pub type int_fast32_t = ::core::ffi::c_int;
+pub type uint_fast32_t = ::core::ffi::c_uint;
+pub type int_fast64_t = ::core::ffi::c_longlong;
+pub type uint_fast64_t = ::core::ffi::c_ulonglong;
 #[doc = " @ingroup spi_registers\n Structure type to access the SPI Registers."]
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4081,21 +4028,21 @@ pub union mxc_spi_regs_t__bindgen_ty_1 {
 }
 #[test]
 fn bindgen_test_layout_mxc_spi_regs_t__bindgen_ty_1() {
-    const UNINIT: ::std::mem::MaybeUninit<mxc_spi_regs_t__bindgen_ty_1> =
-        ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<mxc_spi_regs_t__bindgen_ty_1> =
+        ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<mxc_spi_regs_t__bindgen_ty_1>(),
+        ::core::mem::size_of::<mxc_spi_regs_t__bindgen_ty_1>(),
         4usize,
         concat!("Size of: ", stringify!(mxc_spi_regs_t__bindgen_ty_1))
     );
     assert_eq!(
-        ::std::mem::align_of::<mxc_spi_regs_t__bindgen_ty_1>(),
+        ::core::mem::align_of::<mxc_spi_regs_t__bindgen_ty_1>(),
         4usize,
         concat!("Alignment of ", stringify!(mxc_spi_regs_t__bindgen_ty_1))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).fifo32) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).fifo32) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -4105,7 +4052,7 @@ fn bindgen_test_layout_mxc_spi_regs_t__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).fifo16) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).fifo16) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -4115,7 +4062,7 @@ fn bindgen_test_layout_mxc_spi_regs_t__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).fifo8) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).fifo8) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -4127,20 +4074,20 @@ fn bindgen_test_layout_mxc_spi_regs_t__bindgen_ty_1() {
 }
 #[test]
 fn bindgen_test_layout_mxc_spi_regs_t() {
-    const UNINIT: ::std::mem::MaybeUninit<mxc_spi_regs_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<mxc_spi_regs_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<mxc_spi_regs_t>(),
+        ::core::mem::size_of::<mxc_spi_regs_t>(),
         52usize,
         concat!("Size of: ", stringify!(mxc_spi_regs_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<mxc_spi_regs_t>(),
+        ::core::mem::align_of::<mxc_spi_regs_t>(),
         4usize,
         concat!("Alignment of ", stringify!(mxc_spi_regs_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ctrl0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ctrl0) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -4150,7 +4097,7 @@ fn bindgen_test_layout_mxc_spi_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ctrl1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ctrl1) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -4160,7 +4107,7 @@ fn bindgen_test_layout_mxc_spi_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ctrl2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ctrl2) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -4170,7 +4117,7 @@ fn bindgen_test_layout_mxc_spi_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).sstime) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).sstime) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -4180,7 +4127,7 @@ fn bindgen_test_layout_mxc_spi_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).clkctrl) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).clkctrl) as usize - ptr as usize },
         20usize,
         concat!(
             "Offset of field: ",
@@ -4190,7 +4137,7 @@ fn bindgen_test_layout_mxc_spi_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x18) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x18) as usize - ptr as usize },
         24usize,
         concat!(
             "Offset of field: ",
@@ -4200,7 +4147,7 @@ fn bindgen_test_layout_mxc_spi_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).dma) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).dma) as usize - ptr as usize },
         28usize,
         concat!(
             "Offset of field: ",
@@ -4210,7 +4157,7 @@ fn bindgen_test_layout_mxc_spi_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).intfl) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).intfl) as usize - ptr as usize },
         32usize,
         concat!(
             "Offset of field: ",
@@ -4220,7 +4167,7 @@ fn bindgen_test_layout_mxc_spi_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).inten) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).inten) as usize - ptr as usize },
         36usize,
         concat!(
             "Offset of field: ",
@@ -4230,7 +4177,7 @@ fn bindgen_test_layout_mxc_spi_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).wkfl) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).wkfl) as usize - ptr as usize },
         40usize,
         concat!(
             "Offset of field: ",
@@ -4240,7 +4187,7 @@ fn bindgen_test_layout_mxc_spi_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).wken) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).wken) as usize - ptr as usize },
         44usize,
         concat!(
             "Offset of field: ",
@@ -4250,7 +4197,7 @@ fn bindgen_test_layout_mxc_spi_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).stat) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).stat) as usize - ptr as usize },
         48usize,
         concat!(
             "Offset of field: ",
@@ -4343,20 +4290,20 @@ pub struct mxc_gpio_regs_t {
 }
 #[test]
 fn bindgen_test_layout_mxc_gpio_regs_t() {
-    const UNINIT: ::std::mem::MaybeUninit<mxc_gpio_regs_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<mxc_gpio_regs_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<mxc_gpio_regs_t>(),
+        ::core::mem::size_of::<mxc_gpio_regs_t>(),
         196usize,
         concat!("Size of: ", stringify!(mxc_gpio_regs_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<mxc_gpio_regs_t>(),
+        ::core::mem::align_of::<mxc_gpio_regs_t>(),
         4usize,
         concat!("Alignment of ", stringify!(mxc_gpio_regs_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).en0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).en0) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -4366,7 +4313,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).en0_set) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).en0_set) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -4376,7 +4323,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).en0_clr) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).en0_clr) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -4386,7 +4333,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).outen) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).outen) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -4396,7 +4343,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).outen_set) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).outen_set) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -4406,7 +4353,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).outen_clr) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).outen_clr) as usize - ptr as usize },
         20usize,
         concat!(
             "Offset of field: ",
@@ -4416,7 +4363,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).out) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).out) as usize - ptr as usize },
         24usize,
         concat!(
             "Offset of field: ",
@@ -4426,7 +4373,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).out_set) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).out_set) as usize - ptr as usize },
         28usize,
         concat!(
             "Offset of field: ",
@@ -4436,7 +4383,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).out_clr) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).out_clr) as usize - ptr as usize },
         32usize,
         concat!(
             "Offset of field: ",
@@ -4446,7 +4393,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).in_) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).in_) as usize - ptr as usize },
         36usize,
         concat!(
             "Offset of field: ",
@@ -4456,7 +4403,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).intmode) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).intmode) as usize - ptr as usize },
         40usize,
         concat!(
             "Offset of field: ",
@@ -4466,7 +4413,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).intpol) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).intpol) as usize - ptr as usize },
         44usize,
         concat!(
             "Offset of field: ",
@@ -4476,7 +4423,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).inen) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).inen) as usize - ptr as usize },
         48usize,
         concat!(
             "Offset of field: ",
@@ -4486,7 +4433,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).inten) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).inten) as usize - ptr as usize },
         52usize,
         concat!(
             "Offset of field: ",
@@ -4496,7 +4443,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).inten_set) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).inten_set) as usize - ptr as usize },
         56usize,
         concat!(
             "Offset of field: ",
@@ -4506,7 +4453,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).inten_clr) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).inten_clr) as usize - ptr as usize },
         60usize,
         concat!(
             "Offset of field: ",
@@ -4516,7 +4463,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).intfl) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).intfl) as usize - ptr as usize },
         64usize,
         concat!(
             "Offset of field: ",
@@ -4526,7 +4473,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x44) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x44) as usize - ptr as usize },
         68usize,
         concat!(
             "Offset of field: ",
@@ -4536,7 +4483,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).intfl_clr) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).intfl_clr) as usize - ptr as usize },
         72usize,
         concat!(
             "Offset of field: ",
@@ -4546,7 +4493,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).wken) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).wken) as usize - ptr as usize },
         76usize,
         concat!(
             "Offset of field: ",
@@ -4556,7 +4503,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).wken_set) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).wken_set) as usize - ptr as usize },
         80usize,
         concat!(
             "Offset of field: ",
@@ -4566,7 +4513,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).wken_clr) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).wken_clr) as usize - ptr as usize },
         84usize,
         concat!(
             "Offset of field: ",
@@ -4576,7 +4523,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x58) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x58) as usize - ptr as usize },
         88usize,
         concat!(
             "Offset of field: ",
@@ -4586,7 +4533,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).dualedge) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).dualedge) as usize - ptr as usize },
         92usize,
         concat!(
             "Offset of field: ",
@@ -4596,7 +4543,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).padctrl0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).padctrl0) as usize - ptr as usize },
         96usize,
         concat!(
             "Offset of field: ",
@@ -4606,7 +4553,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).padctrl1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).padctrl1) as usize - ptr as usize },
         100usize,
         concat!(
             "Offset of field: ",
@@ -4616,7 +4563,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).en1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).en1) as usize - ptr as usize },
         104usize,
         concat!(
             "Offset of field: ",
@@ -4626,7 +4573,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).en1_set) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).en1_set) as usize - ptr as usize },
         108usize,
         concat!(
             "Offset of field: ",
@@ -4636,7 +4583,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).en1_clr) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).en1_clr) as usize - ptr as usize },
         112usize,
         concat!(
             "Offset of field: ",
@@ -4646,7 +4593,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).en2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).en2) as usize - ptr as usize },
         116usize,
         concat!(
             "Offset of field: ",
@@ -4656,7 +4603,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).en2_set) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).en2_set) as usize - ptr as usize },
         120usize,
         concat!(
             "Offset of field: ",
@@ -4666,7 +4613,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).en2_clr) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).en2_clr) as usize - ptr as usize },
         124usize,
         concat!(
             "Offset of field: ",
@@ -4676,7 +4623,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x80_0xa7) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x80_0xa7) as usize - ptr as usize },
         128usize,
         concat!(
             "Offset of field: ",
@@ -4686,7 +4633,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).hysen) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).hysen) as usize - ptr as usize },
         168usize,
         concat!(
             "Offset of field: ",
@@ -4696,7 +4643,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).srsel) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).srsel) as usize - ptr as usize },
         172usize,
         concat!(
             "Offset of field: ",
@@ -4706,7 +4653,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ds0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ds0) as usize - ptr as usize },
         176usize,
         concat!(
             "Offset of field: ",
@@ -4716,7 +4663,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ds1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ds1) as usize - ptr as usize },
         180usize,
         concat!(
             "Offset of field: ",
@@ -4726,7 +4673,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ps) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ps) as usize - ptr as usize },
         184usize,
         concat!(
             "Offset of field: ",
@@ -4736,7 +4683,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0xbc) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0xbc) as usize - ptr as usize },
         188usize,
         concat!(
             "Offset of field: ",
@@ -4746,7 +4693,7 @@ fn bindgen_test_layout_mxc_gpio_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).vssel) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).vssel) as usize - ptr as usize },
         192usize,
         concat!(
             "Offset of field: ",
@@ -4870,7 +4817,7 @@ pub const IRQn_Type_CNN_IRQn: IRQn_Type = 101;
 pub const IRQn_Type_RSV102_IRQn: IRQn_Type = 102;
 pub const IRQn_Type_LPCMP_IRQn: IRQn_Type = 103;
 pub const IRQn_Type_MXC_IRQ_EXT_COUNT: IRQn_Type = 104;
-pub type IRQn_Type = ::std::os::raw::c_int;
+pub type IRQn_Type = ::core::ffi::c_int;
 #[repr(C, packed)]
 #[derive(Debug, Copy, Clone)]
 pub struct T_UINT32 {
@@ -4878,20 +4825,20 @@ pub struct T_UINT32 {
 }
 #[test]
 fn bindgen_test_layout_T_UINT32() {
-    const UNINIT: ::std::mem::MaybeUninit<T_UINT32> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<T_UINT32> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<T_UINT32>(),
+        ::core::mem::size_of::<T_UINT32>(),
         4usize,
         concat!("Size of: ", stringify!(T_UINT32))
     );
     assert_eq!(
-        ::std::mem::align_of::<T_UINT32>(),
+        ::core::mem::align_of::<T_UINT32>(),
         1usize,
         concat!("Alignment of ", stringify!(T_UINT32))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).v) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).v) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -4908,20 +4855,20 @@ pub struct T_UINT16_WRITE {
 }
 #[test]
 fn bindgen_test_layout_T_UINT16_WRITE() {
-    const UNINIT: ::std::mem::MaybeUninit<T_UINT16_WRITE> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<T_UINT16_WRITE> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<T_UINT16_WRITE>(),
+        ::core::mem::size_of::<T_UINT16_WRITE>(),
         2usize,
         concat!("Size of: ", stringify!(T_UINT16_WRITE))
     );
     assert_eq!(
-        ::std::mem::align_of::<T_UINT16_WRITE>(),
+        ::core::mem::align_of::<T_UINT16_WRITE>(),
         1usize,
         concat!("Alignment of ", stringify!(T_UINT16_WRITE))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).v) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).v) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -4938,20 +4885,20 @@ pub struct T_UINT16_READ {
 }
 #[test]
 fn bindgen_test_layout_T_UINT16_READ() {
-    const UNINIT: ::std::mem::MaybeUninit<T_UINT16_READ> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<T_UINT16_READ> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<T_UINT16_READ>(),
+        ::core::mem::size_of::<T_UINT16_READ>(),
         2usize,
         concat!("Size of: ", stringify!(T_UINT16_READ))
     );
     assert_eq!(
-        ::std::mem::align_of::<T_UINT16_READ>(),
+        ::core::mem::align_of::<T_UINT16_READ>(),
         1usize,
         concat!("Alignment of ", stringify!(T_UINT16_READ))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).v) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).v) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -4968,20 +4915,20 @@ pub struct T_UINT32_WRITE {
 }
 #[test]
 fn bindgen_test_layout_T_UINT32_WRITE() {
-    const UNINIT: ::std::mem::MaybeUninit<T_UINT32_WRITE> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<T_UINT32_WRITE> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<T_UINT32_WRITE>(),
+        ::core::mem::size_of::<T_UINT32_WRITE>(),
         4usize,
         concat!("Size of: ", stringify!(T_UINT32_WRITE))
     );
     assert_eq!(
-        ::std::mem::align_of::<T_UINT32_WRITE>(),
+        ::core::mem::align_of::<T_UINT32_WRITE>(),
         1usize,
         concat!("Alignment of ", stringify!(T_UINT32_WRITE))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).v) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).v) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -4998,20 +4945,20 @@ pub struct T_UINT32_READ {
 }
 #[test]
 fn bindgen_test_layout_T_UINT32_READ() {
-    const UNINIT: ::std::mem::MaybeUninit<T_UINT32_READ> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<T_UINT32_READ> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<T_UINT32_READ>(),
+        ::core::mem::size_of::<T_UINT32_READ>(),
         4usize,
         concat!("Size of: ", stringify!(T_UINT32_READ))
     );
     assert_eq!(
-        ::std::mem::align_of::<T_UINT32_READ>(),
+        ::core::mem::align_of::<T_UINT32_READ>(),
         1usize,
         concat!("Alignment of ", stringify!(T_UINT32_READ))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).v) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).v) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -5037,12 +4984,12 @@ pub struct APSR_Type__bindgen_ty_1 {
 #[test]
 fn bindgen_test_layout_APSR_Type__bindgen_ty_1() {
     assert_eq!(
-        ::std::mem::size_of::<APSR_Type__bindgen_ty_1>(),
+        ::core::mem::size_of::<APSR_Type__bindgen_ty_1>(),
         4usize,
         concat!("Size of: ", stringify!(APSR_Type__bindgen_ty_1))
     );
     assert_eq!(
-        ::std::mem::align_of::<APSR_Type__bindgen_ty_1>(),
+        ::core::mem::align_of::<APSR_Type__bindgen_ty_1>(),
         4usize,
         concat!("Alignment of ", stringify!(APSR_Type__bindgen_ty_1))
     );
@@ -5050,89 +4997,89 @@ fn bindgen_test_layout_APSR_Type__bindgen_ty_1() {
 impl APSR_Type__bindgen_ty_1 {
     #[inline]
     pub fn _reserved0(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(0usize, 16u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(0usize, 16u8) as u32) }
     }
     #[inline]
     pub fn set__reserved0(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(0usize, 16u8, val as u64)
         }
     }
     #[inline]
     pub fn GE(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(16usize, 4u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(16usize, 4u8) as u32) }
     }
     #[inline]
     pub fn set_GE(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(16usize, 4u8, val as u64)
         }
     }
     #[inline]
     pub fn _reserved1(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(20usize, 7u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(20usize, 7u8) as u32) }
     }
     #[inline]
     pub fn set__reserved1(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(20usize, 7u8, val as u64)
         }
     }
     #[inline]
     pub fn Q(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(27usize, 1u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(27usize, 1u8) as u32) }
     }
     #[inline]
     pub fn set_Q(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(27usize, 1u8, val as u64)
         }
     }
     #[inline]
     pub fn V(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(28usize, 1u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(28usize, 1u8) as u32) }
     }
     #[inline]
     pub fn set_V(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(28usize, 1u8, val as u64)
         }
     }
     #[inline]
     pub fn C(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(29usize, 1u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(29usize, 1u8) as u32) }
     }
     #[inline]
     pub fn set_C(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(29usize, 1u8, val as u64)
         }
     }
     #[inline]
     pub fn Z(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(30usize, 1u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(30usize, 1u8) as u32) }
     }
     #[inline]
     pub fn set_Z(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(30usize, 1u8, val as u64)
         }
     }
     #[inline]
     pub fn N(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(31usize, 1u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(31usize, 1u8) as u32) }
     }
     #[inline]
     pub fn set_N(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(31usize, 1u8, val as u64)
         }
     }
@@ -5149,35 +5096,35 @@ impl APSR_Type__bindgen_ty_1 {
     ) -> __BindgenBitfieldUnit<[u8; 4usize]> {
         let mut __bindgen_bitfield_unit: __BindgenBitfieldUnit<[u8; 4usize]> = Default::default();
         __bindgen_bitfield_unit.set(0usize, 16u8, {
-            let _reserved0: u32 = unsafe { ::std::mem::transmute(_reserved0) };
+            let _reserved0: u32 = unsafe { ::core::mem::transmute(_reserved0) };
             _reserved0 as u64
         });
         __bindgen_bitfield_unit.set(16usize, 4u8, {
-            let GE: u32 = unsafe { ::std::mem::transmute(GE) };
+            let GE: u32 = unsafe { ::core::mem::transmute(GE) };
             GE as u64
         });
         __bindgen_bitfield_unit.set(20usize, 7u8, {
-            let _reserved1: u32 = unsafe { ::std::mem::transmute(_reserved1) };
+            let _reserved1: u32 = unsafe { ::core::mem::transmute(_reserved1) };
             _reserved1 as u64
         });
         __bindgen_bitfield_unit.set(27usize, 1u8, {
-            let Q: u32 = unsafe { ::std::mem::transmute(Q) };
+            let Q: u32 = unsafe { ::core::mem::transmute(Q) };
             Q as u64
         });
         __bindgen_bitfield_unit.set(28usize, 1u8, {
-            let V: u32 = unsafe { ::std::mem::transmute(V) };
+            let V: u32 = unsafe { ::core::mem::transmute(V) };
             V as u64
         });
         __bindgen_bitfield_unit.set(29usize, 1u8, {
-            let C: u32 = unsafe { ::std::mem::transmute(C) };
+            let C: u32 = unsafe { ::core::mem::transmute(C) };
             C as u64
         });
         __bindgen_bitfield_unit.set(30usize, 1u8, {
-            let Z: u32 = unsafe { ::std::mem::transmute(Z) };
+            let Z: u32 = unsafe { ::core::mem::transmute(Z) };
             Z as u64
         });
         __bindgen_bitfield_unit.set(31usize, 1u8, {
-            let N: u32 = unsafe { ::std::mem::transmute(N) };
+            let N: u32 = unsafe { ::core::mem::transmute(N) };
             N as u64
         });
         __bindgen_bitfield_unit
@@ -5185,20 +5132,20 @@ impl APSR_Type__bindgen_ty_1 {
 }
 #[test]
 fn bindgen_test_layout_APSR_Type() {
-    const UNINIT: ::std::mem::MaybeUninit<APSR_Type> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<APSR_Type> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<APSR_Type>(),
+        ::core::mem::size_of::<APSR_Type>(),
         4usize,
         concat!("Size of: ", stringify!(APSR_Type))
     );
     assert_eq!(
-        ::std::mem::align_of::<APSR_Type>(),
+        ::core::mem::align_of::<APSR_Type>(),
         4usize,
         concat!("Alignment of ", stringify!(APSR_Type))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).b) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).b) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -5208,7 +5155,7 @@ fn bindgen_test_layout_APSR_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).w) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).w) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -5233,12 +5180,12 @@ pub struct IPSR_Type__bindgen_ty_1 {
 #[test]
 fn bindgen_test_layout_IPSR_Type__bindgen_ty_1() {
     assert_eq!(
-        ::std::mem::size_of::<IPSR_Type__bindgen_ty_1>(),
+        ::core::mem::size_of::<IPSR_Type__bindgen_ty_1>(),
         4usize,
         concat!("Size of: ", stringify!(IPSR_Type__bindgen_ty_1))
     );
     assert_eq!(
-        ::std::mem::align_of::<IPSR_Type__bindgen_ty_1>(),
+        ::core::mem::align_of::<IPSR_Type__bindgen_ty_1>(),
         4usize,
         concat!("Alignment of ", stringify!(IPSR_Type__bindgen_ty_1))
     );
@@ -5246,23 +5193,23 @@ fn bindgen_test_layout_IPSR_Type__bindgen_ty_1() {
 impl IPSR_Type__bindgen_ty_1 {
     #[inline]
     pub fn ISR(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(0usize, 9u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(0usize, 9u8) as u32) }
     }
     #[inline]
     pub fn set_ISR(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(0usize, 9u8, val as u64)
         }
     }
     #[inline]
     pub fn _reserved0(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(9usize, 23u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(9usize, 23u8) as u32) }
     }
     #[inline]
     pub fn set__reserved0(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(9usize, 23u8, val as u64)
         }
     }
@@ -5270,11 +5217,11 @@ impl IPSR_Type__bindgen_ty_1 {
     pub fn new_bitfield_1(ISR: u32, _reserved0: u32) -> __BindgenBitfieldUnit<[u8; 4usize]> {
         let mut __bindgen_bitfield_unit: __BindgenBitfieldUnit<[u8; 4usize]> = Default::default();
         __bindgen_bitfield_unit.set(0usize, 9u8, {
-            let ISR: u32 = unsafe { ::std::mem::transmute(ISR) };
+            let ISR: u32 = unsafe { ::core::mem::transmute(ISR) };
             ISR as u64
         });
         __bindgen_bitfield_unit.set(9usize, 23u8, {
-            let _reserved0: u32 = unsafe { ::std::mem::transmute(_reserved0) };
+            let _reserved0: u32 = unsafe { ::core::mem::transmute(_reserved0) };
             _reserved0 as u64
         });
         __bindgen_bitfield_unit
@@ -5282,20 +5229,20 @@ impl IPSR_Type__bindgen_ty_1 {
 }
 #[test]
 fn bindgen_test_layout_IPSR_Type() {
-    const UNINIT: ::std::mem::MaybeUninit<IPSR_Type> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<IPSR_Type> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<IPSR_Type>(),
+        ::core::mem::size_of::<IPSR_Type>(),
         4usize,
         concat!("Size of: ", stringify!(IPSR_Type))
     );
     assert_eq!(
-        ::std::mem::align_of::<IPSR_Type>(),
+        ::core::mem::align_of::<IPSR_Type>(),
         4usize,
         concat!("Alignment of ", stringify!(IPSR_Type))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).b) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).b) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -5305,7 +5252,7 @@ fn bindgen_test_layout_IPSR_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).w) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).w) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -5331,12 +5278,12 @@ pub struct xPSR_Type__bindgen_ty_1 {
 #[test]
 fn bindgen_test_layout_xPSR_Type__bindgen_ty_1() {
     assert_eq!(
-        ::std::mem::size_of::<xPSR_Type__bindgen_ty_1>(),
+        ::core::mem::size_of::<xPSR_Type__bindgen_ty_1>(),
         4usize,
         concat!("Size of: ", stringify!(xPSR_Type__bindgen_ty_1))
     );
     assert_eq!(
-        ::std::mem::align_of::<xPSR_Type__bindgen_ty_1>(),
+        ::core::mem::align_of::<xPSR_Type__bindgen_ty_1>(),
         4usize,
         concat!("Alignment of ", stringify!(xPSR_Type__bindgen_ty_1))
     );
@@ -5344,133 +5291,133 @@ fn bindgen_test_layout_xPSR_Type__bindgen_ty_1() {
 impl xPSR_Type__bindgen_ty_1 {
     #[inline]
     pub fn ISR(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(0usize, 9u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(0usize, 9u8) as u32) }
     }
     #[inline]
     pub fn set_ISR(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(0usize, 9u8, val as u64)
         }
     }
     #[inline]
     pub fn _reserved0(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(9usize, 1u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(9usize, 1u8) as u32) }
     }
     #[inline]
     pub fn set__reserved0(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(9usize, 1u8, val as u64)
         }
     }
     #[inline]
     pub fn ICI_IT_1(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(10usize, 6u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(10usize, 6u8) as u32) }
     }
     #[inline]
     pub fn set_ICI_IT_1(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(10usize, 6u8, val as u64)
         }
     }
     #[inline]
     pub fn GE(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(16usize, 4u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(16usize, 4u8) as u32) }
     }
     #[inline]
     pub fn set_GE(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(16usize, 4u8, val as u64)
         }
     }
     #[inline]
     pub fn _reserved1(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(20usize, 4u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(20usize, 4u8) as u32) }
     }
     #[inline]
     pub fn set__reserved1(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(20usize, 4u8, val as u64)
         }
     }
     #[inline]
     pub fn T(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(24usize, 1u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(24usize, 1u8) as u32) }
     }
     #[inline]
     pub fn set_T(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(24usize, 1u8, val as u64)
         }
     }
     #[inline]
     pub fn ICI_IT_2(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(25usize, 2u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(25usize, 2u8) as u32) }
     }
     #[inline]
     pub fn set_ICI_IT_2(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(25usize, 2u8, val as u64)
         }
     }
     #[inline]
     pub fn Q(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(27usize, 1u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(27usize, 1u8) as u32) }
     }
     #[inline]
     pub fn set_Q(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(27usize, 1u8, val as u64)
         }
     }
     #[inline]
     pub fn V(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(28usize, 1u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(28usize, 1u8) as u32) }
     }
     #[inline]
     pub fn set_V(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(28usize, 1u8, val as u64)
         }
     }
     #[inline]
     pub fn C(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(29usize, 1u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(29usize, 1u8) as u32) }
     }
     #[inline]
     pub fn set_C(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(29usize, 1u8, val as u64)
         }
     }
     #[inline]
     pub fn Z(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(30usize, 1u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(30usize, 1u8) as u32) }
     }
     #[inline]
     pub fn set_Z(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(30usize, 1u8, val as u64)
         }
     }
     #[inline]
     pub fn N(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(31usize, 1u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(31usize, 1u8) as u32) }
     }
     #[inline]
     pub fn set_N(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(31usize, 1u8, val as u64)
         }
     }
@@ -5491,51 +5438,51 @@ impl xPSR_Type__bindgen_ty_1 {
     ) -> __BindgenBitfieldUnit<[u8; 4usize]> {
         let mut __bindgen_bitfield_unit: __BindgenBitfieldUnit<[u8; 4usize]> = Default::default();
         __bindgen_bitfield_unit.set(0usize, 9u8, {
-            let ISR: u32 = unsafe { ::std::mem::transmute(ISR) };
+            let ISR: u32 = unsafe { ::core::mem::transmute(ISR) };
             ISR as u64
         });
         __bindgen_bitfield_unit.set(9usize, 1u8, {
-            let _reserved0: u32 = unsafe { ::std::mem::transmute(_reserved0) };
+            let _reserved0: u32 = unsafe { ::core::mem::transmute(_reserved0) };
             _reserved0 as u64
         });
         __bindgen_bitfield_unit.set(10usize, 6u8, {
-            let ICI_IT_1: u32 = unsafe { ::std::mem::transmute(ICI_IT_1) };
+            let ICI_IT_1: u32 = unsafe { ::core::mem::transmute(ICI_IT_1) };
             ICI_IT_1 as u64
         });
         __bindgen_bitfield_unit.set(16usize, 4u8, {
-            let GE: u32 = unsafe { ::std::mem::transmute(GE) };
+            let GE: u32 = unsafe { ::core::mem::transmute(GE) };
             GE as u64
         });
         __bindgen_bitfield_unit.set(20usize, 4u8, {
-            let _reserved1: u32 = unsafe { ::std::mem::transmute(_reserved1) };
+            let _reserved1: u32 = unsafe { ::core::mem::transmute(_reserved1) };
             _reserved1 as u64
         });
         __bindgen_bitfield_unit.set(24usize, 1u8, {
-            let T: u32 = unsafe { ::std::mem::transmute(T) };
+            let T: u32 = unsafe { ::core::mem::transmute(T) };
             T as u64
         });
         __bindgen_bitfield_unit.set(25usize, 2u8, {
-            let ICI_IT_2: u32 = unsafe { ::std::mem::transmute(ICI_IT_2) };
+            let ICI_IT_2: u32 = unsafe { ::core::mem::transmute(ICI_IT_2) };
             ICI_IT_2 as u64
         });
         __bindgen_bitfield_unit.set(27usize, 1u8, {
-            let Q: u32 = unsafe { ::std::mem::transmute(Q) };
+            let Q: u32 = unsafe { ::core::mem::transmute(Q) };
             Q as u64
         });
         __bindgen_bitfield_unit.set(28usize, 1u8, {
-            let V: u32 = unsafe { ::std::mem::transmute(V) };
+            let V: u32 = unsafe { ::core::mem::transmute(V) };
             V as u64
         });
         __bindgen_bitfield_unit.set(29usize, 1u8, {
-            let C: u32 = unsafe { ::std::mem::transmute(C) };
+            let C: u32 = unsafe { ::core::mem::transmute(C) };
             C as u64
         });
         __bindgen_bitfield_unit.set(30usize, 1u8, {
-            let Z: u32 = unsafe { ::std::mem::transmute(Z) };
+            let Z: u32 = unsafe { ::core::mem::transmute(Z) };
             Z as u64
         });
         __bindgen_bitfield_unit.set(31usize, 1u8, {
-            let N: u32 = unsafe { ::std::mem::transmute(N) };
+            let N: u32 = unsafe { ::core::mem::transmute(N) };
             N as u64
         });
         __bindgen_bitfield_unit
@@ -5543,20 +5490,20 @@ impl xPSR_Type__bindgen_ty_1 {
 }
 #[test]
 fn bindgen_test_layout_xPSR_Type() {
-    const UNINIT: ::std::mem::MaybeUninit<xPSR_Type> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<xPSR_Type> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<xPSR_Type>(),
+        ::core::mem::size_of::<xPSR_Type>(),
         4usize,
         concat!("Size of: ", stringify!(xPSR_Type))
     );
     assert_eq!(
-        ::std::mem::align_of::<xPSR_Type>(),
+        ::core::mem::align_of::<xPSR_Type>(),
         4usize,
         concat!("Alignment of ", stringify!(xPSR_Type))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).b) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).b) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -5566,7 +5513,7 @@ fn bindgen_test_layout_xPSR_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).w) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).w) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -5591,12 +5538,12 @@ pub struct CONTROL_Type__bindgen_ty_1 {
 #[test]
 fn bindgen_test_layout_CONTROL_Type__bindgen_ty_1() {
     assert_eq!(
-        ::std::mem::size_of::<CONTROL_Type__bindgen_ty_1>(),
+        ::core::mem::size_of::<CONTROL_Type__bindgen_ty_1>(),
         4usize,
         concat!("Size of: ", stringify!(CONTROL_Type__bindgen_ty_1))
     );
     assert_eq!(
-        ::std::mem::align_of::<CONTROL_Type__bindgen_ty_1>(),
+        ::core::mem::align_of::<CONTROL_Type__bindgen_ty_1>(),
         4usize,
         concat!("Alignment of ", stringify!(CONTROL_Type__bindgen_ty_1))
     );
@@ -5604,45 +5551,45 @@ fn bindgen_test_layout_CONTROL_Type__bindgen_ty_1() {
 impl CONTROL_Type__bindgen_ty_1 {
     #[inline]
     pub fn nPRIV(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(0usize, 1u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(0usize, 1u8) as u32) }
     }
     #[inline]
     pub fn set_nPRIV(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(0usize, 1u8, val as u64)
         }
     }
     #[inline]
     pub fn SPSEL(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(1usize, 1u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(1usize, 1u8) as u32) }
     }
     #[inline]
     pub fn set_SPSEL(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(1usize, 1u8, val as u64)
         }
     }
     #[inline]
     pub fn FPCA(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(2usize, 1u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(2usize, 1u8) as u32) }
     }
     #[inline]
     pub fn set_FPCA(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(2usize, 1u8, val as u64)
         }
     }
     #[inline]
     pub fn _reserved0(&self) -> u32 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(3usize, 29u8) as u32) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(3usize, 29u8) as u32) }
     }
     #[inline]
     pub fn set__reserved0(&mut self, val: u32) {
         unsafe {
-            let val: u32 = ::std::mem::transmute(val);
+            let val: u32 = ::core::mem::transmute(val);
             self._bitfield_1.set(3usize, 29u8, val as u64)
         }
     }
@@ -5655,19 +5602,19 @@ impl CONTROL_Type__bindgen_ty_1 {
     ) -> __BindgenBitfieldUnit<[u8; 4usize]> {
         let mut __bindgen_bitfield_unit: __BindgenBitfieldUnit<[u8; 4usize]> = Default::default();
         __bindgen_bitfield_unit.set(0usize, 1u8, {
-            let nPRIV: u32 = unsafe { ::std::mem::transmute(nPRIV) };
+            let nPRIV: u32 = unsafe { ::core::mem::transmute(nPRIV) };
             nPRIV as u64
         });
         __bindgen_bitfield_unit.set(1usize, 1u8, {
-            let SPSEL: u32 = unsafe { ::std::mem::transmute(SPSEL) };
+            let SPSEL: u32 = unsafe { ::core::mem::transmute(SPSEL) };
             SPSEL as u64
         });
         __bindgen_bitfield_unit.set(2usize, 1u8, {
-            let FPCA: u32 = unsafe { ::std::mem::transmute(FPCA) };
+            let FPCA: u32 = unsafe { ::core::mem::transmute(FPCA) };
             FPCA as u64
         });
         __bindgen_bitfield_unit.set(3usize, 29u8, {
-            let _reserved0: u32 = unsafe { ::std::mem::transmute(_reserved0) };
+            let _reserved0: u32 = unsafe { ::core::mem::transmute(_reserved0) };
             _reserved0 as u64
         });
         __bindgen_bitfield_unit
@@ -5675,20 +5622,20 @@ impl CONTROL_Type__bindgen_ty_1 {
 }
 #[test]
 fn bindgen_test_layout_CONTROL_Type() {
-    const UNINIT: ::std::mem::MaybeUninit<CONTROL_Type> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<CONTROL_Type> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<CONTROL_Type>(),
+        ::core::mem::size_of::<CONTROL_Type>(),
         4usize,
         concat!("Size of: ", stringify!(CONTROL_Type))
     );
     assert_eq!(
-        ::std::mem::align_of::<CONTROL_Type>(),
+        ::core::mem::align_of::<CONTROL_Type>(),
         4usize,
         concat!("Alignment of ", stringify!(CONTROL_Type))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).b) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).b) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -5698,7 +5645,7 @@ fn bindgen_test_layout_CONTROL_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).w) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).w) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -5727,20 +5674,20 @@ pub struct NVIC_Type {
 }
 #[test]
 fn bindgen_test_layout_NVIC_Type() {
-    const UNINIT: ::std::mem::MaybeUninit<NVIC_Type> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<NVIC_Type> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<NVIC_Type>(),
+        ::core::mem::size_of::<NVIC_Type>(),
         3588usize,
         concat!("Size of: ", stringify!(NVIC_Type))
     );
     assert_eq!(
-        ::std::mem::align_of::<NVIC_Type>(),
+        ::core::mem::align_of::<NVIC_Type>(),
         4usize,
         concat!("Alignment of ", stringify!(NVIC_Type))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ISER) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ISER) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -5750,7 +5697,7 @@ fn bindgen_test_layout_NVIC_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED0) as usize - ptr as usize },
         32usize,
         concat!(
             "Offset of field: ",
@@ -5760,7 +5707,7 @@ fn bindgen_test_layout_NVIC_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ICER) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ICER) as usize - ptr as usize },
         128usize,
         concat!(
             "Offset of field: ",
@@ -5770,7 +5717,7 @@ fn bindgen_test_layout_NVIC_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED1) as usize - ptr as usize },
         160usize,
         concat!(
             "Offset of field: ",
@@ -5780,7 +5727,7 @@ fn bindgen_test_layout_NVIC_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ISPR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ISPR) as usize - ptr as usize },
         256usize,
         concat!(
             "Offset of field: ",
@@ -5790,7 +5737,7 @@ fn bindgen_test_layout_NVIC_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED2) as usize - ptr as usize },
         288usize,
         concat!(
             "Offset of field: ",
@@ -5800,7 +5747,7 @@ fn bindgen_test_layout_NVIC_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ICPR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ICPR) as usize - ptr as usize },
         384usize,
         concat!(
             "Offset of field: ",
@@ -5810,7 +5757,7 @@ fn bindgen_test_layout_NVIC_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED3) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED3) as usize - ptr as usize },
         416usize,
         concat!(
             "Offset of field: ",
@@ -5820,7 +5767,7 @@ fn bindgen_test_layout_NVIC_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).IABR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).IABR) as usize - ptr as usize },
         512usize,
         concat!(
             "Offset of field: ",
@@ -5830,7 +5777,7 @@ fn bindgen_test_layout_NVIC_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED4) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED4) as usize - ptr as usize },
         544usize,
         concat!(
             "Offset of field: ",
@@ -5840,7 +5787,7 @@ fn bindgen_test_layout_NVIC_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).IP) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).IP) as usize - ptr as usize },
         768usize,
         concat!(
             "Offset of field: ",
@@ -5850,7 +5797,7 @@ fn bindgen_test_layout_NVIC_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED5) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED5) as usize - ptr as usize },
         1008usize,
         concat!(
             "Offset of field: ",
@@ -5860,7 +5807,7 @@ fn bindgen_test_layout_NVIC_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).STIR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).STIR) as usize - ptr as usize },
         3584usize,
         concat!(
             "Offset of field: ",
@@ -5897,20 +5844,20 @@ pub struct SCB_Type {
 }
 #[test]
 fn bindgen_test_layout_SCB_Type() {
-    const UNINIT: ::std::mem::MaybeUninit<SCB_Type> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<SCB_Type> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<SCB_Type>(),
+        ::core::mem::size_of::<SCB_Type>(),
         140usize,
         concat!("Size of: ", stringify!(SCB_Type))
     );
     assert_eq!(
-        ::std::mem::align_of::<SCB_Type>(),
+        ::core::mem::align_of::<SCB_Type>(),
         4usize,
         concat!("Alignment of ", stringify!(SCB_Type))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).CPUID) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).CPUID) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -5920,7 +5867,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ICSR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ICSR) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -5930,7 +5877,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).VTOR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).VTOR) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -5940,7 +5887,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).AIRCR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).AIRCR) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -5950,7 +5897,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).SCR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).SCR) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -5960,7 +5907,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).CCR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).CCR) as usize - ptr as usize },
         20usize,
         concat!(
             "Offset of field: ",
@@ -5970,7 +5917,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).SHP) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).SHP) as usize - ptr as usize },
         24usize,
         concat!(
             "Offset of field: ",
@@ -5980,7 +5927,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).SHCSR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).SHCSR) as usize - ptr as usize },
         36usize,
         concat!(
             "Offset of field: ",
@@ -5990,7 +5937,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).CFSR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).CFSR) as usize - ptr as usize },
         40usize,
         concat!(
             "Offset of field: ",
@@ -6000,7 +5947,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).HFSR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).HFSR) as usize - ptr as usize },
         44usize,
         concat!(
             "Offset of field: ",
@@ -6010,7 +5957,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).DFSR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).DFSR) as usize - ptr as usize },
         48usize,
         concat!(
             "Offset of field: ",
@@ -6020,7 +5967,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).MMFAR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).MMFAR) as usize - ptr as usize },
         52usize,
         concat!(
             "Offset of field: ",
@@ -6030,7 +5977,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).BFAR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).BFAR) as usize - ptr as usize },
         56usize,
         concat!(
             "Offset of field: ",
@@ -6040,7 +5987,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).AFSR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).AFSR) as usize - ptr as usize },
         60usize,
         concat!(
             "Offset of field: ",
@@ -6050,7 +5997,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).PFR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).PFR) as usize - ptr as usize },
         64usize,
         concat!(
             "Offset of field: ",
@@ -6060,7 +6007,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).DFR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).DFR) as usize - ptr as usize },
         72usize,
         concat!(
             "Offset of field: ",
@@ -6070,7 +6017,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ADR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ADR) as usize - ptr as usize },
         76usize,
         concat!(
             "Offset of field: ",
@@ -6080,7 +6027,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).MMFR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).MMFR) as usize - ptr as usize },
         80usize,
         concat!(
             "Offset of field: ",
@@ -6090,7 +6037,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ISAR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ISAR) as usize - ptr as usize },
         96usize,
         concat!(
             "Offset of field: ",
@@ -6100,7 +6047,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED0) as usize - ptr as usize },
         116usize,
         concat!(
             "Offset of field: ",
@@ -6110,7 +6057,7 @@ fn bindgen_test_layout_SCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).CPACR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).CPACR) as usize - ptr as usize },
         136usize,
         concat!(
             "Offset of field: ",
@@ -6129,20 +6076,20 @@ pub struct SCnSCB_Type {
 }
 #[test]
 fn bindgen_test_layout_SCnSCB_Type() {
-    const UNINIT: ::std::mem::MaybeUninit<SCnSCB_Type> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<SCnSCB_Type> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<SCnSCB_Type>(),
+        ::core::mem::size_of::<SCnSCB_Type>(),
         12usize,
         concat!("Size of: ", stringify!(SCnSCB_Type))
     );
     assert_eq!(
-        ::std::mem::align_of::<SCnSCB_Type>(),
+        ::core::mem::align_of::<SCnSCB_Type>(),
         4usize,
         concat!("Alignment of ", stringify!(SCnSCB_Type))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED0) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -6152,7 +6099,7 @@ fn bindgen_test_layout_SCnSCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ICTR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ICTR) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -6162,7 +6109,7 @@ fn bindgen_test_layout_SCnSCB_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ACTLR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ACTLR) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -6182,20 +6129,20 @@ pub struct SysTick_Type {
 }
 #[test]
 fn bindgen_test_layout_SysTick_Type() {
-    const UNINIT: ::std::mem::MaybeUninit<SysTick_Type> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<SysTick_Type> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<SysTick_Type>(),
+        ::core::mem::size_of::<SysTick_Type>(),
         16usize,
         concat!("Size of: ", stringify!(SysTick_Type))
     );
     assert_eq!(
-        ::std::mem::align_of::<SysTick_Type>(),
+        ::core::mem::align_of::<SysTick_Type>(),
         4usize,
         concat!("Alignment of ", stringify!(SysTick_Type))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).CTRL) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).CTRL) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -6205,7 +6152,7 @@ fn bindgen_test_layout_SysTick_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).LOAD) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).LOAD) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -6215,7 +6162,7 @@ fn bindgen_test_layout_SysTick_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).VAL) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).VAL) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -6225,7 +6172,7 @@ fn bindgen_test_layout_SysTick_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).CALIB) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).CALIB) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -6272,21 +6219,21 @@ pub union ITM_Type__bindgen_ty_1 {
 }
 #[test]
 fn bindgen_test_layout_ITM_Type__bindgen_ty_1() {
-    const UNINIT: ::std::mem::MaybeUninit<ITM_Type__bindgen_ty_1> =
-        ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<ITM_Type__bindgen_ty_1> =
+        ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<ITM_Type__bindgen_ty_1>(),
+        ::core::mem::size_of::<ITM_Type__bindgen_ty_1>(),
         4usize,
         concat!("Size of: ", stringify!(ITM_Type__bindgen_ty_1))
     );
     assert_eq!(
-        ::std::mem::align_of::<ITM_Type__bindgen_ty_1>(),
+        ::core::mem::align_of::<ITM_Type__bindgen_ty_1>(),
         4usize,
         concat!("Alignment of ", stringify!(ITM_Type__bindgen_ty_1))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).u8_) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).u8_) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -6296,7 +6243,7 @@ fn bindgen_test_layout_ITM_Type__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).u16_) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).u16_) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -6306,7 +6253,7 @@ fn bindgen_test_layout_ITM_Type__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).u32_) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).u32_) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -6318,20 +6265,20 @@ fn bindgen_test_layout_ITM_Type__bindgen_ty_1() {
 }
 #[test]
 fn bindgen_test_layout_ITM_Type() {
-    const UNINIT: ::std::mem::MaybeUninit<ITM_Type> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<ITM_Type> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<ITM_Type>(),
+        ::core::mem::size_of::<ITM_Type>(),
         4096usize,
         concat!("Size of: ", stringify!(ITM_Type))
     );
     assert_eq!(
-        ::std::mem::align_of::<ITM_Type>(),
+        ::core::mem::align_of::<ITM_Type>(),
         4usize,
         concat!("Alignment of ", stringify!(ITM_Type))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).PORT) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).PORT) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -6341,7 +6288,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED0) as usize - ptr as usize },
         128usize,
         concat!(
             "Offset of field: ",
@@ -6351,7 +6298,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).TER) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).TER) as usize - ptr as usize },
         3584usize,
         concat!(
             "Offset of field: ",
@@ -6361,7 +6308,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED1) as usize - ptr as usize },
         3588usize,
         concat!(
             "Offset of field: ",
@@ -6371,7 +6318,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).TPR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).TPR) as usize - ptr as usize },
         3648usize,
         concat!(
             "Offset of field: ",
@@ -6381,7 +6328,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED2) as usize - ptr as usize },
         3652usize,
         concat!(
             "Offset of field: ",
@@ -6391,7 +6338,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).TCR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).TCR) as usize - ptr as usize },
         3712usize,
         concat!(
             "Offset of field: ",
@@ -6401,7 +6348,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED3) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED3) as usize - ptr as usize },
         3716usize,
         concat!(
             "Offset of field: ",
@@ -6411,7 +6358,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED4) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED4) as usize - ptr as usize },
         3844usize,
         concat!(
             "Offset of field: ",
@@ -6421,7 +6368,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).LAR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).LAR) as usize - ptr as usize },
         4016usize,
         concat!(
             "Offset of field: ",
@@ -6431,7 +6378,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).LSR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).LSR) as usize - ptr as usize },
         4020usize,
         concat!(
             "Offset of field: ",
@@ -6441,7 +6388,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED5) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED5) as usize - ptr as usize },
         4024usize,
         concat!(
             "Offset of field: ",
@@ -6451,7 +6398,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).PID4) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).PID4) as usize - ptr as usize },
         4048usize,
         concat!(
             "Offset of field: ",
@@ -6461,7 +6408,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).PID5) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).PID5) as usize - ptr as usize },
         4052usize,
         concat!(
             "Offset of field: ",
@@ -6471,7 +6418,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).PID6) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).PID6) as usize - ptr as usize },
         4056usize,
         concat!(
             "Offset of field: ",
@@ -6481,7 +6428,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).PID7) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).PID7) as usize - ptr as usize },
         4060usize,
         concat!(
             "Offset of field: ",
@@ -6491,7 +6438,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).PID0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).PID0) as usize - ptr as usize },
         4064usize,
         concat!(
             "Offset of field: ",
@@ -6501,7 +6448,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).PID1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).PID1) as usize - ptr as usize },
         4068usize,
         concat!(
             "Offset of field: ",
@@ -6511,7 +6458,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).PID2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).PID2) as usize - ptr as usize },
         4072usize,
         concat!(
             "Offset of field: ",
@@ -6521,7 +6468,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).PID3) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).PID3) as usize - ptr as usize },
         4076usize,
         concat!(
             "Offset of field: ",
@@ -6531,7 +6478,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).CID0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).CID0) as usize - ptr as usize },
         4080usize,
         concat!(
             "Offset of field: ",
@@ -6541,7 +6488,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).CID1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).CID1) as usize - ptr as usize },
         4084usize,
         concat!(
             "Offset of field: ",
@@ -6551,7 +6498,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).CID2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).CID2) as usize - ptr as usize },
         4088usize,
         concat!(
             "Offset of field: ",
@@ -6561,7 +6508,7 @@ fn bindgen_test_layout_ITM_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).CID3) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).CID3) as usize - ptr as usize },
         4092usize,
         concat!(
             "Offset of field: ",
@@ -6600,20 +6547,20 @@ pub struct DWT_Type {
 }
 #[test]
 fn bindgen_test_layout_DWT_Type() {
-    const UNINIT: ::std::mem::MaybeUninit<DWT_Type> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<DWT_Type> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<DWT_Type>(),
+        ::core::mem::size_of::<DWT_Type>(),
         92usize,
         concat!("Size of: ", stringify!(DWT_Type))
     );
     assert_eq!(
-        ::std::mem::align_of::<DWT_Type>(),
+        ::core::mem::align_of::<DWT_Type>(),
         4usize,
         concat!("Alignment of ", stringify!(DWT_Type))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).CTRL) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).CTRL) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -6623,7 +6570,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).CYCCNT) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).CYCCNT) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -6633,7 +6580,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).CPICNT) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).CPICNT) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -6643,7 +6590,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).EXCCNT) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).EXCCNT) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -6653,7 +6600,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).SLEEPCNT) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).SLEEPCNT) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -6663,7 +6610,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).LSUCNT) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).LSUCNT) as usize - ptr as usize },
         20usize,
         concat!(
             "Offset of field: ",
@@ -6673,7 +6620,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).FOLDCNT) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).FOLDCNT) as usize - ptr as usize },
         24usize,
         concat!(
             "Offset of field: ",
@@ -6683,7 +6630,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).PCSR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).PCSR) as usize - ptr as usize },
         28usize,
         concat!(
             "Offset of field: ",
@@ -6693,7 +6640,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).COMP0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).COMP0) as usize - ptr as usize },
         32usize,
         concat!(
             "Offset of field: ",
@@ -6703,7 +6650,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).MASK0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).MASK0) as usize - ptr as usize },
         36usize,
         concat!(
             "Offset of field: ",
@@ -6713,7 +6660,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).FUNCTION0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).FUNCTION0) as usize - ptr as usize },
         40usize,
         concat!(
             "Offset of field: ",
@@ -6723,7 +6670,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED0) as usize - ptr as usize },
         44usize,
         concat!(
             "Offset of field: ",
@@ -6733,7 +6680,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).COMP1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).COMP1) as usize - ptr as usize },
         48usize,
         concat!(
             "Offset of field: ",
@@ -6743,7 +6690,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).MASK1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).MASK1) as usize - ptr as usize },
         52usize,
         concat!(
             "Offset of field: ",
@@ -6753,7 +6700,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).FUNCTION1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).FUNCTION1) as usize - ptr as usize },
         56usize,
         concat!(
             "Offset of field: ",
@@ -6763,7 +6710,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED1) as usize - ptr as usize },
         60usize,
         concat!(
             "Offset of field: ",
@@ -6773,7 +6720,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).COMP2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).COMP2) as usize - ptr as usize },
         64usize,
         concat!(
             "Offset of field: ",
@@ -6783,7 +6730,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).MASK2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).MASK2) as usize - ptr as usize },
         68usize,
         concat!(
             "Offset of field: ",
@@ -6793,7 +6740,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).FUNCTION2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).FUNCTION2) as usize - ptr as usize },
         72usize,
         concat!(
             "Offset of field: ",
@@ -6803,7 +6750,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED2) as usize - ptr as usize },
         76usize,
         concat!(
             "Offset of field: ",
@@ -6813,7 +6760,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).COMP3) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).COMP3) as usize - ptr as usize },
         80usize,
         concat!(
             "Offset of field: ",
@@ -6823,7 +6770,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).MASK3) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).MASK3) as usize - ptr as usize },
         84usize,
         concat!(
             "Offset of field: ",
@@ -6833,7 +6780,7 @@ fn bindgen_test_layout_DWT_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).FUNCTION3) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).FUNCTION3) as usize - ptr as usize },
         88usize,
         concat!(
             "Offset of field: ",
@@ -6873,20 +6820,20 @@ pub struct TPI_Type {
 }
 #[test]
 fn bindgen_test_layout_TPI_Type() {
-    const UNINIT: ::std::mem::MaybeUninit<TPI_Type> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<TPI_Type> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<TPI_Type>(),
+        ::core::mem::size_of::<TPI_Type>(),
         4048usize,
         concat!("Size of: ", stringify!(TPI_Type))
     );
     assert_eq!(
-        ::std::mem::align_of::<TPI_Type>(),
+        ::core::mem::align_of::<TPI_Type>(),
         4usize,
         concat!("Alignment of ", stringify!(TPI_Type))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).SSPSR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).SSPSR) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -6896,7 +6843,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).CSPSR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).CSPSR) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -6906,7 +6853,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED0) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -6916,7 +6863,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ACPR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ACPR) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -6926,7 +6873,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED1) as usize - ptr as usize },
         20usize,
         concat!(
             "Offset of field: ",
@@ -6936,7 +6883,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).SPPR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).SPPR) as usize - ptr as usize },
         240usize,
         concat!(
             "Offset of field: ",
@@ -6946,7 +6893,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED2) as usize - ptr as usize },
         244usize,
         concat!(
             "Offset of field: ",
@@ -6956,7 +6903,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).FFSR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).FFSR) as usize - ptr as usize },
         768usize,
         concat!(
             "Offset of field: ",
@@ -6966,7 +6913,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).FFCR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).FFCR) as usize - ptr as usize },
         772usize,
         concat!(
             "Offset of field: ",
@@ -6976,7 +6923,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).FSCR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).FSCR) as usize - ptr as usize },
         776usize,
         concat!(
             "Offset of field: ",
@@ -6986,7 +6933,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED3) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED3) as usize - ptr as usize },
         780usize,
         concat!(
             "Offset of field: ",
@@ -6996,7 +6943,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).TRIGGER) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).TRIGGER) as usize - ptr as usize },
         3816usize,
         concat!(
             "Offset of field: ",
@@ -7006,7 +6953,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).FIFO0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).FIFO0) as usize - ptr as usize },
         3820usize,
         concat!(
             "Offset of field: ",
@@ -7016,7 +6963,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ITATBCTR2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ITATBCTR2) as usize - ptr as usize },
         3824usize,
         concat!(
             "Offset of field: ",
@@ -7026,7 +6973,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED4) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED4) as usize - ptr as usize },
         3828usize,
         concat!(
             "Offset of field: ",
@@ -7036,7 +6983,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ITATBCTR0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ITATBCTR0) as usize - ptr as usize },
         3832usize,
         concat!(
             "Offset of field: ",
@@ -7046,7 +6993,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).FIFO1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).FIFO1) as usize - ptr as usize },
         3836usize,
         concat!(
             "Offset of field: ",
@@ -7056,7 +7003,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ITCTRL) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ITCTRL) as usize - ptr as usize },
         3840usize,
         concat!(
             "Offset of field: ",
@@ -7066,7 +7013,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED5) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED5) as usize - ptr as usize },
         3844usize,
         concat!(
             "Offset of field: ",
@@ -7076,7 +7023,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).CLAIMSET) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).CLAIMSET) as usize - ptr as usize },
         4000usize,
         concat!(
             "Offset of field: ",
@@ -7086,7 +7033,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).CLAIMCLR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).CLAIMCLR) as usize - ptr as usize },
         4004usize,
         concat!(
             "Offset of field: ",
@@ -7096,7 +7043,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED7) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED7) as usize - ptr as usize },
         4008usize,
         concat!(
             "Offset of field: ",
@@ -7106,7 +7053,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).DEVID) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).DEVID) as usize - ptr as usize },
         4040usize,
         concat!(
             "Offset of field: ",
@@ -7116,7 +7063,7 @@ fn bindgen_test_layout_TPI_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).DEVTYPE) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).DEVTYPE) as usize - ptr as usize },
         4044usize,
         concat!(
             "Offset of field: ",
@@ -7143,20 +7090,20 @@ pub struct MPU_Type {
 }
 #[test]
 fn bindgen_test_layout_MPU_Type() {
-    const UNINIT: ::std::mem::MaybeUninit<MPU_Type> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<MPU_Type> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<MPU_Type>(),
+        ::core::mem::size_of::<MPU_Type>(),
         44usize,
         concat!("Size of: ", stringify!(MPU_Type))
     );
     assert_eq!(
-        ::std::mem::align_of::<MPU_Type>(),
+        ::core::mem::align_of::<MPU_Type>(),
         4usize,
         concat!("Alignment of ", stringify!(MPU_Type))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).TYPE) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).TYPE) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -7166,7 +7113,7 @@ fn bindgen_test_layout_MPU_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).CTRL) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).CTRL) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -7176,7 +7123,7 @@ fn bindgen_test_layout_MPU_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RNR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RNR) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -7186,7 +7133,7 @@ fn bindgen_test_layout_MPU_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RBAR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RBAR) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -7196,7 +7143,7 @@ fn bindgen_test_layout_MPU_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RASR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RASR) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -7206,7 +7153,7 @@ fn bindgen_test_layout_MPU_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RBAR_A1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RBAR_A1) as usize - ptr as usize },
         20usize,
         concat!(
             "Offset of field: ",
@@ -7216,7 +7163,7 @@ fn bindgen_test_layout_MPU_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RASR_A1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RASR_A1) as usize - ptr as usize },
         24usize,
         concat!(
             "Offset of field: ",
@@ -7226,7 +7173,7 @@ fn bindgen_test_layout_MPU_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RBAR_A2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RBAR_A2) as usize - ptr as usize },
         28usize,
         concat!(
             "Offset of field: ",
@@ -7236,7 +7183,7 @@ fn bindgen_test_layout_MPU_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RASR_A2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RASR_A2) as usize - ptr as usize },
         32usize,
         concat!(
             "Offset of field: ",
@@ -7246,7 +7193,7 @@ fn bindgen_test_layout_MPU_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RBAR_A3) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RBAR_A3) as usize - ptr as usize },
         36usize,
         concat!(
             "Offset of field: ",
@@ -7256,7 +7203,7 @@ fn bindgen_test_layout_MPU_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RASR_A3) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RASR_A3) as usize - ptr as usize },
         40usize,
         concat!(
             "Offset of field: ",
@@ -7279,20 +7226,20 @@ pub struct FPU_Type {
 }
 #[test]
 fn bindgen_test_layout_FPU_Type() {
-    const UNINIT: ::std::mem::MaybeUninit<FPU_Type> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<FPU_Type> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<FPU_Type>(),
+        ::core::mem::size_of::<FPU_Type>(),
         28usize,
         concat!("Size of: ", stringify!(FPU_Type))
     );
     assert_eq!(
-        ::std::mem::align_of::<FPU_Type>(),
+        ::core::mem::align_of::<FPU_Type>(),
         4usize,
         concat!("Alignment of ", stringify!(FPU_Type))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RESERVED0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RESERVED0) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -7302,7 +7249,7 @@ fn bindgen_test_layout_FPU_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).FPCCR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).FPCCR) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -7312,7 +7259,7 @@ fn bindgen_test_layout_FPU_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).FPCAR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).FPCAR) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -7322,7 +7269,7 @@ fn bindgen_test_layout_FPU_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).FPDSCR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).FPDSCR) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -7332,7 +7279,7 @@ fn bindgen_test_layout_FPU_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).MVFR0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).MVFR0) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -7342,7 +7289,7 @@ fn bindgen_test_layout_FPU_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).MVFR1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).MVFR1) as usize - ptr as usize },
         20usize,
         concat!(
             "Offset of field: ",
@@ -7352,7 +7299,7 @@ fn bindgen_test_layout_FPU_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).MVFR2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).MVFR2) as usize - ptr as usize },
         24usize,
         concat!(
             "Offset of field: ",
@@ -7372,20 +7319,20 @@ pub struct CoreDebug_Type {
 }
 #[test]
 fn bindgen_test_layout_CoreDebug_Type() {
-    const UNINIT: ::std::mem::MaybeUninit<CoreDebug_Type> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<CoreDebug_Type> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<CoreDebug_Type>(),
+        ::core::mem::size_of::<CoreDebug_Type>(),
         16usize,
         concat!("Size of: ", stringify!(CoreDebug_Type))
     );
     assert_eq!(
-        ::std::mem::align_of::<CoreDebug_Type>(),
+        ::core::mem::align_of::<CoreDebug_Type>(),
         4usize,
         concat!("Alignment of ", stringify!(CoreDebug_Type))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).DHCSR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).DHCSR) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -7395,7 +7342,7 @@ fn bindgen_test_layout_CoreDebug_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).DCRSR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).DCRSR) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -7405,7 +7352,7 @@ fn bindgen_test_layout_CoreDebug_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).DCRDR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).DCRDR) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -7415,7 +7362,7 @@ fn bindgen_test_layout_CoreDebug_Type() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).DEMCR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).DEMCR) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -7433,20 +7380,20 @@ pub struct ARM_MPU_Region_t {
 }
 #[test]
 fn bindgen_test_layout_ARM_MPU_Region_t() {
-    const UNINIT: ::std::mem::MaybeUninit<ARM_MPU_Region_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<ARM_MPU_Region_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<ARM_MPU_Region_t>(),
+        ::core::mem::size_of::<ARM_MPU_Region_t>(),
         8usize,
         concat!("Size of: ", stringify!(ARM_MPU_Region_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<ARM_MPU_Region_t>(),
+        ::core::mem::align_of::<ARM_MPU_Region_t>(),
         4usize,
         concat!("Alignment of ", stringify!(ARM_MPU_Region_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RBAR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RBAR) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -7456,7 +7403,7 @@ fn bindgen_test_layout_ARM_MPU_Region_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).RASR) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).RASR) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -7529,20 +7476,20 @@ pub struct mxc_gcr_regs_t {
 }
 #[test]
 fn bindgen_test_layout_mxc_gcr_regs_t() {
-    const UNINIT: ::std::mem::MaybeUninit<mxc_gcr_regs_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<mxc_gcr_regs_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<mxc_gcr_regs_t>(),
+        ::core::mem::size_of::<mxc_gcr_regs_t>(),
         132usize,
         concat!("Size of: ", stringify!(mxc_gcr_regs_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<mxc_gcr_regs_t>(),
+        ::core::mem::align_of::<mxc_gcr_regs_t>(),
         4usize,
         concat!("Alignment of ", stringify!(mxc_gcr_regs_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).sysctrl) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).sysctrl) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -7552,7 +7499,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rst0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rst0) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -7562,7 +7509,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).clkctrl) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).clkctrl) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -7572,7 +7519,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).pm) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).pm) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -7582,7 +7529,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x10_0x17) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x10_0x17) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -7592,7 +7539,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).pclkdiv) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).pclkdiv) as usize - ptr as usize },
         24usize,
         concat!(
             "Offset of field: ",
@@ -7602,7 +7549,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x1c_0x23) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x1c_0x23) as usize - ptr as usize },
         28usize,
         concat!(
             "Offset of field: ",
@@ -7612,7 +7559,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).pclkdis0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).pclkdis0) as usize - ptr as usize },
         36usize,
         concat!(
             "Offset of field: ",
@@ -7622,7 +7569,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).memctrl) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).memctrl) as usize - ptr as usize },
         40usize,
         concat!(
             "Offset of field: ",
@@ -7632,7 +7579,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).memz) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).memz) as usize - ptr as usize },
         44usize,
         concat!(
             "Offset of field: ",
@@ -7642,7 +7589,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x30_0x3f) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x30_0x3f) as usize - ptr as usize },
         48usize,
         concat!(
             "Offset of field: ",
@@ -7652,7 +7599,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).sysst) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).sysst) as usize - ptr as usize },
         64usize,
         concat!(
             "Offset of field: ",
@@ -7662,7 +7609,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rst1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rst1) as usize - ptr as usize },
         68usize,
         concat!(
             "Offset of field: ",
@@ -7672,7 +7619,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).pclkdis1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).pclkdis1) as usize - ptr as usize },
         72usize,
         concat!(
             "Offset of field: ",
@@ -7682,7 +7629,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).eventen) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).eventen) as usize - ptr as usize },
         76usize,
         concat!(
             "Offset of field: ",
@@ -7692,7 +7639,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).revision) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).revision) as usize - ptr as usize },
         80usize,
         concat!(
             "Offset of field: ",
@@ -7702,7 +7649,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).sysie) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).sysie) as usize - ptr as usize },
         84usize,
         concat!(
             "Offset of field: ",
@@ -7712,7 +7659,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x58_0x63) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x58_0x63) as usize - ptr as usize },
         88usize,
         concat!(
             "Offset of field: ",
@@ -7722,7 +7669,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).eccerr) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).eccerr) as usize - ptr as usize },
         100usize,
         concat!(
             "Offset of field: ",
@@ -7732,7 +7679,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).eccced) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).eccced) as usize - ptr as usize },
         104usize,
         concat!(
             "Offset of field: ",
@@ -7742,7 +7689,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).eccie) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).eccie) as usize - ptr as usize },
         108usize,
         concat!(
             "Offset of field: ",
@@ -7752,7 +7699,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).eccaddr) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).eccaddr) as usize - ptr as usize },
         112usize,
         concat!(
             "Offset of field: ",
@@ -7762,7 +7709,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x74_0x7f) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x74_0x7f) as usize - ptr as usize },
         116usize,
         concat!(
             "Offset of field: ",
@@ -7772,7 +7719,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).gpr) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).gpr) as usize - ptr as usize },
         128usize,
         concat!(
             "Offset of field: ",
@@ -7784,7 +7731,7 @@ fn bindgen_test_layout_mxc_gcr_regs_t() {
 }
 #[doc = " @brief      Type alias for a GPIO callback function with prototype:\n @code\nvoid callback_fn(void *cbdata);\n @endcode\n @param      cbdata  A void pointer to the data type as registered when\n                     MXC_GPIO_RegisterCallback() was called."]
 pub type mxc_gpio_callback_fn =
-    ::std::option::Option<unsafe extern "C" fn(cbdata: *mut ::std::os::raw::c_void)>;
+    ::core::option::Option<unsafe extern "C" fn(cbdata: *mut ::core::ffi::c_void)>;
 #[doc = "< GPIO Input"]
 pub const mxc_gpio_func_t_MXC_GPIO_FUNC_IN: mxc_gpio_func_t = 0;
 #[doc = "< GPIO Output"]
@@ -7798,13 +7745,13 @@ pub const mxc_gpio_func_t_MXC_GPIO_FUNC_ALT3: mxc_gpio_func_t = 4;
 #[doc = "< Alternate Function Selection"]
 pub const mxc_gpio_func_t_MXC_GPIO_FUNC_ALT4: mxc_gpio_func_t = 5;
 #[doc = " @brief   Enumeration type for the GPIO Function Type"]
-pub type mxc_gpio_func_t = ::std::os::raw::c_uint;
+pub type mxc_gpio_func_t = ::core::ffi::c_uint;
 #[doc = "< Set pin to VIDDIO voltage"]
 pub const mxc_gpio_vssel_t_MXC_GPIO_VSSEL_VDDIO: mxc_gpio_vssel_t = 0;
 #[doc = "< Set pin to VIDDIOH voltage"]
 pub const mxc_gpio_vssel_t_MXC_GPIO_VSSEL_VDDIOH: mxc_gpio_vssel_t = 1;
 #[doc = " @brief   Enumeration type for the voltage level on a given pin."]
-pub type mxc_gpio_vssel_t = ::std::os::raw::c_uint;
+pub type mxc_gpio_vssel_t = ::core::ffi::c_uint;
 #[doc = "< No pull-up or pull-down"]
 pub const mxc_gpio_pad_t_MXC_GPIO_PAD_NONE: mxc_gpio_pad_t = 0;
 #[doc = "< Set pad to strong pull-up"]
@@ -7816,7 +7763,7 @@ pub const mxc_gpio_pad_t_MXC_GPIO_PAD_WEAK_PULL_UP: mxc_gpio_pad_t = 3;
 #[doc = "< Set pad to weak pull-down"]
 pub const mxc_gpio_pad_t_MXC_GPIO_PAD_WEAK_PULL_DOWN: mxc_gpio_pad_t = 4;
 #[doc = " @brief   Enumeration type for the type of GPIO pad on a given pin."]
-pub type mxc_gpio_pad_t = ::std::os::raw::c_uint;
+pub type mxc_gpio_pad_t = ::core::ffi::c_uint;
 #[doc = " @brief   Structure type for configuring a GPIO port."]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -7834,20 +7781,20 @@ pub struct mxc_gpio_cfg_t {
 }
 #[test]
 fn bindgen_test_layout_mxc_gpio_cfg_t() {
-    const UNINIT: ::std::mem::MaybeUninit<mxc_gpio_cfg_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<mxc_gpio_cfg_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<mxc_gpio_cfg_t>(),
+        ::core::mem::size_of::<mxc_gpio_cfg_t>(),
         20usize,
         concat!("Size of: ", stringify!(mxc_gpio_cfg_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<mxc_gpio_cfg_t>(),
+        ::core::mem::align_of::<mxc_gpio_cfg_t>(),
         4usize,
         concat!("Alignment of ", stringify!(mxc_gpio_cfg_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).port) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).port) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -7857,7 +7804,7 @@ fn bindgen_test_layout_mxc_gpio_cfg_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).mask) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).mask) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -7867,7 +7814,7 @@ fn bindgen_test_layout_mxc_gpio_cfg_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).func) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).func) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -7877,7 +7824,7 @@ fn bindgen_test_layout_mxc_gpio_cfg_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).pad) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).pad) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -7887,7 +7834,7 @@ fn bindgen_test_layout_mxc_gpio_cfg_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).vssel) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).vssel) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -7902,7 +7849,7 @@ pub const mxc_gpio_int_mode_t_MXC_GPIO_INT_LEVEL: mxc_gpio_int_mode_t = 0;
 #[doc = "< Interrupt is edge sensitive"]
 pub const mxc_gpio_int_mode_t_MXC_GPIO_INT_EDGE: mxc_gpio_int_mode_t = 1;
 #[doc = " @brief   Enumeration type for the interrupt modes."]
-pub type mxc_gpio_int_mode_t = ::std::os::raw::c_uint;
+pub type mxc_gpio_int_mode_t = ::core::ffi::c_uint;
 #[doc = "< Interrupt triggers on falling edge"]
 pub const mxc_gpio_int_pol_t_MXC_GPIO_INT_FALLING: mxc_gpio_int_pol_t = 0;
 #[doc = "< Interrupt triggers when level is high"]
@@ -7914,22 +7861,22 @@ pub const mxc_gpio_int_pol_t_MXC_GPIO_INT_LOW: mxc_gpio_int_pol_t = 3;
 #[doc = "< Interrupt triggers on either edge"]
 pub const mxc_gpio_int_pol_t_MXC_GPIO_INT_BOTH: mxc_gpio_int_pol_t = 4;
 #[doc = " @brief   Enumeration type for the interrupt polarity."]
-pub type mxc_gpio_int_pol_t = ::std::os::raw::c_uint;
+pub type mxc_gpio_int_pol_t = ::core::ffi::c_uint;
 extern "C" {
     #[doc = " @brief      Initialize GPIO.\n @param      portMask     Mask for the port to be initialized\n @return     #E_NO_ERROR if everything is successful."]
-    pub fn MXC_GPIO_Init(portMask: u32) -> ::std::os::raw::c_int;
+    pub fn MXC_GPIO_Init(portMask: u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Shutdown GPIO.\n @param      portMask     Mask for the port to be initialized\n @return     #E_NO_ERROR if everything is successful."]
-    pub fn MXC_GPIO_Shutdown(portMask: u32) -> ::std::os::raw::c_int;
+    pub fn MXC_GPIO_Shutdown(portMask: u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Reset GPIO.\n @param      portMask     Mask for the port to be initialized\n @return     #E_NO_ERROR if everything is successful."]
-    pub fn MXC_GPIO_Reset(portMask: u32) -> ::std::os::raw::c_int;
+    pub fn MXC_GPIO_Reset(portMask: u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Configure GPIO pin(s).\n @param      cfg   Pointer to configuration structure describing the pin.\n @return     #E_NO_ERROR if everything is successful."]
-    pub fn MXC_GPIO_Config(cfg: *const mxc_gpio_cfg_t) -> ::std::os::raw::c_int;
+    pub fn MXC_GPIO_Config(cfg: *const mxc_gpio_cfg_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Gets the pin(s) input state.\n @param      port  Pointer to the GPIO port\n @param      mask  Mask of the pin(s) to read\n @return     The requested pin state."]
@@ -7960,7 +7907,7 @@ extern "C" {
     pub fn MXC_GPIO_IntConfig(
         cfg: *const mxc_gpio_cfg_t,
         pol: mxc_gpio_int_pol_t,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Enables the specified GPIO interrupt\n @param      port  Pointer to the GPIO port\n @param      mask  Mask of the pin(s) to enable interrupts for\n"]
@@ -7983,12 +7930,12 @@ extern "C" {
     pub fn MXC_GPIO_RegisterCallback(
         cfg: *const mxc_gpio_cfg_t,
         callback: mxc_gpio_callback_fn,
-        cbdata: *mut ::std::os::raw::c_void,
+        cbdata: *mut ::core::ffi::c_void,
     );
 }
 extern "C" {
     #[doc = " @brief      GPIO IRQ Handler. @note If a callback is registered for a given\n             interrupt, the callback function will be called.\n\n @param      port number of the port that generated the interrupt service routine.\n"]
-    pub fn MXC_GPIO_Handler(port: ::std::os::raw::c_uint);
+    pub fn MXC_GPIO_Handler(port: ::core::ffi::c_uint);
 }
 extern "C" {
     #[doc = " @brief      Set Voltage select for pins to VDDIO or VDDIOH\n\n @param      port   The GPIO port\n @param[in]  vssel  VDDIO or VDDIOH to set the voltatge to\n @param[in]  mask   Pins in the GPIO port that will be set to the voltage.\n\n @return   E_NO_ERROR if succesfful, otherwise E_BAD_PARAM."]
@@ -7996,7 +7943,7 @@ extern "C" {
         port: *mut mxc_gpio_regs_t,
         vssel: mxc_gpio_vssel_t,
         mask: u32,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Enables GPIO pins to be used as a wakeup source.\n\n @param      port   The GPIO port\n @param      mask   Pins in the GPIO port that will be enabled as a wakeup source."]
@@ -8209,20 +8156,20 @@ pub struct mxc_lpgcr_regs_t {
 }
 #[test]
 fn bindgen_test_layout_mxc_lpgcr_regs_t() {
-    const UNINIT: ::std::mem::MaybeUninit<mxc_lpgcr_regs_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<mxc_lpgcr_regs_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<mxc_lpgcr_regs_t>(),
+        ::core::mem::size_of::<mxc_lpgcr_regs_t>(),
         16usize,
         concat!("Size of: ", stringify!(mxc_lpgcr_regs_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<mxc_lpgcr_regs_t>(),
+        ::core::mem::align_of::<mxc_lpgcr_regs_t>(),
         4usize,
         concat!("Alignment of ", stringify!(mxc_lpgcr_regs_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x0_0x7) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x0_0x7) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -8232,7 +8179,7 @@ fn bindgen_test_layout_mxc_lpgcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rst) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rst) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -8242,7 +8189,7 @@ fn bindgen_test_layout_mxc_lpgcr_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).pclkdis) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).pclkdis) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -8331,7 +8278,7 @@ pub const mxc_sys_reset_t_MXC_SYS_RESET_UART3: mxc_sys_reset_t = 68;
 #[doc = "< Reset LPCOMP"]
 pub const mxc_sys_reset_t_MXC_SYS_RESET_LPCOMP: mxc_sys_reset_t = 70;
 #[doc = " @brief System reset0 and reset1 enumeration. Used in MXC_SYS_PeriphReset0 function"]
-pub type mxc_sys_reset_t = ::std::os::raw::c_uint;
+pub type mxc_sys_reset_t = ::core::ffi::c_uint;
 pub const mxc_sys_periph_clock_t_MXC_SYS_PERIPH_CLOCK_GPIO0: mxc_sys_periph_clock_t = 0;
 pub const mxc_sys_periph_clock_t_MXC_SYS_PERIPH_CLOCK_GPIO1: mxc_sys_periph_clock_t = 1;
 pub const mxc_sys_periph_clock_t_MXC_SYS_PERIPH_CLOCK_DMA: mxc_sys_periph_clock_t = 5;
@@ -8367,7 +8314,7 @@ pub const mxc_sys_periph_clock_t_MXC_SYS_PERIPH_CLOCK_TMR5: mxc_sys_periph_clock
 pub const mxc_sys_periph_clock_t_MXC_SYS_PERIPH_CLOCK_UART3: mxc_sys_periph_clock_t = 68;
 pub const mxc_sys_periph_clock_t_MXC_SYS_PERIPH_CLOCK_LPCOMP: mxc_sys_periph_clock_t = 70;
 #[doc = " @brief System clock disable enumeration. Used in MXC_SYS_ClockDisable and MXC_SYS_ClockEnable functions"]
-pub type mxc_sys_periph_clock_t = ::std::os::raw::c_uint;
+pub type mxc_sys_periph_clock_t = ::core::ffi::c_uint;
 pub const mxc_sys_system_clock_t_MXC_SYS_CLOCK_IPO: mxc_sys_system_clock_t = 4;
 pub const mxc_sys_system_clock_t_MXC_SYS_CLOCK_IBRO: mxc_sys_system_clock_t = 5;
 pub const mxc_sys_system_clock_t_MXC_SYS_CLOCK_ISO: mxc_sys_system_clock_t = 0;
@@ -8375,7 +8322,7 @@ pub const mxc_sys_system_clock_t_MXC_SYS_CLOCK_INRO: mxc_sys_system_clock_t = 3;
 pub const mxc_sys_system_clock_t_MXC_SYS_CLOCK_ERTCO: mxc_sys_system_clock_t = 6;
 pub const mxc_sys_system_clock_t_MXC_SYS_CLOCK_EXTCLK: mxc_sys_system_clock_t = 7;
 #[doc = " @brief Enumeration to select System Clock source"]
-pub type mxc_sys_system_clock_t = ::std::os::raw::c_uint;
+pub type mxc_sys_system_clock_t = ::core::ffi::c_uint;
 pub const mxc_sys_system_clock_div_t_MXC_SYS_CLOCK_DIV_1: mxc_sys_system_clock_div_t = 0;
 pub const mxc_sys_system_clock_div_t_MXC_SYS_CLOCK_DIV_2: mxc_sys_system_clock_div_t = 64;
 pub const mxc_sys_system_clock_div_t_MXC_SYS_CLOCK_DIV_4: mxc_sys_system_clock_div_t = 128;
@@ -8385,30 +8332,30 @@ pub const mxc_sys_system_clock_div_t_MXC_SYS_CLOCK_DIV_32: mxc_sys_system_clock_
 pub const mxc_sys_system_clock_div_t_MXC_SYS_CLOCK_DIV_64: mxc_sys_system_clock_div_t = 384;
 pub const mxc_sys_system_clock_div_t_MXC_SYS_CLOCK_DIV_128: mxc_sys_system_clock_div_t = 448;
 #[doc = " @brief Enumeration to set the System Clock divider"]
-pub type mxc_sys_system_clock_div_t = ::std::os::raw::c_uint;
+pub type mxc_sys_system_clock_div_t = ::core::ffi::c_uint;
 #[doc = " Function Prototypes"]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct mxc_crit_state_t {
-    pub ie_status: ::std::os::raw::c_int,
-    pub in_critical: ::std::os::raw::c_int,
+    pub ie_status: ::core::ffi::c_int,
+    pub in_critical: ::core::ffi::c_int,
 }
 #[test]
 fn bindgen_test_layout_mxc_crit_state_t() {
-    const UNINIT: ::std::mem::MaybeUninit<mxc_crit_state_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<mxc_crit_state_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<mxc_crit_state_t>(),
+        ::core::mem::size_of::<mxc_crit_state_t>(),
         8usize,
         concat!("Size of: ", stringify!(mxc_crit_state_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<mxc_crit_state_t>(),
+        ::core::mem::align_of::<mxc_crit_state_t>(),
         4usize,
         concat!("Alignment of ", stringify!(mxc_crit_state_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ie_status) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ie_status) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -8418,7 +8365,7 @@ fn bindgen_test_layout_mxc_crit_state_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).in_critical) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).in_critical) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -8433,11 +8380,11 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief Reads the device USN and verifies the checksum.\n @param usn       Pointer to store the USN. Array must be at least MXC_SYS_USN_LEN bytes long.\n @param checksum  Optional pointer to store the AES checksum. If not NULL, checksum is verified with AES engine.\n @returns         E_NO_ERROR if everything is successful."]
-    pub fn MXC_SYS_GetUSN(usn: *mut u8, checksum: *mut u8) -> ::std::os::raw::c_int;
+    pub fn MXC_SYS_GetUSN(usn: *mut u8, checksum: *mut u8) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief Determines if the selected peripheral clock is enabled.\n @param clock   Enumeration for desired clock.\n @returns       0 is the clock is disabled, non 0 if the clock is enabled."]
-    pub fn MXC_SYS_IsClockEnabled(clock: mxc_sys_periph_clock_t) -> ::std::os::raw::c_int;
+    pub fn MXC_SYS_IsClockEnabled(clock: mxc_sys_periph_clock_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief Disables the selected peripheral clock.\n @param clock   Enumeration for desired clock."]
@@ -8453,15 +8400,15 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief Disables the 32kHz oscillator\n @returns         E_NO_ERROR if everything is successful"]
-    pub fn MXC_SYS_RTCClockDisable() -> ::std::os::raw::c_int;
+    pub fn MXC_SYS_RTCClockDisable() -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief Enable System Clock Source without switching to it\n @param      clock The clock to enable\n @return     E_NO_ERROR if everything is successful"]
-    pub fn MXC_SYS_ClockSourceEnable(clock: mxc_sys_system_clock_t) -> ::std::os::raw::c_int;
+    pub fn MXC_SYS_ClockSourceEnable(clock: mxc_sys_system_clock_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief Disable System Clock Source\n @param      clock The clock to disable\n @return     E_NO_ERROR if everything is successful"]
-    pub fn MXC_SYS_ClockSourceDisable(clock: mxc_sys_system_clock_t) -> ::std::os::raw::c_int;
+    pub fn MXC_SYS_ClockSourceDisable(clock: mxc_sys_system_clock_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief Get the current system clock divider.\n @returns The enumerator for the current system clock divider."]
@@ -8473,11 +8420,11 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief Select the system clock.\n @param clock     Enumeration for desired clock.  Note:  If using the external clock input be sure to define EXTCLK_FREQ correctly.\n                  The default EXTCLK_FREQ value is defined in the system_max78000.h file and can be overridden at compile time.\n @returns         E_NO_ERROR if everything is successful."]
-    pub fn MXC_SYS_Clock_Select(clock: mxc_sys_system_clock_t) -> ::std::os::raw::c_int;
+    pub fn MXC_SYS_Clock_Select(clock: mxc_sys_system_clock_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief Wait for a clock to enable with timeout\n @param      ready The clock to wait for\n @return     E_NO_ERROR if ready, E_TIME_OUT if timeout"]
-    pub fn MXC_SYS_Clock_Timeout(ready: u32) -> ::std::os::raw::c_int;
+    pub fn MXC_SYS_Clock_Timeout(ready: u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief Reset the peripherals and/or CPU in the rstr0 or rstr1 register.\n @param           Enumeration for what to reset. Can reset multiple items at once."]
@@ -8490,14 +8437,14 @@ extern "C" {
 extern "C" {
     #[doc = " @brief      Assert an error when the given expression fails during debugging.\n @param      expr  String with the expression that failed the assertion.\n @param      file  File containing the failed assertion.\n @param      line  Line number for the failed assertion.\n @note       This is defined as a weak function and can be overridden at the\n             application layer to print the debugging information.\n             @code\n             printf(\"%s, file: %s, line %d\\n\", expr, file, line);\n             @endcode\n @note       To use debug assertions, the symbol @c MXC_ASSERT_ENABLE must be\n             defined."]
     pub fn mxc_assert(
-        expr: *const ::std::os::raw::c_char,
-        file: *const ::std::os::raw::c_char,
-        line: ::std::os::raw::c_int,
+        expr: *const ::core::ffi::c_char,
+        file: *const ::core::ffi::c_char,
+        line: ::core::ffi::c_int,
     );
 }
 extern "C" {
     #[doc = " @brief      Attempts to acquire the lock.\n @details    This in an interrupt safe function that can be used as a mutex.\n             The lock variable must remain in scope until the lock is\n             released. Will not block if another thread has already acquired\n             the lock.\n @param      lock   Pointer to variable that is used for the lock.\n @param      value  Value to be place in the lock. Can not be 0.\n\n @return     #E_NO_ERROR if everything successful, #E_BUSY if lock is taken."]
-    pub fn MXC_GetLock(lock: *mut u32, value: u32) -> ::std::os::raw::c_int;
+    pub fn MXC_GetLock(lock: *mut u32, value: u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief         Free the given lock.\n @param[in,out] lock  Pointer to the variable used for the lock. When the lock\n                      is free, the value pointed to by @p lock is set to zero."]
@@ -8512,7 +8459,7 @@ pub const mxc_spi_width_t_SPI_WIDTH_DUAL: mxc_spi_width_t = 2;
 #[doc = "< 4 Data lines, half duplex"]
 pub const mxc_spi_width_t_SPI_WIDTH_QUAD: mxc_spi_width_t = 3;
 #[doc = " @brief   The list of SPI Widths supported\n\n The SPI Width can be set on a per-transaction basis.\n An example use case of SPI_WIDTH_STANDARD_HALFDUPLEX is\n given.\n\n Using a MAX31865 RTD-to-SPI IC, read back the temperature\n The IC requires a SPI Read to be executed as\n 1. Assert SS\n 2. Write an 8bit register address\n 3. Read back the 8 bit register\n 4. Deassert SS\n This can be accomplished with the STANDARD_HALFDUPLEX width\n 1. set txData to the address, txLen=1\n 2. set rxData to a buffer of 1 byte, rxLen=1\n 3. The driver will transmit the txData, and after completion of\n    txData begin to recieve data, padding MOSI with DefaultTXData\n"]
-pub type mxc_spi_width_t = ::std::os::raw::c_uint;
+pub type mxc_spi_width_t = ::core::ffi::c_uint;
 #[doc = "< clock phase = 0, clock polarity = 0"]
 pub const mxc_spi_mode_t_SPI_MODE_0: mxc_spi_mode_t = 0;
 #[doc = "< clock phase = 0, clock polarity = 1"]
@@ -8522,7 +8469,7 @@ pub const mxc_spi_mode_t_SPI_MODE_2: mxc_spi_mode_t = 2;
 #[doc = "< clock phase = 1, clock polarity = 1"]
 pub const mxc_spi_mode_t_SPI_MODE_3: mxc_spi_mode_t = 3;
 #[doc = " @brief The list of SPI modes\n\n SPI supports four combinations of clock and phase polarity\n\n Clock polarity is controlled using the bit SPIn_CTRL2.cpol\n and determines if the clock is active high or active low\n\n Clock phase determines when the data must be stable for sampling\n"]
-pub type mxc_spi_mode_t = ::std::os::raw::c_uint;
+pub type mxc_spi_mode_t = ::core::ffi::c_uint;
 #[doc = " @brief Structure used to initialize SPI pins.\n\n @note All values must be initialized.\n\n @note True equals pin is set for the spi function false the pin is left to its latest state."]
 pub type mxc_spi_pins_t = _mxc_spi_pins_t;
 #[doc = " @brief Structure used to initialize SPI pins.\n\n @note All values must be initialized.\n\n @note True equals pin is set for the spi function false the pin is left to its latest state."]
@@ -8550,20 +8497,20 @@ pub struct _mxc_spi_pins_t {
 }
 #[test]
 fn bindgen_test_layout__mxc_spi_pins_t() {
-    const UNINIT: ::std::mem::MaybeUninit<_mxc_spi_pins_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<_mxc_spi_pins_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<_mxc_spi_pins_t>(),
+        ::core::mem::size_of::<_mxc_spi_pins_t>(),
         9usize,
         concat!("Size of: ", stringify!(_mxc_spi_pins_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<_mxc_spi_pins_t>(),
+        ::core::mem::align_of::<_mxc_spi_pins_t>(),
         1usize,
         concat!("Alignment of ", stringify!(_mxc_spi_pins_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).clock) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).clock) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -8573,7 +8520,7 @@ fn bindgen_test_layout__mxc_spi_pins_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ss0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ss0) as usize - ptr as usize },
         1usize,
         concat!(
             "Offset of field: ",
@@ -8583,7 +8530,7 @@ fn bindgen_test_layout__mxc_spi_pins_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ss1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ss1) as usize - ptr as usize },
         2usize,
         concat!(
             "Offset of field: ",
@@ -8593,7 +8540,7 @@ fn bindgen_test_layout__mxc_spi_pins_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ss2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ss2) as usize - ptr as usize },
         3usize,
         concat!(
             "Offset of field: ",
@@ -8603,7 +8550,7 @@ fn bindgen_test_layout__mxc_spi_pins_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).miso) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).miso) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -8613,7 +8560,7 @@ fn bindgen_test_layout__mxc_spi_pins_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).mosi) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).mosi) as usize - ptr as usize },
         5usize,
         concat!(
             "Offset of field: ",
@@ -8623,7 +8570,7 @@ fn bindgen_test_layout__mxc_spi_pins_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).sdio2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).sdio2) as usize - ptr as usize },
         6usize,
         concat!(
             "Offset of field: ",
@@ -8633,7 +8580,7 @@ fn bindgen_test_layout__mxc_spi_pins_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).sdio3) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).sdio3) as usize - ptr as usize },
         7usize,
         concat!(
             "Offset of field: ",
@@ -8643,7 +8590,7 @@ fn bindgen_test_layout__mxc_spi_pins_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).vddioh) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).vddioh) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -8656,8 +8603,8 @@ fn bindgen_test_layout__mxc_spi_pins_t() {
 #[doc = " @brief   The information required to perform a complete SPI transaction\n\n This structure is used by blocking, async, and DMA based transactions.\n @note   \"completeCB\" only needs to be initialized for interrupt driven (Async) and DMA transactions."]
 pub type mxc_spi_req_t = _mxc_spi_req_t;
 #[doc = " @brief   The callback routine used to indicate the transaction has terminated.\n\n @param   req         The details of the transaction.\n @param   result      See \\ref MXC_Error_Codes for the list of error codes."]
-pub type spi_complete_cb_t = ::std::option::Option<
-    unsafe extern "C" fn(req: *mut ::std::os::raw::c_void, result: ::std::os::raw::c_int),
+pub type spi_complete_cb_t = ::core::option::Option<
+    unsafe extern "C" fn(req: *mut ::core::ffi::c_void, result: ::core::ffi::c_int),
 >;
 #[doc = " @brief   The information required to perform a complete SPI transaction\n\n This structure is used by blocking, async, and DMA based transactions.\n @note   \"completeCB\" only needs to be initialized for interrupt driven (Async) and DMA transactions."]
 #[repr(C)]
@@ -8666,9 +8613,9 @@ pub struct _mxc_spi_req_t {
     #[doc = "<Point to SPI registers"]
     pub spi: *mut mxc_spi_regs_t,
     #[doc = "< Slave select line to use (Master only, ignored in slave mode)"]
-    pub ssIdx: ::std::os::raw::c_int,
+    pub ssIdx: ::core::ffi::c_int,
     #[doc = "< 1 - Deassert SS at end of transaction, 0 - leave SS asserted"]
-    pub ssDeassert: ::std::os::raw::c_int,
+    pub ssDeassert: ::core::ffi::c_int,
     #[doc = "< Buffer containing transmit data. For character sizes\n< < 8 bits, pad the MSB of each byte with zeros. For\n< character sizes > 8 bits, use two bytes per character\n< and pad the MSB of the upper byte with zeros"]
     pub txData: *mut u8,
     #[doc = "< Buffer to store received data For character sizes\n< < 8 bits, pad the MSB of each byte with zeros. For\n< character sizes > 8 bits, use two bytes per character\n< and pad the MSB of the upper byte with zeros"]
@@ -8686,20 +8633,20 @@ pub struct _mxc_spi_req_t {
 }
 #[test]
 fn bindgen_test_layout__mxc_spi_req_t() {
-    const UNINIT: ::std::mem::MaybeUninit<_mxc_spi_req_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<_mxc_spi_req_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<_mxc_spi_req_t>(),
+        ::core::mem::size_of::<_mxc_spi_req_t>(),
         40usize,
         concat!("Size of: ", stringify!(_mxc_spi_req_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<_mxc_spi_req_t>(),
+        ::core::mem::align_of::<_mxc_spi_req_t>(),
         4usize,
         concat!("Alignment of ", stringify!(_mxc_spi_req_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).spi) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).spi) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -8709,7 +8656,7 @@ fn bindgen_test_layout__mxc_spi_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ssIdx) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ssIdx) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -8719,7 +8666,7 @@ fn bindgen_test_layout__mxc_spi_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ssDeassert) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ssDeassert) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -8729,7 +8676,7 @@ fn bindgen_test_layout__mxc_spi_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).txData) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).txData) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -8739,7 +8686,7 @@ fn bindgen_test_layout__mxc_spi_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rxData) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rxData) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -8749,7 +8696,7 @@ fn bindgen_test_layout__mxc_spi_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).txLen) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).txLen) as usize - ptr as usize },
         20usize,
         concat!(
             "Offset of field: ",
@@ -8759,7 +8706,7 @@ fn bindgen_test_layout__mxc_spi_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rxLen) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rxLen) as usize - ptr as usize },
         24usize,
         concat!(
             "Offset of field: ",
@@ -8769,7 +8716,7 @@ fn bindgen_test_layout__mxc_spi_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).txCnt) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).txCnt) as usize - ptr as usize },
         28usize,
         concat!(
             "Offset of field: ",
@@ -8779,7 +8726,7 @@ fn bindgen_test_layout__mxc_spi_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rxCnt) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rxCnt) as usize - ptr as usize },
         32usize,
         concat!(
             "Offset of field: ",
@@ -8789,7 +8736,7 @@ fn bindgen_test_layout__mxc_spi_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).completeCB) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).completeCB) as usize - ptr as usize },
         36usize,
         concat!(
             "Offset of field: ",
@@ -8803,65 +8750,65 @@ extern "C" {
     #[doc = " @brief   Initialize and enable SPI peripheral.\n\n This function initializes everything necessary to call a SPI transaction function.\n Some parameters are set to defaults as follows:\n SPI Mode - 0\n SPI Width - SPI_WIDTH_STANDARD (even if quadModeUsed is set)\n\n These parameters can be modified after initialization using low level functions\n\n @param   spi             Pointer to SPI registers (selects the SPI block used.)\n @param   masterMode      Whether to put the device in master or slave mode. Use\n                          non-zero for master mode, and zero for slave mode.\n @param   quadModeUsed    Whether to obtain control of the SDIO2/3 pins. Use\n                          non-zero if the pins are needed (if Quad Mode will\n                          be used), and zero if they are not needed (quad mode\n                          will never be used).\n @param   numSlaves       The number of slaves used, if in master mode. This\n                          is used to obtain control of the necessary SS pins.\n                          In slave mode this is ignored and SS1 is used.\n @param   ssPolarity      This field sets the SS active polarity for each\n                          slave, each bit position corresponds to each SS line.\n @param   hz              The requested clock frequency. The actual clock frequency\n                          will be returned by the function if successful. Used in\n                          master mode only.\n @param   pins            SPI pin structure. Pins selected as true will be initialized\n                          for the requested SPI block.\n\n @return  If successful, the actual clock frequency is returned. Otherwise, see\n          \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_SPI_Init(
         spi: *mut mxc_spi_regs_t,
-        masterMode: ::std::os::raw::c_int,
-        quadModeUsed: ::std::os::raw::c_int,
-        numSlaves: ::std::os::raw::c_int,
-        ssPolarity: ::std::os::raw::c_uint,
-        hz: ::std::os::raw::c_uint,
+        masterMode: ::core::ffi::c_int,
+        quadModeUsed: ::core::ffi::c_int,
+        numSlaves: ::core::ffi::c_int,
+        ssPolarity: ::core::ffi::c_uint,
+        hz: ::core::ffi::c_uint,
         pins: mxc_spi_pins_t,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Disable and shutdown SPI peripheral.\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_SPI_Shutdown(spi: *mut mxc_spi_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_SPI_Shutdown(spi: *mut mxc_spi_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Checks if the given SPI bus can be placed in sleep mode.\n\n This functions checks to see if there are any on-going SPI transactions in\n progress. If there are transactions in progress, the application should\n wait until the SPI bus is free before entering a low-power state.\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n\n @return  #E_NO_ERROR if ready, and non-zero if busy or error. See \\ref\n          MXC_Error_Codes for the list of error return codes."]
-    pub fn MXC_SPI_ReadyForSleep(spi: *mut mxc_spi_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_SPI_ReadyForSleep(spi: *mut mxc_spi_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Returns the frequency of the clock used as the bit rate generator for a given SPI instance.\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n\n @return  Frequency of the clock used as the bit rate generator"]
-    pub fn MXC_SPI_GetPeripheralClock(spi: *mut mxc_spi_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_SPI_GetPeripheralClock(spi: *mut mxc_spi_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Set the frequency of the SPI interface.\n\n This function is applicable in Master mode only\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n @param   hz          The desired frequency in Hertz.\n\n @return  Negative if error, otherwise actual speed set. See \\ref\n          MXC_Error_Codes for the list of error return codes."]
     pub fn MXC_SPI_SetFrequency(
         spi: *mut mxc_spi_regs_t,
-        hz: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_int;
+        hz: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Get the frequency of the SPI interface.\n\n This function is applicable in Master mode only\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n\n @return  The SPI bus frequency in Hertz"]
-    pub fn MXC_SPI_GetFrequency(spi: *mut mxc_spi_regs_t) -> ::std::os::raw::c_uint;
+    pub fn MXC_SPI_GetFrequency(spi: *mut mxc_spi_regs_t) -> ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief   Sets the number of bits per character\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n @param   dataSize    The number of bits per character\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_SPI_SetDataSize(
         spi: *mut mxc_spi_regs_t,
-        dataSize: ::std::os::raw::c_int,
-    ) -> ::std::os::raw::c_int;
+        dataSize: ::core::ffi::c_int,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Gets the number of bits per character\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_SPI_GetDataSize(spi: *mut mxc_spi_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_SPI_GetDataSize(spi: *mut mxc_spi_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Sets the slave select (SS) line used for transmissions\n\n This function is applicable in Master mode only\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n @param   ssIdx       Slave select index\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_SPI_SetSlave(
         spi: *mut mxc_spi_regs_t,
-        ssIdx: ::std::os::raw::c_int,
-    ) -> ::std::os::raw::c_int;
+        ssIdx: ::core::ffi::c_int,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Gets the slave select (SS) line used for transmissions\n\n This function is applicable in Master mode only\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n\n @return  slave slect"]
-    pub fn MXC_SPI_GetSlave(spi: *mut mxc_spi_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_SPI_GetSlave(spi: *mut mxc_spi_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Sets the SPI width used for transmissions\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n @param   spiWidth    SPI Width (3-Wire, Standard, Dual SPI, Quad SPI)\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_SPI_SetWidth(
         spi: *mut mxc_spi_regs_t,
         spiWidth: mxc_spi_width_t,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Gets the SPI width used for transmissions\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n\n @return  Spi Width"]
@@ -8869,10 +8816,8 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief   Sets the spi mode using clock polarity and clock phase\n\n @param spi           Pointer to SPI registers (selects the SPI block used.)\n @param spiMode       \\ref mxc_spi_mode_t\n\n @return Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_SPI_SetMode(
-        spi: *mut mxc_spi_regs_t,
-        spiMode: mxc_spi_mode_t,
-    ) -> ::std::os::raw::c_int;
+    pub fn MXC_SPI_SetMode(spi: *mut mxc_spi_regs_t, spiMode: mxc_spi_mode_t)
+        -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Gets the spi mode\n\n @param spi           Pointer to SPI registers (selects the SPI block used.)\n\n @return mxc_spi_mode_t   \\ref mxc_spi_mode_t"]
@@ -8880,39 +8825,39 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief   Starts a SPI Transmission\n\n This function is applicable in Master mode only\n\n The user must ensure that there are no ongoing transmissions before\n calling this function\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_SPI_StartTransmission(spi: *mut mxc_spi_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_SPI_StartTransmission(spi: *mut mxc_spi_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Checks the SPI Peripheral for an ongoing transmission\n\n This function is applicable in Master mode only\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n\n @return  Active/Inactive, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_SPI_GetActive(spi: *mut mxc_spi_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_SPI_GetActive(spi: *mut mxc_spi_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Aborts an ongoing SPI Transmission\n\n This function is applicable in Master mode only\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_SPI_AbortTransmission(spi: *mut mxc_spi_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_SPI_AbortTransmission(spi: *mut mxc_spi_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Unloads bytes from the receive FIFO.\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n @param   bytes       The buffer to read the data into.\n @param   len         The number of bytes to read.\n\n @return  The number of bytes actually read."]
     pub fn MXC_SPI_ReadRXFIFO(
         spi: *mut mxc_spi_regs_t,
-        bytes: *mut ::std::os::raw::c_uchar,
-        len: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_uint;
+        bytes: *mut ::core::ffi::c_uchar,
+        len: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief   Get the number of bytes currently available in the receive FIFO.\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n\n @return  The number of bytes available."]
-    pub fn MXC_SPI_GetRXFIFOAvailable(spi: *mut mxc_spi_regs_t) -> ::std::os::raw::c_uint;
+    pub fn MXC_SPI_GetRXFIFOAvailable(spi: *mut mxc_spi_regs_t) -> ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief   Loads bytes into the transmit FIFO.\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n @param   bytes       The buffer containing the bytes to write\n @param   len         The number of bytes to write.\n\n @return  The number of bytes actually written."]
     pub fn MXC_SPI_WriteTXFIFO(
         spi: *mut mxc_spi_regs_t,
-        bytes: *mut ::std::os::raw::c_uchar,
-        len: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_uint;
+        bytes: *mut ::core::ffi::c_uchar,
+        len: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief   Get the amount of free space available in the transmit FIFO.\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n\n @return  The number of bytes available."]
-    pub fn MXC_SPI_GetTXFIFOAvailable(spi: *mut mxc_spi_regs_t) -> ::std::os::raw::c_uint;
+    pub fn MXC_SPI_GetTXFIFOAvailable(spi: *mut mxc_spi_regs_t) -> ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief   Removes and discards all bytes currently in the receive FIFO.\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)"]
@@ -8926,27 +8871,27 @@ extern "C" {
     #[doc = " @brief   Set the receive threshold level.\n\n RX FIFO Receive threshold. Smaller values will cause\n interrupts to occur more often, but reduce the possibility\n of losing data because of a FIFO overflow. Larger values\n will reduce the time required by the ISR, but increase the\n possibility of data loss. Passing an invalid value will\n cause the driver to use the value already set in the\n appropriate register.\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n @param   numBytes    The threshold level to set. This value must be\n                      between 0 and 8 inclusive.\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_SPI_SetRXThreshold(
         spi: *mut mxc_spi_regs_t,
-        numBytes: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_int;
+        numBytes: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Get the current receive threshold level.\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n\n @return  The receive threshold value (in bytes)."]
-    pub fn MXC_SPI_GetRXThreshold(spi: *mut mxc_spi_regs_t) -> ::std::os::raw::c_uint;
+    pub fn MXC_SPI_GetRXThreshold(spi: *mut mxc_spi_regs_t) -> ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief   Set the transmit threshold level.\n\n TX FIFO threshold. Smaller values will cause interrupts\n to occur more often, but reduce the possibility of terminating\n a transaction early in master mode, or transmitting invalid data\n in slave mode. Larger values will reduce the time required by\n the ISR, but increase the possibility errors occurring. Passing\n an invalid value will cause the driver to use the value already\n set in the appropriate register.\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n @param   numBytes    The threshold level to set.  This value must be\n                      between 0 and 8 inclusive.\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_SPI_SetTXThreshold(
         spi: *mut mxc_spi_regs_t,
-        numBytes: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_int;
+        numBytes: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Get the current transmit threshold level.\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n\n @return  The transmit threshold value (in bytes)."]
-    pub fn MXC_SPI_GetTXThreshold(spi: *mut mxc_spi_regs_t) -> ::std::os::raw::c_uint;
+    pub fn MXC_SPI_GetTXThreshold(spi: *mut mxc_spi_regs_t) -> ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief   Gets the interrupt flags that are currently set\n\n These functions should not be used while using non-blocking Transaction Level\n functions (Async or DMA)\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n\n @return The interrupt flags"]
-    pub fn MXC_SPI_GetFlags(spi: *mut mxc_spi_regs_t) -> ::std::os::raw::c_uint;
+    pub fn MXC_SPI_GetFlags(spi: *mut mxc_spi_regs_t) -> ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief   Clears the interrupt flags that are currently set\n\n These functions should not be used while using non-blocking Transaction Level\n functions (Async or DMA)\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n"]
@@ -8954,42 +8899,42 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief   Enables specific interrupts\n\n These functions should not be used while using non-blocking Transaction Level\n functions (Async or DMA)\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n @param   intEn       The interrupts to be enabled"]
-    pub fn MXC_SPI_EnableInt(spi: *mut mxc_spi_regs_t, intEn: ::std::os::raw::c_uint);
+    pub fn MXC_SPI_EnableInt(spi: *mut mxc_spi_regs_t, intEn: ::core::ffi::c_uint);
 }
 extern "C" {
     #[doc = " @brief   Disables specific interrupts\n\n These functions should not be used while using non-blocking Transaction Level\n functions (Async or DMA)\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)\n @param   intDis      The interrupts to be disabled"]
-    pub fn MXC_SPI_DisableInt(spi: *mut mxc_spi_regs_t, intDis: ::std::os::raw::c_uint);
+    pub fn MXC_SPI_DisableInt(spi: *mut mxc_spi_regs_t, intDis: ::core::ffi::c_uint);
 }
 extern "C" {
     #[doc = " @brief   Performs a blocking SPI transaction.\n\n Performs a blocking SPI transaction.\n These actions will be performed in Master Mode:\n 1. Assert the specified SS\n 2. In Full Duplex Modes, send TX data while receiving RX Data\n      if rxLen > txLen, pad txData with DefaultTXData\n      if txLen > rxLen, discard rxData where rxCnt > rxLen\n 3. In Half Duplex Modes, send TX Data, then receive RX Data\n 4. Deassert the specified SS\n\n These actions will be performed in Slave Mode:\n 1. Fill FIFO with txData\n 2. Wait for SS Assert\n 3. If needed, pad txData with DefaultTXData\n 4. Unload RX FIFO as needed\n 5. On SS Deassert, return\n\n @param   req         Pointer to details of the transaction\n\n @return  See \\ref MXC_Error_Codes for the list of error return codes."]
-    pub fn MXC_SPI_MasterTransaction(req: *mut mxc_spi_req_t) -> ::std::os::raw::c_int;
+    pub fn MXC_SPI_MasterTransaction(req: *mut mxc_spi_req_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Setup an interrupt-driven SPI transaction\n\n The TX FIFO will be filled with txData, padded with DefaultTXData if necessary\n Relevant interrupts will be enabled, and relevant registers set (SS, Width, etc)\n\n @param   req         Pointer to details of the transaction\n\n @return  See \\ref MXC_Error_Codes for the list of error return codes."]
-    pub fn MXC_SPI_MasterTransactionAsync(req: *mut mxc_spi_req_t) -> ::std::os::raw::c_int;
+    pub fn MXC_SPI_MasterTransactionAsync(req: *mut mxc_spi_req_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Setup a DMA driven SPI transaction\n\n The TX FIFO will be filled with txData, padded with DefaultTXData if necessary\n Relevant interrupts will be enabled, and relevant registers set (SS, Width, etc)\n\n The lowest-indexed unused DMA channel will be acquired (using the DMA API) and\n set up to load/unload the FIFOs with as few interrupt-based events as\n possible. The channel will be reset and returned to the system at the end of\n the transaction.\n\n @param   req             Pointer to details of the transaction\n\n @return  See \\ref MXC_Error_Codes for the list of error return codes."]
-    pub fn MXC_SPI_MasterTransactionDMA(req: *mut mxc_spi_req_t) -> ::std::os::raw::c_int;
+    pub fn MXC_SPI_MasterTransactionDMA(req: *mut mxc_spi_req_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Performs a blocking SPI transaction.\n\n Performs a blocking SPI transaction.\n These actions will be performed in Slave Mode:\n 1. Fill FIFO with txData\n 2. Wait for SS Assert\n 3. If needed, pad txData with DefaultTXData\n 4. Unload RX FIFO as needed\n 5. On SS Deassert, return\n\n @param   req         Pointer to details of the transaction\n\n @return  See \\ref MXC_Error_Codes for the list of error return codes."]
-    pub fn MXC_SPI_SlaveTransaction(req: *mut mxc_spi_req_t) -> ::std::os::raw::c_int;
+    pub fn MXC_SPI_SlaveTransaction(req: *mut mxc_spi_req_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Setup an interrupt-driven SPI transaction\n\n The TX FIFO will be filled with txData, padded with DefaultTXData if necessary\n Relevant interrupts will be enabled, and relevant registers set (SS, Width, etc)\n\n @param   req         Pointer to details of the transactionz\n\n @return  See \\ref MXC_Error_Codes for the list of error return codes."]
-    pub fn MXC_SPI_SlaveTransactionAsync(req: *mut mxc_spi_req_t) -> ::std::os::raw::c_int;
+    pub fn MXC_SPI_SlaveTransactionAsync(req: *mut mxc_spi_req_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Setup a DMA driven SPI transaction\n\n The TX FIFO will be filled with txData, padded with DefaultTXData if necessary\n Relevant interrupts will be enabled, and relevant registers set (SS, Width, etc)\n\n The lowest-indexed unused DMA channel will be acquired (using the DMA API) and\n set up to load/unload the FIFOs with as few interrupt-based events as\n possible. The channel will be reset and returned to the system at the end of\n the transaction.\n\n @param   req             Pointer to details of the transaction\n\n @return  See \\ref MXC_Error_Codes for the list of error return codes."]
-    pub fn MXC_SPI_SlaveTransactionDMA(req: *mut mxc_spi_req_t) -> ::std::os::raw::c_int;
+    pub fn MXC_SPI_SlaveTransactionDMA(req: *mut mxc_spi_req_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Sets the TX data to transmit as a 'dummy' byte\n\n In single wire master mode, this data is transmitted on MOSI when performing\n an RX (MISO) only transaction. This defaults to 0.\n\n @param   spi             Pointer to SPI registers (selects the SPI block used.)\n @param   defaultTXData   Data to shift out in RX-only transactions\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_SPI_SetDefaultTXData(
         spi: *mut mxc_spi_regs_t,
-        defaultTXData: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_int;
+        defaultTXData: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Abort any asynchronous requests in progress.\n\n Abort any asynchronous requests in progress. Any callbacks associated with\n the active transaction will be executed to indicate when the transaction\n has been terminated.\n\n @param   spi         Pointer to SPI registers (selects the SPI block used.)"]
@@ -9009,35 +8954,35 @@ pub struct area_t {
 }
 #[test]
 fn bindgen_test_layout_area_t() {
-    const UNINIT: ::std::mem::MaybeUninit<area_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<area_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<area_t>(),
+        ::core::mem::size_of::<area_t>(),
         8usize,
         concat!("Size of: ", stringify!(area_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<area_t>(),
+        ::core::mem::align_of::<area_t>(),
         2usize,
         concat!("Alignment of ", stringify!(area_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).x) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).x) as usize - ptr as usize },
         0usize,
         concat!("Offset of field: ", stringify!(area_t), "::", stringify!(x))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).y) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).y) as usize - ptr as usize },
         2usize,
         concat!("Offset of field: ", stringify!(area_t), "::", stringify!(y))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).w) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).w) as usize - ptr as usize },
         4usize,
         concat!("Offset of field: ", stringify!(area_t), "::", stringify!(w))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).h) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).h) as usize - ptr as usize },
         6usize,
         concat!("Offset of field: ", stringify!(area_t), "::", stringify!(h))
     );
@@ -9045,25 +8990,25 @@ fn bindgen_test_layout_area_t() {
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct text_t {
-    pub data: *mut ::std::os::raw::c_char,
-    pub len: ::std::os::raw::c_int,
+    pub data: *mut ::core::ffi::c_char,
+    pub len: ::core::ffi::c_int,
 }
 #[test]
 fn bindgen_test_layout_text_t() {
-    const UNINIT: ::std::mem::MaybeUninit<text_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<text_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<text_t>(),
+        ::core::mem::size_of::<text_t>(),
         8usize,
         concat!("Size of: ", stringify!(text_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<text_t>(),
+        ::core::mem::align_of::<text_t>(),
         4usize,
         concat!("Alignment of ", stringify!(text_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).data) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).data) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -9073,7 +9018,7 @@ fn bindgen_test_layout_text_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).len) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).len) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -9087,52 +9032,52 @@ pub const tft_rotation_t_ROTATE_0: tft_rotation_t = 0;
 pub const tft_rotation_t_ROTATE_90: tft_rotation_t = 1;
 pub const tft_rotation_t_ROTATE_180: tft_rotation_t = 2;
 pub const tft_rotation_t_ROTATE_270: tft_rotation_t = 3;
-pub type tft_rotation_t = ::std::os::raw::c_uint;
+pub type tft_rotation_t = ::core::ffi::c_uint;
 extern "C" {
-    pub static img_1_rgb565: [::std::os::raw::c_uchar; 0usize];
+    pub static img_1_rgb565: [::core::ffi::c_uchar; 0usize];
 }
 extern "C" {
-    pub static img_2_rgb565: [::std::os::raw::c_uchar; 0usize];
+    pub static img_2_rgb565: [::core::ffi::c_uchar; 0usize];
 }
 extern "C" {
-    pub static img_3_rgb565: [::std::os::raw::c_uchar; 0usize];
+    pub static img_3_rgb565: [::core::ffi::c_uchar; 0usize];
 }
 extern "C" {
-    pub static img_4_rgb565: [::std::os::raw::c_uchar; 0usize];
+    pub static img_4_rgb565: [::core::ffi::c_uchar; 0usize];
 }
 extern "C" {
-    pub static image_pattern_rgb565: [::std::os::raw::c_uchar; 0usize];
+    pub static image_pattern_rgb565: [::core::ffi::c_uchar; 0usize];
 }
 extern "C" {
-    pub static logo_rgb565: [::std::os::raw::c_uchar; 0usize];
+    pub static logo_rgb565: [::core::ffi::c_uchar; 0usize];
 }
 extern "C" {
-    pub static Arial12x12: [::std::os::raw::c_uchar; 0usize];
+    pub static Arial12x12: [::core::ffi::c_uchar; 0usize];
 }
 extern "C" {
-    pub static Arial24x23: [::std::os::raw::c_uchar; 0usize];
+    pub static Arial24x23: [::core::ffi::c_uchar; 0usize];
 }
 extern "C" {
-    pub static Arial28x28: [::std::os::raw::c_uchar; 0usize];
+    pub static Arial28x28: [::core::ffi::c_uchar; 0usize];
 }
 extern "C" {
-    pub static SansSerif19x19: [::std::os::raw::c_uchar; 0usize];
+    pub static SansSerif19x19: [::core::ffi::c_uchar; 0usize];
 }
 extern "C" {
-    pub static SansSerif16x16: [::std::os::raw::c_uchar; 0usize];
+    pub static SansSerif16x16: [::core::ffi::c_uchar; 0usize];
 }
 extern "C" {
     #[doc = " @brief      Initialize the TFT display\n\n @param      tft_spi          The SPI instance the TFT is connected to\n @param      ss_idx           The SSEL index to use when communicating with the attached TFT\n @param      reset_ctrl       The GPIO pin configuration for the TFT's reset pin.  Use NULL if\n                              the reset pin of the TFT is not connected to the microcontroller.\n @param      bl_ctrl          The GPIO pin configuration for the backlight enable pin.  Use NULL if\n                              the microcontroller does not have control of the backlight enable.\n\n @return     See \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_TFT_Init(
         tft_spi: *mut mxc_spi_regs_t,
-        ss_idx: ::std::os::raw::c_int,
+        ss_idx: ::core::ffi::c_int,
         reset_ctrl: *mut mxc_gpio_cfg_t,
         bl_ctrl: *mut mxc_gpio_cfg_t,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Turns backlight on or off\n\n @param      on           Zero to turn off, nonzero for on"]
-    pub fn MXC_TFT_Backlight(on: ::std::os::raw::c_int);
+    pub fn MXC_TFT_Backlight(on: ::core::ffi::c_int);
 }
 extern "C" {
     #[doc = " @brief      Fills screen with background color\n"]
@@ -9140,56 +9085,56 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief      Draw and fill a rectangle\n\n @param      area   Location and size of rectangle\n @param      color  Palette index of rectangle color"]
-    pub fn MXC_TFT_FillRect(area: *mut area_t, color: ::std::os::raw::c_int);
+    pub fn MXC_TFT_FillRect(area: *mut area_t, color: ::core::ffi::c_int);
 }
 extern "C" {
     #[doc = " @brief      Write a Pixel on TFT display\n\n @param      pixelX           x location of image\n @param      pixelY           y location of image\n @param      width            width of pixel\n @param      height           height of pixel\n @param      color            RGB value of image"]
     pub fn MXC_TFT_WritePixel(
-        pixelX: ::std::os::raw::c_int,
-        pixelY: ::std::os::raw::c_int,
-        width: ::std::os::raw::c_int,
-        height: ::std::os::raw::c_int,
+        pixelX: ::core::ffi::c_int,
+        pixelY: ::core::ffi::c_int,
+        width: ::core::ffi::c_int,
+        height: ::core::ffi::c_int,
         color: u32,
     );
 }
 extern "C" {
     #[doc = " @brief      Draw a bitmap\n\n @param      x0           x location of image\n @param      y0           y location of image\n @param      id           Bitmap number (pointer)"]
     pub fn MXC_TFT_ShowImage(
-        x0: ::std::os::raw::c_int,
-        y0: ::std::os::raw::c_int,
-        id: ::std::os::raw::c_int,
+        x0: ::core::ffi::c_int,
+        y0: ::core::ffi::c_int,
+        id: ::core::ffi::c_int,
     );
 }
 extern "C" {
     #[doc = " @brief      Draw a RGB565 buffer to a window location\n\n @param      x0           x location of image\n @param      y0           y location of image\n @param      image        RGB565 image buffer (pointer)\n @param      width        image width\n @param      height       image height"]
     pub fn MXC_TFT_WriteBufferRGB565(
-        x0: ::std::os::raw::c_int,
-        y0: ::std::os::raw::c_int,
+        x0: ::core::ffi::c_int,
+        y0: ::core::ffi::c_int,
         image: *mut u8,
-        width: ::std::os::raw::c_int,
-        height: ::std::os::raw::c_int,
+        width: ::core::ffi::c_int,
+        height: ::core::ffi::c_int,
     );
 }
 extern "C" {
     #[doc = " @brief      Display captured RGB565 image on TFT\n\n @param      x0           x location of image\n @param      y0           y location of image\n @param      image        RGB565 image (pointer)\n @param      iWidth       image width\n @param      iHeight      image height"]
     pub fn MXC_TFT_ShowImageCameraRGB565(
-        x0: ::std::os::raw::c_int,
-        y0: ::std::os::raw::c_int,
+        x0: ::core::ffi::c_int,
+        y0: ::core::ffi::c_int,
         image: *mut u8,
-        iWidth: ::std::os::raw::c_int,
-        iHeight: ::std::os::raw::c_int,
+        iWidth: ::core::ffi::c_int,
+        iHeight: ::core::ffi::c_int,
     );
 }
 extern "C" {
     #[doc = " @brief      Fills screen with one color\n\n @param      index_color  index of screen color"]
-    pub fn MXC_TFT_SetBackGroundColor(index_color: ::std::os::raw::c_uint);
+    pub fn MXC_TFT_SetBackGroundColor(index_color: ::core::ffi::c_uint);
 }
 extern "C" {
-    pub fn MXC_TFT_SetForeGroundColor(color: ::std::os::raw::c_uint);
+    pub fn MXC_TFT_SetForeGroundColor(color: ::core::ffi::c_uint);
 }
 extern "C" {
     #[doc = " @brief      Set palette\n\n @param      img_id  Image number to get palette info"]
-    pub fn MXC_TFT_SetPalette(img_id: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+    pub fn MXC_TFT_SetPalette(img_id: ::core::ffi::c_int) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Set bounds of printf\n\n @param      area   Location of printf outputs"]
@@ -9197,11 +9142,11 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief       Change font\n\n @param       font_id         Font id"]
-    pub fn MXC_TFT_SetFont(font_id: ::std::os::raw::c_int);
+    pub fn MXC_TFT_SetFont(font_id: ::core::ffi::c_int);
 }
 extern "C" {
     #[doc = " @brief      Printf out to display\n\n @param      format  Char array formatted like printf\n             NOTE: up to 3 additional arguments are supported"]
-    pub fn MXC_TFT_Printf(format: *const ::std::os::raw::c_char, ...);
+    pub fn MXC_TFT_Printf(format: *const ::core::ffi::c_char, ...);
 }
 extern "C" {
     #[doc = " @brief      Reset cursor to top left corner of printf bounds\n"]
@@ -9210,9 +9155,9 @@ extern "C" {
 extern "C" {
     #[doc = " @brief      Print string with selected font\n\n @param       x0              x location on screen\n @param       y0              y location on screen\n @param       fon_id          Font number\n @param       str             String which will be display\n @param       area            Location of printf outputs"]
     pub fn MXC_TFT_PrintFont(
-        x0: ::std::os::raw::c_int,
-        y0: ::std::os::raw::c_int,
-        font_id: ::std::os::raw::c_int,
+        x0: ::core::ffi::c_int,
+        y0: ::core::ffi::c_int,
+        font_id: ::core::ffi::c_int,
         str_: *mut text_t,
         area: *mut area_t,
     );
@@ -9220,15 +9165,15 @@ extern "C" {
 extern "C" {
     #[doc = " @brief      Print string with current font\n\n @param       x0              x location on screen\n @param       y0              y location on screen\n @param       fon_id          Font number\n @param       str             String which will be display\n @param       area            Location of printf outputs"]
     pub fn MXC_TFT_Print(
-        x0: ::std::os::raw::c_int,
-        y0: ::std::os::raw::c_int,
+        x0: ::core::ffi::c_int,
+        y0: ::core::ffi::c_int,
         str_: *mut text_t,
         area: *mut area_t,
     );
 }
 extern "C" {
     #[doc = " @brief       Clear area on display\n\n @param       area            Location on display\n @param       color           Palette index of rectangle color"]
-    pub fn MXC_TFT_ClearArea(area: *mut area_t, color: ::std::os::raw::c_int);
+    pub fn MXC_TFT_ClearArea(area: *mut area_t, color: ::core::ffi::c_int);
 }
 extern "C" {
     #[doc = " @brief       Set TFT screen rotation\n\n @param       rotation        Rotation of the screen"]
@@ -9236,53 +9181,53 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief       Write Screen Register\n\n @param       command        command or register address\n @param       data           data for the command or register"]
-    pub fn MXC_TFT_WriteReg(command: ::std::os::raw::c_uchar, data: ::std::os::raw::c_uchar);
+    pub fn MXC_TFT_WriteReg(command: ::core::ffi::c_uchar, data: ::core::ffi::c_uchar);
 }
 extern "C" {
     #[doc = " @brief      Draw a circle with specified color\n\n @param       x0              x location on screen\n @param       y0              y location on screen\n @param       r               circle radius\n @param       color           circle color"]
     pub fn MXC_TFT_Circle(
-        x0: ::std::os::raw::c_int,
-        y0: ::std::os::raw::c_int,
-        r: ::std::os::raw::c_int,
-        color: ::std::os::raw::c_int,
+        x0: ::core::ffi::c_int,
+        y0: ::core::ffi::c_int,
+        r: ::core::ffi::c_int,
+        color: ::core::ffi::c_int,
     );
 }
 extern "C" {
     #[doc = " @brief      Fill a circle with specified color\n\n @param       x0              x location on screen\n @param       y0              y location on screen\n @param       r               circle radius\n @param       color           circle color"]
     pub fn MXC_TFT_FillCircle(
-        x0: ::std::os::raw::c_int,
-        y0: ::std::os::raw::c_int,
-        r: ::std::os::raw::c_int,
-        color: ::std::os::raw::c_int,
+        x0: ::core::ffi::c_int,
+        y0: ::core::ffi::c_int,
+        r: ::core::ffi::c_int,
+        color: ::core::ffi::c_int,
     );
 }
 extern "C" {
     #[doc = " @brief      Draw a line with specified color\n\n @param       x0              x start location on screen\n @param       y0              y start location on screen\n @param       x1              x end location on screen\n @param       y1              y end location on screen\n @param       color           line color"]
     pub fn MXC_TFT_Line(
-        x0: ::std::os::raw::c_int,
-        y0: ::std::os::raw::c_int,
-        x1: ::std::os::raw::c_int,
-        y1: ::std::os::raw::c_int,
-        color: ::std::os::raw::c_int,
+        x0: ::core::ffi::c_int,
+        y0: ::core::ffi::c_int,
+        x1: ::core::ffi::c_int,
+        y1: ::core::ffi::c_int,
+        color: ::core::ffi::c_int,
     );
 }
 extern "C" {
     #[doc = " @brief      Draw a rectangle with specified color\n\n @param       x0              x start location on screen\n @param       y0              y start location on screen\n @param       x1              x end location on screen\n @param       y1              y end location on screen\n @param       color           rectangle color"]
     pub fn MXC_TFT_Rectangle(
-        x0: ::std::os::raw::c_int,
-        y0: ::std::os::raw::c_int,
-        x1: ::std::os::raw::c_int,
-        y1: ::std::os::raw::c_int,
-        color: ::std::os::raw::c_int,
+        x0: ::core::ffi::c_int,
+        y0: ::core::ffi::c_int,
+        x1: ::core::ffi::c_int,
+        y1: ::core::ffi::c_int,
+        color: ::core::ffi::c_int,
     );
 }
 extern "C" {
     #[doc = " @brief      Stream camera to TFT (feather only)\n\n @param      x0           x location of image\n @param      y0           y location of image\n @param      width        image width\n @param      height       image height"]
     pub fn MXC_TFT_Stream(
-        x0: ::std::os::raw::c_int,
-        y0: ::std::os::raw::c_int,
-        width: ::std::os::raw::c_int,
-        height: ::std::os::raw::c_int,
+        x0: ::core::ffi::c_int,
+        y0: ::core::ffi::c_int,
+        width: ::core::ffi::c_int,
+        height: ::core::ffi::c_int,
     );
 }
 pub const mxc_ts_touch_cmd_t_TSC_TEMP0: mxc_ts_touch_cmd_t = 131;
@@ -9299,31 +9244,31 @@ pub const mxc_ts_touch_cmd_t_TSC_DIFFZ1: mxc_ts_touch_cmd_t = 177;
 pub const mxc_ts_touch_cmd_t_TSC_DIFFZ2: mxc_ts_touch_cmd_t = 193;
 pub const mxc_ts_touch_cmd_t_TSC_START: mxc_ts_touch_cmd_t = 130;
 pub const mxc_ts_touch_cmd_t_TSC_STOP: mxc_ts_touch_cmd_t = 129;
-pub type mxc_ts_touch_cmd_t = ::std::os::raw::c_uint;
+pub type mxc_ts_touch_cmd_t = ::core::ffi::c_uint;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct mxc_ts_spi_config {
     pub regs: *mut mxc_spi_regs_t,
     pub gpio: mxc_gpio_cfg_t,
-    pub freq: ::std::os::raw::c_uint,
-    pub ss_idx: ::std::os::raw::c_int,
+    pub freq: ::core::ffi::c_uint,
+    pub ss_idx: ::core::ffi::c_int,
 }
 #[test]
 fn bindgen_test_layout_mxc_ts_spi_config() {
-    const UNINIT: ::std::mem::MaybeUninit<mxc_ts_spi_config> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<mxc_ts_spi_config> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<mxc_ts_spi_config>(),
+        ::core::mem::size_of::<mxc_ts_spi_config>(),
         32usize,
         concat!("Size of: ", stringify!(mxc_ts_spi_config))
     );
     assert_eq!(
-        ::std::mem::align_of::<mxc_ts_spi_config>(),
+        ::core::mem::align_of::<mxc_ts_spi_config>(),
         4usize,
         concat!("Alignment of ", stringify!(mxc_ts_spi_config))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).regs) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).regs) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -9333,7 +9278,7 @@ fn bindgen_test_layout_mxc_ts_spi_config() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).gpio) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).gpio) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -9343,7 +9288,7 @@ fn bindgen_test_layout_mxc_ts_spi_config() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).freq) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).freq) as usize - ptr as usize },
         24usize,
         concat!(
             "Offset of field: ",
@@ -9353,7 +9298,7 @@ fn bindgen_test_layout_mxc_ts_spi_config() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ss_idx) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ss_idx) as usize - ptr as usize },
         28usize,
         concat!(
             "Offset of field: ",
@@ -9372,7 +9317,7 @@ extern "C" {
     pub fn TS_SPI_Transmit(datain: u8, dataout: *mut u16);
 }
 extern "C" {
-    pub fn MXC_TS_AssignInterruptPin(pin: mxc_gpio_cfg_t) -> ::std::os::raw::c_int;
+    pub fn MXC_TS_AssignInterruptPin(pin: mxc_gpio_cfg_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Used to register hw related configuration, need to be called before MXC_TS_Init()\n\n @param      spi_config   Touch screen SPI configuration, SPI instance, freq, pins slave slect id\n @param      int_pin      The GPIO pin configuration for the touchscreen controller's interrupt pin\n @param      busy_pin     The GPIO pin configuration for the touchscreen controller's busy pin\n\n @return     See \\ref MXC_Error_Codes for a list of return codes."]
@@ -9380,11 +9325,11 @@ extern "C" {
         spi_config: *mut mxc_ts_spi_config,
         int_pin: *mut mxc_gpio_cfg_t,
         busy_pin: *mut mxc_gpio_cfg_t,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Initialize the touchscreen controller\n\n @return     See \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_TS_Init() -> ::std::os::raw::c_int;
+    pub fn MXC_TS_Init() -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Enables touch interrupts\n"]
@@ -9396,11 +9341,11 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief      Get the x,y coordinates of the last touchscreen press\n\n @param[out] x    (Output) Where to save the x coordinate\n @param[out] y    (Output) Where to save the y coordinate"]
-    pub fn MXC_TS_GetXY(x: *mut ::std::os::raw::c_uint, y: *mut ::std::os::raw::c_uint);
+    pub fn MXC_TS_GetXY(x: *mut ::core::ffi::c_uint, y: *mut ::core::ffi::c_uint);
 }
 extern "C" {
     #[doc = " @brief       Returns true if there is a touchscreen event pending,\n              otherwise returns false."]
-    pub fn MXC_TS_GetTSEvent() -> ::std::os::raw::c_int;
+    pub fn MXC_TS_GetTSEvent() -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Clears the pending touchscreen event flag."]
@@ -9409,20 +9354,20 @@ extern "C" {
 extern "C" {
     #[doc = " @brief      Register a button\n\n @param      x0, y0, x1, y1 location of button\n @param      on_press_expected_code  expected keycode when touch related point area"]
     pub fn MXC_TS_AddButton(
-        x0: ::std::os::raw::c_int,
-        y0: ::std::os::raw::c_int,
-        x1: ::std::os::raw::c_int,
-        y1: ::std::os::raw::c_int,
-        on_press_expected_code: ::std::os::raw::c_int,
-    ) -> ::std::os::raw::c_int;
+        x0: ::core::ffi::c_int,
+        y0: ::core::ffi::c_int,
+        x1: ::core::ffi::c_int,
+        y1: ::core::ffi::c_int,
+        on_press_expected_code: ::core::ffi::c_int,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Remove a button\n\n @param      x0, y0, x1, y1 location of button"]
     pub fn MXC_TS_RemoveButton(
-        x0: ::std::os::raw::c_int,
-        y0: ::std::os::raw::c_int,
-        x1: ::std::os::raw::c_int,
-        y1: ::std::os::raw::c_int,
+        x0: ::core::ffi::c_int,
+        y0: ::core::ffi::c_int,
+        x1: ::core::ffi::c_int,
+        y1: ::core::ffi::c_int,
     );
 }
 extern "C" {
@@ -9431,110 +9376,110 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief      Read pressed key\n"]
-    pub fn MXC_TS_GetKey() -> ::std::os::raw::c_int;
+    pub fn MXC_TS_GetKey() -> ::core::ffi::c_int;
 }
 extern "C" {
     pub static led_pin: [mxc_gpio_cfg_t; 0usize];
 }
 extern "C" {
-    pub static num_leds: ::std::os::raw::c_uint;
+    pub static num_leds: ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief      Initialize all LED pins.\n @retval     #E_NO_ERROR   Push buttons intialized successfully.\n @retval     \"Error Code\"  @ref MXC_Error_Codes \"Error Code\" if unsuccessful."]
-    pub fn LED_Init() -> ::std::os::raw::c_int;
+    pub fn LED_Init() -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Turn the specified LED on\n @param      idx   LED index\n\n @note Some board files have defines for 'idx' that match the silk screen on the board (e.g., LED1, LED2, etc.)."]
-    pub fn LED_On(idx: ::std::os::raw::c_uint);
+    pub fn LED_On(idx: ::core::ffi::c_uint);
 }
 extern "C" {
     #[doc = " @brief      Turn the specified LED off.\n @param      idx   LED index\n\n @note Some board files have defines for 'idx' that match the silk screen on the board (e.g., LED1, LED2, etc.)."]
-    pub fn LED_Off(idx: ::std::os::raw::c_uint);
+    pub fn LED_Off(idx: ::core::ffi::c_uint);
 }
 extern "C" {
     #[doc = " @brief      Toggle the state of the specified LED.\n @param      idx   LED index\n\n @note Some board files have defines for 'idx' that match the silk screen on the board (e.g., LED1, LED2, etc.)."]
-    pub fn LED_Toggle(idx: ::std::os::raw::c_uint);
+    pub fn LED_Toggle(idx: ::core::ffi::c_uint);
 }
 extern "C" {
     #[doc = " @ingroup bsp\n @defgroup pushbutton_evkit Push button driver board support\n @{"]
     pub static pb_pin: [mxc_gpio_cfg_t; 0usize];
 }
 extern "C" {
-    pub static num_pbs: ::std::os::raw::c_uint;
+    pub static num_pbs: ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief      Initialize all push buttons.\n @retval     #E_NO_ERROR  Push buttons intialized successfully.\n @retval     \"Error Code\" @ref MXC_Error_Codes \"Error Code\" if unsuccessful.\n"]
-    pub fn PB_Init() -> ::std::os::raw::c_int;
+    pub fn PB_Init() -> ::core::ffi::c_int;
 }
 #[doc = " Type alias @c pb_callback for the push button callback.\n @details The function is of type:\n @code\n  void pb_callback(void * pb)\n @endcode\n To recieve notification of a push button event, define a callback\n function and pass it as a pointer to the PB_RegisterCallback(unsigned int pb, pb_callback callback) function.\n @param      pb    Pointer to the push button index that triggered the\n                   callback."]
-pub type pb_callback = ::std::option::Option<unsafe extern "C" fn(pb: *mut ::std::os::raw::c_void)>;
+pub type pb_callback = ::core::option::Option<unsafe extern "C" fn(pb: *mut ::core::ffi::c_void)>;
 extern "C" {
     #[doc = " @brief      Register or Unregister a callback handler for falling edge events on the @p pb push button.\n @details\n - Calling this function with a pointer to a function @p callback, configures the pushbutton @p pb and enables the\n interrupt to handle the push button events.\n - Calling this function with a <tt>NULL</tt> pointer will disable the interrupt and unregister the\n callback function.\n @p pb must be a value between 0 and #num_pbs.\n\n @param      pb        push button index to receive event callbacks.\n @param      callback  Callback function pointer of type @c pb_callback\n @retval     #E_NO_ERROR if configured and callback registered successfully.\n @retval     \"Error Code\" @ref MXC_Error_Codes \"Error Code\" if unsuccessful."]
     pub fn PB_RegisterCallback(
-        pb: ::std::os::raw::c_uint,
+        pb: ::core::ffi::c_uint,
         callback: pb_callback,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Register or Unregister a callback handler for BOTH RISING AND FALLING edges events on the @p pb push button.\n @details\n - Calling this function with a pointer to a function @p callback, configures the pushbutton @p pb and enables the\n interrupt to handle the push button events.\n - Calling this function with a <tt>NULL</tt> pointer will disable the interrupt and unregister the\n callback function.\n @p pb must be a value between 0 and #num_pbs.\n\n @param      pb        push button index to receive event callbacks.\n @param      callback  Callback function pointer of type @c pb_callback\n @retval     #E_NO_ERROR if configured and callback registered successfully.\n @retval     \"Error Code\" @ref MXC_Error_Codes \"Error Code\" if unsuccessful."]
     pub fn PB_RegisterCallbackRiseFall(
-        pb: ::std::os::raw::c_uint,
+        pb: ::core::ffi::c_uint,
         callback: pb_callback,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Enable a callback interrupt.\n @note    PB_RegisterCallback must be called prior to enabling the callback interrupt.\n @param   pb          push button index value between 0 and #num_pbs."]
-    pub fn PB_IntEnable(pb: ::std::os::raw::c_uint);
+    pub fn PB_IntEnable(pb: ::core::ffi::c_uint);
 }
 extern "C" {
     #[doc = " @brief   Disable a callback interrupt.\n @param   pb          push button index"]
-    pub fn PB_IntDisable(pb: ::std::os::raw::c_uint);
+    pub fn PB_IntDisable(pb: ::core::ffi::c_uint);
 }
 extern "C" {
     #[doc = " @brief   Clear a callback interrupt.\n @param   pb          push button index value between 0 and #num_pbs."]
-    pub fn PB_IntClear(pb: ::std::os::raw::c_uint);
+    pub fn PB_IntClear(pb: ::core::ffi::c_uint);
 }
 extern "C" {
     #[doc = " @brief      Get the current state of the push button.\n @param      pb     push button index value between 0 and #num_pbs.\n @retval     TRUE   The button is pressed.\n @retval     FALSE  The button is not pressed."]
-    pub fn PB_Get(pb: ::std::os::raw::c_uint) -> ::std::os::raw::c_int;
+    pub fn PB_Get(pb: ::core::ffi::c_uint) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Check if any buttons are pressed\n @retval     TRUE   At least one of the buttons on the board is pressed.\n @retval     FALSE  None of the buttons on the board are pressed."]
-    pub fn PB_IsPressedAny() -> ::std::os::raw::c_int;
+    pub fn PB_IsPressedAny() -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " \\brief   Initialize the BSP and board interfaces.\n \\returns #E_NO_ERROR if everything is successful"]
-    pub fn Board_Init() -> ::std::os::raw::c_int;
+    pub fn Board_Init() -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " \\brief   Initialize or reinitialize the console. This may be necessary if the\n          system clock rate is changed.\n \\returns #E_NO_ERROR if everything is successful"]
-    pub fn Console_Init() -> ::std::os::raw::c_int;
+    pub fn Console_Init() -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " \\brief   Shutdown the console.\n \\returns #E_NO_ERROR if everything is successful"]
-    pub fn Console_Shutdown() -> ::std::os::raw::c_int;
+    pub fn Console_Shutdown() -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " \\brief   Attempt to prepare the console for sleep.\n \\returns #E_NO_ERROR if ready to sleep, #E_BUSY if not ready for sleep."]
-    pub fn Console_PrepForSleep() -> ::std::os::raw::c_int;
+    pub fn Console_PrepForSleep() -> ::core::ffi::c_int;
 }
 extern "C" {
-    pub fn Microphone_Power(on: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+    pub fn Microphone_Power(on: ::core::ffi::c_int) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " \\brief   Camera power control.\n\n \\param   on          1 for ON, 0 for OFF\n\n \\return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn Camera_Power(on: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+    pub fn Camera_Power(on: ::core::ffi::c_int) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " \\brief   SD card power control.\n\n \\param   on          1 for ON, 0 for OFF\n\n \\return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn SD_Power(on: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+    pub fn SD_Power(on: ::core::ffi::c_int) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " \\brief   Informs the caller which SPI connections are used for SD card communication\n\n \\param   spi \t\tThe SPI instance used\n \\param   ssPort      The GPIO port used for the SD card's SSEL pin\n \\param   ssPin       The GPIO pin number used for the SD card's SSEL pin\n\n \\return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn SD_Get_Connections(
         spi: *mut *mut mxc_spi_regs_t,
         ssPort: *mut *mut mxc_gpio_regs_t,
-        ssPin: *mut ::std::os::raw::c_int,
+        ssPin: *mut ::core::ffi::c_int,
     );
 }
 #[doc = " @ingroup flc_registers\n Structure type to access the FLC Registers."]
@@ -9572,20 +9517,20 @@ pub struct mxc_flc_regs_t {
 }
 #[test]
 fn bindgen_test_layout_mxc_flc_regs_t() {
-    const UNINIT: ::std::mem::MaybeUninit<mxc_flc_regs_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<mxc_flc_regs_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<mxc_flc_regs_t>(),
+        ::core::mem::size_of::<mxc_flc_regs_t>(),
         156usize,
         concat!("Size of: ", stringify!(mxc_flc_regs_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<mxc_flc_regs_t>(),
+        ::core::mem::align_of::<mxc_flc_regs_t>(),
         4usize,
         concat!("Alignment of ", stringify!(mxc_flc_regs_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).addr) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).addr) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -9595,7 +9540,7 @@ fn bindgen_test_layout_mxc_flc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).clkdiv) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).clkdiv) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -9605,7 +9550,7 @@ fn bindgen_test_layout_mxc_flc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ctrl) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ctrl) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -9615,7 +9560,7 @@ fn bindgen_test_layout_mxc_flc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0xc_0x23) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0xc_0x23) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -9625,7 +9570,7 @@ fn bindgen_test_layout_mxc_flc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).intr) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).intr) as usize - ptr as usize },
         36usize,
         concat!(
             "Offset of field: ",
@@ -9635,7 +9580,7 @@ fn bindgen_test_layout_mxc_flc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).eccdata) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).eccdata) as usize - ptr as usize },
         40usize,
         concat!(
             "Offset of field: ",
@@ -9645,7 +9590,7 @@ fn bindgen_test_layout_mxc_flc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x2c) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x2c) as usize - ptr as usize },
         44usize,
         concat!(
             "Offset of field: ",
@@ -9655,7 +9600,7 @@ fn bindgen_test_layout_mxc_flc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).data) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).data) as usize - ptr as usize },
         48usize,
         concat!(
             "Offset of field: ",
@@ -9665,7 +9610,7 @@ fn bindgen_test_layout_mxc_flc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).actrl) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).actrl) as usize - ptr as usize },
         64usize,
         concat!(
             "Offset of field: ",
@@ -9675,7 +9620,7 @@ fn bindgen_test_layout_mxc_flc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x44_0x7f) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x44_0x7f) as usize - ptr as usize },
         68usize,
         concat!(
             "Offset of field: ",
@@ -9685,7 +9630,7 @@ fn bindgen_test_layout_mxc_flc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).welr0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).welr0) as usize - ptr as usize },
         128usize,
         concat!(
             "Offset of field: ",
@@ -9695,7 +9640,7 @@ fn bindgen_test_layout_mxc_flc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x84) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x84) as usize - ptr as usize },
         132usize,
         concat!(
             "Offset of field: ",
@@ -9705,7 +9650,7 @@ fn bindgen_test_layout_mxc_flc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).welr1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).welr1) as usize - ptr as usize },
         136usize,
         concat!(
             "Offset of field: ",
@@ -9715,7 +9660,7 @@ fn bindgen_test_layout_mxc_flc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x8c) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x8c) as usize - ptr as usize },
         140usize,
         concat!(
             "Offset of field: ",
@@ -9725,7 +9670,7 @@ fn bindgen_test_layout_mxc_flc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rlr0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rlr0) as usize - ptr as usize },
         144usize,
         concat!(
             "Offset of field: ",
@@ -9735,7 +9680,7 @@ fn bindgen_test_layout_mxc_flc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x94) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x94) as usize - ptr as usize },
         148usize,
         concat!(
             "Offset of field: ",
@@ -9745,7 +9690,7 @@ fn bindgen_test_layout_mxc_flc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rlr1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rlr1) as usize - ptr as usize },
         152usize,
         concat!(
             "Offset of field: ",
@@ -9757,71 +9702,71 @@ fn bindgen_test_layout_mxc_flc_regs_t() {
 }
 extern "C" {
     #[doc = " @brief      Initializes the Flash Controller for erase/write operations\n @return     #E_NO_ERROR if successful."]
-    pub fn MXC_FLC_Init() -> ::std::os::raw::c_int;
+    pub fn MXC_FLC_Init() -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Checks if Flash Controller is busy.\n @details    Reading or executing from flash is not possible if flash is busy\n             with an erase or write operation.\n @return     If non-zero, flash operation is in progress"]
-    pub fn MXC_FLC_Busy() -> ::std::os::raw::c_int;
+    pub fn MXC_FLC_Busy() -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Erases the entire flash array.\n @note       This function must be executed from RAM.\n @return     #E_NO_ERROR If function is successful."]
-    pub fn MXC_FLC_MassErase() -> ::std::os::raw::c_int;
+    pub fn MXC_FLC_MassErase() -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Erases the page of flash at the specified address.\n @note       This function must be executed from RAM.\n @param      address  The address of the page in flash to erase.  If the address falls in the middle of a page, the entire page will be erased.\n @return     #E_NO_ERROR If function is successful."]
-    pub fn MXC_FLC_PageErase(address: u32) -> ::std::os::raw::c_int;
+    pub fn MXC_FLC_PageErase(address: u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Read bytes from a flash address.\n @details This function is essentially a wrapper around memcpy.  'buffer' can be a\n pointer to any type, and the data bytes read from this function will attempt\n to be typecast to match 'buffer'.\n\n @param[in]  address  The address to read from\n @param      buffer   The buffer to read the data into\n @param[in]  len      The number of bytes to read from 'address' into 'buffer'.\n"]
     pub fn MXC_FLC_Read(
-        address: ::std::os::raw::c_int,
-        buffer: *mut ::std::os::raw::c_void,
-        len: ::std::os::raw::c_int,
+        address: ::core::ffi::c_int,
+        buffer: *mut ::core::ffi::c_void,
+        len: ::core::ffi::c_int,
     );
 }
 extern "C" {
     #[doc = " @brief      Writes data to flash.\n @note       This function must be executed from RAM.\n @param      address  Address in flash to start writing from.\n @param      length   Number of bytes to be written.\n @param      buffer     Pointer to data to be written to flash.\n @return     #E_NO_ERROR If function is successful.\n @note       make sure to disable ICC with ICC_Disable(); before Running this function"]
-    pub fn MXC_FLC_Write(address: u32, length: u32, buffer: *mut u32) -> ::std::os::raw::c_int;
+    pub fn MXC_FLC_Write(address: u32, length: u32, buffer: *mut u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Writes 32 bits of data to flash.\n @note       This function must be executed from RAM.\n @param      address  Address in flash to start writing from.\n @param      data     Pointer to data to be written to flash.\n @return     #E_NO_ERROR If function is successful.\n @note       make sure to disable ICC with ICC_Disable(); before Running this function"]
-    pub fn MXC_FLC_Write32(address: u32, data: u32) -> ::std::os::raw::c_int;
+    pub fn MXC_FLC_Write32(address: u32, data: u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Writes 128 bits of data to flash.\n @note       This function must be executed from RAM.\n @param      address  Address in flash to start writing from.\n @param      data     Pointer to data to be written to flash.\n @return     #E_NO_ERROR If function is successful.\n @note       make sure to disable ICC with ICC_Disable(); before Running this function"]
-    pub fn MXC_FLC_Write128(address: u32, data: *mut u32) -> ::std::os::raw::c_int;
+    pub fn MXC_FLC_Write128(address: u32, data: *mut u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Enable flash interrupts\n @param      flags   Interrupts to enable\n @return     #E_NO_ERROR If function is successful."]
-    pub fn MXC_FLC_EnableInt(flags: u32) -> ::std::os::raw::c_int;
+    pub fn MXC_FLC_EnableInt(flags: u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Disable flash interrupts\n @param      flags   Interrupts to disable\n @return     #E_NO_ERROR If function is successful."]
-    pub fn MXC_FLC_DisableInt(flags: u32) -> ::std::os::raw::c_int;
+    pub fn MXC_FLC_DisableInt(flags: u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Retrieve flash interrupt flags\n @return     Interrupt flags registers"]
-    pub fn MXC_FLC_GetFlags() -> ::std::os::raw::c_int;
+    pub fn MXC_FLC_GetFlags() -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Clear flash interrupt flags\n @note       Provide the bit position to clear, even if the flag is write-0-to-clear\n @param      flags Flag bit(s) to clear\n @return     #E_NO_ERROR If function is successful."]
-    pub fn MXC_FLC_ClearFlags(flags: u32) -> ::std::os::raw::c_int;
+    pub fn MXC_FLC_ClearFlags(flags: u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Unlock info block\n\n @param[in]  address  The address in the info block needing written to\n\n @return     #E_NO_ERROR If function is successful."]
-    pub fn MXC_FLC_UnlockInfoBlock(address: u32) -> ::std::os::raw::c_int;
+    pub fn MXC_FLC_UnlockInfoBlock(address: u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Lock info block\n\n @param[in]  address  The address in the info block that was written to\n @return     #E_NO_ERROR If function is successful."]
-    pub fn MXC_FLC_LockInfoBlock(address: u32) -> ::std::os::raw::c_int;
+    pub fn MXC_FLC_LockInfoBlock(address: u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief       Blocks write operations to the flash page associated with the 'address' argument\n @note        Flash pages cannot be unblocked except for on POR and external resets\n\n @param       address     Absolute address located anywhere in the flash page to be locked (does not need to be word-aligned)\n\n @return      #E_NO_ERROR If function is successful."]
-    pub fn MXC_FLC_BlockPageWrite(address: u32) -> ::std::os::raw::c_int;
+    pub fn MXC_FLC_BlockPageWrite(address: u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief       Blocks read operations from the flash page associated with the 'address' argument\n @note        Flash pages cannot be unblocked except for on POR and external resets\n\n @param       address     Absolute address located anywhere in the flash page to be locked (does not need to be word-aligned)\n\n @return      #E_NO_ERROR If function is successful."]
-    pub fn MXC_FLC_BlockPageRead(address: u32) -> ::std::os::raw::c_int;
+    pub fn MXC_FLC_BlockPageRead(address: u32) -> ::core::ffi::c_int;
 }
 #[doc = " @ingroup i2c_registers\n Structure type to access the I2C Registers."]
 #[repr(C)]
@@ -9887,11 +9832,11 @@ pub struct mxc_i2c_regs_t__bindgen_ty_1__bindgen_ty_1 {
 }
 #[test]
 fn bindgen_test_layout_mxc_i2c_regs_t__bindgen_ty_1__bindgen_ty_1() {
-    const UNINIT: ::std::mem::MaybeUninit<mxc_i2c_regs_t__bindgen_ty_1__bindgen_ty_1> =
-        ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<mxc_i2c_regs_t__bindgen_ty_1__bindgen_ty_1> =
+        ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<mxc_i2c_regs_t__bindgen_ty_1__bindgen_ty_1>(),
+        ::core::mem::size_of::<mxc_i2c_regs_t__bindgen_ty_1__bindgen_ty_1>(),
         16usize,
         concat!(
             "Size of: ",
@@ -9899,7 +9844,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<mxc_i2c_regs_t__bindgen_ty_1__bindgen_ty_1>(),
+        ::core::mem::align_of::<mxc_i2c_regs_t__bindgen_ty_1__bindgen_ty_1>(),
         4usize,
         concat!(
             "Alignment of ",
@@ -9907,7 +9852,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).slave0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).slave0) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -9917,7 +9862,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).slave1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).slave1) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -9927,7 +9872,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).slave2) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).slave2) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -9937,7 +9882,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t__bindgen_ty_1__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).slave3) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).slave3) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -9949,21 +9894,21 @@ fn bindgen_test_layout_mxc_i2c_regs_t__bindgen_ty_1__bindgen_ty_1() {
 }
 #[test]
 fn bindgen_test_layout_mxc_i2c_regs_t__bindgen_ty_1() {
-    const UNINIT: ::std::mem::MaybeUninit<mxc_i2c_regs_t__bindgen_ty_1> =
-        ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<mxc_i2c_regs_t__bindgen_ty_1> =
+        ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<mxc_i2c_regs_t__bindgen_ty_1>(),
+        ::core::mem::size_of::<mxc_i2c_regs_t__bindgen_ty_1>(),
         16usize,
         concat!("Size of: ", stringify!(mxc_i2c_regs_t__bindgen_ty_1))
     );
     assert_eq!(
-        ::std::mem::align_of::<mxc_i2c_regs_t__bindgen_ty_1>(),
+        ::core::mem::align_of::<mxc_i2c_regs_t__bindgen_ty_1>(),
         4usize,
         concat!("Alignment of ", stringify!(mxc_i2c_regs_t__bindgen_ty_1))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).slave_multi) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).slave_multi) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -9975,20 +9920,20 @@ fn bindgen_test_layout_mxc_i2c_regs_t__bindgen_ty_1() {
 }
 #[test]
 fn bindgen_test_layout_mxc_i2c_regs_t() {
-    const UNINIT: ::std::mem::MaybeUninit<mxc_i2c_regs_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<mxc_i2c_regs_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<mxc_i2c_regs_t>(),
+        ::core::mem::size_of::<mxc_i2c_regs_t>(),
         92usize,
         concat!("Size of: ", stringify!(mxc_i2c_regs_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<mxc_i2c_regs_t>(),
+        ::core::mem::align_of::<mxc_i2c_regs_t>(),
         4usize,
         concat!("Alignment of ", stringify!(mxc_i2c_regs_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ctrl) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ctrl) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -9998,7 +9943,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).status) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).status) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -10008,7 +9953,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).intfl0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).intfl0) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -10018,7 +9963,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).inten0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).inten0) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -10028,7 +9973,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).intfl1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).intfl1) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -10038,7 +9983,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).inten1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).inten1) as usize - ptr as usize },
         20usize,
         concat!(
             "Offset of field: ",
@@ -10048,7 +9993,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).fifolen) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).fifolen) as usize - ptr as usize },
         24usize,
         concat!(
             "Offset of field: ",
@@ -10058,7 +10003,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rxctrl0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rxctrl0) as usize - ptr as usize },
         28usize,
         concat!(
             "Offset of field: ",
@@ -10068,7 +10013,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rxctrl1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rxctrl1) as usize - ptr as usize },
         32usize,
         concat!(
             "Offset of field: ",
@@ -10078,7 +10023,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).txctrl0) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).txctrl0) as usize - ptr as usize },
         36usize,
         concat!(
             "Offset of field: ",
@@ -10088,7 +10033,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).txctrl1) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).txctrl1) as usize - ptr as usize },
         40usize,
         concat!(
             "Offset of field: ",
@@ -10098,7 +10043,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).fifo) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).fifo) as usize - ptr as usize },
         44usize,
         concat!(
             "Offset of field: ",
@@ -10108,7 +10053,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).mstctrl) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).mstctrl) as usize - ptr as usize },
         48usize,
         concat!(
             "Offset of field: ",
@@ -10118,7 +10063,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).clklo) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).clklo) as usize - ptr as usize },
         52usize,
         concat!(
             "Offset of field: ",
@@ -10128,7 +10073,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).clkhi) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).clkhi) as usize - ptr as usize },
         56usize,
         concat!(
             "Offset of field: ",
@@ -10138,7 +10083,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).hsclk) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).hsclk) as usize - ptr as usize },
         60usize,
         concat!(
             "Offset of field: ",
@@ -10148,7 +10093,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).timeout) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).timeout) as usize - ptr as usize },
         64usize,
         concat!(
             "Offset of field: ",
@@ -10158,7 +10103,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x44) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x44) as usize - ptr as usize },
         68usize,
         concat!(
             "Offset of field: ",
@@ -10168,7 +10113,7 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).dma) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).dma) as usize - ptr as usize },
         72usize,
         concat!(
             "Offset of field: ",
@@ -10181,19 +10126,19 @@ fn bindgen_test_layout_mxc_i2c_regs_t() {
 #[doc = " @defgroup i2c I2C\n @ingroup periphlibs\n @{"]
 pub type mxc_i2c_req_t = _i2c_req_t;
 #[doc = " @brief   The callback used by the MXC_I2C_ReadByteInteractive() function.\n\n The callback routine used by the MXC_I2C_ReadByteInteractive() function. This\n function allows the application to determine whether the byte received\n should be acknowledged or not.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   byte        The byte received.\n\n @return  0 if the byte should not be acknowledged (NACK), non-zero to\n          acknowledge the byte."]
-pub type mxc_i2c_getAck_t = ::std::option::Option<
+pub type mxc_i2c_getAck_t = ::core::option::Option<
     unsafe extern "C" fn(
         i2c: *mut mxc_i2c_regs_t,
-        byte: ::std::os::raw::c_uchar,
-    ) -> ::std::os::raw::c_int,
+        byte: ::core::ffi::c_uchar,
+    ) -> ::core::ffi::c_int,
 >;
 #[doc = " @brief   The callback routine used by the MXC_I2C_MasterTransactionAsync()\n          function to indicate the transaction has completed.\n\n @param   req         The details of the transaction.\n @param   result      0 if all bytes are acknowledged, 1 if any byte\n                      transmitted is not acknowledged, negative if error.\n                      See \\ref MXC_Error_Codes for the list of error codes."]
-pub type mxc_i2c_complete_cb_t = ::std::option::Option<
-    unsafe extern "C" fn(req: *mut mxc_i2c_req_t, result: ::std::os::raw::c_int),
+pub type mxc_i2c_complete_cb_t = ::core::option::Option<
+    unsafe extern "C" fn(req: *mut mxc_i2c_req_t, result: ::core::ffi::c_int),
 >;
 #[doc = " @brief   The callback routine used by the I2C Read/Write FIFO DMA\n          functions to indicate the transaction has completed.\n\n @param   len         The length of data actually read/written\n @param   result      See \\ref MXC_Error_Codes for the list of error codes."]
-pub type mxc_i2c_dma_complete_cb_t = ::std::option::Option<
-    unsafe extern "C" fn(len: ::std::os::raw::c_int, result: ::std::os::raw::c_int),
+pub type mxc_i2c_dma_complete_cb_t = ::core::option::Option<
+    unsafe extern "C" fn(len: ::core::ffi::c_int, result: ::core::ffi::c_int),
 >;
 #[doc = " @brief   The information required to perform a complete I2C transaction as\n          the bus master.\n\n The information required to perform a complete I2C transaction as the bus\n master. This structure is used by the MXC_I2C_MasterTransaction() and\n MXC_I2C_MasterTransactionAsync() functions."]
 #[repr(C)]
@@ -10202,36 +10147,36 @@ pub struct _i2c_req_t {
     #[doc = "< Pointer to I2C registers (selects the\n< I2C block used.)"]
     pub i2c: *mut mxc_i2c_regs_t,
     #[doc = "< The 7-bit or 10-bit address of the slave."]
-    pub addr: ::std::os::raw::c_uint,
+    pub addr: ::core::ffi::c_uint,
     #[doc = "< The buffer containing the bytes to write."]
-    pub tx_buf: *mut ::std::os::raw::c_uchar,
+    pub tx_buf: *mut ::core::ffi::c_uchar,
     #[doc = "< The number of bytes to write. On return\n< from the function, this will be set to\n< the number of bytes actually transmitted."]
-    pub tx_len: ::std::os::raw::c_uint,
+    pub tx_len: ::core::ffi::c_uint,
     #[doc = "< The buffer to read the data into."]
-    pub rx_buf: *mut ::std::os::raw::c_uchar,
+    pub rx_buf: *mut ::core::ffi::c_uchar,
     #[doc = "< The number of bytes to read.  On return\n< from the function, this will be set to\n< the number of bytes actually received."]
-    pub rx_len: ::std::os::raw::c_uint,
+    pub rx_len: ::core::ffi::c_uint,
     #[doc = "< Controls whether the transaction is\n< terminated with a stop or repeated start\n< condition.  Use 0 for a stop, non-zero\n< for repeated start."]
-    pub restart: ::std::os::raw::c_int,
+    pub restart: ::core::ffi::c_int,
     #[doc = "< The callback used to indicate the\n< transaction is complete or an error has\n< occurred. This field may be set to NULL\n< if no indication is necessary. This\n< field is only used by the\n< MXC_I2C_MasterTransactionAsync() function.\n< MXC_I2C_MasterTransaction() ignores the\n< callback field."]
     pub callback: mxc_i2c_complete_cb_t,
 }
 #[test]
 fn bindgen_test_layout__i2c_req_t() {
-    const UNINIT: ::std::mem::MaybeUninit<_i2c_req_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<_i2c_req_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<_i2c_req_t>(),
+        ::core::mem::size_of::<_i2c_req_t>(),
         32usize,
         concat!("Size of: ", stringify!(_i2c_req_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<_i2c_req_t>(),
+        ::core::mem::align_of::<_i2c_req_t>(),
         4usize,
         concat!("Alignment of ", stringify!(_i2c_req_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).i2c) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).i2c) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -10241,7 +10186,7 @@ fn bindgen_test_layout__i2c_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).addr) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).addr) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -10251,7 +10196,7 @@ fn bindgen_test_layout__i2c_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).tx_buf) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).tx_buf) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -10261,7 +10206,7 @@ fn bindgen_test_layout__i2c_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).tx_len) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).tx_len) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -10271,7 +10216,7 @@ fn bindgen_test_layout__i2c_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rx_buf) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rx_buf) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -10281,7 +10226,7 @@ fn bindgen_test_layout__i2c_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rx_len) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rx_len) as usize - ptr as usize },
         20usize,
         concat!(
             "Offset of field: ",
@@ -10291,7 +10236,7 @@ fn bindgen_test_layout__i2c_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).restart) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).restart) as usize - ptr as usize },
         24usize,
         concat!(
             "Offset of field: ",
@@ -10301,7 +10246,7 @@ fn bindgen_test_layout__i2c_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).callback) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).callback) as usize - ptr as usize },
         28usize,
         concat!(
             "Offset of field: ",
@@ -10326,154 +10271,154 @@ pub const mxc_i2c_slave_event_t_MXC_I2C_EVT_UNDERFLOW: mxc_i2c_slave_event_t = 5
 #[doc = "< The master has written data when the receive\n< FIFO was already full."]
 pub const mxc_i2c_slave_event_t_MXC_I2C_EVT_OVERFLOW: mxc_i2c_slave_event_t = 6;
 #[doc = " @brief   The list of events reported by the MXC_I2C_SlaveTransaction() and\n          MXC_I2C_SlaveTransactionAsync() functions.\n\n The list of events reported by the MXC_I2C_SlaveTransaction() and\n MXC_I2C_SlaveTransactionAsync() functions.  It is up to the calling\n application to handle these events."]
-pub type mxc_i2c_slave_event_t = ::std::os::raw::c_uint;
+pub type mxc_i2c_slave_event_t = ::core::ffi::c_uint;
 #[doc = " @brief   The callback routine used by the MXC_I2C_SlaveTransaction() and\n          MXC_I2C_SlaveTransactionAsync functions to handle the various I2C\n          slave events.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   event       The event that occurred to trigger this callback.\n @param   data        This field is used to pass Success/Fail for the\n                      MXC_I2C_EVT_TRANS_COMP event.\n\n @return  The return value is only used in the case of an MXC_I2C_EVT_RX_THRESH\n          event. In this case, the return specifies if the last byte\n          received should be acknowledged or not. Return 0 to acknowledge,\n          non-zero to not acknowledge.  The return value is ignored for all\n          other event types."]
-pub type mxc_i2c_slave_handler_t = ::std::option::Option<
+pub type mxc_i2c_slave_handler_t = ::core::option::Option<
     unsafe extern "C" fn(
         i2c: *mut mxc_i2c_regs_t,
         event: mxc_i2c_slave_event_t,
-        data: *mut ::std::os::raw::c_void,
-    ) -> ::std::os::raw::c_int,
+        data: *mut ::core::ffi::c_void,
+    ) -> ::core::ffi::c_int,
 >;
 extern "C" {
     #[doc = " @brief   Initialize and enable I2C peripheral.\n @note    This function sets the I2C Speed to 100kHz,  if another speed is\n          desired use the MXC_I2C_SetFrequency() function to set it.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   masterMode  Whether to put the device in master or slave mode. Use\n                      non-zero\n                      for master mode, and zero for slave mode.\n @param   slaveAddr   7-bit or 10-bit address to use when in slave mode.\n                      This parameter is ignored when masterMode is non-zero.\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_I2C_Init(
         i2c: *mut mxc_i2c_regs_t,
-        masterMode: ::std::os::raw::c_int,
-        slaveAddr: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_int;
+        masterMode: ::core::ffi::c_int,
+        slaveAddr: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Set slave address for I2C instances acting as slaves on the bus.\n @note    Set idx to zero, multiple I2C instances acting as slaves on the\n          bus is not yet supported.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   slaveAddr   7-bit or 10-bit address to use when in slave mode.\n                      This parameter is ignored when masterMode is non-zero.\n @param   idx         Index of the I2C slave.\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_I2C_SetSlaveAddr(
         i2c: *mut mxc_i2c_regs_t,
-        slaveAddr: ::std::os::raw::c_uint,
-        idx: ::std::os::raw::c_int,
-    ) -> ::std::os::raw::c_int;
+        slaveAddr: ::core::ffi::c_uint,
+        idx: ::core::ffi::c_int,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Disable and shutdown I2C peripheral.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_I2C_Shutdown(i2c: *mut mxc_i2c_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_I2C_Shutdown(i2c: *mut mxc_i2c_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Reset the I2C peripheral.\n @note    The peripheral will need to be initialized with MXC_I2C_Init() before use\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_I2C_Reset(i2c: *mut mxc_i2c_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_I2C_Reset(i2c: *mut mxc_i2c_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Set the frequency of the I2C interface.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   hz          The desired frequency in Hertz.\n\n @return  Negative if error, otherwise actual speed set. See \\ref\n          MXC_Error_Codes for the list of error return codes."]
     pub fn MXC_I2C_SetFrequency(
         i2c: *mut mxc_i2c_regs_t,
-        hz: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_int;
+        hz: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Get the frequency of the I2C interface.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n\n @return  The I2C bus frequency in Hertz"]
-    pub fn MXC_I2C_GetFrequency(i2c: *mut mxc_i2c_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_I2C_GetFrequency(i2c: *mut mxc_i2c_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Checks if the given I2C bus can be placed in sleep more.\n\n This functions checks to see if there are any on-going I2C transactions in\n progress. If there are transactions in progress, the application should\n wait until the I2C bus is free before entering a low-power state.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n\n @return  #E_NO_ERROR if ready, and non-zero if busy or error. See \\ref\n          MXC_Error_Codes for the list of error return codes."]
-    pub fn MXC_I2C_ReadyForSleep(i2c: *mut mxc_i2c_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_I2C_ReadyForSleep(i2c: *mut mxc_i2c_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Enables or disables clock stretching by the slave.\n\n Enables or disables clock stretching by the slave. This function has no\n affect when operating as the master.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   enable      Enables clock stretching if non-zero, disables if zero.\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_I2C_SetClockStretching(
         i2c: *mut mxc_i2c_regs_t,
-        enable: ::std::os::raw::c_int,
-    ) -> ::std::os::raw::c_int;
+        enable: ::core::ffi::c_int,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Determines if clock stretching has been enabled.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n\n @return  Zero if clock stretching is disabled, non-zero otherwise"]
-    pub fn MXC_I2C_GetClockStretching(i2c: *mut mxc_i2c_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_I2C_GetClockStretching(i2c: *mut mxc_i2c_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Generate a start (or repeated start) condition on the I2C bus.\n\n Generate a start (or repeated start) condition on the I2C bus. This\n function may opt to delay the actual generation of the start condition\n until data is actually transferred.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_I2C_Start(i2c: *mut mxc_i2c_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_I2C_Start(i2c: *mut mxc_i2c_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Generate a stop condition on the I2C bus.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_I2C_Stop(i2c: *mut mxc_i2c_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_I2C_Stop(i2c: *mut mxc_i2c_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Write a single byte to the I2C bus.\n\n Write a single byte to the I2C bus. This function assumes the I2C bus is\n already in the proper state (i.e. a start condition has already been\n generated and the bus is in the write phase of an I2C transaction). If any\n bytes are pending in the FIFO (i.e. in the case of clock stretching), this\n function will return E_OVERFLOW.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   byte        The byte to transmit.\n\n @return  0 if byte is acknowledged, 1 if not acknowledged, negative if\n          error. See \\ref MXC_Error_Codes for the list of error return codes."]
     pub fn MXC_I2C_WriteByte(
         i2c: *mut mxc_i2c_regs_t,
-        byte: ::std::os::raw::c_uchar,
-    ) -> ::std::os::raw::c_int;
+        byte: ::core::ffi::c_uchar,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Read a single byte from the I2C bus.\n\n Read a single byte from the I2C bus. This function assumes the I2C bus is\n already in the proper state (i.e. a start condition has already been\n generated and the bus is in the read phase of an I2C transaction). If the FIFO\n is empty, this function will return E_UNDERFLOW.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   byte        Pointer to the byte to read into.\n @param   ack         Whether or not to acknowledge the byte once received.\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_I2C_ReadByte(
         i2c: *mut mxc_i2c_regs_t,
-        byte: *mut ::std::os::raw::c_uchar,
-        ack: ::std::os::raw::c_int,
-    ) -> ::std::os::raw::c_int;
+        byte: *mut ::core::ffi::c_uchar,
+        ack: ::core::ffi::c_int,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Read a single byte from the I2C bus.\n\n Read a single byte from the I2C bus. After the byte is received, the\n provided callback will be used to determine if the byte should be\n acknowledged or not before continuing with the rest of the transaction.\n This function assumes the I2C bus is already in the proper state (i.e. a\n start condition has already been generated and the bus is in the read\n phase of an I2C transaction). This function must be called with clock\n stretching enabled.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   byte        Pointer to the byte to read into.\n @param   getAck      A function to be called to determine whether or not\n                      to acknowledge the byte once received.  A non-zero\n                      return value will acknowledge the byte.  If this\n                      parameter is set to NULL or its return value is 0,\n                      the byte received will not be acknowledged (i.e., it\n                      will be NACKed).\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_I2C_ReadByteInteractive(
         i2c: *mut mxc_i2c_regs_t,
-        byte: *mut ::std::os::raw::c_uchar,
+        byte: *mut ::core::ffi::c_uchar,
         getAck: mxc_i2c_getAck_t,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Write multiple bytes to the I2C bus.\n\n Write multiple bytes to the I2C bus.  This function assumes the I2C bus is\n already in the proper state (i.e. a start condition has already been\n generated and the bus is in the write phase of an I2C transaction).\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   bytes       The buffer containing the bytes to transmit.\n @param   len         The number of bytes to write. On return from the\n                      function, this will be set to the number of bytes\n                      actually transmitted.\n\n @return  0 if all bytes are acknowledged, 1 if any byte transmitted is not\n          acknowledged, negative if error. See \\ref MXC_Error_Codes for the\n          list of error return codes."]
     pub fn MXC_I2C_Write(
         i2c: *mut mxc_i2c_regs_t,
-        bytes: *mut ::std::os::raw::c_uchar,
-        len: *mut ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_int;
+        bytes: *mut ::core::ffi::c_uchar,
+        len: *mut ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Read multiple bytes from the I2C bus.\n\n Read multiple byte from the I2C bus.  This function assumes the I2C bus is\n already in the proper state (i.e. a start condition has already been\n generated and the bus is in the read phase of an I2C transaction).\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   bytes       The buffer to read the data into.\n @param   len         The number of bytes to read. On return from the\n                      function, this will be set to the number of bytes\n                      actually received.\n @param   ack         Whether or not to acknowledge the last byte once it is\n                      received.  All previous bytes will be acknowledged.\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_I2C_Read(
         i2c: *mut mxc_i2c_regs_t,
-        bytes: *mut ::std::os::raw::c_uchar,
-        len: *mut ::std::os::raw::c_uint,
-        ack: ::std::os::raw::c_int,
-    ) -> ::std::os::raw::c_int;
+        bytes: *mut ::core::ffi::c_uchar,
+        len: *mut ::core::ffi::c_uint,
+        ack: ::core::ffi::c_int,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Unloads bytes from the receive FIFO.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   bytes       The buffer to read the data into.\n @param   len         The number of bytes to read.\n\n @return  The number of bytes actually read."]
     pub fn MXC_I2C_ReadRXFIFO(
         i2c: *mut mxc_i2c_regs_t,
-        bytes: *mut ::std::os::raw::c_uchar,
-        len: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_int;
+        bytes: *mut ::core::ffi::c_uchar,
+        len: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Unloads bytes from the receive FIFO using DMA for longer reads.\n\n @note    The operation is not complete until the callback has been called\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   bytes       The buffer to read the data into.\n @param   len         The number of bytes to read.\n @param   callback    The function to call when the read is complete\n\n @return  See \\ref MXC_Error_Codes for a list of return values."]
     pub fn MXC_I2C_ReadRXFIFODMA(
         i2c: *mut mxc_i2c_regs_t,
-        bytes: *mut ::std::os::raw::c_uchar,
-        len: ::std::os::raw::c_uint,
+        bytes: *mut ::core::ffi::c_uchar,
+        len: ::core::ffi::c_uint,
         callback: mxc_i2c_dma_complete_cb_t,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Get the number of bytes currently available in the receive FIFO.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n\n @return  The number of bytes available."]
-    pub fn MXC_I2C_GetRXFIFOAvailable(i2c: *mut mxc_i2c_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_I2C_GetRXFIFOAvailable(i2c: *mut mxc_i2c_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Loads bytes into the transmit FIFO.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   bytes       The buffer containing the bytes to write\n @param   len         The number of bytes to write.\n\n @return  The number of bytes actually written."]
     pub fn MXC_I2C_WriteTXFIFO(
         i2c: *mut mxc_i2c_regs_t,
-        bytes: *mut ::std::os::raw::c_uchar,
-        len: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_int;
+        bytes: *mut ::core::ffi::c_uchar,
+        len: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Loads bytes into the transmit FIFO using DMA for longer writes.\n\n @note    The operation is not complete until the callback has been called\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   bytes       The buffer containing the bytes to write\n @param   len         The number of bytes to write.\n @param   callback    The function to call when the read is complete\n\n @return  See \\ref MXC_Error_Codes for a list of return values"]
     pub fn MXC_I2C_WriteTXFIFODMA(
         i2c: *mut mxc_i2c_regs_t,
-        bytes: *mut ::std::os::raw::c_uchar,
-        len: ::std::os::raw::c_uint,
+        bytes: *mut ::core::ffi::c_uchar,
+        len: ::core::ffi::c_uint,
         callback: mxc_i2c_dma_complete_cb_t,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Get the amount of free space available in the transmit FIFO.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n\n @return  The number of bytes available."]
-    pub fn MXC_I2C_GetTXFIFOAvailable(i2c: *mut mxc_i2c_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_I2C_GetTXFIFOAvailable(i2c: *mut mxc_i2c_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Removes and discards all bytes currently in the receive FIFO.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)"]
@@ -10487,32 +10432,32 @@ extern "C" {
     #[doc = " @brief   Get the presently set interrupt flags.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   flags0      Pointer to the variable to store status of the interrupt flags in intfl0.\n @param   flags1      Pointer to the variable to store status of the interrupt flags in intfl1."]
     pub fn MXC_I2C_GetFlags(
         i2c: *mut mxc_i2c_regs_t,
-        flags0: *mut ::std::os::raw::c_uint,
-        flags1: *mut ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_int;
+        flags0: *mut ::core::ffi::c_uint,
+        flags1: *mut ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Clears the Interrupt Flags.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   flags0      Flags to clear in interrupt register intfl0.\n @param   flags1      Flags to clear in interrupt register intfl1."]
     pub fn MXC_I2C_ClearFlags(
         i2c: *mut mxc_i2c_regs_t,
-        flags0: ::std::os::raw::c_uint,
-        flags1: ::std::os::raw::c_uint,
+        flags0: ::core::ffi::c_uint,
+        flags1: ::core::ffi::c_uint,
     );
 }
 extern "C" {
     #[doc = " @brief   Enable Interrupts.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   flags0      Interrupts to be enabled in int->en0\n @param   flags1      Interrupts to be enabled in int->en1"]
     pub fn MXC_I2C_EnableInt(
         i2c: *mut mxc_i2c_regs_t,
-        flags0: ::std::os::raw::c_uint,
-        flags1: ::std::os::raw::c_uint,
+        flags0: ::core::ffi::c_uint,
+        flags1: ::core::ffi::c_uint,
     );
 }
 extern "C" {
     #[doc = " @brief   Disable Interrupts.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   flags0      Interrupts to be disabled in int->en0\n @param   flags1      Interrupts to be disabled in int->en1"]
     pub fn MXC_I2C_DisableInt(
         i2c: *mut mxc_i2c_regs_t,
-        flags0: ::std::os::raw::c_uint,
-        flags1: ::std::os::raw::c_uint,
+        flags0: ::core::ffi::c_uint,
+        flags1: ::core::ffi::c_uint,
     );
 }
 extern "C" {
@@ -10533,66 +10478,66 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief   Set the I2C Timeout\n\n The I2C timeout determines the amount of time the master will wait while the\n slave is stretching the clock, and the amount of time the slave will stretch\n the clock while waiting for software to unload the fifo.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   timeout     Timeout in uS"]
-    pub fn MXC_I2C_SetTimeout(i2c: *mut mxc_i2c_regs_t, timeout: ::std::os::raw::c_uint);
+    pub fn MXC_I2C_SetTimeout(i2c: *mut mxc_i2c_regs_t, timeout: ::core::ffi::c_uint);
 }
 extern "C" {
     #[doc = " @brief   Get the current I2C timeout\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n\n @return  The current timeout in uS"]
-    pub fn MXC_I2C_GetTimeout(i2c: *mut mxc_i2c_regs_t) -> ::std::os::raw::c_uint;
+    pub fn MXC_I2C_GetTimeout(i2c: *mut mxc_i2c_regs_t) -> ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief   Attempts to recover the I2C bus, ensuring the I2C lines are idle.\n\n Attempts to recover and reset an I2C bus by sending I2C clocks. During\n each clock cycle, the SDA line is cycled to determine if the master has\n control of the line. The following steps are performed to create one SCL\n clock cycle:\n   1. Drive SCL low\n   2. Verify SCL is low\n   3. Drive SDA low\n   4. Verify SDA is low\n   5. Release SDA allowing it to return high\n   6. Verify SDA is high\n   7. Release SCL allowing it to return high.\n   8. Verify SCL is high\n If any of the steps fail, the bus is considered to still be busy and the\n sequence is repeated up to the requested number of times. If all steps\n succeed, a final stop condition is generated on the I2C bus.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   retries     Number of times to attempt the clock cycle sequence.\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_I2C_Recover(
         i2c: *mut mxc_i2c_regs_t,
-        retries: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_int;
+        retries: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Performs a blocking I2C master transaction.\n\n Performs a blocking I2C master transaction.  These actions will be performed:\n   1. If necessary, generate a start condition on the bus.\n   2. Send the slave address with the low bit set to 0 (indicating a write).\n   3. Transmit req->tx_len bytes of req->tx_buff.\n   4. Generate a repeated start condition on the bus.\n   5. Send the slave address with the low bit set to 1 (indicating a read).\n   6. Receive req->rx_len bytes into req->rx_buf, acknowledging each byte.\n   7. Generate a stop (or repeated start) condition on the bus.\n   Steps 3-6 will be skipped if req->tx_len and req->rx_len are both 0.\n   Steps 2-4 will be skipped if req->tx_len equals 0.\n   Steps 4-6 will be skipped if req->rx_len equals 0.\n\n @param   req         Pointer to details of the transaction\n\n @return  0 if all bytes are acknowledged, 1 if any byte transmitted is not\n          acknowledged, negative if error. See \\ref MXC_Error_Codes for the\n          list of error return codes."]
-    pub fn MXC_I2C_MasterTransaction(req: *mut mxc_i2c_req_t) -> ::std::os::raw::c_int;
+    pub fn MXC_I2C_MasterTransaction(req: *mut mxc_i2c_req_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Performs a non-blocking I2C master transaction.\n\n Performs a non-blocking I2C master transaction.  These actions will be performed:\n   1. If necessary, generate a start condition on the bus.\n   2. Send the slave address with the low bit set to 0 (indicating a write).\n   3. Transmit req->tx_len bytes of req->tx_buff.\n   4. Generate a repeated start condition on the bus.\n   5. Send the slave address with the low bit set to 1 (indicating a read).\n   6. Receive req->rx_len bytes into req->rx_buf, acknowledging each byte.\n   7. Generate a stop (or repeated start) condition on the bus.\n   8. Execute req->callback to indicate the transaction is complete.\n   Steps 3-6 will be skipped if tx_len and rx_len are both 0.\n   Steps 2-4 will be skipped if tx_len equals 0.\n   Steps 4-6 will be skipped if rx_len equals 0.\n\n @note    MXC_I2C_AsyncHandler() must be called periodically for this function\n          to operate properly. Ideally from the I2C ISR.\n\n @param   req         Pointer to details of the transaction.  The memory\n                      used by this parameter must remain available until\n                      the callback is executed.\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_I2C_MasterTransactionAsync(req: *mut mxc_i2c_req_t) -> ::std::os::raw::c_int;
+    pub fn MXC_I2C_MasterTransactionAsync(req: *mut mxc_i2c_req_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Performs a non-blocking I2C transaction using DMA for reduced time\n          in the ISR.\n\n Performs a non-blocking I2C transaction.  These actions will be performed:\n   1. If necessary, generate a start condition on the bus.\n   2. Send the slave address with the low bit set to 0 (indicating a write).\n   3. Transmit req->tx_len bytes of req->tx_buff.\n   4. Generate a repeated start condition on the bus.\n   5. Send the slave address with the low bit set to 1 (indicating a read).\n   6. Receive req->rx_len bytes into req->rx_buf, acknowledging each byte.\n   7. Generate a stop (or repeated start) condition on the bus.\n   8. Execute req->callback to indicate the transaction is complete.\n   Steps 3-6 will be skipped if tx_len and rx_len are both 0.\n   Steps 2-4 will be skipped if tx_len equals 0.\n   Steps 4-6 will be skipped if rx_len equals 0.\n\n @note    MXC_I2C_AsyncHandler() must be called periodically for this function\n          to operate properly. Ideally from the I2C ISR.\n\n @param   req         Pointer to details of the transaction.  The memory\n                      used by this parameter must remain available until\n                      the callback is executed.\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_I2C_MasterTransactionDMA(req: *mut mxc_i2c_req_t) -> ::std::os::raw::c_int;
+    pub fn MXC_I2C_MasterTransactionDMA(req: *mut mxc_i2c_req_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Performs a blocking I2C slave transaction.\n\n Performs a blocking I2C slave transaction. This function will block until a\n complete transaction with this slave has been performed. A transaction\n begins with the master addressing the slave and ends with a repeated start\n condition, a stop condition, or a bus error. The provided callback\n function will be called for these events:\n      - A slave address match occurs with the master requesting a write to\n        the slave.\n      - A slave address match occurs with the master requesting a read from\n        the slave.\n      - The receive FIFO crosses the set threshold (see\n        MXC_I2C_SetRXThreshold()). The callback code should unload the receive\n        FIFO (see MXC_I2C_ReadFIFO()) to allow the master to send more data.\n        The return value of the callback function will determine if the\n        last byte received should be acknowledged or not. Return 0 to\n        acknowledge, non-zero to not acknowledge.\n      - The transmit FIFO crosses the set threshold (see\n        MXC_I2C_SetTXThreshold()). If the master is expected to read more\n        data from this slave, the callback code should add data to the\n        transmit FIFO (see MXC_I2C_WriteFIFO()).\n      - The transaction ends.  If the master was writing to the slave, the\n        receive FIFO may still contain valid data that needs to be\n        retreived (see MXC_I2C_ReadFIFO()).\n      - The transmit FIFO underflows because the master requests data when\n        the transmit FIFO is empty.\n      - The receive FIFO overflows because the master writes data while the\n        receive FIFO was full.\n\n If clock stretching is disabled, careful attention must be paid to the timing\n of the callback to avoid losing data on write or unintentionally nacking a read.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   callback    The function to be called when an I2C event occurs.\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_I2C_SlaveTransaction(
         i2c: *mut mxc_i2c_regs_t,
         callback: mxc_i2c_slave_handler_t,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Performs a non-blocking I2C slave transaction.\n\n Performs a non-blocking I2C slave transaction. This request will remain active\n until a complete transaction with this slave has been performed.  A\n transaction begins with the master  begins with the master addressing the\n slave and ends with a repeated start condition, a stop condition, or a bus\n error. The provided callback function will be called for these events:\n      - A slave address match occurs with the master requesting a write to\n        the slave.\n      - A slave address match occurs with the master requesting a read from\n        the slave.\n      - The receive FIFO crosses the set threshold (see\n        MXC_I2C_SetRXThreshold()). The callback code should unload the receive\n        FIFO (see MXC_I2C_ReadFIFO()) to allow the master to send more data.\n        The return value of the callback function will determine if the\n        last byte received should be acknowledged or not. Return 0 to\n        acknowledge, non-zero to not acknowledge.\n      - The transmit FIFO crosses the set threshold (see\n        MXC_I2C_SetTXThreshold()). If the master is expected to read more\n        data from this slave, the callback code should add data to the\n        transmit FIFO (see MXC_I2C_WriteFIFO()).\n      - The transaction ends.  If the master was writing to the slave, the\n        receive FIFO may still contain valid data that needs to be\n        retreived (see MXC_I2C_ReadFIFO()).\n      - The transmit FIFO underflows because the master requests data when\n        the transmit FIFO is empty.\n      - The receive FIFO overflows because the master writes data while the\n        receive FIFO was full.\n\n If clock stretching is disabled, careful attention must be paid to the timing\n of the callback to avoid losing data on write or unintentionally nacking a read.\n\n @note    MXC_I2C_AsyncHandler() must be called peridocally for this function\n          to operate properly.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   callback    The function to be called when an I2C event occurs.\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_I2C_SlaveTransactionAsync(
         i2c: *mut mxc_i2c_regs_t,
         callback: mxc_i2c_slave_handler_t,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Set the receive threshold level.\n\n When operating as a master, the function sets the receive threshold level\n for when the master should unload the receive FIFO. Smaller values may\n consume more CPU cycles, but decrease the chances of the master delaying\n the generation of I2C bus clocks because it has no room in the FIFO to\n receive data. Larger values may consume fewer CPU cycles, but risk delays\n of the I2C clock. When operating as a slave, this function sets the number\n of bytes the slave transaction  functions should receive before issuing a\n call to their callback function. Smaller values may consume more CPU\n cycles, but reduce the risk of missing data from the master due to the\n recieve FIFO being full. Larger values may reduce the number of CPU\n cycles, but may cause bytes sent from the master to be missed.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   numBytes    The threshold level to set. This value must be\n                      between 0 and 8 inclusive.\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_I2C_SetRXThreshold(
         i2c: *mut mxc_i2c_regs_t,
-        numBytes: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_int;
+        numBytes: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Get the current receive threshold level.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n\n @return  The receive threshold value (in bytes)."]
-    pub fn MXC_I2C_GetRXThreshold(i2c: *mut mxc_i2c_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_I2C_GetRXThreshold(i2c: *mut mxc_i2c_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Set the transmit threshold level.\n\n When operating as a master, the function sets the transmit threshold level\n for when the master should add additional bytes to the transmit FIFO.\n Larger values may consume more CPU cycles, but decrease the chances of the\n master delaying the generation of I2C bus clocks because it has no data in\n the FIFO to transmit. Smaller values may consume fewer CPU cycles, but\n risk delays of the I2C clock. When operating as a slave, this function\n sets the number of bytes the slave transaction functions should transmit\n before issuing a call to their callback function. Larger values may\n consume more CPU cycles, but reduce the risk of not having data ready when\n the master requests it.  Smaller values may reduce the number of CPU\n cycles, but may cause the master to read from an empty FIFO.  (The master\n will read 0xFF in this case.)\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n @param   numBytes    The threshold level to set.  This value must be\n                      between 0 and 8 inclusive.\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_I2C_SetTXThreshold(
         i2c: *mut mxc_i2c_regs_t,
-        numBytes: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_int;
+        numBytes: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Get the current transmit threshold level.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)\n\n @return  The transmit threshold value (in bytes)."]
-    pub fn MXC_I2C_GetTXThreshold(i2c: *mut mxc_i2c_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_I2C_GetTXThreshold(i2c: *mut mxc_i2c_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Stop any asynchronous requests in progress.\n\n Stop any asynchronous requests in progress. Any callbacks associated with\n the active transaction will be NOT executed.\n\n @param   i2c         Pointer to I2C registers (selects the I2C block used.)"]
@@ -10608,7 +10553,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief   The processing function for DMA transactions.\n\n When using the DMA functions, the application must call this\n function periodically. This can be done from within the DMA Interrupt Handler.\n\n @param   ch          DMA channel\n @param   error       Error status"]
-    pub fn MXC_I2C_DMACallback(ch: ::std::os::raw::c_int, error: ::std::os::raw::c_int);
+    pub fn MXC_I2C_DMACallback(ch: ::core::ffi::c_int, error: ::core::ffi::c_int);
 }
 #[doc = " @ingroup icc_registers\n Structure type to access the ICC Registers."]
 #[repr(C)]
@@ -10627,20 +10572,20 @@ pub struct mxc_icc_regs_t {
 }
 #[test]
 fn bindgen_test_layout_mxc_icc_regs_t() {
-    const UNINIT: ::std::mem::MaybeUninit<mxc_icc_regs_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<mxc_icc_regs_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<mxc_icc_regs_t>(),
+        ::core::mem::size_of::<mxc_icc_regs_t>(),
         1796usize,
         concat!("Size of: ", stringify!(mxc_icc_regs_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<mxc_icc_regs_t>(),
+        ::core::mem::align_of::<mxc_icc_regs_t>(),
         4usize,
         concat!("Alignment of ", stringify!(mxc_icc_regs_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).info) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).info) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -10650,7 +10595,7 @@ fn bindgen_test_layout_mxc_icc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).sz) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).sz) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -10660,7 +10605,7 @@ fn bindgen_test_layout_mxc_icc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x8_0xff) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x8_0xff) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -10670,7 +10615,7 @@ fn bindgen_test_layout_mxc_icc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ctrl) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ctrl) as usize - ptr as usize },
         256usize,
         concat!(
             "Offset of field: ",
@@ -10680,7 +10625,7 @@ fn bindgen_test_layout_mxc_icc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x104_0x6ff) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x104_0x6ff) as usize - ptr as usize },
         260usize,
         concat!(
             "Offset of field: ",
@@ -10690,7 +10635,7 @@ fn bindgen_test_layout_mxc_icc_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).invalidate) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).invalidate) as usize - ptr as usize },
         1792usize,
         concat!(
             "Offset of field: ",
@@ -10704,10 +10649,10 @@ pub const mxc_icc_info_t_ICC_INFO_RELNUM: mxc_icc_info_t = 0;
 pub const mxc_icc_info_t_ICC_INFO_PARTNUM: mxc_icc_info_t = 1;
 pub const mxc_icc_info_t_ICC_INFO_ID: mxc_icc_info_t = 2;
 #[doc = " @brief Enumeration type for the Cache ID Register"]
-pub type mxc_icc_info_t = ::std::os::raw::c_uint;
+pub type mxc_icc_info_t = ::core::ffi::c_uint;
 extern "C" {
     #[doc = " @brief   Reads the data from the Cache Id Register.\n @param   icc  Pointer to the Instuction Cache Controller registers.\n @param   cid  Enumeration type for Cache Id Register.\n @retval  Returns the contents of Cache Id Register."]
-    pub fn MXC_ICC_ID(icc: *mut mxc_icc_regs_t, cid: mxc_icc_info_t) -> ::std::os::raw::c_int;
+    pub fn MXC_ICC_ID(icc: *mut mxc_icc_regs_t, cid: mxc_icc_info_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Enable the instruction cache controller.\n\n @param icc  Pointer to the Instuction Cache Controller registers."]
@@ -10723,18 +10668,18 @@ extern "C" {
 }
 #[doc = " @brief   The callback routine used by MXC_DelayAsync() when the delay is complete\n          or aborted early.\n\n @param   result      See \\ref MXC_Error_Codes for the list of error codes."]
 pub type mxc_delay_complete_t =
-    ::std::option::Option<unsafe extern "C" fn(result: ::std::os::raw::c_int)>;
+    ::core::option::Option<unsafe extern "C" fn(result: ::core::ffi::c_int)>;
 extern "C" {
     #[doc = " @brief      Blocks and delays for the specified number of microseconds.\n @details    Uses the SysTick to create the requested delay. If the SysTick is\n             running, the current settings will be used. If the SysTick is not\n             running, it will be started.\n @param      us    microseconds to delay\n @return     #E_NO_ERROR if no errors, @ref MXC_Error_Codes \"error\" if unsuccessful."]
-    pub fn MXC_Delay(us: u32) -> ::std::os::raw::c_int;
+    pub fn MXC_Delay(us: u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Starts a non-blocking delay for the specified number of\n             microseconds.\n @details    Uses the SysTick to time the requested delay. If the SysTick is\n             running, the current settings will be used. If the SysTick is not\n             running, it will be started.\n @note       MXC_Delay_handler() must be called from the SysTick interrupt service\n             routine or at a rate greater than the SysTick overflow rate.\n @param      us    microseconds to delay\n @param      callback Function pointer to the function to call after the delay has expired.\n @return     #E_NO_ERROR if no errors, #E_BUSY if currently servicing another\n             delay request."]
-    pub fn MXC_DelayAsync(us: u32, callback: mxc_delay_complete_t) -> ::std::os::raw::c_int;
+    pub fn MXC_DelayAsync(us: u32, callback: mxc_delay_complete_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Returns the status of a non-blocking delay request\n @pre        Start the asynchronous delay by calling MXC_Delay_start().\n @return     #E_BUSY until the requested delay time has expired."]
-    pub fn MXC_DelayCheck() -> ::std::os::raw::c_int;
+    pub fn MXC_DelayCheck() -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief      Stops an asynchronous delay previously started.\n @pre        Start the asynchronous delay by calling MXC_Delay_start()."]
@@ -10748,7 +10693,7 @@ extern "C" {
     #[doc = " @brief Set an IRQ hander callback function.  If the IRQ table is in\n flash, this will copy it to RAM and set NVIC to RAM based table.\n\n @param irqn          ARM external IRQ number\n @param irq_callback  Function to be called at IRQ context\n"]
     pub fn MXC_NVIC_SetVector(
         irqn: IRQn_Type,
-        irq_callback: ::std::option::Option<unsafe extern "C" fn()>,
+        irq_callback: ::core::option::Option<unsafe extern "C" fn()>,
     );
 }
 extern "C" {
@@ -10772,20 +10717,20 @@ pub struct mxc_trng_regs_t {
 }
 #[test]
 fn bindgen_test_layout_mxc_trng_regs_t() {
-    const UNINIT: ::std::mem::MaybeUninit<mxc_trng_regs_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<mxc_trng_regs_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<mxc_trng_regs_t>(),
+        ::core::mem::size_of::<mxc_trng_regs_t>(),
         12usize,
         concat!("Size of: ", stringify!(mxc_trng_regs_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<mxc_trng_regs_t>(),
+        ::core::mem::align_of::<mxc_trng_regs_t>(),
         4usize,
         concat!("Alignment of ", stringify!(mxc_trng_regs_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ctrl) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ctrl) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -10795,7 +10740,7 @@ fn bindgen_test_layout_mxc_trng_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).status) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).status) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -10805,7 +10750,7 @@ fn bindgen_test_layout_mxc_trng_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).data) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).data) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -10816,12 +10761,12 @@ fn bindgen_test_layout_mxc_trng_regs_t() {
     );
 }
 #[doc = " Function Prototypes"]
-pub type mxc_trng_complete_t = ::std::option::Option<
-    unsafe extern "C" fn(req: *mut ::std::os::raw::c_void, result: ::std::os::raw::c_int),
+pub type mxc_trng_complete_t = ::core::option::Option<
+    unsafe extern "C" fn(req: *mut ::core::ffi::c_void, result: ::core::ffi::c_int),
 >;
 extern "C" {
     #[doc = " @brief   Enable portions of the TRNG\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_TRNG_Init() -> ::std::os::raw::c_int;
+    pub fn MXC_TRNG_Init() -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Enable TRNG Interrupts\n"]
@@ -10833,7 +10778,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief   Disable and reset portions of the TRNG\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_TRNG_Shutdown() -> ::std::os::raw::c_int;
+    pub fn MXC_TRNG_Shutdown() -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   This function should be called from the TRNG ISR Handler\n          when using Async functions"]
@@ -10841,11 +10786,11 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief   Get a random number\n\n @return  A random 32-bit number"]
-    pub fn MXC_TRNG_RandomInt() -> ::std::os::raw::c_int;
+    pub fn MXC_TRNG_RandomInt() -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Get a random number of length len\n\n @param   data    Pointer to a location to store the number\n @param   len     Length of random number in bytes\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_TRNG_Random(data: *mut u8, len: u32) -> ::std::os::raw::c_int;
+    pub fn MXC_TRNG_Random(data: *mut u8, len: u32) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Get a random number of length len, do not block while generating data\n @note    The user must call MXC_TRNG_Handler() in the ISR\n\n @param   data      Pointer to a location to store the number\n @param   len       Length of random number in bytes\n @param   callback  Function that will be called when all data has been generated\n"]
@@ -10857,7 +10802,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief   Perform health test of the TRNG entropy source\n\n @return  E_NOT_SUPPORTED (-17)"]
-    pub fn MXC_TRNG_HealthTest() -> ::std::os::raw::c_int;
+    pub fn MXC_TRNG_HealthTest() -> ::core::ffi::c_int;
 }
 #[doc = " @ingroup uart_registers\n Structure type to access the UART Registers."]
 #[repr(C)]
@@ -10891,20 +10836,20 @@ pub struct mxc_uart_regs_t {
 }
 #[test]
 fn bindgen_test_layout_mxc_uart_regs_t() {
-    const UNINIT: ::std::mem::MaybeUninit<mxc_uart_regs_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<mxc_uart_regs_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<mxc_uart_regs_t>(),
+        ::core::mem::size_of::<mxc_uart_regs_t>(),
         60usize,
         concat!("Size of: ", stringify!(mxc_uart_regs_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<mxc_uart_regs_t>(),
+        ::core::mem::align_of::<mxc_uart_regs_t>(),
         4usize,
         concat!("Alignment of ", stringify!(mxc_uart_regs_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ctrl) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ctrl) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -10914,7 +10859,7 @@ fn bindgen_test_layout_mxc_uart_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).status) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).status) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -10924,7 +10869,7 @@ fn bindgen_test_layout_mxc_uart_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).int_en) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).int_en) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -10934,7 +10879,7 @@ fn bindgen_test_layout_mxc_uart_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).int_fl) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).int_fl) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -10944,7 +10889,7 @@ fn bindgen_test_layout_mxc_uart_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).clkdiv) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).clkdiv) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -10954,7 +10899,7 @@ fn bindgen_test_layout_mxc_uart_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).osr) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).osr) as usize - ptr as usize },
         20usize,
         concat!(
             "Offset of field: ",
@@ -10964,7 +10909,7 @@ fn bindgen_test_layout_mxc_uart_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).txpeek) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).txpeek) as usize - ptr as usize },
         24usize,
         concat!(
             "Offset of field: ",
@@ -10974,7 +10919,7 @@ fn bindgen_test_layout_mxc_uart_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).pnr) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).pnr) as usize - ptr as usize },
         28usize,
         concat!(
             "Offset of field: ",
@@ -10984,7 +10929,7 @@ fn bindgen_test_layout_mxc_uart_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).fifo) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).fifo) as usize - ptr as usize },
         32usize,
         concat!(
             "Offset of field: ",
@@ -10994,7 +10939,7 @@ fn bindgen_test_layout_mxc_uart_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rsv_0x24_0x2f) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rsv_0x24_0x2f) as usize - ptr as usize },
         36usize,
         concat!(
             "Offset of field: ",
@@ -11004,7 +10949,7 @@ fn bindgen_test_layout_mxc_uart_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).dma) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).dma) as usize - ptr as usize },
         48usize,
         concat!(
             "Offset of field: ",
@@ -11014,7 +10959,7 @@ fn bindgen_test_layout_mxc_uart_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).wken) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).wken) as usize - ptr as usize },
         52usize,
         concat!(
             "Offset of field: ",
@@ -11024,7 +10969,7 @@ fn bindgen_test_layout_mxc_uart_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).wkfl) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).wkfl) as usize - ptr as usize },
         56usize,
         concat!(
             "Offset of field: ",
@@ -11041,7 +10986,7 @@ pub const mxc_uart_stop_t_MXC_UART_STOP_1: mxc_uart_stop_t = 0;
 #[doc = "< UART Stop 2 clock cycle (1.5 clocks for 5 bit characters)"]
 pub const mxc_uart_stop_t_MXC_UART_STOP_2: mxc_uart_stop_t = 1;
 #[doc = " @brief   The list of UART stop bit lengths supported\n"]
-pub type mxc_uart_stop_t = ::std::os::raw::c_uint;
+pub type mxc_uart_stop_t = ::core::ffi::c_uint;
 #[doc = "< UART Parity Disabled"]
 pub const mxc_uart_parity_t_MXC_UART_PARITY_DISABLE: mxc_uart_parity_t = 0;
 #[doc = "< UART Parity Even, 0 based"]
@@ -11053,28 +10998,28 @@ pub const mxc_uart_parity_t_MXC_UART_PARITY_ODD_0: mxc_uart_parity_t = 3;
 #[doc = "< UART Parity Odd, 1 based"]
 pub const mxc_uart_parity_t_MXC_UART_PARITY_ODD_1: mxc_uart_parity_t = 4;
 #[doc = " @brief   The list of UART Parity options supported\n"]
-pub type mxc_uart_parity_t = ::std::os::raw::c_uint;
+pub type mxc_uart_parity_t = ::core::ffi::c_uint;
 #[doc = "< UART Flow Control Disabled"]
 pub const mxc_uart_flow_t_MXC_UART_FLOW_DIS: mxc_uart_flow_t = 0;
 #[doc = "< UART Flow Control Enabled"]
 pub const mxc_uart_flow_t_MXC_UART_FLOW_EN: mxc_uart_flow_t = 1;
 #[doc = " @brief   The list of UART flow control options supported\n"]
-pub type mxc_uart_flow_t = ::std::os::raw::c_uint;
+pub type mxc_uart_flow_t = ::core::ffi::c_uint;
 pub const mxc_uart_clock_t_MXC_UART_APB_CLK: mxc_uart_clock_t = 0;
 pub const mxc_uart_clock_t_MXC_UART_IBRO_CLK: mxc_uart_clock_t = 2;
 pub const mxc_uart_clock_t_MXC_UART_ERTCO_CLK: mxc_uart_clock_t = 4;
 #[doc = " @brief      Clock settings"]
-pub type mxc_uart_clock_t = ::std::os::raw::c_uint;
+pub type mxc_uart_clock_t = ::core::ffi::c_uint;
 #[doc = " @brief   The callback routine used to indicate the transaction has terminated.\n\n @param   req          The details of the transaction.\n @param   result       See \\ref MXC_Error_Codes for the list of error codes."]
-pub type mxc_uart_complete_cb_t = ::std::option::Option<
-    unsafe extern "C" fn(req: *mut mxc_uart_req_t, result: ::std::os::raw::c_int),
+pub type mxc_uart_complete_cb_t = ::core::option::Option<
+    unsafe extern "C" fn(req: *mut mxc_uart_req_t, result: ::core::ffi::c_int),
 >;
 #[doc = " @brief   The callback routine used to indicate the transaction has terminated.\n\n @param   req          The details of the transaction.\n @param   num          The number of characters actually copied\n @param   result       See \\ref MXC_Error_Codes for the list of error codes."]
-pub type mxc_uart_dma_complete_cb_t = ::std::option::Option<
+pub type mxc_uart_dma_complete_cb_t = ::core::option::Option<
     unsafe extern "C" fn(
         req: *mut mxc_uart_req_t,
-        num: ::std::os::raw::c_int,
-        result: ::std::os::raw::c_int,
+        num: ::core::ffi::c_int,
+        result: ::core::ffi::c_int,
     ),
 >;
 #[doc = " @brief   The information required to perform a complete UART transaction\n\n @note    This structure is used by blocking, async, and DMA based transactions.\n @note    \"callback\" only needs to be initialized for interrupt driven (Async) or DMA transactions."]
@@ -11100,20 +11045,20 @@ pub struct _mxc_uart_req_t {
 }
 #[test]
 fn bindgen_test_layout__mxc_uart_req_t() {
-    const UNINIT: ::std::mem::MaybeUninit<_mxc_uart_req_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<_mxc_uart_req_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<_mxc_uart_req_t>(),
+        ::core::mem::size_of::<_mxc_uart_req_t>(),
         32usize,
         concat!("Size of: ", stringify!(_mxc_uart_req_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<_mxc_uart_req_t>(),
+        ::core::mem::align_of::<_mxc_uart_req_t>(),
         4usize,
         concat!("Alignment of ", stringify!(_mxc_uart_req_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).uart) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).uart) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -11123,7 +11068,7 @@ fn bindgen_test_layout__mxc_uart_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).txData) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).txData) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -11133,7 +11078,7 @@ fn bindgen_test_layout__mxc_uart_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rxData) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rxData) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -11143,7 +11088,7 @@ fn bindgen_test_layout__mxc_uart_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).txLen) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).txLen) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -11153,7 +11098,7 @@ fn bindgen_test_layout__mxc_uart_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rxLen) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rxLen) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -11163,7 +11108,7 @@ fn bindgen_test_layout__mxc_uart_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).txCnt) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).txCnt) as usize - ptr as usize },
         20usize,
         concat!(
             "Offset of field: ",
@@ -11173,7 +11118,7 @@ fn bindgen_test_layout__mxc_uart_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rxCnt) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rxCnt) as usize - ptr as usize },
         24usize,
         concat!(
             "Offset of field: ",
@@ -11183,7 +11128,7 @@ fn bindgen_test_layout__mxc_uart_req_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).callback) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).callback) as usize - ptr as usize },
         28usize,
         concat!(
             "Offset of field: ",
@@ -11197,247 +11142,245 @@ extern "C" {
     #[doc = " @brief   Initialize and enable UART peripheral.\n\n This function initializes everything necessary to call a UART transaction function.\n Some parameters are set to defaults as follows:\n UART Data Size    - 8 bits\n UART Stop Bits    - 1 bit\n UART Parity       - None\n UART Flow Control - None\n\n These parameters can be modified after initialization using low level functions\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   baud         The requested clock frequency. The actual clock frequency\n                       will be returned by the function if successful.\n @param   clock        Clock source\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_UART_Init(
         uart: *mut mxc_uart_regs_t,
-        baud: ::std::os::raw::c_uint,
+        baud: ::core::ffi::c_uint,
         clock: mxc_uart_clock_t,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Disable and shutdown UART peripheral.\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_UART_Shutdown(uart: *mut mxc_uart_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_UART_Shutdown(uart: *mut mxc_uart_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Checks if the given UART bus can be placed in sleep more.\n\n @note    This functions checks to see if there are any on-going UART transactions in\n          progress. If there are transactions in progress, the application should\n          wait until the UART bus is free before entering a low-power state.\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n\n @return  #E_NO_ERROR if ready, and non-zero if busy or error. See \\ref\n          MXC_Error_Codes for the list of error return codes."]
-    pub fn MXC_UART_ReadyForSleep(uart: *mut mxc_uart_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_UART_ReadyForSleep(uart: *mut mxc_uart_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Set the frequency of the UART interface.\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   baud         The desired baud rate\n @param   clock        Clock source\n\n @return  Negative if error, otherwise actual speed set. See \\ref\n          MXC_Error_Codes for the list of error return codes."]
     pub fn MXC_UART_SetFrequency(
         uart: *mut mxc_uart_regs_t,
-        baud: ::std::os::raw::c_uint,
+        baud: ::core::ffi::c_uint,
         clock: mxc_uart_clock_t,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Get the frequency of the UART interface.\n\n @note    This function is applicable in Master mode only\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n\n @return  The UART baud rate"]
-    pub fn MXC_UART_GetFrequency(uart: *mut mxc_uart_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_UART_GetFrequency(uart: *mut mxc_uart_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Sets the number of bits per character\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   dataSize     The number of bits per character (5-8 bits/character are valid)\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_UART_SetDataSize(
         uart: *mut mxc_uart_regs_t,
-        dataSize: ::std::os::raw::c_int,
-    ) -> ::std::os::raw::c_int;
+        dataSize: ::core::ffi::c_int,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Sets the number of stop bits sent at the end of a character\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   stopBits     The number of stop bits used\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_UART_SetStopBits(
         uart: *mut mxc_uart_regs_t,
         stopBits: mxc_uart_stop_t,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Sets the type of parity generation used\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   parity       see \\ref UART Parity Types for details\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_UART_SetParity(
         uart: *mut mxc_uart_regs_t,
         parity: mxc_uart_parity_t,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Sets the flow control used\n\n @param   uart            Pointer to UART registers (selects the UART block used.)\n @param   flowCtrl        see \\ref UART Flow Control Types for details\n @param   rtsThreshold    Number of bytes remaining in the RX FIFO when RTS is asserted\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_UART_SetFlowCtrl(
         uart: *mut mxc_uart_regs_t,
         flowCtrl: mxc_uart_flow_t,
-        rtsThreshold: ::std::os::raw::c_int,
-    ) -> ::std::os::raw::c_int;
+        rtsThreshold: ::core::ffi::c_int,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Sets the clock source for the baud rate generator\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   clock        Clock source\n\n @return  Actual baud rate if successful, otherwise see \\ref MXC_Error_Codes\n          for a list of return codes."]
     pub fn MXC_UART_SetClockSource(
         uart: *mut mxc_uart_regs_t,
         clock: mxc_uart_clock_t,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Checks the UART Peripheral for an ongoing transmission\n\n @note    This function is applicable in Master mode only\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n\n @return  Active/Inactive, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_UART_GetActive(uart: *mut mxc_uart_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_UART_GetActive(uart: *mut mxc_uart_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Aborts an ongoing UART Transmission\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_UART_AbortTransmission(uart: *mut mxc_uart_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_UART_AbortTransmission(uart: *mut mxc_uart_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Reads the next available character. If no character is available, this function\n          will return an error.\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n\n @return  The character read, otherwise see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_UART_ReadCharacterRaw(uart: *mut mxc_uart_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_UART_ReadCharacterRaw(uart: *mut mxc_uart_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Writes a character on the UART. If the character cannot be written because the\n          transmit FIFO is currently full, this function returns an error.\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   character         The character to write\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_UART_WriteCharacterRaw(
         uart: *mut mxc_uart_regs_t,
         character: u8,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Reads the next available character\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n\n @return  The character read, otherwise see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_UART_ReadCharacter(uart: *mut mxc_uart_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_UART_ReadCharacter(uart: *mut mxc_uart_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Writes a character on the UART\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   character    The character to write\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
-    pub fn MXC_UART_WriteCharacter(
-        uart: *mut mxc_uart_regs_t,
-        character: u8,
-    ) -> ::std::os::raw::c_int;
+    pub fn MXC_UART_WriteCharacter(uart: *mut mxc_uart_regs_t, character: u8)
+        -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Reads the next available character\n @note    This function blocks until len characters are received\n          See MXC_UART_TransactionAsync() for a non-blocking version\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   buffer       Buffer to store data in\n @param   len          Number of characters\n\n @return  The character read, otherwise see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_UART_Read(
         uart: *mut mxc_uart_regs_t,
         buffer: *mut u8,
-        len: *mut ::std::os::raw::c_int,
-    ) -> ::std::os::raw::c_int;
+        len: *mut ::core::ffi::c_int,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Writes a byte on the UART\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   byte         The buffer of characters to write\n @param   len          The number of characters to write\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_UART_Write(
         uart: *mut mxc_uart_regs_t,
         byte: *const u8,
-        len: *mut ::std::os::raw::c_int,
-    ) -> ::std::os::raw::c_int;
+        len: *mut ::core::ffi::c_int,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Unloads bytes from the receive FIFO.\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   bytes        The buffer to read the data into.\n @param   len          The number of bytes to read.\n\n @return  The number of bytes actually read."]
     pub fn MXC_UART_ReadRXFIFO(
         uart: *mut mxc_uart_regs_t,
-        bytes: *mut ::std::os::raw::c_uchar,
-        len: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_uint;
+        bytes: *mut ::core::ffi::c_uchar,
+        len: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief   Unloads bytes from the receive FIFO user DMA for longer reads.\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   bytes        The buffer to read the data into.\n @param   len          The number of bytes to read.\n @param   callback     The function to call when the read is complete\n\n @return  See \\ref MXC_ERROR_CODES for a list of return values"]
     pub fn MXC_UART_ReadRXFIFODMA(
         uart: *mut mxc_uart_regs_t,
-        bytes: *mut ::std::os::raw::c_uchar,
-        len: ::std::os::raw::c_uint,
+        bytes: *mut ::core::ffi::c_uchar,
+        len: ::core::ffi::c_uint,
         callback: mxc_uart_dma_complete_cb_t,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Get the number of bytes currently available in the receive FIFO.\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n\n @return  The number of bytes available."]
-    pub fn MXC_UART_GetRXFIFOAvailable(uart: *mut mxc_uart_regs_t) -> ::std::os::raw::c_uint;
+    pub fn MXC_UART_GetRXFIFOAvailable(uart: *mut mxc_uart_regs_t) -> ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief   Loads bytes into the transmit FIFO.\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   bytes        The buffer containing the bytes to write\n @param   len          The number of bytes to write.\n\n @return  The number of bytes actually written."]
     pub fn MXC_UART_WriteTXFIFO(
         uart: *mut mxc_uart_regs_t,
-        bytes: *const ::std::os::raw::c_uchar,
-        len: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_uint;
+        bytes: *const ::core::ffi::c_uchar,
+        len: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief   Loads bytes into the transmit FIFO using DMA for longer writes\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   bytes        The buffer containing the bytes to write\n @param   len          The number of bytes to write.\n @param   callback     The function to call when the write is complete\n\n @return  See \\ref MXC_ERROR_CODES for a list of return values"]
     pub fn MXC_UART_WriteTXFIFODMA(
         uart: *mut mxc_uart_regs_t,
-        bytes: *const ::std::os::raw::c_uchar,
-        len: ::std::os::raw::c_uint,
+        bytes: *const ::core::ffi::c_uchar,
+        len: ::core::ffi::c_uint,
         callback: mxc_uart_dma_complete_cb_t,
-    ) -> ::std::os::raw::c_int;
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Get the amount of free space available in the transmit FIFO.\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n\n @return  The number of bytes available."]
-    pub fn MXC_UART_GetTXFIFOAvailable(uart: *mut mxc_uart_regs_t) -> ::std::os::raw::c_uint;
+    pub fn MXC_UART_GetTXFIFOAvailable(uart: *mut mxc_uart_regs_t) -> ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief   Removes and discards all bytes currently in the receive FIFO.\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n\n @return  See \\ref MXC_Error_Codes for the list of error return codes."]
-    pub fn MXC_UART_ClearRXFIFO(uart: *mut mxc_uart_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_UART_ClearRXFIFO(uart: *mut mxc_uart_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Removes and discards all bytes currently in the transmit FIFO.\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n\n @return  See \\ref MXC_Error_Codes for the list of error return codes."]
-    pub fn MXC_UART_ClearTXFIFO(uart: *mut mxc_uart_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_UART_ClearTXFIFO(uart: *mut mxc_uart_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Set the receive threshold level.\n\n @note    RX FIFO Receive threshold. Smaller values will cause\n          interrupts to occur more often, but reduce the possibility\n          of losing data because of a FIFO overflow. Larger values\n          will reduce the time required by the ISR, but increase the\n          possibility of data loss. Passing an invalid value will\n          cause the driver to use the value already set in the\n          appropriate register.\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   numBytes     The threshold level to set. This value must be\n                       between 0 and 8 inclusive.\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_UART_SetRXThreshold(
         uart: *mut mxc_uart_regs_t,
-        numBytes: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_int;
+        numBytes: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Get the current receive threshold level.\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n\n @return  The receive threshold value (in bytes)."]
-    pub fn MXC_UART_GetRXThreshold(uart: *mut mxc_uart_regs_t) -> ::std::os::raw::c_uint;
+    pub fn MXC_UART_GetRXThreshold(uart: *mut mxc_uart_regs_t) -> ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief   Set the transmit threshold level.\n\n @note    TX FIFO threshold. Smaller values will cause interrupts\n          to occur more often, but reduce the possibility of terminating\n          a transaction early in master mode, or transmitting invalid data\n          in slave mode. Larger values will reduce the time required by\n          the ISR, but increase the possibility errors occurring. Passing\n          an invalid value will cause the driver to use the value already\n          set in the appropriate register.\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   numBytes     The threshold level to set.  This value must be\n                       between 0 and 8 inclusive.\n\n @return  Success/Fail, see \\ref MXC_Error_Codes for a list of return codes."]
     pub fn MXC_UART_SetTXThreshold(
         uart: *mut mxc_uart_regs_t,
-        numBytes: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_int;
+        numBytes: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Get the current transmit threshold level.\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n\n @return  The transmit threshold value (in bytes)."]
-    pub fn MXC_UART_GetTXThreshold(uart: *mut mxc_uart_regs_t) -> ::std::os::raw::c_uint;
+    pub fn MXC_UART_GetTXThreshold(uart: *mut mxc_uart_regs_t) -> ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief   Gets the interrupt flags that are currently set\n\n @note    These functions should not be used while using non-blocking Transaction Level\n          functions (Async or DMA)\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n\n @return The interrupt flags"]
-    pub fn MXC_UART_GetFlags(uart: *mut mxc_uart_regs_t) -> ::std::os::raw::c_uint;
+    pub fn MXC_UART_GetFlags(uart: *mut mxc_uart_regs_t) -> ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief   Clears the interrupt flags that are currently set\n\n @note    These functions should not be used while using non-blocking Transaction Level\n          functions (Async or DMA)\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   flags        mask of flags to clear\n\n @return  See \\ref MXC_Error_Codes for the list of error return codes."]
     pub fn MXC_UART_ClearFlags(
         uart: *mut mxc_uart_regs_t,
-        flags: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_int;
+        flags: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Enables specific interrupts\n\n @note    These functions should not be used while using non-blocking Transaction Level\n          functions (Async or DMA)\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   mask         The interrupts to be enabled\n\n @return  See \\ref MXC_Error_Codes for the list of error return codes."]
     pub fn MXC_UART_EnableInt(
         uart: *mut mxc_uart_regs_t,
-        mask: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_int;
+        mask: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Disables specific interrupts\n\n @note    These functions should not be used while using non-blocking Transaction Level\n          functions (Async or DMA)\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n @param   mask         The interrupts to be disabled\n\n @return  See \\ref MXC_Error_Codes for the list of error return codes."]
     pub fn MXC_UART_DisableInt(
         uart: *mut mxc_uart_regs_t,
-        mask: ::std::os::raw::c_uint,
-    ) -> ::std::os::raw::c_int;
+        mask: ::core::ffi::c_uint,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Gets the status flags that are currently set\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n\n @return  The status flags"]
-    pub fn MXC_UART_GetStatus(uart: *mut mxc_uart_regs_t) -> ::std::os::raw::c_uint;
+    pub fn MXC_UART_GetStatus(uart: *mut mxc_uart_regs_t) -> ::core::ffi::c_uint;
 }
 extern "C" {
     #[doc = " @brief   Performs a blocking UART transaction.\n\n @note    Performs a blocking UART transaction as follows.\n          If tx_len is non-zero, transmit TX data\n          Once tx_len has been sent, if rx_len is non-zero, receive data\n\n @param   req          Pointer to details of the transaction\n\n @return  See \\ref MXC_Error_Codes for the list of error return codes."]
-    pub fn MXC_UART_Transaction(req: *mut mxc_uart_req_t) -> ::std::os::raw::c_int;
+    pub fn MXC_UART_Transaction(req: *mut mxc_uart_req_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Setup an interrupt-driven UART transaction\n\n @note    The TX FIFO will be filled with txData if necessary\n          Relevant interrupts will be enabled\n\n @param   req          Pointer to details of the transaction\n\n @return  See \\ref MXC_Error_Codes for the list of error return codes."]
-    pub fn MXC_UART_TransactionAsync(req: *mut mxc_uart_req_t) -> ::std::os::raw::c_int;
+    pub fn MXC_UART_TransactionAsync(req: *mut mxc_uart_req_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Setup a DMA driven UART transaction\n\n @note    The TX FIFO will be filled with txData if necessary\n          Relevant interrupts will be enabled\n          The DMA channel indicated by the request will be set up to load/unload the FIFOs\n          with as few interrupt-based events as possible. The channel will be reset and\n          returned to the system at the end of the transaction.\n\n @param   req          Pointer to details of the transaction\n\n @return  See \\ref MXC_Error_Codes for the list of error return codes."]
-    pub fn MXC_UART_TransactionDMA(req: *mut mxc_uart_req_t) -> ::std::os::raw::c_int;
+    pub fn MXC_UART_TransactionDMA(req: *mut mxc_uart_req_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   The processing function for DMA transactions.\n\n When using the DMA functions, the application must call this\n function periodically. This can be done from within the DMA Interrupt Handler.\n\n @param   ch          DMA channel\n @param   error       Error status"]
-    pub fn MXC_UART_DMACallback(ch: ::std::os::raw::c_int, error: ::std::os::raw::c_int);
+    pub fn MXC_UART_DMACallback(ch: ::core::ffi::c_int, error: ::core::ffi::c_int);
 }
 extern "C" {
     #[doc = " @brief   Async callback\n\n @param   uart      The uart\n @param   retVal    The ret value\n\n @return  See \\ref MXC_Error_Codes for the list of error return codes."]
     pub fn MXC_UART_AsyncCallback(
         uart: *mut mxc_uart_regs_t,
-        retVal: ::std::os::raw::c_int,
-    ) -> ::std::os::raw::c_int;
+        retVal: ::core::ffi::c_int,
+    ) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   stop any async callbacks\n\n @param   uart      The uart\n\n @return  See \\ref MXC_Error_Codes for the list of error return codes."]
-    pub fn MXC_UART_AsyncStop(uart: *mut mxc_uart_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_UART_AsyncStop(uart: *mut mxc_uart_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Abort any asynchronous requests in progress.\n\n @note    Abort any asynchronous requests in progress. Any callbacks associated with\n          the active transaction will be executed to indicate when the transaction\n          has been terminated.\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n\n @return  See \\ref MXC_Error_Codes for the list of error return codes."]
-    pub fn MXC_UART_AbortAsync(uart: *mut mxc_uart_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_UART_AbortAsync(uart: *mut mxc_uart_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   The processing function for asynchronous transactions.\n\n @note    When using the asynchronous functions, the application must call this\n          function periodically. This can be done from within the UART interrupt\n          handler or periodically by the application if UART interrupts are disabled.\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n\n @return  See \\ref MXC_Error_Codes for the list of error return codes."]
-    pub fn MXC_UART_AsyncHandler(uart: *mut mxc_uart_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_UART_AsyncHandler(uart: *mut mxc_uart_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief   Provide TXCount for asynchronous transactions..\n\n @param   uart         Pointer to UART registers (selects the UART block used.)\n\n @return  Returns transmit bytes (in FIFO)."]
@@ -11462,20 +11405,20 @@ pub struct mxc_wdt_regs_t {
 }
 #[test]
 fn bindgen_test_layout_mxc_wdt_regs_t() {
-    const UNINIT: ::std::mem::MaybeUninit<mxc_wdt_regs_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<mxc_wdt_regs_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<mxc_wdt_regs_t>(),
+        ::core::mem::size_of::<mxc_wdt_regs_t>(),
         16usize,
         concat!("Size of: ", stringify!(mxc_wdt_regs_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<mxc_wdt_regs_t>(),
+        ::core::mem::align_of::<mxc_wdt_regs_t>(),
         4usize,
         concat!("Alignment of ", stringify!(mxc_wdt_regs_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).ctrl) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).ctrl) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -11485,7 +11428,7 @@ fn bindgen_test_layout_mxc_wdt_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).rst) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).rst) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -11495,7 +11438,7 @@ fn bindgen_test_layout_mxc_wdt_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).clksel) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).clksel) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -11505,7 +11448,7 @@ fn bindgen_test_layout_mxc_wdt_regs_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).cnt) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).cnt) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -11548,19 +11491,19 @@ pub const mxc_wdt_period_t_MXC_WDT_PERIOD_2_17: mxc_wdt_period_t = 14;
 #[doc = "< Period 2^16"]
 pub const mxc_wdt_period_t_MXC_WDT_PERIOD_2_16: mxc_wdt_period_t = 15;
 #[doc = " @brief Watchdog upper limit period enumeration.\nUsed to configure the period of the watchdog interrupt"]
-pub type mxc_wdt_period_t = ::std::os::raw::c_uint;
+pub type mxc_wdt_period_t = ::core::ffi::c_uint;
 pub const mxc_wdt_int_t_MXC_WDT_INT_TOO_LATE: mxc_wdt_int_t = 512;
 pub const mxc_wdt_int_t_MXC_WDT_INT_TOO_SOON: mxc_wdt_int_t = 4096;
 #[doc = " @brief Watchdog interrupt flag enumeration"]
-pub type mxc_wdt_int_t = ::std::os::raw::c_uint;
+pub type mxc_wdt_int_t = ::core::ffi::c_uint;
 pub const mxc_wdt_rst_t_MXC_WDT_RST_TOO_LATE: mxc_wdt_rst_t = 2147483648;
 pub const mxc_wdt_rst_t_MXC_WDT_RST_TOO_SOON: mxc_wdt_rst_t = 1073741824;
 #[doc = " @brief Watchdog reset flag enumeration"]
-pub type mxc_wdt_rst_t = ::std::os::raw::c_uint;
+pub type mxc_wdt_rst_t = ::core::ffi::c_uint;
 pub const mxc_wdt_mode_t_MXC_WDT_COMPATIBILITY: mxc_wdt_mode_t = 0;
 pub const mxc_wdt_mode_t_MXC_WDT_WINDOWED: mxc_wdt_mode_t = 1;
 #[doc = " @brief Watchdog mode enumeration"]
-pub type mxc_wdt_mode_t = ::std::os::raw::c_uint;
+pub type mxc_wdt_mode_t = ::core::ffi::c_uint;
 #[doc = " @brief Timer Configuration"]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -11578,20 +11521,20 @@ pub struct mxc_wdt_cfg_t {
 }
 #[test]
 fn bindgen_test_layout_mxc_wdt_cfg_t() {
-    const UNINIT: ::std::mem::MaybeUninit<mxc_wdt_cfg_t> = ::std::mem::MaybeUninit::uninit();
+    const UNINIT: ::core::mem::MaybeUninit<mxc_wdt_cfg_t> = ::core::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<mxc_wdt_cfg_t>(),
+        ::core::mem::size_of::<mxc_wdt_cfg_t>(),
         20usize,
         concat!("Size of: ", stringify!(mxc_wdt_cfg_t))
     );
     assert_eq!(
-        ::std::mem::align_of::<mxc_wdt_cfg_t>(),
+        ::core::mem::align_of::<mxc_wdt_cfg_t>(),
         4usize,
         concat!("Alignment of ", stringify!(mxc_wdt_cfg_t))
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).mode) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).mode) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -11601,7 +11544,7 @@ fn bindgen_test_layout_mxc_wdt_cfg_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).upperResetPeriod) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).upperResetPeriod) as usize - ptr as usize },
         4usize,
         concat!(
             "Offset of field: ",
@@ -11611,7 +11554,7 @@ fn bindgen_test_layout_mxc_wdt_cfg_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).lowerResetPeriod) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).lowerResetPeriod) as usize - ptr as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -11621,7 +11564,7 @@ fn bindgen_test_layout_mxc_wdt_cfg_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).upperIntPeriod) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).upperIntPeriod) as usize - ptr as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -11631,7 +11574,7 @@ fn bindgen_test_layout_mxc_wdt_cfg_t() {
         )
     );
     assert_eq!(
-        unsafe { ::std::ptr::addr_of!((*ptr).lowerIntPeriod) as usize - ptr as usize },
+        unsafe { ::core::ptr::addr_of!((*ptr).lowerIntPeriod) as usize - ptr as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -11643,12 +11586,11 @@ fn bindgen_test_layout_mxc_wdt_cfg_t() {
 }
 extern "C" {
     #[doc = " @brief Initialize the Watchdog Timer\n @param       wdt     Pointer to the watchdog registers\n @param       cfg     watchdog configuration\n @return      See \\ref MXC_Error_Codes for the list of error codes."]
-    pub fn MXC_WDT_Init(wdt: *mut mxc_wdt_regs_t, cfg: *mut mxc_wdt_cfg_t)
-        -> ::std::os::raw::c_int;
+    pub fn MXC_WDT_Init(wdt: *mut mxc_wdt_regs_t, cfg: *mut mxc_wdt_cfg_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief Shutdown the Watchdog Timer\n @param       wdt     Pointer to the watchdog registers\n @return      See \\ref MXC_Error_Codes for the list of error codes."]
-    pub fn MXC_WDT_Shutdown(wdt: *mut mxc_wdt_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_WDT_Shutdown(wdt: *mut mxc_wdt_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief       Set the period of the watchdog interrupt.\n @param       wdt     Pointer to watchdog registers.\n @param       cfg     watchdog configuration."]
@@ -11688,7 +11630,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief       Get the status of the reset flag.\n @param       wdt     Pointer to watchdog registers.\n @returns     1 if the previous reset was caused by the watchdog, 0 otherwise."]
-    pub fn MXC_WDT_GetResetFlag(wdt: *mut mxc_wdt_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_WDT_GetResetFlag(wdt: *mut mxc_wdt_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief       Clears the reset flag.\n @param       wdt     Pointer to watchdog registers."]
@@ -11696,7 +11638,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @brief       Get the status of the interrupt flag.\n @param       wdt     Pointer to watchdog registers.\n @returns     1 if the interrupt is pending, 0 otherwise."]
-    pub fn MXC_WDT_GetIntFlag(wdt: *mut mxc_wdt_regs_t) -> ::std::os::raw::c_int;
+    pub fn MXC_WDT_GetIntFlag(wdt: *mut mxc_wdt_regs_t) -> ::core::ffi::c_int;
 }
 extern "C" {
     #[doc = " @brief       Clears the interrupt flag.\n @param       wdt     Pointer to watchdog registers."]

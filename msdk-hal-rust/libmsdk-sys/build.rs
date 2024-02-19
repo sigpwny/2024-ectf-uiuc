@@ -6,14 +6,16 @@ fn main() {
     let gcc_arm_path = env::var("GCC_ARM_PATH").unwrap();
     let out_path = "src";
     // Compile MSDK via makefile located in ./msdk and print output as it runs
-    std::process::Command::new("make")
-        .current_dir("./msdk")
-        .output()
-        .expect("Failed to compile MSDK");
-    // Provide compiled MSDK object files to Rust linker
-    println!("cargo:rustc-link-search=./msdk/build");
-    // Create Rust bindings
+    // std::process::Command::new("make")
+    //     .current_dir("./msdk")
+    //     .output()
+    //     .expect("Failed to compile MSDK");
+    // // Provide compiled MSDK object files to Rust linker
+    // println!("cargo:rustc-link-search=./msdk/build");
+    // // Create Rust bindings
     let bindings = bindgen::Builder::default()
+        .use_core()
+        .ctypes_prefix("::core::ffi")
         .header("./msdk/wrapper.h")
         .clang_arg(format!("-I{}/Libraries/Boards/MAX78000/FTHR_RevA/Include/", maxim_path))
         .clang_arg(format!("-I{}/Libraries/CMSIS/5.9.0/Core/Include/", maxim_path))
