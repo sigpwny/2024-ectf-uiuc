@@ -18,7 +18,7 @@ fn recv(address: u8) -> [u8; 64] {
     return msg;
 }
 
-fn enc_send(address: u8, u32 id, message: &[u8; 64]) {
+fn enc_send(id: address: u8, u32, message: &[u8; 64]) {
     let enc_message = encrypt(message); //Apply Ascon to message
     send(address, enc_message);
 }
@@ -28,7 +28,7 @@ fn enc_recv(address: u8) -> [u8; 64] {
     return decrypt(enc_message); //Decrypt message
 }
 
-fn secure_recv(u32 id, message: &mut [u8; 64]) {
+fn secure_recv(id: u32, message: &mut [u8; 64]) {
     // TODO
 }
 
