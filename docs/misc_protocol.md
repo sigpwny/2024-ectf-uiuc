@@ -6,7 +6,10 @@ Description TODO. All MISC messages are sent over the [HIDE protocol](./hide_pro
 > "TTT" refers to "total transaction time" and is used to ensure timing functionality requirements are met.
 
 ## List Components
-Description TODO.
+The host will ask the application processor to, quite literally, "list" its components.
+The Application Processor, upon receiving the message from the host, has to ping
+the components. It will send magic bytes recognizable to the components and waits for responses from the components. If a response is not received within a 
+threshold of one second, the AP logs the component as "not found" to the Host, but if a response is received, then the AP logs the component ID to the Host.
 
 ```mermaid
 sequenceDiagram
@@ -17,26 +20,37 @@ sequenceDiagram
   H ->> AP: "list component request"
   AP ->> H: "Log component IDs"
   Note over AP, C2: The request is sent to both components are the same time
-  AP ->> C1: PING with component ID
-  AP ->> C2: PING with component ID
-  C1 ->> AP: PONG with component ID
+  AP ->> C1: PING1 with component ID
+  C1 ->> AP: PONG1 with component ID
+  
+ 
   AP ->> H: Log Component 1 as found
   alt C1 response > 1s
     AP -x H: "Component 1 not found"
   end
-  C2 ->> AP: PONG with component ID
+  AP ->> C2: PING2 with component ID
+  C2 ->> AP: PONG2 with component ID
   AP ->> H: Log Component 2 as found
   alt C2 response > 1s
     AP -x H: "Component 2 not found"
   end
 ```
 
-### COMMAND_NAME
+### LIST_PING
 Description TODO.
 
 | Name      | Offset | Size (bytes) | Content |
 | --------- | ------ | ------------ | ------- |
 | Magic     | `0x00` | 1            | `\x50`  |
+| TODO      | TODO   | TODO         | TODO    |
+
+### LIST_PONG
+Description TODO.
+
+
+| Name      | Offset | Size (bytes) | Content |
+| --------- | ------ | ------------ | ------- |
+| Magic     | `0x00` | 1            | `\x51`  |
 | TODO      | TODO   | TODO         | TODO    |
 
 ## Attest Components
