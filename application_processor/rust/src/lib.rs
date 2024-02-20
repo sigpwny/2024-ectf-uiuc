@@ -1,34 +1,11 @@
 #![no_std]
 #![no_main]
 
-let MSG_REQ = 0001; //magic byte
-let CHAL_SEND = 0010; //magic byte
-let CHAL_RESP = 0011; //magic byte
-let device_id = get_id(); //assuming a device can access its own id
-
-fn send(address: u8, message: &[u8; 64]) {
-    // Send message to address
+fn secure_send(u32 id, message: &[u8; 64]) {
+    // TODO
 }
 
-fn recv(address: u8) -> [u8; 64] {
-    let mut msg_flag = false;
-    while (!msg_flag) {
-        if /* msg */ { msg_flag = true; }
-    }
-    return msg;
-}
-
-fn enc_send(u32 id, address: u8, id: u32, message: &[u8; 64]) {
-    let enc_message = encrypt(message); //Apply Ascon to message
-    send(address, enc_message);
-}
-
-fn enc_recv(address: u8) -> [u8; 64] {
-    let enc_message = recv(address);
-    return decrypt(enc_message); //Decrypt message
-}
-
-fn secure_recv(message: &mut [u8; 64]) {
+fn secure_recv(u32 id, message: &mut [u8; 64]) {
     // TODO
 }
 
