@@ -19,22 +19,23 @@ sequenceDiagram
   participant C2 as Component 2
   H ->> AP: "list component request"
   AP ->> H: "Log component IDs"
-  Note over AP, C2: The request is sent to both components are the same time
-  AP ->> C1: PING1 with component ID
-  C1 ->> AP: PONG1 with component ID
+  Note over AP, C2: The request is sent to both components at the same time. Components are pinged one at a time.
+  AP ->> C1: LIST_PING
+  C1 ->> AP: LIST_PONG
   
  
-  AP ->> H: Log Component 1 as found
+  AP ->> H: Log component 1 as found
   alt C1 response > 1s
     AP -x H: "Component 1 not found"
   end
-  AP ->> C2: PING2 with component ID
-  C2 ->> AP: PONG2 with component ID
-  AP ->> H: Log Component 2 as found
+  AP ->> C2: LIST_PING
+  C2 ->> AP: LIST_PONG
+  AP ->> H: Log component 2 as found
   alt C2 response > 1s
     AP -x H: "Component 2 not found"
   end
 ```
+
 
 ### LIST_PING
 Description TODO.
@@ -52,6 +53,8 @@ Description TODO.
 | --------- | ------ | ------------ | ------- |
 | Magic     | `0x00` | 1            | `\x51`  |
 | TODO      | TODO   | TODO         | TODO    |
+
+
 
 ## Attest Components
 Description TODO.
