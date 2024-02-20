@@ -25,6 +25,16 @@ fn boot_verify() {
 
 }
 
+// Called if recived message equals boot.ping
+fn validate_components() {
+
+}       
+
+// Called if recived message equals Boot Now
+fn boot_components() {
+
+}
+
 fn post_boot() {
 
 }
