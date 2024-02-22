@@ -91,4 +91,11 @@ def main():
 
 if __name__ == '__main__':
     # main()
-    package_binary('./max78000-test-debug.bin', './max78000-test-debug.img')
+    debug_bin = "./build/max78000-debug.bin"
+    debug_img = "./build/max78000-debug.img"
+    if os.path.exists(debug_bin):
+        package_binary(debug_bin, debug_img)
+    release_bin = "./build/max78000.bin"
+    release_img = "./build/max78000.img"
+    if os.path.exists(release_bin):
+        package_binary(release_bin, release_img)
