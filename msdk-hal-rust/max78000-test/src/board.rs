@@ -4,6 +4,8 @@ use core::panic::PanicInfo;
 use max78000_pac as pac;
 use max78000_hal::{gcr, gpio0, gpio2, tmr0, uart0};
 
+pub mod secure_comms;
+
 pub enum Led {
     Red = 0,
     Green = 1,
@@ -70,9 +72,10 @@ impl Board {
     #[cfg(all(debug_assertions, feature = "semihosting"))]
     pub fn send_host_debug(&self, message: &[u8]) {
         use cortex_m_semihosting::{heprint, syscall};
+        heprint!("%debug ");
         // Safety: Required to print type &[u8] to the host
         unsafe { syscall!(WRITE, 1, message.as_ptr(), message.len()) };
-        heprint!("\r\n");
+        heprint!("%\r\n");
     }
 
     /// Host debugging is disabled in release builds, so do nothing
