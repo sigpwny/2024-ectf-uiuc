@@ -2,7 +2,7 @@
 
 use core::panic::PanicInfo;
 use max78000_pac as pac;
-use max78000_hal::{gcr, gpio0, gpio2, tmr0, uart0};
+use max78000_hal::{gcr, gpio0, gpio2, i2c1, tmr0, uart0};
 
 pub mod secure_comms;
 
@@ -36,6 +36,10 @@ impl Board {
         gcr::mxc_uart0_enable_clock(&p.GCR);
         gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_UART0);
         uart0::config(&p.UART);
+        // TODO: Initialize I2C1
+        gcr::mxc_i2c1_shutdown(&p.GCR);
+        gcr::mxc_i2c1_enable_clock(&p.GCR);
+        // ...
         // Initialize TMR0 as continuous 32-bit system tick timer
         gcr::mxc_tmr0_shutdown(&p.GCR);
         gcr::mxc_tmr0_enable_clock(&p.GCR);

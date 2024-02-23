@@ -28,6 +28,28 @@ pub fn mxc_gpio0_init(gcr: &GCR) {
 }
 
 ////////////////////////////////////////
+// I2C1 Peripheral
+////////////////////////////////////////
+
+// Disable the I2C1 peripheral clock
+pub fn mxc_i2c1_shutdown(gcr: &GCR) {
+    gcr.pclkdis0().modify(|_, w| w.i2c1().set_bit());
+    while gcr.pclkdis0().read().i2c1().bit_is_clear() { }
+}
+
+// Reset the I2C1 peripheral
+pub fn mxc_i2c1_reset(gcr: &GCR) {
+    gcr.rst1().modify(|_, w| w.i2c1().set_bit());
+    while gcr.rst1().read().i2c1().bit_is_clear() { }
+}
+
+// Enable the I2C1 peripheral clock
+pub fn mxc_i2c1_enable_clock(gcr: &GCR) {
+    gcr.pclkdis0().modify(|_, w| w.i2c1().clear_bit());
+    while gcr.pclkdis0().read().i2c1().bit_is_set() { }
+}
+
+////////////////////////////////////////
 // TMR0 Peripheral
 ////////////////////////////////////////
 
