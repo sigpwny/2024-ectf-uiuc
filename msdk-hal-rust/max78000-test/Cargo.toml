@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+ascon = { version = "0.1.0", path = "../ascon" }
 cortex-m = { version = "0.7.7", features = ["critical-section-single-core"] }
 cortex-m-rt = { version = "0.7.3", features = ["set-sp", "set-vtor"] }
 cortex-m-semihosting = "0.5.0"
