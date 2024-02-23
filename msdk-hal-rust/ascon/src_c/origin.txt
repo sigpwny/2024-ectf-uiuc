@@ -1,0 +1,1 @@
+https://github.com/ascon/ascon-c/crypto_aead/ascon128v12/armv7m_lowsize
