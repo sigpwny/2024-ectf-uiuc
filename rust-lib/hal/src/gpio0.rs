@@ -73,6 +73,14 @@ pub const GPIO0_CFG_UART0: Gpio0Config = Gpio0Config {
     vssel: Gpio0VSSel::Vddio,
 };
 
+/// Pin config for I2C1 SCL and SDA
+pub const GPIO0_CFG_I2C1: Gpio0Config = Gpio0Config {
+    pins: (Gpio0Pin::Pin16 as u32) | (Gpio0Pin::Pin17 as u32),
+    func: Gpio0Func::Alt1,
+    pad: Gpio0Pad::None,
+    vssel: Gpio0VSSel::Vddio,
+};
+
 /// Configure a GPIO0 peripheral
 pub fn config(gpio0: &GPIO0, config: Gpio0Config) {
     // Safety: Only valid configs are allowed
