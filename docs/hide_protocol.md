@@ -11,25 +11,22 @@ participant AP as Device A<br />Application Processor<br />(or Component)
 participant C as Device B<br />Component<br />(or Application Processor)
 
 AP ->> C: MSG_REQ
-AP -->> C: Device A ID
-AP -->> C: Device B ID
 
 Note over C: Component generates and stores nonce
 
 C ->> AP: CHAL_SEND
-C -->> AP: Device B ID
-C -->> AP: Device A ID
-C -->> AP: Nonce
+C -->> AP: (Unencrypted): Ascon Nonce A
+C -->> AP: (Encrypted): Challenge Nonce
 
 Note over AP: Application Processor decrypts <br/>and solves the challenge
 
 AP ->> C: CHAL_RESP
-AP -->> C: Device A ID
-AP -->> C: Device B ID
-AP -->> C: Nonce + 1
-AP -->> C: Message
+AP -->> C: (Unencrypted): Ascon Nonce B
+AP -->> C: (Encrypted): Challenge Nonce + 1
+AP -->> C: (Encrypted): Message Length (max 64)
+AP -->> C: (Encrypted): Message
 
-alt Nonce + 1 Incorrect
+alt Challenge Nonce + 1 Incorrect
 	Note over C: Component resets to default state
 end
 ```
