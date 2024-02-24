@@ -43,7 +43,6 @@ Description TODO.
 | Name      | Offset | Size (bytes) | Content |
 | --------- | ------ | ------------ | ------- |
 | Magic     | `0x00` | 1            | `\x50`  |
-| TODO      | TODO   | TODO         | TODO    |
 
 ### LIST_PONG
 Description TODO.
@@ -52,8 +51,6 @@ Description TODO.
 | Name      | Offset | Size (bytes) | Content |
 | --------- | ------ | ------------ | ------- |
 | Magic     | `0x00` | 1            | `\x51`  |
-| TODO      | TODO   | TODO         | TODO    |
-
 
 
 ## Attest Components
