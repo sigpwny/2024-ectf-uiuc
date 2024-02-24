@@ -19,11 +19,13 @@ use argon2::{
  */
 const LEN_MAX_SECURE: usize = 64;
 const LEN_MAX_HOST:   usize = 32;
-const LEN_MAX_AP_BOOT_NOW: usize = 1;
-const LEN_MAX_BOOT_PINGPONG: usize = 1;
+const LEN_MAX_AP_BOOT_NOW: usize = 64;
+const LEN_MAX_BOOT_PINGPONG: usize = 64;
 const LEN_MAX_COMP_BOOT_MSG: usize = 64;
 const LEN_MAX_AP_BOOT_MSG: usize = 64;
-const LEN_MAX_COMP_ID: usize = 4;
+const LEN_MAX_HOST_SUCCESS_MSG: usize = 64;
+const LEN_MAX_HOST_ERROR_MSG: usize = 64;
+const LEN_COMP_ID: usize = 4;
 
 
 /**
@@ -88,8 +90,8 @@ fn replace_component() {
 // Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/boot_tool.py
 fn boot_verify() {
     // Get Component IDs from flash memory
-    let comp_id1: [u8; LEN_MAX_COMP_ID] = [1; LEN_MAX_COMP_ID];
-    let comp_id2: [u8; LEN_MAX_COMP_ID] = [2; LEN_MAX_COMP_ID];
+    let comp_id1: [u8; LEN_COMP_ID] = [1; LEN_COMP_ID];
+    let comp_id2: [u8; LEN_COMP_ID] = [2; LEN_COMP_ID];
 
     // Check whether components are present and valid
     validate_components(comp_id1, comp_id2);
@@ -101,57 +103,60 @@ fn boot_verify() {
     boot_components(comp_id1, comp_id2);
 }
 
-fn validate_components(comp_id1 &[u8, LEN_MAX_COMP_ID], comp_id1 &[u8, LEN_MAX_COMP_ID]) {
-    // Create Boot Fail Message
-    let mut boot_fail_msg: [u8; 21] = "Component Boot Fail: ".as_bytes();
+fn validate_components(comp_id1 [u8, LEN_COMP_ID], comp_id1 [u8, LEN_COMP_ID]) {
+    // Create Boot Fail Message\
+    let mut boot_fail_msg: [u8; 64] = [0; LEN_MAX_HOST_SUCCESS_MSG];
+    boot_fail_msg[0..3].copy_from_slice(b"Component Boot Fail:");
 
     // Send boot.ping and get boot.pong to component 1
     let send_comp1_ping: [u8; LEN_MAX_BOOT_PINGPONG] = [MAGIC_BOOT_PING; LEN_MAX_BOOT_PINGPONG];
     let mut recieve_comp1_pong: [u8; LEN_MAX_BOOT_PINGPONG] = [0; LEN_MAX_BOOT_PINGPONG];
-    secure_send(comp_id1, send_comp1_ping);
+    secure_send(comp_id1, &send_comp1_ping);
     //TODO: Call Timer Start
-    secure_recv(recieve_comp1_pong);
-    // Check timer value for less than 1 second
-    // If more than 1 second {
-    //    boot_fail_msg[20] = comp_id1[3];
-    //    send_host_error(&boot_fail_msg);
-    //}
+    secure_recv(comp_id1, &recieve_comp1_pong);
+
+    // Check if sent back value is boot.pong
+    if (recieve_comp1_pong[0] != MAGIC_BOOT_PONG) {
+        boot_fail_msg[20] = comp_id1[3];
+        send_host_error(&boot_fail_msg);
+    }
     
 
     // Send boot.ping and get boot.pong to component 2
     let send_comp2_ping: [u8; LEN_MAX_BOOT_PINGPONG] = [MAGIC_BOOT_PING; LEN_MAX_BOOT_PINGPONG];
     let mut recieve_comp2_pong: [u8; LEN_MAX_BOOT_PINGPONG] = [0; LEN_MAX_BOOT_PINGPONG];
-    secure_send(comp_id2, send_comp2_ping);
-    //TODO: Call Timer Start
-    secure_recv(recieve_comp2_pong);
-    // Check timer value for less than 1 second
-    // If more than 1 second {
-    //    boot_fail_msg[20] = comp_id1[3];
-    //    send_host_error(&boot_fail_msg);
-    //}
+    secure_send(comp_id2, &send_comp2_ping);
+    secure_recv(comp_id2, &recieve_comp2_pong);
+
+    // Check if sent back value is boot.pong
+    if (recieve_comp2_pong[0] != MAGIC_BOOT_PONG) {
+        boot_fail_msg[20] = comp_id2[3];
+        send_host_error(&boot_fail_msg);
+    }
 
 }
 
-fn boot_components(comp_id1 &[u8, LEN_MAX_COMP_ID], comp_id1 &[u8, LEN_MAX_COMP_ID]) {
+fn boot_components(comp_id1 [u8, LEN_COMP_ID], comp_id1 [u8, LEN_COMP_ID]) {
     // Boot first component
     let send_comp1_boot: [u8; LEN_MAX_AP_BOOT_NOW] = [MAGIC_BOOT_NOW; LEN_MAX_AP_BOOT_NOW];
     let mut recieve_comp1_boot: [u8; LEN_MAX_COMP_BOOT_MSG] = [0; LEN_MAX_COMP_BOOT_MSG];
-    secure_send(comp_id1, send_comp1_boot);
-    secure_recv(recieve_comp1_boot);
+    secure_send(comp_id1, &send_comp1_boot);
+    secure_recv(comp_id1, &recieve_comp1_boot);
 
     // Boot first component
     let send_comp2_boot: [u8; LEN_MAX_AP_BOOT_NOW] = [MAGIC_BOOT_NOW; LEN_MAX_AP_BOOT_NOW];
     let mut recieve_comp2_boot: [u8; LEN_MAX_COMP_BOOT_MSG] = [0; LEN_MAX_COMP_BOOT_MSG];
-    secure_send(comp_id2, send_comp2_boot);
-    secure_recv(recieve_comp2_boot);
+    secure_send(comp_id2, &send_comp2_boot);
+    secure_recv(comp_id2, &recieve_comp2_boot);
 
     // Generate Success Message and send AP & Component Boot Messages
-    let mut boot_success_msg: [u8; 5] = "Boot ".as_bytes();
+    let mut boot_success_msg: [u8; 64] = [0; LEN_MAX_HOST_SUCCES_MSG];
+    boot_success_msg[0..3].copy_from_slice(b"Boot");
     boot_success_msg[4] = 0x0a;
-    send_host_success(&boot_success_msg);
     send_host_info();//Should send AP Boot Message
     send_host_info(&recieve_comp1_boot);
     send_host_info(&recieve_comp2_boot);
+    send_host_success(&boot_success_msg);
 
 }
 
