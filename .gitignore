@@ -366,3 +366,7 @@ cython_debug/
 ## Project Post-.gitignore ##
 
 !device/lib
+
+# Rust
+target/
+Cargo.lock
