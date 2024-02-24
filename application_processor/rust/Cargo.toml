@@ -4,6 +4,9 @@ authors = ["SIGPwny <ctf@sigpwny.com>"]
 edition = "2021"
 version = "0.1.0"
 
+[lib]
+path = "src/lib.rs"
+
 [dependencies]
 argon2 = "0.5.3"
 cortex-m = "0.7.7"

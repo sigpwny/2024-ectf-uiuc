@@ -1,0 +1,7 @@
+[package]
+name = "ascon"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+cortex-m = "0.7.7"
