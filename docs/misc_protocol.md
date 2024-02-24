@@ -79,13 +79,50 @@ sequenceDiagram
 ```
 
 
-### COMMAND_NAME
+### REQUEST_LOCATION
 Description TODO.
 
 | Name      | Offset | Size (bytes) | Content |
 | --------- | ------ | ------------ | ------- |
 | Magic     | `0x00` | 1            | `\x60`  |
-| TODO      | TODO   | TODO         | TODO    |
+
+### REQUEST_DATE
+Description TODO.
+
+| Name      | Offset | Size (bytes) | Content |
+| --------- | ------ | ------------ | ------- |
+| Magic     | `0x00` | 1            | `\x61`  |
+
+### REQUEST_CUSTOMER
+Description TODO.
+
+| Name      | Offset | Size (bytes) | Content |
+| --------- | ------ | ------------ | ------- |
+| Magic     | `0x00` | 1            | `\x62`  |
+
+### SEND_LOCATION
+Description TODO.
+
+| Name             | Offset        | Size (bytes) | Content            |
+| ---------------- | ------------- | ------------ | ------------------ |
+| Magic            | `0x00`        | 1            | `\x63`             |
+| Location         | `0x01-0x41`   | 64           | `\x?? * 64`        |
+
+### SEND_DATE
+Description TODO.
+
+| Name             | Offset        | Size (bytes) | Content            |
+| ---------------- | ------------- | ------------ | ------------------ |
+| Magic            | `0x00`        | 1            | `\x64`             |
+| Date             | `0x01-0x41`   | 64           | `\x?? * 64`        |
+
+### SEND_CUSTOMER
+Description TODO.
+
+| Name             | Offset        | Size (bytes) | Content            |
+| ---------------- | ------------- | ------------ | ------------------ |
+| Magic            | `0x00`        | 1            | `\x65`             |
+| Customer         | `0x01-0x41`   | 64           | `\x?? * 64`        |
 
 ## Replace Components
 Description TODO.
