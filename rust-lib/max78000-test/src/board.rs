@@ -2,7 +2,7 @@
 
 use core::panic::PanicInfo;
 use max78000_pac as pac;
-use max78000_hal::{gcr, gpio0, gpio2, i2c1, tmr0, uart0};
+use max78000_hal::{*};
 
 pub mod secure_comms;
 
@@ -17,8 +17,10 @@ pub struct Board {
     pub gcr: pac::GCR,
     pub gpio0: pac::GPIO0,
     pub gpio2: pac::GPIO2,
+    pub i2c1: pac::I2C1,
     pub tmr0: pac::TMR,
     pub tmr1: pac::TMR1,
+    pub trng: pac::TRNG,
     pub uart0: pac::UART,
 }
 
@@ -36,15 +38,14 @@ impl Board {
         gcr::mxc_uart0_enable_clock(&p.GCR);
         gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_UART0);
         uart0::config(&p.UART);
-        // TODO: Initialize I2C1
-        gcr::mxc_i2c1_shutdown(&p.GCR);
-        gcr::mxc_i2c1_enable_clock(&p.GCR);
-        // ...
         // Initialize TMR0 as continuous 32-bit system tick timer
         gcr::mxc_tmr0_shutdown(&p.GCR);
         gcr::mxc_tmr0_enable_clock(&p.GCR);
         gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_TMR0);
         tmr0::config_as_systick(&p.TMR);
+        // Initialize TRNG
+        gcr::mxc_trng_shutdown(&p.GCR);
+        gcr::mxc_trng_enable_clock(&p.GCR);
         // Initialize LEDs
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED0);
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED1);
@@ -56,8 +57,10 @@ impl Board {
             gcr: p.GCR,
             gpio0: p.GPIO0,
             gpio2: p.GPIO2,
+            i2c1: p.I2C1,
             tmr0: p.TMR,
             tmr1: p.TMR1,
+            trng: p.TRNG,
             uart0: p.UART,
         }
     }
@@ -111,6 +114,32 @@ impl Board {
             Led::Blue => gpio2::toggle_out(&self.gpio2, gpio2::GPIO2_CFG_LED2.pins),
         }
     }
+}
+
+pub fn u8_to_hex_string(value: u8) -> [u8; 2] {
+    let mut result: [u8; 2] = [0; 2];
+    for i in 0..2 {
+        let nibble = (value >> (4 * i)) & 0xF;
+        result[1 - i] = match nibble {
+            0..=9 => b'0' + nibble as u8,
+            10..=15 => b'a' + (nibble - 10) as u8,
+            _ => b'?',
+        };
+    }
+    result
+}
+
+pub fn u32_to_hex_string(value: u32) -> [u8; 8] {
+    let mut result: [u8; 8] = [0; 8];
+    for i in 0..8 {
+        let nibble = (value >> (4 * i)) & 0xF;
+        result[7 - i] = match nibble {
+            0..=9 => b'0' + nibble as u8,
+            10..=15 => b'a' + (nibble - 10) as u8,
+            _ => b'?',
+        };
+    }
+    result
 }
 
 #[panic_handler]
