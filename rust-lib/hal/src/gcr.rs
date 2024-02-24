@@ -72,6 +72,28 @@ pub fn mxc_tmr0_enable_clock(gcr: &GCR) {
 }
 
 ////////////////////////////////////////
+// TRNG Peripheral
+////////////////////////////////////////
+
+/// Disable the TRNG peripheral clock
+pub fn mxc_trng_shutdown(gcr: &GCR) {
+    gcr.pclkdis1().modify(|_, w| w.trng().set_bit());
+    while gcr.pclkdis1().read().trng().bit_is_clear() { }
+}
+
+/// Reset the TRNG peripheral
+pub fn mxc_trng_reset(gcr: &GCR) {
+    gcr.rst0().modify(|_, w| w.trng().set_bit());
+    while gcr.rst0().read().trng().bit_is_clear() { }
+}
+
+/// Enable the TRNG peripheral clock
+pub fn mxc_trng_enable_clock(gcr: &GCR) {
+    gcr.pclkdis1().modify(|_, w| w.trng().clear_bit());
+    while gcr.pclkdis1().read().trng().bit_is_set() { }
+}
+
+////////////////////////////////////////
 // UART0 Peripheral
 ////////////////////////////////////////
 

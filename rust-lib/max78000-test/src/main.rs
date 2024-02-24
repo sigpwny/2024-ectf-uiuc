@@ -2,8 +2,8 @@
 #![no_main]
 
 use cortex_m_rt::entry;
-use max78000_hal::tmr0;
-use board::{Board, Led};
+use max78000_hal::{tmr0, trng};
+use board::{Board, Led, u8_to_hex_string};
 use board::secure_comms as hide;
 
 #[entry]
@@ -14,6 +14,7 @@ fn main() -> ! {
     let mut count = 0;
 
     test_ascon(&board);
+    test_random(&board);
 
     loop {
         // This timer logic doesn't make any sense, don't use it
@@ -35,7 +36,7 @@ fn main() -> ! {
 }
 
 fn test_ascon(board: &Board) {
-    let message: [u8; hide::LEN_ASCON_128_PTXT] = [65u8; hide::LEN_ASCON_128_PTXT];
+    let message: [u8; hide::LEN_ASCON_128_PTXT] = [b'A'; hide::LEN_ASCON_128_PTXT];
     let associated_data: [u8; hide::LEN_ASCON_128_AD] = [1, 2, 3, 4, 5, 6, 7, 8];
     let nonce: [u8; hide::LEN_ASCON_128_NONCE] = [7u8; hide::LEN_ASCON_128_NONCE];
     let key: [u8; hide::LEN_ASCON_128_KEY] = [9u8; hide::LEN_ASCON_128_KEY];
@@ -77,6 +78,16 @@ fn test_ascon(board: &Board) {
     for i in 0..64 {
         if message[i] != plaintext[i] {
             board.send_host_debug(b"Plaintext does not match message");
+            break;
         }
+    }
+}
+
+fn test_random(board: &Board) {
+    let mut random: [u8; 16] = [0u8; 16];
+    trng::random_bytes(&board.trng, &mut random);
+    board.send_host_debug(b"Random bytes:");
+    for byte in random.iter() {
+        board.send_host_debug(&u8_to_hex_string(*byte));
     }
 }
