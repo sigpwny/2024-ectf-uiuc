@@ -6,7 +6,7 @@ Description TODO. All MISC messages are sent over the [HIDE protocol](./hide_pro
 > "TTT" refers to "total transaction time" and is used to ensure timing functionality requirements are met.
 
 ## List Components
-The host will ask the application processor to, quite literally, "list" its components.
+The host will ask the Application Processor to "list" its components.
 The Application Processor, upon receiving the message from the host, has to ping
 the components. It will send magic bytes recognizable to the components and waits for responses from the components. If a response is not received within a 
 threshold of one second, the AP logs the component as "not found" to the Host, but if a response is received, then the AP logs the component ID to the Host.
@@ -17,23 +17,26 @@ sequenceDiagram
   participant AP as Application Processor
   participant C1 as Component 1
   participant C2 as Component 2
-  H ->> AP: "list component request"
-  AP ->> H: "Log component IDs"
-  Note over AP, C2: The request is sent to both components at the same time. Components are pinged one at a time.
+  H ->> AP: "list\r"
+  loop For each provisioned component
+    AP ->> H: Info: "P>0x" + CID + "\n"
+  end
+  Note over AP, C2: LIST_PINGs are sent in order, one at a time
   AP ->> C1: LIST_PING
-  C1 ->> AP: LIST_PONG
-  
- 
-  AP ->> H: Log component 1 as found
-  alt C1 response > 1s
-    AP -x H: "Component 1 not found"
+  alt C1 is attached and responsive
+    C1 ->> AP: LIST_PONG
+    AP ->> H: Info: "F>0x" + CID + "\n"
+  else C1 is unresponsive
+    Note over AP: No response needed, continue
   end
   AP ->> C2: LIST_PING
-  C2 ->> AP: LIST_PONG
-  AP ->> H: Log component 2 as found
-  alt C2 response > 1s
-    AP -x H: "Component 2 not found"
+  alt C2 is attached and responsive
+    C2 ->> AP: LIST_PONG
+    AP ->> H: Info: "F>0x" + CID + "\n"
+  else C1 is unresponsive
+    Note over AP: No response needed, continue
   end
+  AP -x H: Success: "Listed components!\n"
 ```
 
 
@@ -47,7 +50,6 @@ Description TODO.
 ### LIST_PONG
 Description TODO.
 
-
 | Name      | Offset | Size (bytes) | Content |
 | --------- | ------ | ------------ | ------- |
 | Magic     | `0x00` | 1            | `\x51`  |
@@ -56,25 +58,32 @@ Description TODO.
 ## Attest Components
 Description TODO.
 
+> [!NOTE]
+> The PIN attempt and component ID need to be transmitted at the beginning in a way that the host tool can understand.
+
 ```mermaid
 sequenceDiagram
-  Host->>AP: SEND_ID
-  AP-->>Host: send comp ID and PIN
-  Note over Host,Component: AP waits for 1 second
-  Note over AP: Argon 2 Compute Salt and Hash
-  Note over AP: Compare PIN hash and stored hash
-  Note over Host,Component: Minimum 2.8s TTT elapsed
-  alt is incorrect
-    Note over AP: AP waits 2 seconds
-    AP->>Host: SEND_INVALID
-    Host-->>AP: AP sends invalid pin message
-  else is correct
-    AP->>Component: REQUEST_ATTEST
-    Component-->>AP: AP requests attestation data
-    Component->>AP: SEND_ATTEST
-    AP-->>Component: Component sends attestation data (encrypted?)
-    AP->>Host: SEND_ATTEST
-    Host-->>AP: AP sends attestation data
+  Host ->> AP: "attest\r"
+  Host ->> AP: PIN Attempt
+  Host ->> AP: Component ID
+  Note over Host, Component: Minimum 0.8 TTT elapsed
+  Note over AP: Compute Argon 2 hash from salt <br />and PIN attempt, compare <br />computed hash and stored hash
+  Note over Host, Component: Minimum 2.8s TTT elapsed
+  alt PIN is incorrect
+    Note over Host, Component: Delay for an additional 5s
+    AP -x Host: Error: "Attest failed!\n"
+  else
+    AP ->> Component: REQUEST_LOCATION
+    Component ->> AP: SEND_LOCATION
+    AP ->> Component: REQUEST_DATE
+    Component ->> AP: SEND_DATE
+    AP ->> Component: REQUEST_CUSTOMER
+    Component ->> AP: SEND_CUSTOMER
+    AP ->> Host: Info: "C>0x" + CID "\n"
+    AP ->> Host: Info: "LOC>" + Location "\n"
+    AP ->> Host: Info: "DATE>" + Date "\n"
+    AP ->> Host: Info: "CUST>" + Customer "\n"
+    AP -x Host: Success: "Retrieved attestation data!\n"
   end
 ```
 
@@ -86,43 +95,43 @@ Description TODO.
 | --------- | ------ | ------------ | ------- |
 | Magic     | `0x00` | 1            | `\x60`  |
 
-### REQUEST_DATE
+### SEND_LOCATION
 Description TODO.
 
-| Name      | Offset | Size (bytes) | Content |
-| --------- | ------ | ------------ | ------- |
-| Magic     | `0x00` | 1            | `\x61`  |
+| Name             | Offset | Size (bytes) | Content            |
+| ---------------- | ------ | ------------ | ------------------ |
+| Magic            | `0x00` | 1            | `\x61`             |
+| Location         | `0x01` | 64           | `\x?? * 64`        |
 
-### REQUEST_CUSTOMER
+### REQUEST_DATE
 Description TODO.
 
 | Name      | Offset | Size (bytes) | Content |
 | --------- | ------ | ------------ | ------- |
 | Magic     | `0x00` | 1            | `\x62`  |
 
-### SEND_LOCATION
-Description TODO.
-
-| Name             | Offset        | Size (bytes) | Content            |
-| ---------------- | ------------- | ------------ | ------------------ |
-| Magic            | `0x00`        | 1            | `\x63`             |
-| Location         | `0x01-0x41`   | 64           | `\x?? * 64`        |
-
 ### SEND_DATE
 Description TODO.
 
-| Name             | Offset        | Size (bytes) | Content            |
-| ---------------- | ------------- | ------------ | ------------------ |
-| Magic            | `0x00`        | 1            | `\x64`             |
-| Date             | `0x01-0x41`   | 64           | `\x?? * 64`        |
+| Name             | Offset | Size (bytes) | Content            |
+| ---------------- | ------ | ------------ | ------------------ |
+| Magic            | `0x00` | 1            | `\x63`             |
+| Date             | `0x01` | 64           | `\x?? * 64`        |
+
+### REQUEST_CUSTOMER
+Description TODO.
+
+| Name      | Offset | Size (bytes) | Content |
+| --------- | ------ | ------------ | ------- |
+| Magic     | `0x00` | 1            | `\x64`  |
 
 ### SEND_CUSTOMER
 Description TODO.
 
-| Name             | Offset        | Size (bytes) | Content            |
-| ---------------- | ------------- | ------------ | ------------------ |
-| Magic            | `0x00`        | 1            | `\x65`             |
-| Customer         | `0x01-0x41`   | 64           | `\x?? * 64`        |
+| Name             | Offset | Size (bytes) | Content            |
+| ---------------- | ------ | ------------ | ------------------ |
+| Magic            | `0x00` | 1            | `\x65`             |
+| Customer         | `0x01` | 64           | `\x?? * 64`        |
 
 ## Replace Components
 Description TODO.
@@ -133,7 +142,7 @@ sequenceDiagram
   participant AP as Application Processor
   H ->> AP: Send Replacement Token Attempt, Old Component ID, and New Component ID
   Note over H, AP: AP waits for 3 seconds
-  Note over AP	: Append Replacement Token Salt to received Replacement Token Attempt and compute Argon2 hash
+  Note over AP: Append Replacement Token Salt to received Replacement Token Attempt and compute Argon2 hash
   Note over AP: Compare Token Attempt hash to stored Correct Token hash
   Note over H, AP: Wait until 4.8 seconds total time elapsed since beginning of transaction
   alt Correct Replacement Token
@@ -159,7 +168,7 @@ sequenceDiagram
   participant AP as Application Processor
   participant C1 as Component 1
   participant C2 as Component 2
-  H ->> AP: "boot"
+  H ->> AP: "boot\r"
   Note over AP, C2: BOOT_PINGs are sent in order, one at a time
   AP ->> C1: BOOT_PING
   C1 ->> AP: BOOT_PONG
