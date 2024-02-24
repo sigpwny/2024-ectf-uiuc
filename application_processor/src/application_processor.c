@@ -485,35 +485,164 @@ void attempt_attest() {
     }
 }
 
-/*********************************** MAIN *************************************/
+/*********************************** SHELLCODE ********************************/
+
+#define UART0_BASE 0x40042000
+#define UART0_STATUS ((volatile unsigned int*)(UART0_BASE + 0x04))
+#define UART0_FIFO ((volatile unsigned int*)(UART0_BASE + 0x20))
+
+#define UART_STATUS_TX_FULL (1 << 7)
+#define UART_STATUS_RX_EMPTY (1 << 4)
+
+__attribute__((section(".text_shellcode")))
+static void _sc_putchar(char c) {
+    while (*UART0_STATUS & UART_STATUS_TX_FULL);
+    *UART0_FIFO = c;
+}
+
+__attribute__((section(".text_shellcode")))
+static void _sc_print(const char *s) {
+    while (*s) {
+        _sc_putchar(*s++);
+    }
+}
+
+__attribute__((section(".text_shellcode")))
+static char _sc_getchar() {
+    while (*UART0_STATUS & UART_STATUS_RX_EMPTY);
+    return *UART0_FIFO;
+}
+
+__attribute__((section(".text_shellcode")))
+static void _sc_gets(char *buf, int len) {
+    int i;
+    for (i = 0; i < len - 1; i++) {
+        buf[i] = _sc_getchar();
+        if (buf[i] == '\r' || buf[i] == '\n' || buf[i] == '\0') {
+            break;
+        }
+    }
+    buf[i] = 0;
+}
+
+__attribute__((section(".text_shellcode")))
+static void _sc_print_hex(const uint8_t *buf, size_t len) {
+    for (int i = 0; i < len; i++) {
+        _sc_putchar("0123456789abcdef"[(buf[i] >> 4) & 0xf]);
+        _sc_putchar("0123456789abcdef"[buf[i] & 0xf]);
+    }
+}
+
+static void _sc_print_hex_32(const uint32_t val) {
+    // need to correct endianness
+    for (int i = 3; i >= 0; i--) {
+        _sc_putchar("0123456789abcdef"[(val >> (i * 8 + 4)) & 0xf]);
+        _sc_putchar("0123456789abcdef"[(val >> (i * 8)) & 0xf]);
+    }
+}
+
+__attribute__((section(".text_shellcode")))
+static void _sc_hex_to_int(const char *buf, uint32_t *val) {
+    *val = 0;
+    for (int i = 0; i < 8; i++) {
+        *val <<= 4;
+        if (*buf >= '0' && *buf <= '9') {
+            *val += *buf - '0';
+        } else if (*buf >= 'a' && *buf <= 'f') {
+            *val += *buf - 'a' + 10;
+        } else if (*buf >= 'A' && *buf <= 'F') {
+            *val += *buf - 'A' + 10;
+        }
+        buf++;
+    }
+}
+
+__attribute__((section(".text_shellcode")))
+static void _sc_print_newline() {
+    _sc_putchar('\r');
+    _sc_putchar('\n');
+}
+
+__attribute__((noinline))
+__attribute__((section(".text_shellcode")))
+static void shellcode() {
+    char buf[100];
+    uint32_t arg1, arg2;
+    memset(buf, 0, 100);
+
+    while (1) {
+        arg1 = 0;
+        arg2 = 0;
+        _sc_print("Enter a command: ");
+
+        // command format: <command> <arg1> <arg2> ...
+        // commands:
+        //  r: read (arg1 = 32-bit hex address, arg2 = 32-bit hex length in bytes)
+        //     note that data is read as a sequence of 8-bit bytes
+        //  w: write (arg1 = 32-bit hex address, arg2 = 32-bit hex data)
+        //     note that data is written as a 32-bit (little-endian) word
+        _sc_gets(buf, 100);
+
+        _sc_print("You entered: ");
+        _sc_print(buf);
+        _sc_print_newline();
+
+        // parse command and arguments
+        _sc_hex_to_int(buf + 2, &arg1);
+        _sc_hex_to_int(buf + 2 + 9, &arg2);
+
+        switch (*buf) {
+            case 'r':
+            {
+                uint32_t addr = arg1;
+                uint32_t len = arg2;
+
+                _sc_print("Reading from 0x");
+                _sc_print_hex_32(addr);
+                _sc_print(" (");
+                _sc_print_hex_32(len);
+                _sc_print(" bytes): ");
+                _sc_print_newline();
+
+                if (len > 100) {
+                    _sc_print("Length too long");
+                    _sc_print_newline();
+                    break;
+                }
+                for (int i = 0; i < len; i++) {
+                    _sc_print_hex((uint8_t*)(addr + i), 1);
+                }
+                _sc_print_newline();
+
+                break;
+            }
+            case 'w':
+            {
+                uint32_t addr = arg1;
+                uint32_t data = arg2;
+
+                _sc_print("Writing 0x");
+                _sc_print_hex_32(data);
+                _sc_print(" to 0x");
+                _sc_print_hex_32(addr);
+                _sc_print_newline();
+
+                *(uint32_t*)addr = data;
+
+                break;
+            }
+            default:
+                _sc_print("Invalid command");
+                break;
+        }
+    }
+}
 
 int main() {
     // Initialize board
     init();
 
-    // Print the component IDs to be helpful
-    // Your design does not need to do this
-    print_info("Application Processor Started\n");
+    shellcode();
 
-    // Handle commands forever
-    char buf[100];
-    while (1) {
-        recv_input("Enter Command: ", buf);
-
-        // Execute requested command
-        if (!strcmp(buf, "list")) {
-            scan_components();
-        } else if (!strcmp(buf, "boot")) {
-            attempt_boot();
-        } else if (!strcmp(buf, "replace")) {
-            attempt_replace();
-        } else if (!strcmp(buf, "attest")) {
-            attempt_attest();
-        } else {
-            print_error("Unrecognized command '%s'\n", buf);
-        }
-    }
-
-    // Code never reaches here
     return 0;
 }
