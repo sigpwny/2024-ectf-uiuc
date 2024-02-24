@@ -23,7 +23,6 @@ Note over AP: Application Processor decrypts <br/>and solves the challenge
 AP ->> C: CHAL_RESP
 AP -->> C: (Unencrypted): Ascon Nonce B
 AP -->> C: (Encrypted): Challenge Nonce + 1
-AP -->> C: (Encrypted): Message Length (max 64)
 AP -->> C: (Encrypted): Message
 
 alt Challenge Nonce + 1 Incorrect
@@ -48,7 +47,6 @@ Description TODO.
 | Name      | Offset | Size (bytes) | Content |
 | --------- | ------ | ------------ | ------- |
 | Magic     | `0x00` | 1            | `\x40`  |
-| TODO      | TODO   | TODO         | TODO    |
 
 ### CHAL_SEND
 Description TODO.
@@ -56,7 +54,11 @@ Description TODO.
 | Name      | Offset | Size (bytes) | Content |
 | --------- | ------ | ------------ | ------- |
 | Magic     | `0x00` | 1            | `\x41`  |
-| TODO      | TODO   | TODO         | TODO    |
+| Ascon Nonce | `0x01` | 16         | `\x?? * 16`  |
+| Encrypted data | `0x01` | 32   | Challenge Nonce (16 bytes) + Ascon Tag (16 bytes)  |
+
+> [!WARNING]
+> Ascon Nonce should be randomly uniquely generated for all messages
 
 ### CHAL_RESP
 Description TODO.
@@ -64,7 +66,12 @@ Description TODO.
 | Name      | Offset | Size (bytes) | Content |
 | --------- | ------ | ------------ | ------- |
 | Magic     | `0x00` | 1            | `\x42`  |
-| TODO      | TODO   | TODO         | TODO    |
+| Ascon Nonce | `0x01` | 16         | `\x?? * 16`  |
+| Encrypted data | `0x11` | 112  | Challenge Nonce (16 bytes) + Message (always 80 bytes, zero padded) + Ascon Tag (16 bytes)  |
+
+
+> [!WARNING]
+> Ascon Nonce should be randomly uniquely generated for all messages
 
 > [!NOTE]  
 > Application messages can only be a maximum of 64 bytes.
