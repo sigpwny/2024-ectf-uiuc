@@ -23,6 +23,7 @@ const LEN_MAX_SECURE: usize = 64;
 const LEN_MAX_AP_BOOT_NOW: usize = 64;
 const LEN_MAX_BOOT_PINGPONG: usize = 64;
 const LEN_MAX_COMP_BOOT_MSG: usize = 64;
+const LEN_COMP_BOOT_MSG: usize = 22; //Temporary
 const LEN_MAX_AP_BOOT_MSG: usize = 64;
 const LEN_AP_ID: usize = 4;
 
@@ -64,7 +65,7 @@ fn boot_components() {
     let ap_id: [u8; LEN_AP_ID] = [0;LEN_AP_ID];
     let mut send_boot_msq: [u8; LEN_MAX_COMP_BOOT_MSG] = [0; LEN_MAX_COMP_BOOT_MSG];
     // temp assignment should use flash function
-    send_boot_msg[0..21].copy_from_slice(b"Component Boot Message");
+    send_boot_msg[0..LEN_COMP_BOOT_MSG].copy_from_slice(b"Component Boot Message");
     secure_send(ap_id, &send_boot_msq)
 }
 
