@@ -15,6 +15,7 @@ fn main() -> ! {
 
     test_ascon(&board);
     test_random(&board);
+    test_flash(&board);
 
     loop {
         // This timer logic doesn't make any sense, don't use it
@@ -89,5 +90,40 @@ fn test_random(board: &Board) {
     board.send_host_debug(b"Random bytes:");
     for byte in random.iter() {
         board.send_host_debug(&u8_to_hex_string(*byte));
+    }
+}
+
+fn test_flash(board: &Board) {
+    let addr: u32 = 0x1004_4100;
+    let data: [u8; 4] = [0x12, 0x34, 0x56, 0x78];
+    // Print the original flash contents
+    let addr_ptr = addr as *const u8;
+    board.send_host_debug(b"Original flash contents:");
+    for i in 0..4 {
+        let byte = unsafe { addr_ptr.add(i).read() };
+        board.send_host_debug(&u8_to_hex_string(byte));
+    }
+    // Success: Write new data to flash
+    let result = board.write_flash_bytes(addr, &data);
+    if result != 0 {
+        panic!("Failed to write to flash");
+    }
+    board.send_host_debug(b"Wrote 4 bytes to flash");
+    board.send_host_debug(b"New flash contents:");
+    for i in 0..4 {
+        let byte = unsafe { addr_ptr.add(i).read() };
+        board.send_host_debug(&u8_to_hex_string(byte));
+    }
+    // Success: Should fail to write to flash (due to 0 -> 1 conversion)
+    let data: [u8; 4] = [0xDE, 0xAD, 0xBE, 0xEF];
+    let result = board.write_flash_bytes(addr, &data);
+    if result == 0 {
+        panic!("Wrote to flash when it should have failed");
+    }
+    board.send_host_debug(b"Success: Failed to write to flash!");
+    board.send_host_debug(b"Unchanged flash contents:");
+    for i in 0..4 {
+        let byte = unsafe { addr_ptr.add(i).read() };
+        board.send_host_debug(&u8_to_hex_string(byte));
     }
 }

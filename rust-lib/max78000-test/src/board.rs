@@ -14,6 +14,7 @@ pub enum Led {
 
 pub struct Board {
     // pub peripherals: pac::Peripherals,
+    pub flc: pac::FLC,
     pub gcr: pac::GCR,
     pub gpio0: pac::GPIO0,
     pub gpio2: pac::GPIO2,
@@ -54,6 +55,7 @@ impl Board {
         // Return the Board instance
         Board {
             // peripherals: p,
+            flc: p.FLC,
             gcr: p.GCR,
             gpio0: p.GPIO0,
             gpio2: p.GPIO2,
@@ -89,6 +91,11 @@ impl Board {
     #[cfg(not(debug_assertions))]
     pub fn send_host_debug(&self, _message: &[u8]) {
         cortex_m::asm::nop();
+    }
+
+    /// Write 4 bytes to flash at the given address
+    pub fn write_flash_bytes(&self, addr: u32, data: &[u8; 4]) -> i32 {
+        return flc::write_32(&self.flc, addr, bytes_to_u32(data));
     }
 
     pub fn led_on(&self, led: Led) {
@@ -140,6 +147,14 @@ pub fn u32_to_hex_string(value: u32) -> [u8; 8] {
         };
     }
     result
+}
+
+/// Convert a [u8; 4] to a u32 (little-endian)
+pub fn bytes_to_u32(data: &[u8; 4]) -> u32 {
+    (data[0] as u32) |
+    ((data[1] as u32) << 8) |
+    ((data[2] as u32) << 16) |
+    ((data[3] as u32) << 24)
 }
 
 #[panic_handler]
