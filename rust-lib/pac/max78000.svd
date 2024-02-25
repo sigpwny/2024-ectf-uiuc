@@ -839,9 +839,7 @@
      </fields>
     </register>
     <register>
-     <dim>4</dim>
-     <dimIncrement>4</dimIncrement>
-     <name>LIMIT[%s]</name>
+     <name>LIMIT0</name>
      <description>ADC Limit</description>
      <addressOffset>0x0010</addressOffset>
      <access>read-write</access>
@@ -877,6 +875,21 @@
        <access>read-write</access>
       </field>
      </fields>
+    </register>
+    <register derivedFrom="LIMIT0">
+     <name>LIMIT1</name>
+     <description>ADC Limit</description>
+     <addressOffset>0x0014</addressOffset>
+    </register>
+    <register derivedFrom="LIMIT0">
+     <name>LIMIT2</name>
+     <description>ADC Limit</description>
+     <addressOffset>0x0018</addressOffset>
+    </register>
+    <register derivedFrom="LIMIT0">
+     <name>LIMIT1</name>
+     <description>ADC Limit</description>
+     <addressOffset>0x001C</addressOffset>
     </register>
    </registers>
   </peripheral>
@@ -3215,11 +3228,48 @@
      </fields>
     </register>
     <register>
-     <dim>4</dim>
-     <dimIncrement>4</dimIncrement>
-     <name>DATA[%s]</name>
-     <description>Flash Write Data.</description>
+     <name>DATA0</name>
+     <description>Flash Write Data for bits 31:0.</description>
      <addressOffset>0x30</addressOffset>
+     <fields>
+      <field>
+       <name>DATA</name>
+       <description>Data next operation.</description>
+       <bitOffset>0</bitOffset>
+       <bitWidth>32</bitWidth>
+      </field>
+     </fields>
+    </register>
+    <register>
+     <name>DATA1</name>
+     <description>Flash Write Data for bits 63:32.</description>
+     <addressOffset>0x34</addressOffset>
+     <fields>
+      <field>
+       <name>DATA</name>
+       <description>Data next operation.</description>
+       <bitOffset>0</bitOffset>
+       <bitWidth>32</bitWidth>
+      </field>
+     </fields>
+    </register>
+    <register>
+     <name>DATA2</name>
+     <description>Flash Write Data for bits 95:64.</description>
+     <addressOffset>0x38</addressOffset>
+     <fields>
+      <field>
+       <name>DATA</name>
+       <description>Data next operation.</description>
+       <bitOffset>0</bitOffset>
+       <bitWidth>32</bitWidth>
+      </field>
+     </fields>
+    </register>
+    <register>
+     <name>DATA3</name>
+     <description>Flash Write Data for bits 127:96.</description>
+     <addressOffset>0x3C</addressOffset>
      <fields>
       <field>
        <name>DATA</name>
