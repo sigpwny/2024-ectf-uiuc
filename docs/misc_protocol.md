@@ -18,6 +18,11 @@ sequenceDiagram
   participant C1 as Component 1
   participant C2 as Component 2
   H ->> AP: "list\r"
+  Note over AP,C2: Scan all I2C addr.
+  AP -->> C1
+  C1 -->> AP: C1 CID
+  AP -->> C2
+  C2 -->> AP: C2 CID
   loop For each provisioned component
     AP ->> H: Info: "P>0x" + CID + "\n"
   end
