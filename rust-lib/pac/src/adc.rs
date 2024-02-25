@@ -8,7 +8,7 @@ pub struct RegisterBlock {
     limit0: LIMIT0,
     limit1: LIMIT1,
     limit2: LIMIT2,
-    limit1: LIMIT1,
+    limit3: LIMIT3,
 }
 impl RegisterBlock {
     #[doc = "0x00 - ADC Control"]
@@ -48,8 +48,8 @@ impl RegisterBlock {
     }
     #[doc = "0x1c - ADC Limit"]
     #[inline(always)]
-    pub const fn limit1(&self) -> &LIMIT1 {
-        &self.limit1
+    pub const fn limit3(&self) -> &LIMIT3 {
+        &self.limit3
     }
 }
 #[doc = "CTRL (rw) register accessor: ADC Control\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`ctrl::R`].  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`ctrl::W`]. You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@ctrl`]
@@ -79,7 +79,7 @@ pub type LIMIT0 = crate::Reg<limit0::LIMIT0_SPEC>;
 pub mod limit0;
 pub use limit0 as limit1;
 pub use limit0 as limit2;
-pub use limit0 as limit1;
+pub use limit0 as limit3;
 pub use LIMIT0 as LIMIT1;
 pub use LIMIT0 as LIMIT2;
-pub use LIMIT0 as LIMIT1;
+pub use LIMIT0 as LIMIT3;

@@ -887,7 +887,7 @@
      <addressOffset>0x0018</addressOffset>
     </register>
     <register derivedFrom="LIMIT0">
-     <name>LIMIT1</name>
+     <name>LIMIT3</name>
      <description>ADC Limit</description>
      <addressOffset>0x001C</addressOffset>
     </register>
