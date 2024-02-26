@@ -1,6 +1,4 @@
 pub use max78000_pac::FLC;
-use max78000_pac::UART;
-use crate::uart0;
 
 pub const FLASH_BASE: u32 = 0x1000_0000;
 pub const FLASH_SIZE: u32 = 0x0008_0000;
@@ -100,7 +98,7 @@ unsafe fn write_128(flc: &FLC, addr: u32, data: &[u32; 4]) -> FlashStatus {
 }
 
 /// Write a 32-bit word to flash via a 128-bit write
-pub fn write_32(flc: &FLC, addr: u32, data: u32, uart0: &UART) -> FlashStatus {
+pub fn write_32(flc: &FLC, addr: u32, data: u32) -> FlashStatus {
     let mut current_data: [u32; 4] = [0xFFFF_FFFFu32; 4];
     // Check if the provided flash address is valid
     if addr < FLASH_BASE || addr > FLASH_END || addr & 0x3 != 0 {

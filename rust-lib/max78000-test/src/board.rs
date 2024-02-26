@@ -100,7 +100,7 @@ impl Board {
     /// Write 4 bytes to flash at the given address (erases the flash page if necessary)
     pub fn write_flash_bytes(&self, addr: u32, data: &[u8; 4]) {
         self.send_host_debug(b"THIS IS 0");
-        let result = flc::write_32(&self.flc, addr, bytes_to_u32(data), &self.uart0);
+        let result = flc::write_32(&self.flc, addr, bytes_to_u32(data));
         self.send_host_debug(b"THIS IS 1");
         match result {
             flc::FlashStatus::Success => (),
@@ -121,7 +121,7 @@ impl Board {
                 match result {
                     flc::FlashStatus::Success => {
                         // Retry the write
-                        let result = flc::write_32(&self.flc, addr, bytes_to_u32(data), &self.uart0);
+                        let result = flc::write_32(&self.flc, addr, bytes_to_u32(data));
                         match result {
                             flc::FlashStatus::Success => (),
                             _ => {
