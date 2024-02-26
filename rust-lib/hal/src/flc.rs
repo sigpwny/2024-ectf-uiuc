@@ -1,4 +1,5 @@
 pub use max78000_pac::FLC;
+use cortex_m::asm;
 
 pub const FLASH_BASE: u32 = 0x1000_0000;
 pub const FLASH_SIZE: u32 = 0x0008_0000;
@@ -11,18 +12,13 @@ pub enum FlashStatus {
     NeedsErase = -3,
 }
 
-/// Check if the FLC is busy with a write or erase operation
-pub fn is_busy(flc: &FLC) -> bool {
-    flc.ctrl().read().pge().bit_is_set() ||
-    flc.ctrl().read().me().bit_is_set() ||
-    flc.ctrl().read().wr().bit_is_set()
-}
 
 /// Configure the FLC peripheral
+#[link_section = ".flashprog.config"]
 pub fn config(flc: &FLC) {
     // Wait for the FLC to be ready
-    while flc.ctrl().read().pend().bit_is_set() { }
-    while is_busy(flc) { }
+    // while flc.ctrl().read().pend().bit_is_set() { }
+    unsafe { while is_busy(flc) { } }
     // Set the FLC clock divisor to 100 (0x64) assuming a 100MHz system clock
     flc.clkdiv().modify(|_, w| unsafe {
         w.clkdiv().bits(0x64)
@@ -33,12 +29,27 @@ pub fn config(flc: &FLC) {
     }
 }
 
+/// Check if the FLC is busy with a write or erase (page or mass) operation.
+/// This function does not use the PAC to avoid jumping out of SRAM and
+/// into flash while a write or erase operation is in progress.
+/// Safety: This is a simple register read, so it should be safe.
+#[link_section = ".flashprog.is_busy"]
+#[inline(always)]
+unsafe fn is_busy(_flc: &FLC) -> bool {
+    let flc_ctrl_reg_addr = 0x4002_9008 as *const u32;
+    return *flc_ctrl_reg_addr & 0b111 != 0;
+}
+
 /// Get the physical address of a flash address
+#[link_section = ".flashprog.get_phys_addr"]
+#[inline(always)]
 fn get_phys_addr(addr: u32) -> u32 {
-    return addr & (FLASH_SIZE - 1) | 0x8000_0000;
+    return addr & (FLASH_SIZE - 1) /*| 0x8000_0000*/;
 }
 
 /// Clear the line fill buffer
+#[link_section = ".flashprog.flush_flash"]
+#[inline(always)]
 fn flush_flash() {
     let start_addr: *mut u32 = FLASH_BASE as *mut u32;
     let end_addr: *mut u32 = FLASH_END as *mut u32;
@@ -49,8 +60,9 @@ fn flush_flash() {
 }
 
 /// Write a 128-bit word to flash
-/// Safety: Caller must check that the flash contents can be writable
-unsafe fn write_128(flc: &FLC, addr: u32, data: &[u32; 4]) -> FlashStatus {
+#[link_section = ".flashprog.write_128"]
+#[inline(always)]
+fn write_128(flc: &FLC, addr: u32, data: &[u32; 4]) -> FlashStatus {
     // Check that the provided flash address is valid
     if addr < FLASH_BASE || addr > FLASH_END || addr & 0xF != 0 {
         return FlashStatus::InvalidAddress;
@@ -82,8 +94,11 @@ unsafe fn write_128(flc: &FLC, addr: u32, data: &[u32; 4]) -> FlashStatus {
     // Commit the write
     flc.ctrl().modify(|_, w| w.wr().set_bit());
     // Wait until the write is complete
-    while flc.ctrl().read().pend().bit_is_set() { }
-    while is_busy(flc) { }
+    for _ in 0..1_000_000 {
+        asm::nop();
+    }
+    // while flc.ctrl().read().pend().bit_is_set() { }
+    // unsafe { while is_busy(flc) { } }
     // Lock flash
     flc.ctrl().modify(|_, w| w.unlock().locked());
     while flc.ctrl().read().unlock().is_unlocked() {}
@@ -98,6 +113,8 @@ unsafe fn write_128(flc: &FLC, addr: u32, data: &[u32; 4]) -> FlashStatus {
 }
 
 /// Write a 32-bit word to flash via a 128-bit write
+#[link_section = ".flashprog.write_32"]
+#[inline(never)]
 pub fn write_32(flc: &FLC, addr: u32, data: u32) -> FlashStatus {
     let mut current_data: [u32; 4] = [0xFFFF_FFFFu32; 4];
     // Check if the provided flash address is valid
@@ -132,17 +149,13 @@ pub fn write_32(flc: &FLC, addr: u32, data: u32) -> FlashStatus {
     current_data[idx] = data;
     // Write the 128-bit word to flash
     // Safety: We check that the only bits that need to be flipped are 1 -> 0
-    return unsafe { write_128(flc, addr_128 as u32, &current_data) };
+    let result = write_128(flc, addr_128 as u32, &current_data);
+    return result;
 }
 
-/// Erase a page of flash (8192 bytes)
-pub fn erase_page(flc: &FLC, addr: u32) -> FlashStatus {
-    // Check if the provided flash address is valid
-    if addr < FLASH_BASE || addr > FLASH_END || addr & 0x1FFF != 0 {
-        return FlashStatus::InvalidAddress;
-    }
-    // Ensure FLC is configured
-    config(flc);
+#[link_section = ".flashprog.erase_page_hot"]
+#[inline(always)]
+fn erase_page_hot(flc: &FLC, addr: u32) {
     // Create flash physical address
     let phys_addr = get_phys_addr(addr);
     // Safety: FLC address is valid
@@ -157,11 +170,28 @@ pub fn erase_page(flc: &FLC, addr: u32) -> FlashStatus {
     // Commit the erase
     flc.ctrl().modify(|_, w| w.pge().set_bit());
     // Wait until the erase is complete
-    while flc.ctrl().read().pend().bit_is_set() { }
-    while is_busy(flc) { }
+    for _ in 0..1_000_000 {
+        asm::nop();
+    }
+    // while flc.ctrl().read().pend().bit_is_set() { }
+    // unsafe { while is_busy(flc) { } }
     // Lock flash
     flc.ctrl().modify(|_, w| w.unlock().locked());
     while flc.ctrl().read().unlock().is_unlocked() {}
+}
+
+/// Erase a page of flash (8192 bytes)
+#[link_section = ".flashprog.erase_page"]
+#[inline(never)]
+pub fn erase_page(flc: &FLC, addr: u32) -> FlashStatus {
+    // Check if the provided flash address is valid
+    if addr < FLASH_BASE || addr > FLASH_END || addr & 0x1FFF != 0 {
+        return FlashStatus::InvalidAddress;
+    }
+    // Ensure FLC is configured
+    config(flc);
+    // Execute inline erase
+    erase_page_hot(flc, addr);
     // Clear the line fill buffer
     flush_flash();
     // Check access violations
