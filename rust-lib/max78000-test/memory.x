@@ -8,3 +8,14 @@ MEMORY {
 }
 
 _stext = ORIGIN(FLASH) + 0x200; /* Jump point for bootloader */
+
+SECTIONS {
+    .flash_code :
+    {
+        . = ALIGN(4);
+        *(.flashprog*)
+        . = ALIGN(4);
+    } > RAM AT>FLASH
+}
+
+INSERT AFTER .data;
