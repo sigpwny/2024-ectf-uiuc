@@ -29,7 +29,8 @@ fn main() -> ! {
         }
         // Test panic
         if count == 20 {
-            panic!("Panicked after 20 seconds!");
+            board.send_host_debug(b"Testing panic after 20 seconds!");
+            panic!();
         }
         count += 1;
         continue;
@@ -117,6 +118,8 @@ fn test_flash(board: &Board) {
     // Success: Should write after erase
     let data: [u8; 4] = [0xDE, 0xAD, 0xBE, 0xEF];
     board.write_flash_bytes(addr, &data);
+    board.send_host_debug(b"Wrote 4 bytes to flash");
+    board.send_host_debug(b"New flash contents:");
     for i in 0..4 {
         let byte = unsafe { addr_ptr.add(i).read() };
         if byte != data[i] {

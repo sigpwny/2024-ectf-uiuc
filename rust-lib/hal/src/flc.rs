@@ -1,7 +1,8 @@
 pub use max78000_pac::FLC;
 
 pub const FLASH_BASE: u32 = 0x1000_0000;
-pub const FLASH_END: u32 = 0x1008_0000;
+pub const FLASH_SIZE: u32 = 0x0008_0000;
+pub const FLASH_END: u32 = FLASH_BASE + FLASH_SIZE;
 
 pub enum FlashStatus {
     Success = 0,
@@ -28,13 +29,13 @@ pub fn config(flc: &FLC) {
     });
     // Clear stale interrupt flags
     if flc.intr().read().af().bit_is_set() {
-        flc.intr().write(|w| w.af().clear_bit());
+        flc.intr().modify(|_, w| w.af().clear_bit());
     }
 }
 
 /// Get the physical address of a flash address
 fn get_phys_addr(addr: u32) -> u32 {
-    return addr & 0x0007_FFFF;
+    return addr & (FLASH_SIZE - 1) | 0x8000_0000;
 }
 
 /// Write a 128-bit word to flash
@@ -47,10 +48,12 @@ unsafe fn write_128(flc: &FLC, addr: u32, data: &[u32; 4]) -> FlashStatus {
     // Ensure FLC is configured
     config(flc);
     // Unlock flash
-    flc.ctrl().write(|w| w.unlock().unlocked());
+    flc.ctrl().modify(|_, w| w.unlock().unlocked());
+    // Get the physical address of the 128-bit word
+    let phys_addr = get_phys_addr(addr);
     // Safety: FLC address is valid
     flc.addr().write(|w| unsafe {
-        w.addr().bits(addr)
+        w.addr().bits(phys_addr)
     });
     // Safety: FLC data is placed in the correct location
     flc.data0().write(|w| unsafe {
@@ -66,15 +69,15 @@ unsafe fn write_128(flc: &FLC, addr: u32, data: &[u32; 4]) -> FlashStatus {
         w.data().bits(data[3])
     });
     // Commit the write
-    flc.ctrl().write(|w| w.wr().set_bit());
+    flc.ctrl().modify(|_, w| w.wr().set_bit());
     // Wait until the write is complete
     while flc.ctrl().read().pend().bit_is_set() { }
     while is_busy(flc) { }
     // Lock flash
-    flc.ctrl().write(|w| w.unlock().locked());
+    flc.ctrl().modify(|_, w| w.unlock().locked());
     // Check access violations
     if flc.intr().read().af().bit_is_set() {
-        flc.intr().write(|w| w.af().clear_bit());
+        flc.intr().modify(|_, w| w.af().clear_bit());
         return FlashStatus::AccessViolation;
     }
     return FlashStatus::Success;
@@ -126,26 +129,26 @@ pub fn erase_page(flc: &FLC, addr: u32) -> FlashStatus {
     }
     // Ensure FLC is configured
     config(flc);
-    // Unlock flash
-    flc.ctrl().write(|w| w.unlock().unlocked());
-    // Set FLC erase code
-    flc.ctrl().write(|w| w.erase_code().erase_page());
     // Create flash physical address
     let phys_addr = get_phys_addr(addr);
     // Safety: FLC address is valid
     flc.addr().write(|w| unsafe {
         w.addr().bits(phys_addr)
     });
+    // Unlock flash
+    flc.ctrl().modify(|_, w| w.unlock().unlocked());
+    // Set FLC erase code
+    flc.ctrl().modify(|_, w| w.erase_code().erase_page());
     // Commit the erase
-    flc.ctrl().write(|w| w.pge().set_bit());
+    flc.ctrl().modify(|_, w| w.pge().set_bit());
     // Wait until the erase is complete
     while flc.ctrl().read().pend().bit_is_set() { }
     while is_busy(flc) { }
     // Lock flash
-    flc.ctrl().write(|w| w.unlock().locked());
+    flc.ctrl().modify(|_, w| w.unlock().locked());
     // Check access violations
     if flc.intr().read().af().bit_is_set() {
-        flc.intr().write(|w| w.af().clear_bit());
+        flc.intr().modify(|_, w| w.af().clear_bit());
         return FlashStatus::AccessViolation;
     }
     return FlashStatus::Success;

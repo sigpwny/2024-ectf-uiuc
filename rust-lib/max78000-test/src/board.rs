@@ -97,7 +97,7 @@ impl Board {
         cortex_m::asm::nop();
     }
 
-    /// Write 4 bytes to flash at the given address
+    /// Write 4 bytes to flash at the given address (erases the flash page if necessary)
     pub fn write_flash_bytes(&self, addr: u32, data: &[u8; 4]) {
         let result = flc::write_32(&self.flc, addr, bytes_to_u32(data));
         match result {
@@ -105,14 +105,14 @@ impl Board {
             flc::FlashStatus::NeedsErase => {
                 // Erase the flash page
                 let result = flc::erase_page(&self.flc, addr & 0xFFFF_E000);
-                self.send_host_debug(b"The contents below should be erased:");
+                // Verify the erase
                 for i in 0..4 {
                     let addr_ptr = addr as *const u8;
                     let byte = unsafe { addr_ptr.add(i).read() };
                     if byte != 0xff {
-                        self.send_host_debug(b"The byte below does not match expected output!");
+                        self.send_host_debug(b"Flash was not erased!");
+                        panic!();
                     }
-                    self.send_host_debug(&u8_to_hex_string(byte));
                 }
                 match result {
                     flc::FlashStatus::Success => {
