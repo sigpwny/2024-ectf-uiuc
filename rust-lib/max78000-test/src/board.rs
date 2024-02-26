@@ -99,12 +99,16 @@ impl Board {
 
     /// Write 4 bytes to flash at the given address (erases the flash page if necessary)
     pub fn write_flash_bytes(&self, addr: u32, data: &[u8; 4]) {
-        let result = flc::write_32(&self.flc, addr, bytes_to_u32(data));
+        self.send_host_debug(b"THIS IS 0");
+        let result = flc::write_32(&self.flc, addr, bytes_to_u32(data), &self.uart0);
+        self.send_host_debug(b"THIS IS 1");
         match result {
             flc::FlashStatus::Success => (),
             flc::FlashStatus::NeedsErase => {
+                self.send_host_debug(b"THIS IS 2");
                 // Erase the flash page
                 let result = flc::erase_page(&self.flc, addr & 0xFFFF_E000);
+                self.send_host_debug(b"THIS IS 3");
                 // Verify the erase
                 for i in 0..4 {
                     let addr_ptr = addr as *const u8;
@@ -117,7 +121,7 @@ impl Board {
                 match result {
                     flc::FlashStatus::Success => {
                         // Retry the write
-                        let result = flc::write_32(&self.flc, addr, bytes_to_u32(data));
+                        let result = flc::write_32(&self.flc, addr, bytes_to_u32(data), &self.uart0);
                         match result {
                             flc::FlashStatus::Success => (),
                             _ => {
@@ -126,10 +130,21 @@ impl Board {
                             },
                         }
                     },
-                    _ => {
+                    flc::FlashStatus::AccessViolation => {
+                        self.send_host_debug(b"Access violation during flash erase");
                         self.send_host_debug(b"Failed to erase flash page");
                         panic!();
                     },
+                    flc::FlashStatus::InvalidAddress => {
+                        self.send_host_debug(b"Invalid address during flash erase");
+                        self.send_host_debug(b"Failed to erase flash page");
+                        panic!();
+                    },
+                    _ => {
+                        self.send_host_debug(b"Unknown error");
+                        self.send_host_debug(b"Failed to erase flash page");
+                        panic!();
+                    }
                 }
             },
             _ => {
