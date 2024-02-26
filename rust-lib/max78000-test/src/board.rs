@@ -32,6 +32,8 @@ impl Board {
         let p: pac::Peripherals = unsafe { pac::Peripherals::steal() };
         // Initialize the system clock
         gcr::system_clock_ipo_init(&p.GCR);
+        // Disable ICC
+        p.ICC0.ctrl().modify(|_, w| w.en().clear_bit());
         // Initialize GPIO
         gcr::mxc_gpio0_init(&p.GCR);
         // Initialize UART0 for host communication
@@ -47,6 +49,8 @@ impl Board {
         // Initialize TRNG
         gcr::mxc_trng_shutdown(&p.GCR);
         gcr::mxc_trng_enable_clock(&p.GCR);
+        // Initialize FLC
+        flc::config(&p.FLC);
         // Initialize LEDs
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED0);
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED1);
@@ -94,8 +98,54 @@ impl Board {
     }
 
     /// Write 4 bytes to flash at the given address
-    pub fn write_flash_bytes(&self, addr: u32, data: &[u8; 4]) -> i32 {
-        return flc::write_32(&self.flc, addr, bytes_to_u32(data));
+    pub fn write_flash_bytes(&self, addr: u32, data: &[u8; 4]) {
+        let result = flc::write_32(&self.flc, addr, bytes_to_u32(data));
+        match result {
+            flc::FlashStatus::Success => (),
+            flc::FlashStatus::NeedsErase => {
+                // Erase the flash page
+                let result = flc::erase_page(&self.flc, addr & 0xFFFF_E000);
+                self.send_host_debug(b"The contents below should be erased:");
+                for i in 0..4 {
+                    let addr_ptr = addr as *const u8;
+                    let byte = unsafe { addr_ptr.add(i).read() };
+                    if byte != 0xff {
+                        self.send_host_debug(b"The byte below does not match expected output!");
+                    }
+                    self.send_host_debug(&u8_to_hex_string(byte));
+                }
+                match result {
+                    flc::FlashStatus::Success => {
+                        // Retry the write
+                        let result = flc::write_32(&self.flc, addr, bytes_to_u32(data));
+                        match result {
+                            flc::FlashStatus::Success => (),
+                            _ => {
+                                self.send_host_debug(b"Failed to write to flash after erasing page");
+                                panic!();
+                            },
+                        }
+                    },
+                    _ => {
+                        self.send_host_debug(b"Failed to erase flash page");
+                        panic!();
+                    },
+                }
+            },
+            _ => {
+                self.send_host_debug(b"Failed to write to flash");
+                panic!();
+            }
+        }
+        // Verify the write
+        let addr_ptr = addr as *const u8;
+        for i in 0..4 {
+            let byte = unsafe { addr_ptr.add(i).read() };
+            if byte != data[i] {
+                self.send_host_debug(b"Flash write verification failed");
+                panic!();
+            }
+        }
     }
 
     pub fn led_on(&self, led: Led) {

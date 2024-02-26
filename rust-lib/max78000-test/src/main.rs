@@ -104,26 +104,25 @@ fn test_flash(board: &Board) {
         board.send_host_debug(&u8_to_hex_string(byte));
     }
     // Success: Write new data to flash
-    let result = board.write_flash_bytes(addr, &data);
-    if result != 0 {
-        panic!("Failed to write to flash");
-    }
+    board.write_flash_bytes(addr, &data);
     board.send_host_debug(b"Wrote 4 bytes to flash");
     board.send_host_debug(b"New flash contents:");
     for i in 0..4 {
         let byte = unsafe { addr_ptr.add(i).read() };
+        if byte != data[i] {
+            board.send_host_debug(b"The byte below does not match expected output!");
+        }
         board.send_host_debug(&u8_to_hex_string(byte));
     }
-    // Success: Should fail to write to flash (due to 0 -> 1 conversion)
+    // Success: Should write after erase
     let data: [u8; 4] = [0xDE, 0xAD, 0xBE, 0xEF];
-    let result = board.write_flash_bytes(addr, &data);
-    if result == 0 {
-        panic!("Wrote to flash when it should have failed");
-    }
-    board.send_host_debug(b"Success: Failed to write to flash!");
-    board.send_host_debug(b"Unchanged flash contents:");
+    board.write_flash_bytes(addr, &data);
     for i in 0..4 {
         let byte = unsafe { addr_ptr.add(i).read() };
+        if byte != data[i] {
+            board.send_host_debug(b"The byte below does not match expected output!");
+        }
         board.send_host_debug(&u8_to_hex_string(byte));
     }
+    board.send_host_debug(b"Success: Wrote to flash!");
 }
