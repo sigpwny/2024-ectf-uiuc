@@ -1,4 +1,6 @@
 pub use max78000_pac::FLC;
+use max78000_pac::UART;
+use crate::uart0;
 
 pub const FLASH_BASE: u32 = 0x1000_0000;
 pub const FLASH_SIZE: u32 = 0x0008_0000;
@@ -38,6 +40,16 @@ fn get_phys_addr(addr: u32) -> u32 {
     return addr & (FLASH_SIZE - 1) | 0x8000_0000;
 }
 
+/// Clear the line fill buffer
+fn flush_flash() {
+    let start_addr: *mut u32 = FLASH_BASE as *mut u32;
+    let end_addr: *mut u32 = FLASH_END as *mut u32;
+    unsafe {
+        let _line1 = *start_addr;
+        let _line2 = *end_addr;
+    }
+}
+
 /// Write a 128-bit word to flash
 /// Safety: Caller must check that the flash contents can be writable
 unsafe fn write_128(flc: &FLC, addr: u32, data: &[u32; 4]) -> FlashStatus {
@@ -49,6 +61,7 @@ unsafe fn write_128(flc: &FLC, addr: u32, data: &[u32; 4]) -> FlashStatus {
     config(flc);
     // Unlock flash
     flc.ctrl().modify(|_, w| w.unlock().unlocked());
+    while !flc.ctrl().read().unlock().is_unlocked() {}
     // Get the physical address of the 128-bit word
     let phys_addr = get_phys_addr(addr);
     // Safety: FLC address is valid
@@ -75,6 +88,9 @@ unsafe fn write_128(flc: &FLC, addr: u32, data: &[u32; 4]) -> FlashStatus {
     while is_busy(flc) { }
     // Lock flash
     flc.ctrl().modify(|_, w| w.unlock().locked());
+    while flc.ctrl().read().unlock().is_unlocked() {}
+    // Clear the line fill buffer
+    flush_flash();
     // Check access violations
     if flc.intr().read().af().bit_is_set() {
         flc.intr().modify(|_, w| w.af().clear_bit());
@@ -84,7 +100,7 @@ unsafe fn write_128(flc: &FLC, addr: u32, data: &[u32; 4]) -> FlashStatus {
 }
 
 /// Write a 32-bit word to flash via a 128-bit write
-pub fn write_32(flc: &FLC, addr: u32, data: u32) -> FlashStatus {
+pub fn write_32(flc: &FLC, addr: u32, data: u32, uart0: &UART) -> FlashStatus {
     let mut current_data: [u32; 4] = [0xFFFF_FFFFu32; 4];
     // Check if the provided flash address is valid
     if addr < FLASH_BASE || addr > FLASH_END || addr & 0x3 != 0 {
@@ -137,6 +153,7 @@ pub fn erase_page(flc: &FLC, addr: u32) -> FlashStatus {
     });
     // Unlock flash
     flc.ctrl().modify(|_, w| w.unlock().unlocked());
+    while !flc.ctrl().read().unlock().is_unlocked() {}
     // Set FLC erase code
     flc.ctrl().modify(|_, w| w.erase_code().erase_page());
     // Commit the erase
@@ -146,6 +163,9 @@ pub fn erase_page(flc: &FLC, addr: u32) -> FlashStatus {
     while is_busy(flc) { }
     // Lock flash
     flc.ctrl().modify(|_, w| w.unlock().locked());
+    while flc.ctrl().read().unlock().is_unlocked() {}
+    // Clear the line fill buffer
+    flush_flash();
     // Check access violations
     if flc.intr().read().af().bit_is_set() {
         flc.intr().modify(|_, w| w.af().clear_bit());
