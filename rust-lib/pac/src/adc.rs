@@ -5,7 +5,10 @@ pub struct RegisterBlock {
     status: STATUS,
     data: DATA,
     intr: INTR,
-    limit: [LIMIT; 4],
+    limit0: LIMIT0,
+    limit1: LIMIT1,
+    limit2: LIMIT2,
+    limit3: LIMIT3,
 }
 impl RegisterBlock {
     #[doc = "0x00 - ADC Control"]
@@ -28,16 +31,25 @@ impl RegisterBlock {
     pub const fn intr(&self) -> &INTR {
         &self.intr
     }
-    #[doc = "0x10..0x20 - ADC Limit"]
+    #[doc = "0x10 - ADC Limit"]
     #[inline(always)]
-    pub const fn limit(&self, n: usize) -> &LIMIT {
-        &self.limit[n]
+    pub const fn limit0(&self) -> &LIMIT0 {
+        &self.limit0
     }
-    #[doc = "Iterator for array of:"]
-    #[doc = "0x10..0x20 - ADC Limit"]
+    #[doc = "0x14 - ADC Limit"]
     #[inline(always)]
-    pub fn limit_iter(&self) -> impl Iterator<Item = &LIMIT> {
-        self.limit.iter()
+    pub const fn limit1(&self) -> &LIMIT1 {
+        &self.limit1
+    }
+    #[doc = "0x18 - ADC Limit"]
+    #[inline(always)]
+    pub const fn limit2(&self) -> &LIMIT2 {
+        &self.limit2
+    }
+    #[doc = "0x1c - ADC Limit"]
+    #[inline(always)]
+    pub const fn limit3(&self) -> &LIMIT3 {
+        &self.limit3
     }
 }
 #[doc = "CTRL (rw) register accessor: ADC Control\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`ctrl::R`].  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`ctrl::W`]. You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@ctrl`]
@@ -60,8 +72,14 @@ module"]
 pub type INTR = crate::Reg<intr::INTR_SPEC>;
 #[doc = "ADC Interrupt Control Register"]
 pub mod intr;
-#[doc = "LIMIT (rw) register accessor: ADC Limit\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`limit::R`].  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`limit::W`]. You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@limit`]
+#[doc = "LIMIT0 (rw) register accessor: ADC Limit\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`limit0::R`].  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`limit0::W`]. You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@limit0`]
 module"]
-pub type LIMIT = crate::Reg<limit::LIMIT_SPEC>;
+pub type LIMIT0 = crate::Reg<limit0::LIMIT0_SPEC>;
 #[doc = "ADC Limit"]
-pub mod limit;
+pub mod limit0;
+pub use limit0 as limit1;
+pub use limit0 as limit2;
+pub use limit0 as limit3;
+pub use LIMIT0 as LIMIT1;
+pub use LIMIT0 as LIMIT2;
+pub use LIMIT0 as LIMIT3;

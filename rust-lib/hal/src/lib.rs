@@ -1,6 +1,7 @@
 #![no_std]
 #![allow(dead_code)]
 
+pub mod flc;
 pub mod gcr;
 pub mod gpio0;
 pub mod gpio2;
