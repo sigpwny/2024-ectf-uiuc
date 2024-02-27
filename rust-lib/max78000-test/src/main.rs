@@ -3,7 +3,7 @@
 
 use cortex_m_rt::entry;
 use max78000_hal::{tmr0, trng};
-use board::{Board, Led, u8_to_hex_string};
+use board::{Board, Led, u8_to_hex_string, u32_to_hex_string};
 use board::secure_comms as hide;
 
 #[entry]
@@ -16,6 +16,7 @@ fn main() -> ! {
     test_ascon(&board);
     test_random(&board);
     test_flash(&board);
+    test_timer(&board);
 
     loop {
         // This timer logic doesn't make any sense, don't use it
@@ -128,4 +129,37 @@ fn test_flash(board: &Board) {
         board.send_host_debug(&u8_to_hex_string(byte));
     }
     board.send_host_debug(b"Success: Wrote to flash!");
+}
+
+fn test_timer(board: &Board) {
+    board.timer_reset();
+    board.send_host_debug(b"Timer reset!");
+    let current_us = board.timer_get_us();
+    board.send_host_debug(b"Current time (us):");
+    board.send_host_debug(&u32_to_hex_string(current_us));
+    // Block for 1 second
+    board.delay_us(1_000_000);
+    board.send_host_debug(b"1 second has passed!");
+    // Block for 2 seconds
+    board.delay_us(2_000_000);
+    board.send_host_debug(b"3 seconds have passed!");
+    // Block until 5 seconds total (since reset) have passed
+    board.delay_total_us(10_000_000);
+    board.send_host_debug(b"10 seconds have passed!");
+    board.timer_reset();
+    board.send_host_debug(b"Timer reset!");
+    let current_us = board.timer_get_us();
+    board.send_host_debug(b"Current time (us):");
+    board.send_host_debug(&u32_to_hex_string(current_us));
+    // Block for 1 second
+    board.delay_us(1_000_000);
+    board.send_host_debug(b"1 second has passed!");
+    // Block for 2 seconds
+    board.delay_us(2_000_000);
+    board.send_host_debug(b"3 seconds have passed!");
+    // Block until 5 seconds total (since reset) have passed
+    board.delay_total_us(10_000_000);
+    board.send_host_debug(b"10 seconds have passed!");
+    board.timer_reset();
+    board.send_host_debug(b"Timer reset!");
 }

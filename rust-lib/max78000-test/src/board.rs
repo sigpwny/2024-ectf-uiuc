@@ -30,8 +30,9 @@ impl Board {
     pub fn new() -> Self {
         // Safety: We only steal the peripherals once and we have exclusive access
         let p: pac::Peripherals = unsafe { pac::Peripherals::steal() };
-        // Initialize the system clock
+        // Initialize clocks
         gcr::system_clock_ipo_init(&p.GCR);
+        gcr::iso_init(&p.GCR);
         // Disable ICC
         p.ICC0.ctrl().modify(|_, w| w.en().clear_bit());
         // Initialize GPIO
@@ -41,11 +42,16 @@ impl Board {
         gcr::mxc_uart0_enable_clock(&p.GCR);
         gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_UART0);
         uart0::config(&p.UART);
-        // Initialize TMR0 as continuous 32-bit system tick timer
+        // Initialize TMR0
         gcr::mxc_tmr0_shutdown(&p.GCR);
         gcr::mxc_tmr0_enable_clock(&p.GCR);
         gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_TMR0);
+        // Configure TMR0 as continuous 32-bit system tick timer
         tmr0::config_as_systick(&p.TMR);
+        // Initialize TMR1
+        gcr::mxc_tmr1_shutdown(&p.GCR);
+        gcr::mxc_tmr1_enable_clock(&p.GCR);
+        gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_TMR1);
         // Initialize TRNG
         gcr::mxc_trng_shutdown(&p.GCR);
         gcr::mxc_trng_enable_clock(&p.GCR);
@@ -69,6 +75,39 @@ impl Board {
             trng: p.TRNG,
             uart0: p.UART,
         }
+    }
+
+    /// Reset the one-shot timer to 0 at the start of a transaction
+    pub fn timer_reset(&self) {
+        tmr1::config_as_oneshot(&self.tmr1);
+        // Verify that the timer has just started
+        let start = tmr1::get_time_us(&self.tmr1);
+        if start > 100 {
+            self.send_host_debug(b"Timer did not reset properly!");
+            panic!();
+        }
+    }
+
+    /// Get the current time in microseconds (us)
+    pub fn timer_get_us(&self) -> u32 {
+        return tmr1::get_time_us(&self.tmr1);
+    }
+
+    /// Block for the specified number of microseconds
+    pub fn delay_us(&self, us: u32) {
+        let start = tmr1::get_time_us(&self.tmr1);
+        // Ensure there is no integer overflow
+        if start + us < start {
+            self.send_host_debug(b"Timer overflow");
+            panic!();
+        }
+        while tmr1::get_time_us(&self.tmr1) < start + us { }
+    }
+
+    /// Block until the specified number of microseconds has elapsed since the 
+    /// last reset (total transaction time)
+    pub fn delay_total_us(&self, us: u32) {
+        while tmr1::get_time_us(&self.tmr1) < us { }
     }
 
     /// Host debugging is only enabled in debug builds

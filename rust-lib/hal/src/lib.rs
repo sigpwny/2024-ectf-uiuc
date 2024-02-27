@@ -9,5 +9,6 @@ pub mod gpio0;
 pub mod gpio2;
 pub mod i2c1;
 pub mod tmr0;
+pub mod tmr1;
 pub mod trng;
 pub mod uart0;
