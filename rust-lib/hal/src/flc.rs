@@ -1,5 +1,4 @@
 pub use max78000_pac::FLC;
-use cortex_m::asm;
 
 pub const FLASH_BASE: u32 = 0x1000_0000;
 pub const FLASH_SIZE: u32 = 0x0008_0000;
@@ -17,7 +16,6 @@ pub enum FlashStatus {
 #[link_section = ".flashprog.config"]
 pub fn config(flc: &FLC) {
     // Wait for the FLC to be ready
-    // while flc.ctrl().read().pend().bit_is_set() { }
     unsafe { while is_busy(flc) { } }
     // Set the FLC clock divisor to 100 (0x64) assuming a 100MHz system clock
     flc.clkdiv().modify(|_, w| unsafe {
@@ -37,7 +35,7 @@ pub fn config(flc: &FLC) {
 #[inline(always)]
 unsafe fn is_busy(_flc: &FLC) -> bool {
     let flc_ctrl_reg_addr = 0x4002_9008 as *const u32;
-    return *flc_ctrl_reg_addr & 0b111 != 0;
+    return core::intrinsics::volatile_load(flc_ctrl_reg_addr) & 0b111 != 0;
 }
 
 /// Get the physical address of a flash address
@@ -94,11 +92,10 @@ fn write_128(flc: &FLC, addr: u32, data: &[u32; 4]) -> FlashStatus {
     // Commit the write
     flc.ctrl().modify(|_, w| w.wr().set_bit());
     // Wait until the write is complete
-    for _ in 0..1_000_000 {
-        asm::nop();
-    }
-    // while flc.ctrl().read().pend().bit_is_set() { }
-    // unsafe { while is_busy(flc) { } }
+    // for _ in 0..1_000_000 {
+    //     asm::nop();
+    // }
+    unsafe { while is_busy(flc) { } }
     // Lock flash
     flc.ctrl().modify(|_, w| w.unlock().locked());
     while flc.ctrl().read().unlock().is_unlocked() {}
@@ -170,11 +167,10 @@ fn erase_page_hot(flc: &FLC, addr: u32) {
     // Commit the erase
     flc.ctrl().modify(|_, w| w.pge().set_bit());
     // Wait until the erase is complete
-    for _ in 0..1_000_000 {
-        asm::nop();
-    }
-    // while flc.ctrl().read().pend().bit_is_set() { }
-    // unsafe { while is_busy(flc) { } }
+    // for _ in 0..1_000_000 {
+    //     asm::nop();
+    // }
+    unsafe { while is_busy(flc) { } }
     // Lock flash
     flc.ctrl().modify(|_, w| w.unlock().locked());
     while flc.ctrl().read().unlock().is_unlocked() {}
