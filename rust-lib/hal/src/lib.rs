@@ -1,5 +1,7 @@
 #![no_std]
 #![allow(dead_code)]
+#![allow(internal_features)]
+#![feature(core_intrinsics)]
 
 pub mod flc;
 pub mod gcr;
