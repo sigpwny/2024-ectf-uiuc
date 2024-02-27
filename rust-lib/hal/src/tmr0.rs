@@ -10,9 +10,8 @@ pub fn get_tick_count(tmr0: &TMR) -> u32 {
 /// - Continuous mode
 /// - 32-bit cascade mode
 /// - Range: 0x1 to 0xFFFFFFFF
-/// TODO: Move out of HAL module
 pub fn config_as_systick(tmr0: &TMR) {
-    mxc_tmr0_disable(tmr0);
+    disable(tmr0);
     // Set the TMR0 clock source to the peripheral clock
     // Safety: The clksel_a field is 2 bits wide, which fits the value 0b00
     tmr0.ctrl1().modify(|_, w| unsafe {
@@ -33,11 +32,11 @@ pub fn config_as_systick(tmr0: &TMR) {
     tmr0.ctrl0().modify(|_, w| w.clken_a().set_bit());
     while tmr0.ctrl1().read().clkrdy_a().bit_is_clear() { }
     // Enable timer
-    mxc_tmr0_enable(tmr0);
+    enable(tmr0);
 }
 
 /// Disable the TMR0 peripheral
-fn mxc_tmr0_disable(tmr0: &TMR) {
+fn disable(tmr0: &TMR) {
     tmr0.ctrl0().modify(|_, w| w
         .en_a().clear_bit()
         .en_b().clear_bit()
@@ -47,7 +46,7 @@ fn mxc_tmr0_disable(tmr0: &TMR) {
 }
 
 /// Enable the TMR0 peripheral
-fn mxc_tmr0_enable(tmr0: &TMR) {
+fn enable(tmr0: &TMR) {
     tmr0.ctrl0().modify(|_, w| w
         .en_a().set_bit()
         // .en_b().set_bit()
