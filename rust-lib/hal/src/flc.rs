@@ -3,6 +3,7 @@ pub use max78000_pac::FLC;
 pub const FLASH_BASE: u32 = 0x1000_0000;
 pub const FLASH_SIZE: u32 = 0x0008_0000;
 pub const FLASH_END: u32 = FLASH_BASE + FLASH_SIZE;
+pub const FLASH_PAGE_SIZE: u32 = 0x2000;
 
 pub enum FlashStatus {
     Success = 0,
@@ -194,6 +195,35 @@ pub fn erase_page(flc: &FLC, addr: u32) -> FlashStatus {
     if flc.intr().read().af().bit_is_set() {
         flc.intr().modify(|_, w| w.af().clear_bit());
         return FlashStatus::AccessViolation;
+    }
+    return FlashStatus::Success;
+}
+
+/// Write lock a page of flash
+#[link_section = ".flashprog.block_page_write"]
+#[inline(never)]
+pub fn block_page_write(flc: &FLC, addr: u32) -> FlashStatus {
+    // Check if the provided flash address is valid
+    if addr < FLASH_BASE || addr > FLASH_END || addr & 0x1FFF != 0 {
+        return FlashStatus::InvalidAddress;
+    }
+    // Convert flash address to page number
+    let page_num_bit = (addr >> 13) & 63;
+    if page_num_bit > 63 {
+        return FlashStatus::InvalidAddress;
+    }
+    if page_num_bit < 32 {
+        let write_lock_bit = 1 << page_num_bit;
+        flc.welr0().write(|w| unsafe {
+            w.bits(write_lock_bit)
+        });
+        while flc.welr0().read().bits() & write_lock_bit == write_lock_bit { }
+    } else {
+        let write_lock_bit = 1 << (page_num_bit - 32);
+        flc.welr1().write(|w| unsafe {
+            w.bits(write_lock_bit)
+        });
+        while flc.welr1().read().bits() & write_lock_bit == write_lock_bit { }
     }
     return FlashStatus::Success;
 }

@@ -57,6 +57,8 @@ impl Board {
         gcr::mxc_trng_enable_clock(&p.GCR);
         // Initialize FLC
         flc::config(&p.FLC);
+        // Write lock flash pages
+        lock_pages(&p.FLC);
         // Initialize LEDs
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED0);
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED1);
@@ -223,6 +225,33 @@ impl Board {
     }
 }
 
+/// Lock all flash pages except for pages where we store data,
+/// only lock flash pages in release builds
+#[cfg(not(debug_assertions))]
+pub fn lock_pages(flc: &pac::FLC) {
+    for i in 0..64 {
+        let exclusions = [0x1004_2000, 0x1004_4000];
+        let addr = flc::FLASH_BASE + (i * flc::FLASH_PAGE_SIZE);
+        if exclusions.contains(&addr) {
+            continue;
+        }
+        let result = flc::block_page_write(flc, addr);
+        match result {
+            flc::FlashStatus::Success => (),
+            _ => {
+                panic!();
+            }
+        }
+    }
+}
+
+/// Do not lock flash pages in debug builds
+#[cfg(debug_assertions)]
+pub fn lock_pages(_flc: &pac::FLC) {
+    cortex_m::asm::nop();
+}
+
+/// Convert a u8 to a hex byte string array
 pub fn u8_to_hex_string(value: u8) -> [u8; 2] {
     let mut result: [u8; 2] = [0; 2];
     for i in 0..2 {
@@ -236,6 +265,7 @@ pub fn u8_to_hex_string(value: u8) -> [u8; 2] {
     result
 }
 
+/// Convert a u32 to a hex byte string array
 pub fn u32_to_hex_string(value: u32) -> [u8; 8] {
     let mut result: [u8; 8] = [0; 8];
     for i in 0..8 {
