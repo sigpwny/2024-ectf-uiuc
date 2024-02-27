@@ -8,15 +8,18 @@ pub struct RegisterBlock {
     intr: INTR,
     eccdata: ECCDATA,
     _reserved5: [u8; 0x04],
-    data: [DATA; 4],
+    data0: DATA0,
+    data1: DATA1,
+    data2: DATA2,
+    data3: DATA3,
     actrl: ACTRL,
-    _reserved7: [u8; 0x3c],
+    _reserved10: [u8; 0x3c],
     welr0: WELR0,
-    _reserved8: [u8; 0x04],
+    _reserved11: [u8; 0x04],
     welr1: WELR1,
-    _reserved9: [u8; 0x04],
+    _reserved12: [u8; 0x04],
     rlr0: RLR0,
-    _reserved10: [u8; 0x04],
+    _reserved13: [u8; 0x04],
     rlr1: RLR1,
 }
 impl RegisterBlock {
@@ -45,16 +48,25 @@ impl RegisterBlock {
     pub const fn eccdata(&self) -> &ECCDATA {
         &self.eccdata
     }
-    #[doc = "0x30..0x40 - Flash Write Data."]
+    #[doc = "0x30 - Flash Write Data for bits 31:0."]
     #[inline(always)]
-    pub const fn data(&self, n: usize) -> &DATA {
-        &self.data[n]
+    pub const fn data0(&self) -> &DATA0 {
+        &self.data0
     }
-    #[doc = "Iterator for array of:"]
-    #[doc = "0x30..0x40 - Flash Write Data."]
+    #[doc = "0x34 - Flash Write Data for bits 63:32."]
     #[inline(always)]
-    pub fn data_iter(&self) -> impl Iterator<Item = &DATA> {
-        self.data.iter()
+    pub const fn data1(&self) -> &DATA1 {
+        &self.data1
+    }
+    #[doc = "0x38 - Flash Write Data for bits 95:64."]
+    #[inline(always)]
+    pub const fn data2(&self) -> &DATA2 {
+        &self.data2
+    }
+    #[doc = "0x3c - Flash Write Data for bits 127:96."]
+    #[inline(always)]
+    pub const fn data3(&self) -> &DATA3 {
+        &self.data3
     }
     #[doc = "0x40 - Access Control Register. Writing the ACTRL register with the following values in the order shown, allows read and write access to the system and user Information block: pflc-actrl = 0x3a7f5ca3; pflc-actrl = 0xa1e34f20; pflc-actrl = 0x9608b2c1. When unlocked, a write of any word will disable access to system and user information block. Readback of this register is always zero."]
     #[inline(always)]
@@ -107,11 +119,26 @@ module"]
 pub type ECCDATA = crate::Reg<eccdata::ECCDATA_SPEC>;
 #[doc = "ECC Data Register."]
 pub mod eccdata;
-#[doc = "DATA (rw) register accessor: Flash Write Data.\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`data::R`].  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`data::W`]. You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@data`]
+#[doc = "DATA0 (rw) register accessor: Flash Write Data for bits 31:0.\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`data0::R`].  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`data0::W`]. You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@data0`]
 module"]
-pub type DATA = crate::Reg<data::DATA_SPEC>;
-#[doc = "Flash Write Data."]
-pub mod data;
+pub type DATA0 = crate::Reg<data0::DATA0_SPEC>;
+#[doc = "Flash Write Data for bits 31:0."]
+pub mod data0;
+#[doc = "DATA1 (rw) register accessor: Flash Write Data for bits 63:32.\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`data1::R`].  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`data1::W`]. You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@data1`]
+module"]
+pub type DATA1 = crate::Reg<data1::DATA1_SPEC>;
+#[doc = "Flash Write Data for bits 63:32."]
+pub mod data1;
+#[doc = "DATA2 (rw) register accessor: Flash Write Data for bits 95:64.\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`data2::R`].  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`data2::W`]. You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@data2`]
+module"]
+pub type DATA2 = crate::Reg<data2::DATA2_SPEC>;
+#[doc = "Flash Write Data for bits 95:64."]
+pub mod data2;
+#[doc = "DATA3 (rw) register accessor: Flash Write Data for bits 127:96.\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`data3::R`].  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`data3::W`]. You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@data3`]
+module"]
+pub type DATA3 = crate::Reg<data3::DATA3_SPEC>;
+#[doc = "Flash Write Data for bits 127:96."]
+pub mod data3;
 #[doc = "ACTRL (w) register accessor: Access Control Register. Writing the ACTRL register with the following values in the order shown, allows read and write access to the system and user Information block: pflc-actrl = 0x3a7f5ca3; pflc-actrl = 0xa1e34f20; pflc-actrl = 0x9608b2c1. When unlocked, a write of any word will disable access to system and user information block. Readback of this register is always zero.\n\nYou can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`actrl::W`]. See [API](https://docs.rs/svd2rust/#read--modify--write-api).\n\nFor information about available fields see [`mod@actrl`]
 module"]
 pub type ACTRL = crate::Reg<actrl::ACTRL_SPEC>;
