@@ -11,30 +11,42 @@ fn main() -> ! {
     let board = Board::new();
     board.send_host_debug(b"Board initialized!");
 
-    let mut count = 0;
-
     test_ascon(&board);
     test_random(&board);
     test_flash(&board);
     test_timer(&board);
 
-    loop {
-        // This timer logic doesn't make any sense, don't use it
-        let tmr_cnt = tmr0::get_tick_count(&board.tmr0);
-        while tmr0::get_tick_count(&board.tmr0) < tmr_cnt + 50_000_000 { }
-        board.send_host_debug(b"Hello, world!");
-        if count % 2 == 0 {
+    let mut count: i32 = 0;
+    for _ in 0..20 {
+        let tick_count = tmr0::get_tick_count(&board.tmr0);
+        while tmr0::get_tick_count(&board.tmr0) < tick_count + 50_000_000 { }
+        if (count % 2) == 0 {
             board.led_on(Led::Green);
         } else {
             board.led_off(Led::Green);
         }
-        // Test panic
-        if count == 20 {
-            board.send_host_debug(b"Testing panic after 20 seconds!");
-            panic!();
-        }
+        board.send_host_debug(b"Hello, world!");
         count += 1;
+    }
+
+    loop {
+        test_uart(&board);
         continue;
+    }
+}
+
+fn test_uart(board: &Board) {
+    let mut buffer: [u8; 64] = [0u8; 64];
+    board.send_host_debug(b"Enter a message:");
+    let len = board.read_host_line(&mut buffer);
+    match len {
+        Some(len) => {
+            board.send_host_debug(b"Received message:");
+            board.send_host_debug(&buffer[..len]);
+        }
+        None => {
+            board.send_host_debug(b"Failed to read message");
+        }
     }
 }
 
