@@ -69,9 +69,9 @@ impl Board {
     /// Output sent via UART0
     #[cfg(all(debug_assertions, not(feature = "semihosting")))]
     pub fn send_host_debug(&self, message: &[u8]) {
-        uart0::send_bytes(&self.uart0, b"%debug ");
-        uart0::send_bytes(&self.uart0, message);
-        uart0::send_bytes(&self.uart0, b"%\r\n");
+        uart0::write_bytes(&self.uart0, b"%debug ");
+        uart0::write_bytes(&self.uart0, message);
+        uart0::write_bytes(&self.uart0, b"%\r\n");
     }
     
     /// Host debugging is only enabled in debug builds
@@ -89,6 +89,22 @@ impl Board {
     #[cfg(not(debug_assertions))]
     pub fn send_host_debug(&self, _message: &[u8]) {
         cortex_m::asm::nop();
+    }
+
+    /// Read a command from the host (terminated by '\r')
+    pub fn read_host_line(&self, buffer: &mut [u8]) -> Option<usize> {
+        let mut index = 0;
+        for byte in buffer.iter_mut() {
+            let result = uart0::read_byte(&self.uart0);
+            *byte = result;
+            // Echo the received byte
+            uart0::write_byte(&self.uart0, result);
+            if result == b'\r' {
+                return Some(index);
+            }
+            index += 1;
+        }
+        return None;
     }
 
     pub fn led_on(&self, led: Led) {
