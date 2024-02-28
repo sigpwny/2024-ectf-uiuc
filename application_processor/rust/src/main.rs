@@ -57,7 +57,42 @@ fn main() -> ! {
         } else {
             board.led_off(Led::Green);
         }
-        board.send_host_debug(b"Hello, world!");
+ 
+
+fn replace_component(Board::&board) {
+    board.timer_reset();
+    // delay for 3 seconds
+    board.delay_us(3000000);
+    let mut flag : bool = false;
+    let mut buffer = [0u8; 256];
+    board.read_host_line(&mut buffer);
+    let replacement_token = &buffer[0..16];
+    let old_component_id = &buffer[16..20];
+    let new_component_id = &buffer[20..24];
+
+    Argon2::new(Variant::Argon2i, Version::V0x13, params);
+
+    // Compare Token Attempt hash to stored Correct Token hash
+    Argon2::new(Variant::Argon2i, Version::V0x13, params);
+    if(Argon2::default().verify_password(password, &parsed_hash).is_ok()) {
+        flag = true;
+    }
+    
+    // Wait until 4.8 seconds total time elapsed since beginning of transaction
+    board.delay_total_us(4800000);
+
+    // Update Component ID list with new Component ID if flag is true, and send success/error message
+    if (flag) {
+        //TODO: Replace component here
+        board.write_flash_bytes();
+        let success_message: [u8; LEN_MAX_SECURE] = "%success: Replacement success%".as_bytes();
+        send_host_success(success_message);
+    } else {
+        let error_message: [u8; LEN_MAX_SECURE] = "%error: Replacement failed%".as_bytes();
+        send_host_error(error_message);
+    }
+
+}       board.send_host_debug(b"Hello, world!");
         count += 1;
     }
 
