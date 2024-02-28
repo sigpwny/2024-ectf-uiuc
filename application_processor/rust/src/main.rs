@@ -30,7 +30,74 @@ use tests::{
     test_timer,
 };
 
-#[entry]
+//argon2 salts
+use argon2::{
+    password_hash::{
+        rand_core::OsRng,
+        PasswordHash, PasswordHasher, PasswordVerifier, SaltString
+    },
+    Argon2
+};
+
+
+
+fn send_attest_data(board: &Board) {
+    //set the target duration of the operation
+    board.timer_reset();
+    //Receive comp ID and PIN
+    let mut attestation_request: [u8; 64] = [0u8; 64];
+    let mut len = board.read_host_line(&mut attestation_request);  
+    let mut correctlen : bool = True;
+    let mut flag : bool = false;
+    if(len != 7){
+        correctlen = False;
+    }
+    len = board.read_host_line(&mut attestation_request);
+    if(len != 11){
+        correctlen = False;
+    }
+
+    //Wait a minimum of 0.8s TTT elapsed
+    board.delay_total_us(800_000);
+
+    //Argon 2i Compare PIN hash with AP_PIN_HASH
+    if(correctlen){
+        //configure Argon2i
+        let config = Config {
+            variant: Variant::Argon2i,
+        };
+
+        //checking the PIN
+        let salt = SaltString::new(&AP_PIN_HASH);
+        let argon2 = Argon2::new(config);
+        let pin_hash = argon2.hash_password(attestation_request, &salt)?.to_string();
+        let matches = argon2.verify_password(&pin_hash, &AP_PIN_HASH);
+
+        //compare hash
+        if Ok(matches) {
+            flag = true;
+        }
+    }
+
+    //Wait a minimum of 2.8s TTT elapsed
+    board.delay_total_us(2_800_000);
+    if(!flag){
+       board.delay_us(5_000_000); 
+       let message: [u8] = "%error: Attestation failed%".as_bytes();
+       send_host_error(&self, message: &[u8]); /// Write error to the host
+    } 
+    else { 
+        //AP requests attestation data
+        get_provisioned_component_ids(&self) -> [u32; ATTEST_DATA]; // Get provisioned component IDs
+        //AP sends attestation data
+        send_host_info(&self, ATTEST_DATA); /// Write info to the host
+        let success_message: [u8; LEN_MAX_SECURE] = "%success: Replacement success%".as_bytes();
+        send_host_success(success_message);
+    }
+
+}
+
+#[entry]    
 fn main() -> ! {
     let board = Board::new();
     board.send_host_debug(b"Board initialized!");
