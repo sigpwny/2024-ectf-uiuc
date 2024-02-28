@@ -6,6 +6,14 @@ use max78000_hal::tmr0;
 use board::{Board, Led, u8_to_hex_string, u32_to_hex_string};
 use board::secure_comms as hide;
 
+use argon2::{
+    password_hash::{
+        rand_core::OsRng,
+        PasswordHash, PasswordHasher, PasswordVerifier, SaltString
+    },
+    Argon2
+};
+
 mod ectf_global_secrets;
 use ectf_global_secrets::{
     ASCON_SECRET_KEY_AP_TO_C,
