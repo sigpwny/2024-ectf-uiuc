@@ -31,11 +31,15 @@ sequenceDiagram
   alt C1 is attached and responsive
     C1 ->> AP: LIST_PONG
     AP ->> H: Info: "F>0x" + CID + "\n"
+  else C1 is unresponsive
+    Note over AP: No response needed, continue
   end
   AP ->> C2: LIST_PING
   alt C2 is attached and responsive
     C2 ->> AP: LIST_PONG
     AP ->> H: Info: "F>0x" + CID + "\n"
+  else C1 is unresponsive
+    Note over AP: No response needed, continue
   end
   AP -x H: Success: "Listed components!\n"
 ```
