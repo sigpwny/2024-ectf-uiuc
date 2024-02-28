@@ -7,9 +7,8 @@ Description TODO. All MISC messages are sent over the [HIDE protocol](./hide_pro
 
 ## List Components
 The host will ask the Application Processor to "list" its components.
-The Application Processor, upon receiving the message from the host, has to ping
-the components. It will send magic bytes recognizable to the components and waits for responses from the components. If a response is not received within a 
-threshold of one second, the AP logs the component as "not found" to the Host, but if a response is received, then the AP logs the component ID to the Host.
+The Application Processor, upon receiving the message from the host, will list its provisioned components.
+It will then send a magic byte as a ping to every I2C address. For components that are present and responsive, they will send a magic byte pong as well as its component ID, which will prompt the Application Processor to send the component ID to the host.
 
 ```mermaid
 sequenceDiagram
@@ -35,19 +34,19 @@ sequenceDiagram
 
 
 ### LIST_PING
-Description TODO.
+This byte is sent to every I2C address. For present components, this indicates that the Application Processor is asking for its component ID.
 
 | Name      | Offset | Size (bytes) | Content |
 | --------- | ------ | ------------ | ------- |
 | Magic     | `0x00` | 1            | `\x50`  |
 
 ### LIST_PONG
-Description TODO.
+After being prompted by the Application Processor using LIST_PING, an active component will send a response byte and the component ID to the Application Processor.
 
-| Name        | Offset      | Size (bytes) | Content            |
-| ----------- | ----------- | ------------ | ------------------ |
-| Magic       | `0x00`      | 1            | `\x51`             |
-| Component ID| `0x01-0x05` | 4            | `\x??\x??\x??\x??` |
+| Name         | Offset      | Size (bytes) | Content            |
+| ------------ | ----------- | ------------ | ------------------ |
+| Magic        | `0x00`      | 1            | `\x51`             |
+| Component ID | `0x01-0x05` | 4            | `\x??\x??\x??\x??` |
 
 
 ## Attest Components
