@@ -7,10 +7,7 @@ use board::{Board, Led, u8_to_hex_string, u32_to_hex_string};
 use board::secure_comms as hide;
 
 use argon2::{
-    password_hash::{
-        rand_core::OsRng,
-        PasswordHash, PasswordHasher, PasswordVerifier, SaltString
-    },
+    password_hash::PasswordHash,
     Argon2
 };
 
