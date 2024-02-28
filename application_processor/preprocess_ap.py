@@ -12,11 +12,12 @@ def gen_params_file(params):
         logger.error("Could not open ectf_params.rs")
         exit(1)
     try:
-        pf.write(f'pub const AP_PIN_HASH = b"{params["AP_PIN_HASH"]}";\n')
-        pf.write(f'pub const AP_TOKEN_HASH = b"{params["AP_TOKEN_HASH"]}";\n')
-        pf.write(f'pub const AP_BOOT_MSG = b"{params["AP_BOOT_MSG"]}";\n')
-        pf.write(f'pub const COMPONENT_CNT = {params["COMPONENT_CNT"]};\n')
-        pf.write(f'pub const ORIGINAL_COMPONENT_IDS = [{params["ORIGINAL_COMPONENT_IDS"]}];\n')
+        pf.write(f'pub const AP_PIN_HASH: &[u8] = b"{params["AP_PIN_HASH"]}";\n')
+        pf.write(f'pub const AP_TOKEN_HASH: &[u8] = b"{params["AP_TOKEN_HASH"]}";\n')
+        pf.write(f'pub const AP_BOOT_MSG: &[u8] = b"{params["AP_BOOT_MSG"]}";\n')
+        pf.write(f'pub const COMPONENT_CNT: u8 = {params["COMPONENT_CNT"]};\n')
+        # TODO: Fix to handle 1 component ID
+        pf.write(f'pub const ORIGINAL_COMPONENT_IDS: [u32; 2] = [{params["ORIGINAL_COMPONENT_IDS"]}];\n')
     except:
         logger.error("Could not write to ectf_params.rs")
         exit(1)

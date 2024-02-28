@@ -15,8 +15,8 @@ def gen_ascon_key():
     return ''.join([f"\\x{byte:02x}" for byte in bytes])
 
 def gen_lib_files():
-    lib_file = f"pub const ASCON_SECRET_KEY_AP_TO_C: [u8; 16] = b\"{gen_ascon_key()}\";\n"
-    lib_file += f"pub const ASCON_SECRET_KEY_C_TO_AP: [u8; 16] = b\"{gen_ascon_key()}\";\n"
+    lib_file = f"pub const ASCON_SECRET_KEY_AP_TO_C: &[u8] = b\"{gen_ascon_key()}\";\n"
+    lib_file += f"pub const ASCON_SECRET_KEY_C_TO_AP: &[u8] = b\"{gen_ascon_key()}\";\n"
 
     for _dir in output_dirs:
         try:
