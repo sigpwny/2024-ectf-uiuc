@@ -2,19 +2,10 @@
 #![no_main]
 
 use cortex_m_rt::entry;
+use max78000_hal::tmr0;
+use board::{Board, Led, u8_to_hex_string, u32_to_hex_string};
+use board::secure_comms as hide;
 
-#[entry]
-fn main() -> ! {
-    loop {
-        // TODO
-    }
-}#![no_std]
-#![no_main]
-
-<<<<<<< HEAD
-use crate::*;
-use cortex_m_rt::entry;
-// Argon2 hashing docs: https://docs.rs/argon2/latest/argon2/
 use argon2::{
     password_hash::{
         rand_core::OsRng,
@@ -23,31 +14,29 @@ use argon2::{
     Argon2
 };
 
-// Don't use magic numbers - always define as constants!
+mod ectf_global_secrets;
+use ectf_global_secrets::{
+    ASCON_SECRET_KEY_AP_TO_C,
+    ASCON_SECRET_KEY_C_TO_AP,
+};
 
-/**
- * Lengths
- */
-const LEN_MAX_SECURE: usize = 64;
-const LEN_MAX_HOST:   usize = 32;
+mod ectf_params;
+use ectf_params::{
+    AP_PIN_HASH,
+    AP_TOKEN_HASH,
+    AP_BOOT_MSG,
+    COMPONENT_CNT,
+    // ORIGINAL_COMPONENT_IDS, // DO NOT USE THESE!
+};
 
-/**
- * Magic bytes
- */
- // TODO: Add more here
-const CID1: u8 = 0x10;
-const CID2: u8 = 0x11;
-const MAGIC_LIST_PING: u8 = 0x50;
-const MAGIC_LIST_PONG: u8 = 0x51;
-
-
- const MAGIC_BOOT_PING: u8 = 0x80;
- const MAGIC_BOOT_PONG: u8 = 0x81;
- const MAGIC_BOOT_NOW:  u8 = 0x82;
-
-
-// Reference Rust code from last year: https://github.com/sigpwny/2023-ectf-sigpwny/blob/main/docker_env/src/bin/car.rs
-
+mod tests;
+use tests::{
+    test_uart,
+    test_ascon,
+    test_random,
+    test_flash,
+    test_timer,
+};
 
 #[entry]
 fn main() -> ! {
