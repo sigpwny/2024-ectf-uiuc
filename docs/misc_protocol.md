@@ -156,14 +156,6 @@ sequenceDiagram
 
 ```
 
-### COMMAND_NAME
-Description TODO.
-
-| Name      | Offset | Size (bytes) | Content |
-| --------- | ------ | ------------ | ------- |
-| Magic     | `0x00` | 1            | `\x70`  |
-| TODO      | TODO   | TODO         | TODO    |
-
 ## Boot Verification
 Description TODO.
 
