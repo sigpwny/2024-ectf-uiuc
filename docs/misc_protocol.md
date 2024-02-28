@@ -18,6 +18,11 @@ sequenceDiagram
   participant C1 as Component 1
   participant C2 as Component 2
   H ->> AP: "list\r"
+  Note over AP,C2: Scan all I2C addr.
+  AP -->> C1: 
+  AP -->> C2: 
+  C1 ->> AP: C1 CID
+  C2 ->> AP: C2 CID
   loop For each provisioned component
     AP ->> H: Info: "P>0x" + CID + "\n"
   end
@@ -171,16 +176,20 @@ sequenceDiagram
   H ->> AP: "boot\r"
   Note over AP, C2: BOOT_PINGs are sent in order, one at a time
   AP ->> C1: BOOT_PING
-  C1 ->> AP: BOOT_PONG
-  alt C1 response > 1s
-    AP -x H: "Boot Failed"
-    AP --x H: C1 Component ID
+    alt C1 is attached and responsive
+    C1 ->> AP: BOOT_PONG
+    Note over AP: Continue
+  else C1 is unresponsive
+    Note over AP: Abort boot
+    AP -x H: Error: "Boot failed!\n"
   end
   AP ->> C2: BOOT_PING
-  C2 ->> AP: BOOT_PONG
-  alt C2 response > 1s
-    AP -x H: "Boot Failed"
-    AP --x H: C2 Component ID
+  alt C2 is attached and responsive
+    C2 ->> AP: BOOT_PONG
+    Note over AP: Continue
+  else C2 is unresponsive
+    Note over AP: Abort boot
+    AP -x H: Error: "Boot failed!\n"
   end
   Note over H, C2: Minimum 2.8s TTT elapsed
   AP ->> C1: BOOT_NOW

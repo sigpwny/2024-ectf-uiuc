@@ -1,14 +1,31 @@
 [package]
-name = "ectf-2024-uiuc-ap"
-authors = ["SIGPwny <ctf@sigpwny.com>"]
-edition = "2021"
+name = "ap"
 version = "0.1.0"
-
-[lib]
-path = "src/lib.rs"
+edition = "2021"
 
 [dependencies]
-argon2 = "0.5.3"
-cortex-m = "0.7.7"
-cortex-m-rt = "0.7.3"
+ascon = { version = "0.1.0", path = "../../rust-lib/ascon" }
+cortex-m = { version = "0.7.7", features = ["critical-section-single-core", "inline-asm"] }
+cortex-m-rt = { version = "0.7.3", features = ["set-sp", "set-vtor"] }
 cortex-m-semihosting = "0.5.0"
+max78000-hal = { version = "0.1.0", path = "../../rust-lib/hal" }
+max78000-pac = { version = "0.1.0", features = ["rt"], path = "../../rust-lib/pac" }
+panic-halt = "0.2.0"
+
+[features]
+default = []
+semihosting = []
+
+[lib]
+name = "board"
+path = "src/board.rs"
+
+[profile.dev]
+opt-level = "z"
+lto = true
+
+[profile.release]
+debug = false
+strip = true
+codegen-units = 1
+lto = true

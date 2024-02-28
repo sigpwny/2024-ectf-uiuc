@@ -366,3 +366,12 @@ cython_debug/
 ## Project Post-.gitignore ##
 
 !device/lib
+
+# Rust
+target/
+Cargo.lock
+
+# Secrets
+ectf_params.h
+ectf_params.rs
+ectf_global_secrets.rs

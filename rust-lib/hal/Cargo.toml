@@ -1,0 +1,10 @@
+[package]
+name = "max78000-hal"
+authors = ["SIGPwny <ctf@sigpwny.com>"]
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+cortex-m = "0.7.7"
+cortex-m-rt = "0.7.3"
+max78000-pac = { version = "0.1.0", features = ["rt"], path = "../pac" }
