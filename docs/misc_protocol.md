@@ -22,7 +22,7 @@ sequenceDiagram
   end
   loop For each I2C addr
     AP ->> C: LIST_PING
-    alt C1 is attached and responsive
+    alt C is attached and responsive
       C ->> AP: LIST_PONG
       C -->> AP: CID
       AP ->> H: Info: "F>0x" + CID + "\n"
