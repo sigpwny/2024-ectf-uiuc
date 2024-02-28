@@ -30,7 +30,7 @@ sequenceDiagram
       Note over AP: No response needed, continue
     end
   end
-  AP -x H: Success: "Listed components!\n"
+  AP -x H: Success: "List\n"
 ```
 
 
