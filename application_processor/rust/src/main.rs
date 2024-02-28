@@ -142,5 +142,5 @@ fn main() -> ! {
     loop {
         // TODO
     }
->>>>>>> 9b204d7 (Bootstrap Rust code for AP and MSDK HAL)
+}>>>>>>> 9b204d7 (Bootstrap Rust code for AP and MSDK HAL)
 }
