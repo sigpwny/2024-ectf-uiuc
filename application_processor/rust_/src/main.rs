@@ -109,18 +109,18 @@ fn attest_component() {
 }
 
 // Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/replace_tool.py
-fn replace_component(replacement_token : [u8; 16], old_component_id: u32, new_component_id : u32) {
-    let target_duration = Duration::from_millis(4800); // Set target duration to be 4.8s 
-    let start = Instant::now(); // Start timer
-
+fn replace_component(Board:&board, replacement_token : [u8; 16], old_component_id: u32, new_component_id : u32) {
+    board.timer_reset();
     let mut flag : bool = false;
     // delay for 3 seconds
-    delay(3000000);
+    delay_us(3000000);
+    board.read_host_line();
 
     // pre-defined salt needed
+    Argon2::new(Variant::Argon2i, Version::V0x13, params)
     let salt = 
-    let argon2 = Argon2::default();
     let token_hash = argon2.hash_password(replacement_token, &salt)?.to_string();
+    Argon2::default().verify_password(password, &parsed_hash).is_ok()
 
 
 
@@ -139,7 +139,7 @@ fn replace_component(replacement_token : [u8; 16], old_component_id: u32, new_co
     // Update Component ID list with new Component ID if flag is true, and send success/error message
     if (flag) {
         //TODO: Replace component here
-
+        board.write_flash_bytes();
         let success_message: [u8; LEN_MAX_SECURE] = "%success: Replacement success%".as_bytes();
         send_host_success(success_message);
     } else {
