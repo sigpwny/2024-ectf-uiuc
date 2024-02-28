@@ -26,7 +26,7 @@ We use two separate flash pages since we need to update Component IDs that were 
 0x1004_2000 ├───────────────────────┼─────┼────┤
 0x1004_2000 │ Prov. Component ID 1  │  4B │ RW │
 0x1004_4000 ├───────────────────────┼─────┼────┤
-0x1004_4000 │ Prov. Component ID 2  │  4B │ RW │
+0x1004_4000 │ Prov. Component ID 0  │  4B │ RW │
 0x1004_6000 └───────────────────────┴─────┴────┘
 ```
 
