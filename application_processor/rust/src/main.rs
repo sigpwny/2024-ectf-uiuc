@@ -57,3 +57,4 @@ fn main() -> ! {
         test_uart(&board);
         continue;
     }
+}

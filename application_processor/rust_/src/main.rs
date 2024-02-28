@@ -30,12 +30,9 @@ const MAGIC_LIST_PING: u8 = 0x50;
 const MAGIC_LIST_PONG: u8 = 0x51;
 
 
- const MAGIC_BOOT_PING: u8 = 0x80;
- const MAGIC_BOOT_PONG: u8 = 0x81;
- const MAGIC_BOOT_NOW:  u8 = 0x82;
-
-
-// Reference Rust code from last year: https://github.com/sigpwny/2023-ectf-sigpwny/blob/main/docker_env/src/bin/car.rs
+const MAGIC_BOOT_PING: u8 = 0x80;
+const MAGIC_BOOT_PONG: u8 = 0x81;
+const MAGIC_BOOT_NOW:  u8 = 0x82;
 
 
 #[entry]
