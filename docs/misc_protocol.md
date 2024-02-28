@@ -15,28 +15,20 @@ threshold of one second, the AP logs the component as "not found" to the Host, b
 sequenceDiagram
   participant H as Host
   participant AP as Application Processor
-  participant C1 as Component 1
-  participant C2 as Component 2
+  participant C as Component(s)
   H ->> AP: "list\r"
   loop For each provisioned component
     AP ->> H: Info: "P>0x" + CID + "\n"
   end
-  Note over AP,C2: Scan all I2C addr.
-  AP ->> C1: LIST_PING
-  AP ->> C2: LIST_PING
-  alt C1 is attached and responsive
-    C1 ->> AP: LIST_PONG
-    C1 -->> AP: CID
-    AP ->> H: Info: "F>0x" + CID + "\n"
-  else C1 is unresponsive
-    Note over AP: No response needed, continue
-  end
-  alt C2 is attached and responsive
-    C2 ->> AP: LIST_PONG
-    C2 -->> AP: CID
-    AP ->> H: Info: "F>0x" + CID + "\n"
-  else C1 is unresponsive
-    Note over AP: No response needed, continue
+  loop For each I2C addr
+    AP ->> C: LIST_PING
+    alt C1 is attached and responsive
+      C ->> AP: LIST_PONG
+      C -->> AP: CID
+      AP ->> H: Info: "F>0x" + CID + "\n"
+    else C is unresponsive
+      Note over AP: No response needed, continue
+    end
   end
   AP -x H: Success: "Listed components!\n"
 ```
