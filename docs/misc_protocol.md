@@ -52,9 +52,10 @@ Description TODO.
 ### LIST_PONG
 Description TODO.
 
-| Name      | Offset | Size (bytes) | Content |
-| --------- | ------ | ------------ | ------- |
-| Magic     | `0x00` | 1            | `\x51`  |
+| Name        | Offset      | Size (bytes) | Content            |
+| ----------- | ----------- | ------------ | ------------------ |
+| Magic       | `0x00`      | 1            | `\x51`             |
+| Component ID| `0x01-0x05` | 4            | `\x??\x??\x??\x??` |
 
 
 ## Attest Components
