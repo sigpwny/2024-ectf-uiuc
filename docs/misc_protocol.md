@@ -65,7 +65,7 @@ sequenceDiagram
   Note over Host, Component: Minimum 2.8s TTT elapsed
   alt PIN is incorrect
     Note over Host, Component: Delay for an additional 5s
-    AP -x Host: Error: "Attest failed!\n"
+    AP -x Host: Error: "Attest failed\n"
   else
     AP ->> Component: REQUEST_LOCATION
     Component ->> AP: SEND_LOCATION
