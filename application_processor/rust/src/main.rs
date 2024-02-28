@@ -1,126 +1,183 @@
 #![no_std]
 #![no_main]
 
-use crate::*;
 use cortex_m_rt::entry;
-// Argon2 hashing docs: https://docs.rs/argon2/latest/argon2/
-use argon2::{
-    password_hash::{
-        rand_core::OsRng,
-        PasswordHash, PasswordHasher, PasswordVerifier, SaltString
-    },
-    Argon2
+use max78000_hal::{tmr0, trng};
+use board::{Board, Led, u8_to_hex_string, u32_to_hex_string};
+use board::secure_comms as hide;
+
+mod ectf_global_secrets;
+use ectf_global_secrets::{
+    ASCON_SECRET_KEY_AP_TO_C,
+    ASCON_SECRET_KEY_C_TO_AP,
 };
-
-// Don't use magic numbers - always define as constants!
-
-/**
- * Lengths
- */
-const LEN_MAX_SECURE: usize = 64;
-const LEN_MAX_HOST:   usize = 32;
-
-/**
- * Magic bytes
- */
- // TODO: Add more here
-const CID1: u8 = 0x10;
-const CID2: u8 = 0x11;
-const MAGIC_LIST_PING: u8 = 0x50;
-const MAGIC_LIST_PONG: u8 = 0x51;
-
-
- const MAGIC_BOOT_PING: u8 = 0x80;
- const MAGIC_BOOT_PONG: u8 = 0x81;
- const MAGIC_BOOT_NOW:  u8 = 0x82;
-
-
-// Reference Rust code from last year: https://github.com/sigpwny/2023-ectf-sigpwny/blob/main/docker_env/src/bin/car.rs
-
 
 #[entry]
 fn main() -> ! {
-    // TODO: Initialization
-    // NOTE: We are on an embedded system, so we *cannot* use the Rust standard library
+    let board = Board::new();
+    board.send_host_debug(b"Board initialized!");
 
-    // That means we can't use String or str, so we'll have to use arrays of bytes (u8).
-    // Do not use arrays of chars (char) because Rust can consider them to be up to 4 bytes,
-    // and we're not doing unicode. Also, Rust strings are not null terminated.
-    let hello_string: [u8; 13] = "Hello, world!".as_bytes(); // the type, [u8; 13] means 13 bytes
-    // hello_string = "a new string!" // let is const by default, so you can't assign a new value!
-    let mut cool_string: [u8; 10] = "Kinda cool".as_bytes(); // make the variable mutable instead!
-    cool_string = "Super cool".as_bytes(); // note you HAVE to assign a new string of 10 bytes since that is the type of cool_string
+    test_ascon(&board);
+    test_random(&board);
+    test_flash(&board);
+    test_timer(&board);
 
-    send_host_info(&hello_string); // you'll need these functions for communicating with the Host Computer
-    send_host_ack(&hello_string);
-    send_host_success(&hello_string);
-    send_host_error(&hello_string);
-    send_host_debug(&hello_string);
+    let mut count: i32 = 0;
+    for _ in 0..20 {
+        let tick_count = tmr0::get_tick_count(&board.tmr0);
+        while tmr0::get_tick_count(&board.tmr0) < tick_count + 50_000_000 { }
+        if (count % 2) == 0 {
+            board.led_on(Led::Green);
+        } else {
+            board.led_off(Led::Green);
+        }
+        board.send_host_debug(b"Hello, world!");
+        count += 1;
+    }
 
-    let mut host_data: [u8; LEN_MAX_HOST];
-    recv_host(&host_data); // Read data from the Host!
-
-    //
     loop {
-        // TODO: UART loop to listen for messages from the Host Computer
+        test_uart(&board);
+        continue;
     }
 }
 
-// Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/list_tool.py
-fn list_components() {
-    // Example of secure send/receive to component
-
-
-    // let first_send: [u8; LEN_MAX_SECURE] = [0; LEN_MAX_SECURE]; // initialize with null bytes
-    // let mut first_response: [u8; LEN_MAX_SECURE] = [0; LEN_MAX_SECURE];
-    // first_send[u8; LEN_MAX_SECURE] = "PINGCOMPONENT".as_bytes(); // Ping the component. Then it should respond with it's ID.
-    // secure_send(&first_send);
-    // secure_recv(&first_response);
-
-    // now process the response, etc.
-    let ping_byte: u8 = MAGIC_LIST_PING;
-    let mut first_response: u8  = 0;
-    secure_send(&ping_byte); 
-    secure_recv(&first_response); // Check i2c bus if there is data, then repeatedly receive a response.
-
-    delay(1000000);
-
-    if first_response == MAGIC_LIST_PONG{
-        let success_message: [u8; LEN_MAX_SECURE] = "%success: Component found%".as_bytes();
-        send_host_success(success_message);
-    } else {
-        let error_message: [u8; LEN_MAX_SECURE] = "%error: Component not found%".as_bytes();
-        send_host_error(error_message);
+fn test_uart(board: &Board) {
+    let mut buffer: [u8; 64] = [0u8; 64];
+    board.send_host_debug(b"Enter a message:");
+    let len = board.read_host_line(&mut buffer);
+    match len {
+        Some(len) => {
+            board.send_host_debug(b"Received message:");
+            board.send_host_debug(&buffer[..len]);
+        }
+        None => {
+            board.send_host_debug(b"Failed to read message");
+        }
     }
-    /*
-     let start_time = Instant::now();
-        let timeout = Duration::from_secs(1);
-        secure_recv(&first_response);
-        /*Wait for a response from the component */
-      if Instant::now() - start_time >= timeout {
-            println!("One second has elapsed. Exiting...");
+}
+
+fn test_ascon(board: &Board) {
+    let message: [u8; hide::LEN_ASCON_128_PTXT] = [b'A'; hide::LEN_ASCON_128_PTXT];
+    let associated_data: [u8; hide::LEN_ASCON_128_AD] = [1, 2, 3, 4, 5, 6, 7, 8];
+    let nonce: [u8; hide::LEN_ASCON_128_NONCE] = [7u8; hide::LEN_ASCON_128_NONCE];
+    let key: [u8; hide::LEN_ASCON_128_KEY] = [9u8; hide::LEN_ASCON_128_KEY];
+    let mut ciphertext: [u8; hide::LEN_ASCON_128_CTXT] = [0u8; hide::LEN_ASCON_128_CTXT];
+    let mut plaintext: [u8; hide::LEN_ASCON_128_PTXT] = [0u8; hide::LEN_ASCON_128_PTXT];
+
+    board.send_host_debug(b"Testing Ascon-128!");
+    board.send_host_debug(b"Original message:");
+    board.send_host_debug(&message);
+
+    let result = hide::ascon_encrypt(
+        &mut ciphertext,
+        &message,
+        &associated_data,
+        &nonce,
+        &key,
+    );
+    if result != 0 {
+        panic!("Failed to encrypt message");
+    }
+    board.send_host_debug(b"Encrypted message:");
+    board.send_host_debug(&ciphertext);
+
+    let wrong_associated_data: [u8; hide::LEN_ASCON_128_AD] = [1, 2, 3, 4, 5, 6, 7, 9];
+    let result = hide::ascon_decrypt(
+        &mut plaintext,
+        &ciphertext,
+        &wrong_associated_data,
+        &nonce,
+        &key,
+    );
+    if result != 0 {
+        board.send_host_debug(b"Failed to decrypt message");
+    }
+
+    board.send_host_debug(b"Decrypted message:");
+    board.send_host_debug(&plaintext);
+
+    for i in 0..64 {
+        if message[i] != plaintext[i] {
+            board.send_host_debug(b"Plaintext does not match message");
             break;
         }
-     */
-
-
+    }
 }
 
-// Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/attestation_tool.py
-fn attest_component() {
-
+fn test_random(board: &Board) {
+    let mut random: [u8; 16] = [0u8; 16];
+    trng::random_bytes(&board.trng, &mut random);
+    board.send_host_debug(b"Random bytes:");
+    for byte in random.iter() {
+        board.send_host_debug(&u8_to_hex_string(*byte));
+    }
 }
 
-// Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/replace_tool.py
-fn replace_component() {
-
+fn test_flash(board: &Board) {
+    let addr: u32 = 0x1004_4100;
+    let data: [u8; 4] = [0x12, 0x34, 0x56, 0x78];
+    // Print the original flash contents
+    let addr_ptr = addr as *const u8;
+    board.send_host_debug(b"Original flash contents:");
+    for i in 0..4 {
+        let byte = unsafe { addr_ptr.add(i).read() };
+        board.send_host_debug(&u8_to_hex_string(byte));
+    }
+    // Success: Write new data to flash
+    board.write_flash_bytes(addr, &data);
+    board.send_host_debug(b"Wrote 4 bytes to flash");
+    board.send_host_debug(b"New flash contents:");
+    for i in 0..4 {
+        let byte = unsafe { addr_ptr.add(i).read() };
+        if byte != data[i] {
+            board.send_host_debug(b"The byte below does not match expected output!");
+        }
+        board.send_host_debug(&u8_to_hex_string(byte));
+    }
+    // Success: Should write after erase
+    let data: [u8; 4] = [0xDE, 0xAD, 0xBE, 0xEF];
+    board.write_flash_bytes(addr, &data);
+    board.send_host_debug(b"Wrote 4 bytes to flash");
+    board.send_host_debug(b"New flash contents:");
+    for i in 0..4 {
+        let byte = unsafe { addr_ptr.add(i).read() };
+        if byte != data[i] {
+            board.send_host_debug(b"The byte below does not match expected output!");
+        }
+        board.send_host_debug(&u8_to_hex_string(byte));
+    }
+    board.send_host_debug(b"Success: Wrote to flash!");
 }
 
-// Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/boot_tool.py
-fn boot_verify() {
-
-}
-
-fn post_boot() {
-
+fn test_timer(board: &Board) {
+    board.timer_reset();
+    board.send_host_debug(b"Timer reset!");
+    let current_us = board.timer_get_us();
+    board.send_host_debug(b"Current time (us):");
+    board.send_host_debug(&u32_to_hex_string(current_us));
+    // Block for 1 second
+    board.delay_us(1_000_000);
+    board.send_host_debug(b"1 second has passed!");
+    // Block for 2 seconds
+    board.delay_us(2_000_000);
+    board.send_host_debug(b"3 seconds have passed!");
+    // Block until 5 seconds total (since reset) have passed
+    board.delay_total_us(10_000_000);
+    board.send_host_debug(b"10 seconds have passed!");
+    board.timer_reset();
+    board.send_host_debug(b"Timer reset!");
+    let current_us = board.timer_get_us();
+    board.send_host_debug(b"Current time (us):");
+    board.send_host_debug(&u32_to_hex_string(current_us));
+    // Block for 1 second
+    board.delay_us(1_000_000);
+    board.send_host_debug(b"1 second has passed!");
+    // Block for 2 seconds
+    board.delay_us(2_000_000);
+    board.send_host_debug(b"3 seconds have passed!");
+    // Block until 5 seconds total (since reset) have passed
+    board.delay_total_us(10_000_000);
+    board.send_host_debug(b"10 seconds have passed!");
+    board.timer_reset();
+    board.send_host_debug(b"Timer reset!");
 }
