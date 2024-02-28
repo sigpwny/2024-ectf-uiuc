@@ -78,7 +78,7 @@ sequenceDiagram
     AP ->> Host: Info: "LOC>" + Location "\n"
     AP ->> Host: Info: "DATE>" + Date "\n"
     AP ->> Host: Info: "CUST>" + Customer "\n"
-    AP -x Host: Success: "Retrieved attestation data!\n"
+    AP -x Host: Success: "Attest\n"
   end
 ```
 
@@ -142,7 +142,8 @@ sequenceDiagram
   Note over H, AP: Wait until 4.8 seconds total time elapsed since beginning of transaction
   alt Correct Replacement Token
      Note over AP: Updates Component ID list with new Component ID
-  end 
+  end
+  AP -x H: Success: "Replace\n"
 
 ```
 
