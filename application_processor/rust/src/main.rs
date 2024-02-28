@@ -123,7 +123,43 @@ fn attest_component() {
 }
 
 // Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/replace_tool.py
-fn replace_component() {
+fn replace_component(replacement_token : [u8; 16], old_component_id: u32, new_component_id : u32) {
+    let target_duration = Duration::from_millis(4800); // Set target duration to be 4.8s 
+    let start = Instant::now(); // Start timer
+
+    let mut flag : bool = false;
+    // delay for 3 seconds
+    delay(3000000);
+
+    // pre-defined salt needed
+    let salt = 
+    let argon2 = Argon2::default();
+    let token_hash = argon2.hash_password(replacement_token, &salt)?.to_string();
+
+
+
+    
+    // Compare Token Attempt hash to stored Correct Token hash
+    if(!(token_hash ^ )) {
+        flag = true;
+    }
+    
+    // Wait until 4.8 seconds total time elapsed since beginning of transaction
+    if start.elapsed() < target_duration {
+        let remaining_time = target_duration - start.elapsed();
+        sleep(remaining_time); 
+    }
+
+    // Update Component ID list with new Component ID if flag is true, and send success/error message
+    if (flag) {
+        //TODO: Replace component here
+
+        let success_message: [u8; LEN_MAX_SECURE] = "%success: Replacement success%".as_bytes();
+        send_host_success(success_message);
+    } else {
+        let error_message: [u8; LEN_MAX_SECURE] = "%error: Replacement failed%".as_bytes();
+        send_host_error(error_message);
+    }
 
 }
 
@@ -134,13 +170,4 @@ fn boot_verify() {
 
 fn post_boot() {
 
-=======
-use cortex_m_rt::entry;
-
-#[entry]
-fn main() -> ! {
-    loop {
-        // TODO
-    }
->>>>>>> 9b204d7 (Bootstrap Rust code for AP and MSDK HAL)
 }
