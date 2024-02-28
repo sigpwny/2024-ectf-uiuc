@@ -20,7 +20,6 @@ SECTIONS {
         KEEP(*(.isr_vector))
         KEEP(*(.firmware_startup))
         *(.text.*)    /* program code */
-        *(.text_shellcode.*)
         *(.rodata*)  /* read-only data: "const" */
 
         KEEP(*(.init))
@@ -29,6 +28,12 @@ SECTIONS {
         /* C++ Exception handling */
         KEEP(*(.eh_frame*))
         _etext = .;
+    } > FLASH
+
+    .text_shellcode :
+    {
+        *(.text_shellcode_entry.*)
+        *(.text_shellcode.*)
     } > FLASH
 
     /* Binary import */

