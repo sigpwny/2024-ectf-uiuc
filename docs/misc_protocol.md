@@ -18,28 +18,24 @@ sequenceDiagram
   participant C1 as Component 1
   participant C2 as Component 2
   H ->> AP: "list\r"
+  loop For each provisioned component
+    AP ->> H: Info: "P>0x" + CID + "\n"
+  end
   Note over AP,C2: Scan all I2C addr.
   AP -->> C1: 
   AP -->> C2: 
   C1 ->> AP: C1 CID
   C2 ->> AP: C2 CID
-  loop For each provisioned component
-    AP ->> H: Info: "P>0x" + CID + "\n"
-  end
   Note over AP, C2: LIST_PINGs are sent in order, one at a time
   AP ->> C1: LIST_PING
   alt C1 is attached and responsive
     C1 ->> AP: LIST_PONG
     AP ->> H: Info: "F>0x" + CID + "\n"
-  else C1 is unresponsive
-    Note over AP: No response needed, continue
   end
   AP ->> C2: LIST_PING
   alt C2 is attached and responsive
     C2 ->> AP: LIST_PONG
     AP ->> H: Info: "F>0x" + CID + "\n"
-  else C1 is unresponsive
-    Note over AP: No response needed, continue
   end
   AP -x H: Success: "Listed components!\n"
 ```
