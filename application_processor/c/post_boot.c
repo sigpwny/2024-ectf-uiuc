@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <string.h>
 
+typedef uint8_t i2c_addr_t;
+
 #ifndef POST_BOOT
 #include "led.h"
 #endif
@@ -37,7 +39,7 @@ int secure_send(uint8_t address, uint8_t* buffer, uint8_t len) {
 */
 int secure_receive(i2c_addr_t address, uint8_t* buffer) {
     // return poll_and_receive_packet(address, buffer);
-    return -1
+    return -1;
 }
 
 /**
