@@ -26,12 +26,14 @@ sequenceDiagram
   AP ->> C2: LIST_PING
   alt C1 is attached and responsive
     C1 ->> AP: LIST_PONG
+    C1 -->> AP: CID
     AP ->> H: Info: "F>0x" + CID + "\n"
   else C1 is unresponsive
     Note over AP: No response needed, continue
   end
   alt C2 is attached and responsive
     C2 ->> AP: LIST_PONG
+    C2 -->> AP: CID
     AP ->> H: Info: "F>0x" + CID + "\n"
   else C1 is unresponsive
     Note over AP: No response needed, continue
