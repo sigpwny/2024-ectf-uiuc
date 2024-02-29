@@ -119,18 +119,25 @@ pub fn write_txfifo(i2c1: &I2C1, data: &[u8], len: u32)  -> usize {
     return written;
 }
 
-pub fn master_read(i2c1: &I2C1, addr: u32, data: &mut [u8], len: u32) {
+pub fn master_read(i2c1: &I2C1, addr: u8, data: &mut [u8], len: u32) {
 
 }
 
-pub fn master_write(i2c1: &I2C1, addr: u32, data: &[u8], len: usize) {
+pub fn master_write(i2c1: &I2C1, addr: u8, data: &[u8], len: usize) {
 
     let mut written = 0usize;
     let mut started = false;
 
+
+
     while written < len{
-        
+       
         while !tx_em(i2c1) {}
+
+        if !started {
+            i2c1.fifo().modify(|_, w| unsafe { w.data().bits(addr) });
+            written += 1;
+        }
         
         while !tx_full(i2c1) && written < len {
             i2c1.fifo().modify(|_, w| unsafe { w.data().bits(data[written]) });
