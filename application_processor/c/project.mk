@@ -13,7 +13,7 @@
 
 # Add your config here!
 
-# This example is only compatible with the FTHR board,
-# so we override the BOARD value to hard-set it.
-override BOARD=FTHR_RevA
-MFLOAT_ABI=soft
+override BOARD = FTHR_RevA
+MFLOAT_ABI = soft
+override BUILD_DIR = $(abspath build)
+export BUILD_DIR

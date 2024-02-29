@@ -7,11 +7,13 @@ debug:
 	cargo build
 	cp target/thumbv7em-none-eabihf/debug/${BIN_NAME} build/max78000-debug.elf
 	arm-none-eabi-objcopy -O binary build/max78000-debug.elf build/max78000-debug.bin
+	python3 package.py --bin build/max78000-debug.bin --img build/max78000-debug.img
 semihosting:
 	mkdir -p build
 	cargo build --features semihosting
 	cp target/thumbv7em-none-eabihf/debug/${BIN_NAME} build/max78000-debug.elf
 	arm-none-eabi-objcopy -O binary build/max78000-debug.elf build/max78000-debug.bin
+	python3 package.py --bin build/max78000-debug.bin --img build/max78000-debug.img
 release:
 	mkdir -p build
 	cargo build --release

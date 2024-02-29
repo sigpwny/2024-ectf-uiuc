@@ -1,12 +1,14 @@
-#include "mxc_delay.h"
+// #include "mxc_delay.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 
 typedef uint8_t i2c_addr_t;
+// uint32_t SystemCoreClock __attribute__((section(".shared")));
+// volatile uint32_t mailbox __attribute__((section(".mailbox")));
 
 #ifndef POST_BOOT
-#include "led.h"
+// #include "led.h"
 #endif
 
 /******************************* POST BOOT FUNCTIONALITY *********************************/
@@ -69,18 +71,20 @@ void post_boot() {
     POST_BOOT
 #else
     while (1) {
-        LED_On(LED1);
-        MXC_Delay(500000);
-        LED_On(LED2);
-        MXC_Delay(500000);
-        LED_On(LED3);
-        MXC_Delay(500000);
-        LED_Off(LED1);
-        MXC_Delay(500000);
-        LED_Off(LED2);
-        MXC_Delay(500000);
-        LED_Off(LED3);
-        MXC_Delay(500000);
+        printf("Hello from POST_BOOT!\n");
+        fflush(stdout);
+        // LED_On(LED1);
+        // MXC_Delay(500000);
+        // LED_On(LED2);
+        // MXC_Delay(500000);
+        // LED_On(LED3);
+        // MXC_Delay(500000);
+        // LED_Off(LED1);
+        // MXC_Delay(500000);
+        // LED_Off(LED2);
+        // MXC_Delay(500000);
+        // LED_Off(LED3);
+        // MXC_Delay(500000);
     }
 #endif
 }

@@ -23,10 +23,10 @@ path = "src/board.rs"
 
 [profile.dev]
 opt-level = "z"
-lto = true
+# lto = true
 
 [profile.release]
 debug = false
 strip = true
 codegen-units = 1
-lto = true
+# lto = true
