@@ -130,7 +130,7 @@ pub fn master_write(i2c1: &I2C1, addr: u8, data: &[u8], len: usize) {
 
 
 
-    while written < len{
+    while written < len + 1 {
        
         while !tx_em(i2c1) {}
 
@@ -139,8 +139,8 @@ pub fn master_write(i2c1: &I2C1, addr: u8, data: &[u8], len: usize) {
             written += 1;
         }
         
-        while !tx_full(i2c1) && written < len {
-            i2c1.fifo().modify(|_, w| unsafe { w.data().bits(data[written]) });
+        while !tx_full(i2c1) && written < len + 1 {
+            i2c1.fifo().modify(|_, w| unsafe { w.data().bits(data[written - 1]) });
             written += 1;
         }
 
