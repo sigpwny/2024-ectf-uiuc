@@ -24,9 +24,10 @@ rustflags = [
   # specify -mthumb -mcpu=cortex-m4 -mfloat-abi=softfp -mfpu=fpv4-sp-d16
   "-C", "link-arg=-mthumb",
   "-C", "link-arg=-mcpu=cortex-m4",
-  "-C", "link-arg=-mfloat-abi=softfp",
+  # "-C", "link-arg=-mfloat-abi=softfp",
+  "-C", "link-arg=-mfloat-abi=hard",
   "-C", "link-arg=-mfpu=fpv4-sp-d16",
-  "-C", "link-arg=-Wl,--gc-sections",
+  # "-C", "link-arg=-Wl,--gc-sections",
   "-C", "link-arg=-lc",
-  "-C", "link-arg=-lnosys",
+  # "-C", "link-arg=-lnosys",
 ]
