@@ -51,6 +51,12 @@ impl Board {
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED1);
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED2);
 
+        gcr::mxc_i2c1_shutdown(&p.GCR);
+        gcr::mxc_i2c1_enable_clock(&p.GCR);
+        gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_I2C1);
+
+        i2c1::config(&p.I2C1, true, 0x0b);
+
         // Return the Board instance
         Board {
             // peripherals: p,

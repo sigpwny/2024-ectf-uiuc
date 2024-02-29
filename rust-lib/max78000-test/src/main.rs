@@ -2,7 +2,7 @@
 #![no_main]
 
 use cortex_m_rt::entry;
-use max78000_hal::{tmr0, trng};
+use max78000_hal::{tmr0, trng, i2c1};
 use board::{Board, Led, u8_to_hex_string};
 use board::secure_comms as hide;
 
@@ -13,8 +13,15 @@ fn main() -> ! {
 
     let mut count = 0;
 
-    test_ascon(&board);
-    test_random(&board);
+    //test_ascon(&board);
+    //test_random(&board);
+
+    loop {
+        i2c1::master_write(&board.i2c1, 0x0b, &[b'a', b'b', b'c', b'\n'] as &[u8; 4], 4);
+        for _ in 0..5_000_000 {
+            cortex_m::asm::nop();
+        }
+    }
 
     loop {
         // This timer logic doesn't make any sense, don't use it
