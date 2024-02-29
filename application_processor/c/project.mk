@@ -14,6 +14,6 @@
 # Add your config here!
 
 override BOARD = FTHR_RevA
-MFLOAT_ABI = soft
+MFLOAT_ABI = hard
 override BUILD_DIR = $(abspath build)
 export BUILD_DIR

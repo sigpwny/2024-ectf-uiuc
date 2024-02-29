@@ -29,5 +29,6 @@ rustflags = [
   "-C", "link-arg=-mfpu=fpv4-sp-d16",
   # "-C", "link-arg=-Wl,--gc-sections",
   "-C", "link-arg=-lc",
+  # "-C", "link-arg=-lgcc",
   # "-C", "link-arg=-lnosys",
 ]
