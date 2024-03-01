@@ -188,7 +188,7 @@ pub fn master_read_bytes(i2c1: &I2C1, addr: u8, bytes: &mut [u8], len: u8) -> Ma
 /// Write data to a slave
 pub fn master_write_bytes(i2c1: &I2C1, addr: u8, bytes: &[u8]) -> MasterI2CStatus {
     // Make sure read bit is not set
-    let addr = addr & 0x7F;
+    let addr = (addr << 1) & (!0x1);
     // The tx fifo should be empty when we call this function
     if !tx_em(i2c1) {
         return MasterI2CStatus::InvalidState;
