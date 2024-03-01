@@ -14,12 +14,6 @@ use argon2::{
     Argon2
 };
 
-mod ectf_global_secrets;
-use ectf_global_secrets::{
-    ASCON_SECRET_KEY_AP_TO_C,
-    ASCON_SECRET_KEY_C_TO_AP,
-};
-
 mod ectf_params;
 use ectf_params::{
     AP_PIN_HASH,

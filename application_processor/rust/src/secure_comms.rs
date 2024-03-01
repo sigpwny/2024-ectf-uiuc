@@ -1,5 +1,11 @@
 use ascon::{crypto_aead_encrypt, crypto_aead_decrypt};
 
+mod ectf_global_secrets;
+use ectf_global_secrets::{
+    ASCON_SECRET_KEY_AP_TO_C,
+    ASCON_SECRET_KEY_C_TO_AP,
+};
+
 pub const LEN_ASCON_128_KEY:    usize = 16;
 pub const LEN_ASCON_128_TAG:    usize = 16;
 pub const LEN_ASCON_128_NONCE:  usize = 16;
@@ -8,26 +14,29 @@ pub const LEN_ASCON_128_PTXT:   usize = 64;
 pub const LEN_ASCON_128_CTXT:   usize = LEN_ASCON_128_PTXT + LEN_ASCON_128_TAG;
 
 
-/// TODO: Secure send
-// pub fn hide_secure_send(
-//     message: &[u8],
-//     associated_data: &[u8],
-//     nonce: &[u8],
-//     key: &[u8],
-// ) -> [u8; LEN_ASCON_128_CTXT] {
-//     let mut ciphertext = [0u8; LEN_ASCON_128_CTXT];
-//     let result = ascon_encrypt(
-//         &mut ciphertext,
-//         message,
-//         associated_data,
-//         nonce,
-//         key,
-//     );
-//     if result != 0 {
-//         panic!("Failed to encrypt message");
-//     }
-//     ciphertext
-// }
+/// For AP: Send a message to the component.
+/// Everything in `message` will be sent.
+pub fn ap_secure_send(component_id: &[u8; 4], message: &[u8]) {
+    unimplemented!();
+}
+
+/// For AP: Receive a message from the component.
+/// `output` should be the length of the message that needs to be received.
+pub fn ap_secure_receive(component_id: &[u8; 4], output: &mut [u8]) {
+    unimplemented!();
+}
+
+/// For Component: Send a message to the AP.
+/// Everything in `message` will be sent.
+pub fn comp_secure_send(message: &[u8]) {
+    unimplemented!();
+}
+
+/// For Component: Receive a message from the AP.
+/// `output` should be the length of the message that needs to be received.
+pub fn comp_secure_receive(output: &mut [u8]) {
+    unimplemented!();
+}
 
 
 /// Encrypts a message using Ascon-128
