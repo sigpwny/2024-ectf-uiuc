@@ -1,7 +1,7 @@
 [build]
-target = "thumbv7em-none-eabihf"
+target = "thumbv7em-none-eabi"
 
-[target.thumbv7em-none-eabihf]
+[target.thumbv7em-none-eabi]
 # runner = "arm-none-eabi-gdb -q -x openocd.gdb"
 rustflags = [
   # This is needed if your flash or ram addresses are not aligned to 0x10000 in memory.x
@@ -25,8 +25,8 @@ rustflags = [
   "-C", "link-arg=-mthumb",
   "-C", "link-arg=-mcpu=cortex-m4",
   # "-C", "link-arg=-mfloat-abi=softfp",
-  "-C", "link-arg=-mfloat-abi=hard",
-  "-C", "link-arg=-mfpu=fpv4-sp-d16",
+  # "-C", "link-arg=-mfloat-abi=hard",
+  # "-C", "link-arg=-mfpu=fpv4-sp-d16",
   # "-C", "link-arg=-Wl,--gc-sections",
   "-C", "link-arg=-lc",
   # "-C", "link-arg=-lgcc",

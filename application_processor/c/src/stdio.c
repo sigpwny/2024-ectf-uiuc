@@ -32,6 +32,7 @@
  ******************************************************************************/
 
 // #if defined(__ICCARM__) || defined(__CC_ARM)
+#include "fixes.h"
 #include <errno.h>
 // #else
 // #include <sys/errno.h>
@@ -184,3 +185,4 @@ int _write(int file, char *ptr, int len)
 
     return len;
 }
+

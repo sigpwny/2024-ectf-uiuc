@@ -70,9 +70,11 @@ void post_boot() {
 #ifdef POST_BOOT
     POST_BOOT
 #else
+    uint32_t number = 0;
     while (1) {
-        printf("Hello from POST_BOOT!\n");
+        printf("Hello from POST_BOOT!\n%d", number);
         fflush(stdout);
+        number++;
         // LED_On(LED1);
         // MXC_Delay(500000);
         // LED_On(LED2);

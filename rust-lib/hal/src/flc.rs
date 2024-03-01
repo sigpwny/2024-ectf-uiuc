@@ -47,16 +47,16 @@ fn get_phys_addr(addr: u32) -> u32 {
 }
 
 /// Clear the line fill buffer
-#[link_section = ".flashprog.flush_flash"]
-#[inline(always)]
-fn flush_flash() {
-    let start_addr: *mut u32 = FLASH_BASE as *mut u32;
-    let end_addr: *mut u32 = FLASH_END as *mut u32;
-    unsafe {
-        let _line1 = *start_addr;
-        let _line2 = *end_addr;
-    }
-}
+// #[link_section = ".flashprog.flush_flash"]
+// #[inline(always)]
+// fn flush_flash() {
+//     let start_addr: *mut u32 = FLASH_BASE as *mut u32;
+//     let end_addr: *mut u32 = FLASH_END as *mut u32;
+//     unsafe {
+//         let _line1 = *start_addr;
+//         let _line2 = *end_addr;
+//     }
+// }
 
 /// Write a 128-bit word to flash
 #[link_section = ".flashprog.write_128"]
@@ -101,7 +101,7 @@ fn write_128(flc: &FLC, addr: u32, data: &[u32; 4]) -> FlashStatus {
     flc.ctrl().modify(|_, w| w.unlock().locked());
     while flc.ctrl().read().unlock().is_unlocked() {}
     // Clear the line fill buffer
-    flush_flash();
+    // flush_flash();
     // Check access violations
     if flc.intr().read().af().bit_is_set() {
         flc.intr().modify(|_, w| w.af().clear_bit());
@@ -190,7 +190,7 @@ pub fn erase_page(flc: &FLC, addr: u32) -> FlashStatus {
     // Execute inline erase
     erase_page_hot(flc, addr);
     // Clear the line fill buffer
-    flush_flash();
+    // flush_flash();
     // Check access violations
     if flc.intr().read().af().bit_is_set() {
         flc.intr().modify(|_, w| w.af().clear_bit());

@@ -58,7 +58,7 @@ impl Board {
         // Initialize FLC
         flc::config(&p.FLC);
         // Write lock flash pages
-        lock_pages(&p.FLC);
+        // lock_pages(&p.FLC);
         // Initialize LEDs
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED0);
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED1);
