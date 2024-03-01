@@ -17,8 +17,9 @@ fn main() -> ! {
     //test_random(&board);
 
     loop {
-        i2c1::master_write(&board.i2c1, 0x0b, &[b'a', b'b', b'c', b'\n'] as &[u8; 4], 4);
-        for _ in 0..5_000_000 {
+        let mut data: [u8; 4] = [b'a', b'b', b'a', b'\n'];
+        i2c1::master_write_bytes(&board.i2c1, 0x0b, &data);
+        for _ in 0..1000 {
             cortex_m::asm::nop();
         }
     }
