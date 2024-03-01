@@ -144,12 +144,10 @@ fn handle_tx_lockout(i2c1: &I2C1) {
 }
 
 /// Read data from a slave
-pub fn master_read_bytes(i2c1: &I2C1, addr: u8, bytes: &mut [u8], len: u8) -> MasterI2CStatus {
+pub fn master_read_bytes(i2c1: &I2C1, addr: u8, bytes: &mut [u8]) -> MasterI2CStatus {
     // Make sure read bit is set
-    let addr = addr | 0x80;
-    if bytes.len() != len as usize {
-        return MasterI2CStatus::InvalidState;
-    }
+    let addr = (addr << 1) | 0x1;
+    let len = bytes.len() as u8;
     // The rx fifo should be empty when we call this function
     if !rx_em(i2c1) {
         return MasterI2CStatus::InvalidState;
@@ -172,9 +170,9 @@ pub fn master_read_bytes(i2c1: &I2C1, addr: u8, bytes: &mut [u8], len: u8) -> Ma
         return MasterI2CStatus::Nack;
     }
     // Read in bytes
-    for i in 0..len {
+    for byte in bytes.iter_mut() {
         while rx_em(i2c1) { }
-        bytes[i as usize] = i2c1.fifo().read().data().bits();
+        *byte = i2c1.fifo().read().data().bits();
     }
     // Handle transaction done interrupt flag
     if i2c1.intfl0().read().done().bit_is_set() {
@@ -188,7 +186,7 @@ pub fn master_read_bytes(i2c1: &I2C1, addr: u8, bytes: &mut [u8], len: u8) -> Ma
 /// Write data to a slave
 pub fn master_write_bytes(i2c1: &I2C1, addr: u8, bytes: &[u8]) -> MasterI2CStatus {
     // Make sure read bit is not set
-    let addr = (addr << 1) & (!0x1);
+    let addr = (addr << 1) & 0xFE;
     // The tx fifo should be empty when we call this function
     if !tx_em(i2c1) {
         return MasterI2CStatus::InvalidState;
@@ -219,24 +217,26 @@ pub fn master_write_bytes(i2c1: &I2C1, addr: u8, bytes: &[u8]) -> MasterI2CStatu
 }
 
 /// Read data from master
-pub fn slave_read_bytes(i2c1: &I2C1, bytes: &mut [u8], len: u8) -> SlaveI2CStatus {
+pub fn slave_read_bytes(i2c1: &I2C1, bytes: &mut [u8]) -> SlaveI2CStatus {
     // Wait until addressed by master
     while !i2c1.intfl0().read().addr_match().bit_is_set() { }
+    i2c1.intfl0().modify(|_, w| w.addr_match().clear_bit());
     // Ensure master requested a read
     if !i2c1.ctrl().read().read().bit_is_set() {
         return SlaveI2CStatus::InvalidState;
     }
     i2c1.intfl0().modify(|_, w| w.addr_match().clear_bit());
     // Read byte from FIFO
-    for i in 0..len {
+    for byte in bytes.iter_mut() {
         while rx_em(i2c1) { }
-        bytes[i as usize] = i2c1.fifo().read().data().bits();
+        *byte = i2c1.fifo().read().data().bits();
     }
     // Check for invalid state
     if !rx_em(i2c1) ||
         i2c1.intfl1().read().rx_ov().bit_is_set() ||
         !i2c1.intfl0().read().done().bit_is_set()
     {
+        clear_rxfifo(i2c1);
         return SlaveI2CStatus::InvalidState;
     }
     i2c1.intfl0().modify(|_, w| w.done().set_bit());

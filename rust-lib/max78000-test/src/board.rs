@@ -50,12 +50,12 @@ impl Board {
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED0);
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED1);
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED2);
-
+        // Initialize I2C1
         gcr::mxc_i2c1_shutdown(&p.GCR);
         gcr::mxc_i2c1_enable_clock(&p.GCR);
         gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_I2C1);
-
         i2c1::master_config(&p.I2C1);
+        // i2c1::slave_config(&p.I2C1, 0x25); // TODO: Use component ID for address
 
         // Return the Board instance
         Board {
