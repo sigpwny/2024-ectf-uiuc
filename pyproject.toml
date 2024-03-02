@@ -29,6 +29,8 @@ argparse = "^1.4.0"
 loguru = "^0.7.2"
 gdbgui = "^0.15.2.0"
 tqdm = "^4.66.1"
+pyparsing = "^3.1.1"
+argon2-cffi = "^23.1.0"
 
 [build-system]
 requires = ["poetry-core"]

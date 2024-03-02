@@ -65,6 +65,14 @@ pub const GPIO0_CFG_TMR0: Gpio0Config = Gpio0Config {
     vssel: Gpio0VSSel::Vddio,
 };
 
+/// Pin config for TMR1
+pub const GPIO0_CFG_TMR1: Gpio0Config = Gpio0Config {
+    pins: Gpio0Pin::Pin14 as u32,
+    func: Gpio0Func::Alt1,
+    pad: Gpio0Pad::None,
+    vssel: Gpio0VSSel::Vddio,
+};
+
 /// Pin config for UART0 TX and RX
 pub const GPIO0_CFG_UART0: Gpio0Config = Gpio0Config {
     pins: (Gpio0Pin::Pin0 as u32) | (Gpio0Pin::Pin1 as u32),

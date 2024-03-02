@@ -58,17 +58,11 @@ impl Board {
         // Initialize FLC
         flc::config(&p.FLC);
         // Write lock flash pages
-        lock_pages(&p.FLC);
+        // lock_pages(&p.FLC);
         // Initialize LEDs
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED0);
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED1);
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED2);
-        // Initialize I2C1
-        gcr::mxc_i2c1_shutdown(&p.GCR);
-        gcr::mxc_i2c1_enable_clock(&p.GCR);
-        gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_I2C1);
-        // i2c1::master_config(&p.I2C1);
-        // i2c1::slave_config(&p.I2C1, 0x25); // TODO: Use component ID for address
 
         // Return the Board instance
         Board {
@@ -144,6 +138,32 @@ impl Board {
         cortex_m::asm::nop();
     }
 
+    /// Write info to the host
+    pub fn send_host_info(&self, message: &[u8]) {
+        uart0::write_bytes(&self.uart0, b"%info ");
+        uart0::write_bytes(&self.uart0, message);
+        uart0::write_bytes(&self.uart0, b"%\r\n");
+    }
+
+    /// Write error to the host
+    pub fn send_host_error(&self, message: &[u8]) {
+        uart0::write_bytes(&self.uart0, b"%error ");
+        uart0::write_bytes(&self.uart0, message);
+        uart0::write_bytes(&self.uart0, b"%\r\n");
+    }
+
+    /// Write success to the host
+    pub fn send_host_success(&self, message: &[u8]) {
+        uart0::write_bytes(&self.uart0, b"%success ");
+        uart0::write_bytes(&self.uart0, message);
+        uart0::write_bytes(&self.uart0, b"%\r\n");
+    }
+
+    /// Write ack to the host
+    pub fn send_host_ack(&self) {
+        uart0::write_bytes(&self.uart0, b"%ack%\r\n");
+    }
+
     /// Read a command from the host (terminated by '\r')
     pub fn read_host_line(&self, buffer: &mut [u8]) -> Option<usize> {
         let mut index = 0;
@@ -158,6 +178,24 @@ impl Board {
             index += 1;
         }
         return None;
+    }
+
+    // Get provisioned component ID stored in flash
+    pub fn get_provisioned_component_id(&self, idx: u8) -> u32 {
+        // TODO, just return fixed original component IDs for now
+        match idx {
+            0 => 0x33556624,
+            1 => 0x66778825,
+            _ => {
+                self.send_host_debug(b"Invalid component ID index");
+                panic!();
+            }
+        }
+    }
+
+    // TODO: Check if component IDs are initialized in flash
+    pub fn check_provisioned_component_ids(&self) {
+        // TODO
     }
 
     /// Write 4 bytes to flash at the given address (erases the flash page if necessary)
