@@ -39,7 +39,7 @@ fn get_phys_addr(addr: u32) -> u32 {
 /// Safety: The FLC should be configured to write before calling this function
 #[link_section = ".flashprog.commit_write"]
 #[inline(never)]
-unsafe fn commit_write(flc: &FLC) {
+unsafe fn commit_write() {
     let flc_ctrl_reg_addr = 0x4002_9008 as *const u32;
     let prev = core::intrinsics::volatile_load(flc_ctrl_reg_addr);
     core::intrinsics::volatile_store(flc_ctrl_reg_addr as *mut u32, prev | 0b001);
@@ -50,7 +50,7 @@ unsafe fn commit_write(flc: &FLC) {
 /// Safety: The FLC should be configured to erase before calling this function
 #[link_section = ".flashprog.commit_write"]
 #[inline(never)]
-unsafe fn commit_erase(flc: &FLC) {
+unsafe fn commit_erase() {
     let flc_ctrl_reg_addr = 0x4002_9008 as *const u32;
     let prev = core::intrinsics::volatile_load(flc_ctrl_reg_addr);
     core::intrinsics::volatile_store(flc_ctrl_reg_addr as *mut u32, prev | 0b100);
@@ -88,7 +88,7 @@ fn write_128(flc: &FLC, addr: u32, data: &[u32; 4]) -> FlashStatus {
         w.data().bits(data[3])
     });
     // Commit the write
-    unsafe { commit_write(flc) };
+    unsafe { commit_write() };
     // Lock flash
     flc.ctrl().modify(|_, w| w.unlock().locked());
     while flc.ctrl().read().unlock().is_unlocked() {}
@@ -159,7 +159,7 @@ pub fn erase_page(flc: &FLC, addr: u32) -> FlashStatus {
     // Set FLC erase code
     flc.ctrl().modify(|_, w| w.erase_code().erase_page());
     // Commit the erase
-    unsafe { commit_erase(flc) };
+    unsafe { commit_erase() };
     // Lock flash
     flc.ctrl().modify(|_, w| w.unlock().locked());
     while flc.ctrl().read().unlock().is_unlocked() {}
