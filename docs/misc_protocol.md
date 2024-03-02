@@ -7,52 +7,46 @@ Description TODO. All MISC messages are sent over the [HIDE protocol](./hide_pro
 
 ## List Components
 The host will ask the Application Processor to "list" its components.
-The Application Processor, upon receiving the message from the host, has to ping
-the components. It will send magic bytes recognizable to the components and waits for responses from the components. If a response is not received within a 
-threshold of one second, the AP logs the component as "not found" to the Host, but if a response is received, then the AP logs the component ID to the Host.
+The Application Processor, upon receiving the message from the host, will list its provisioned components.
+It will then send a magic byte as a ping to every I2C address. For components that are present and responsive, they will send a magic byte pong as well as its component ID, which will prompt the Application Processor to send the component ID to the host.
 
 ```mermaid
 sequenceDiagram
   participant H as Host
   participant AP as Application Processor
-  participant C1 as Component 1
-  participant C2 as Component 2
+  participant C as Component(s)
   H ->> AP: "list\r"
   loop For each provisioned component
     AP ->> H: Info: "P>0x" + CID + "\n"
   end
-  Note over AP, C2: LIST_PINGs are sent in order, one at a time
-  AP ->> C1: LIST_PING
-  alt C1 is attached and responsive
-    C1 ->> AP: LIST_PONG
-    AP ->> H: Info: "F>0x" + CID + "\n"
-  else C1 is unresponsive
-    Note over AP: No response needed, continue
+  loop For each I2C addr
+    AP ->> C: LIST_PING
+    alt C is attached and responsive
+      C ->> AP: LIST_PONG
+      C -->> AP: CID
+      AP ->> H: Info: "F>0x" + CID + "\n"
+    else C is unresponsive
+      Note over AP: No response needed, continue
+    end
   end
-  AP ->> C2: LIST_PING
-  alt C2 is attached and responsive
-    C2 ->> AP: LIST_PONG
-    AP ->> H: Info: "F>0x" + CID + "\n"
-  else C1 is unresponsive
-    Note over AP: No response needed, continue
-  end
-  AP -x H: Success: "Listed components!\n"
+  AP -x H: Success: "List\n"
 ```
 
 
 ### LIST_PING
-Description TODO.
+This byte is sent to every I2C address. For present components, this indicates that the Application Processor is asking for its component ID.
 
 | Name      | Offset | Size (bytes) | Content |
 | --------- | ------ | ------------ | ------- |
 | Magic     | `0x00` | 1            | `\x50`  |
 
 ### LIST_PONG
-Description TODO.
+After being prompted by the Application Processor using LIST_PING, an active component will send a response byte and the component ID to the Application Processor.
 
-| Name      | Offset | Size (bytes) | Content |
-| --------- | ------ | ------------ | ------- |
-| Magic     | `0x00` | 1            | `\x51`  |
+| Name         | Offset      | Size (bytes) | Content            |
+| ------------ | ----------- | ------------ | ------------------ |
+| Magic        | `0x00`      | 1            | `\x51`             |
+| Component ID | `0x01-0x05` | 4            | `\x??\x??\x??\x??` |
 
 
 ## Attest Components
@@ -71,7 +65,7 @@ sequenceDiagram
   Note over Host, Component: Minimum 2.8s TTT elapsed
   alt PIN is incorrect
     Note over Host, Component: Delay for an additional 5s
-    AP -x Host: Error: "Attest failed!\n"
+    AP -x Host: Error: "Attest failed\n"
   else
     AP ->> Component: REQUEST_LOCATION
     Component ->> AP: SEND_LOCATION
@@ -83,7 +77,7 @@ sequenceDiagram
     AP ->> Host: Info: "LOC>" + Location "\n"
     AP ->> Host: Info: "DATE>" + Date "\n"
     AP ->> Host: Info: "CUST>" + Customer "\n"
-    AP -x Host: Success: "Retrieved attestation data!\n"
+    AP -x Host: Success: "Attest\n"
   end
 ```
 
@@ -147,17 +141,10 @@ sequenceDiagram
   Note over H, AP: Wait until 4.8 seconds total time elapsed since beginning of transaction
   alt Correct Replacement Token
      Note over AP: Updates Component ID list with new Component ID
-  end 
+  end
+  AP -x H: Success: "Replace\n"
 
 ```
-
-### COMMAND_NAME
-Description TODO.
-
-| Name      | Offset | Size (bytes) | Content |
-| --------- | ------ | ------------ | ------- |
-| Magic     | `0x00` | 1            | `\x70`  |
-| TODO      | TODO   | TODO         | TODO    |
 
 ## Boot Verification
 Description TODO.

@@ -138,6 +138,32 @@ impl Board {
         cortex_m::asm::nop();
     }
 
+    /// Write info to the host
+    pub fn send_host_info(&self, message: &[u8]) {
+        uart0::write_bytes(&self.uart0, b"%info ");
+        uart0::write_bytes(&self.uart0, message);
+        uart0::write_bytes(&self.uart0, b"%\r\n");
+    }
+
+    /// Write error to the host
+    pub fn send_host_error(&self, message: &[u8]) {
+        uart0::write_bytes(&self.uart0, b"%error ");
+        uart0::write_bytes(&self.uart0, message);
+        uart0::write_bytes(&self.uart0, b"%\r\n");
+    }
+
+    /// Write success to the host
+    pub fn send_host_success(&self, message: &[u8]) {
+        uart0::write_bytes(&self.uart0, b"%success ");
+        uart0::write_bytes(&self.uart0, message);
+        uart0::write_bytes(&self.uart0, b"%\r\n");
+    }
+
+    /// Write ack to the host
+    pub fn send_host_ack(&self) {
+        uart0::write_bytes(&self.uart0, b"%ack%\r\n");
+    }
+
     /// Read a command from the host (terminated by '\r')
     pub fn read_host_line(&self, buffer: &mut [u8]) -> Option<usize> {
         let mut index = 0;
@@ -152,6 +178,24 @@ impl Board {
             index += 1;
         }
         return None;
+    }
+
+    // Get provisioned component ID stored in flash
+    pub fn get_provisioned_component_id(&self, idx: u8) -> u32 {
+        // TODO, just return fixed original component IDs for now
+        match idx {
+            0 => 0x33556624,
+            1 => 0x66778825,
+            _ => {
+                self.send_host_debug(b"Invalid component ID index");
+                panic!();
+            }
+        }
+    }
+
+    // TODO: Check if component IDs are initialized in flash
+    pub fn check_provisioned_component_ids(&self) {
+        // TODO
     }
 
     /// Write 4 bytes to flash at the given address (erases the flash page if necessary)

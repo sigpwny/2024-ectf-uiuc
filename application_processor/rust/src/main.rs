@@ -1,9 +1,11 @@
 #![no_std]
 #![no_main]
 
-use crate::*;
 use cortex_m_rt::entry;
-// Argon2 hashing docs: https://docs.rs/argon2/latest/argon2/
+use max78000_hal::tmr0;
+use board::{Board, Led, u8_to_hex_string, u32_to_hex_string};
+use board::secure_comms as hide;
+
 use argon2::{
     password_hash::{
         rand_core::OsRng,
@@ -48,25 +50,33 @@ const MAGIC_LIST_PONG: u8 = 0x51;
 
 // Reference Rust code from last year: https://github.com/sigpwny/2023-ectf-sigpwny/blob/main/docker_env/src/bin/car.rs
 
+mod ectf_params;
+use ectf_params::{
+    AP_PIN_HASH,
+    AP_TOKEN_HASH,
+    AP_BOOT_MSG,
+    COMPONENT_CNT,
+    // ORIGINAL_COMPONENT_IDS, // DO NOT USE THESE!
+};
+
+mod tests;
+use tests::{
+    test_uart,
+    test_ascon,
+    test_random,
+    test_flash,
+    test_timer,
+};
 
 #[entry]
 fn main() -> ! {
-    // TODO: Initialization
-    // NOTE: We are on an embedded system, so we *cannot* use the Rust standard library
+    let board = Board::new();
+    board.send_host_debug(b"Board initialized!");
 
-    // That means we can't use String or str, so we'll have to use arrays of bytes (u8).
-    // Do not use arrays of chars (char) because Rust can consider them to be up to 4 bytes,
-    // and we're not doing unicode. Also, Rust strings are not null terminated.
-    let hello_string: [u8; 13] = "Hello, world!".as_bytes(); // the type, [u8; 13] means 13 bytes
-    // hello_string = "a new string!" // let is const by default, so you can't assign a new value!
-    let mut cool_string: [u8; 10] = "Kinda cool".as_bytes(); // make the variable mutable instead!
-    cool_string = "Super cool".as_bytes(); // note you HAVE to assign a new string of 10 bytes since that is the type of cool_string
-
-    send_host_info(&hello_string); // you'll need these functions for communicating with the Host Computer
-    send_host_ack(&hello_string);
-    send_host_success(&hello_string);
-    send_host_error(&hello_string);
-    send_host_debug(&hello_string);
+    test_ascon(&board);
+    test_random(&board);
+    test_flash(&board);
+    test_timer(&board);
 
     let mut host_data: [u8; LEN_MAX_HOST];
     recv_host(&host_data); // Read data from the Host!
@@ -202,4 +212,21 @@ fn boot_components(comp_id1 [u8, LEN_COMP_ID], comp_id2 [u8, LEN_COMP_ID]) {
 
 fn post_boot() {
 
+    let mut count: i32 = 0;
+    for _ in 0..20 {
+        let tick_count = tmr0::get_tick_count(&board.tmr0);
+        while tmr0::get_tick_count(&board.tmr0) < tick_count + 50_000_000 { }
+        if (count % 2) == 0 {
+            board.led_on(Led::Green);
+        } else {
+            board.led_off(Led::Green);
+        }
+        board.send_host_debug(b"Hello, world!");
+        count += 1;
+    }
+
+    loop {
+        test_uart(&board);
+        continue;
+    }
 }

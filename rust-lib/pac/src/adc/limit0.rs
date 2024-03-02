@@ -1,7 +1,7 @@
-#[doc = "Register `LIMIT[%s]` reader"]
-pub type R = crate::R<LIMIT_SPEC>;
-#[doc = "Register `LIMIT[%s]` writer"]
-pub type W = crate::W<LIMIT_SPEC>;
+#[doc = "Register `LIMIT0` reader"]
+pub type R = crate::R<LIMIT0_SPEC>;
+#[doc = "Register `LIMIT0` writer"]
+pub type W = crate::W<LIMIT0_SPEC>;
 #[doc = "Field `ch_lo_limit` reader - Low Limit Threshold"]
 pub type CH_LO_LIMIT_R = crate::FieldReader<u16>;
 #[doc = "Field `ch_lo_limit` writer - Low Limit Threshold"]
@@ -53,31 +53,31 @@ impl W {
     #[doc = "Bits 0:9 - Low Limit Threshold"]
     #[inline(always)]
     #[must_use]
-    pub fn ch_lo_limit(&mut self) -> CH_LO_LIMIT_W<LIMIT_SPEC> {
+    pub fn ch_lo_limit(&mut self) -> CH_LO_LIMIT_W<LIMIT0_SPEC> {
         CH_LO_LIMIT_W::new(self, 0)
     }
     #[doc = "Bits 12:21 - High Limit Threshold"]
     #[inline(always)]
     #[must_use]
-    pub fn ch_hi_limit(&mut self) -> CH_HI_LIMIT_W<LIMIT_SPEC> {
+    pub fn ch_hi_limit(&mut self) -> CH_HI_LIMIT_W<LIMIT0_SPEC> {
         CH_HI_LIMIT_W::new(self, 12)
     }
     #[doc = "Bits 24:28 - ADC Channel Select"]
     #[inline(always)]
     #[must_use]
-    pub fn ch_sel(&mut self) -> CH_SEL_W<LIMIT_SPEC> {
+    pub fn ch_sel(&mut self) -> CH_SEL_W<LIMIT0_SPEC> {
         CH_SEL_W::new(self, 24)
     }
     #[doc = "Bit 29 - Low Limit Monitoring Enable"]
     #[inline(always)]
     #[must_use]
-    pub fn ch_lo_limit_en(&mut self) -> CH_LO_LIMIT_EN_W<LIMIT_SPEC> {
+    pub fn ch_lo_limit_en(&mut self) -> CH_LO_LIMIT_EN_W<LIMIT0_SPEC> {
         CH_LO_LIMIT_EN_W::new(self, 29)
     }
     #[doc = "Bit 30 - High Limit Monitoring Enable"]
     #[inline(always)]
     #[must_use]
-    pub fn ch_hi_limit_en(&mut self) -> CH_HI_LIMIT_EN_W<LIMIT_SPEC> {
+    pub fn ch_hi_limit_en(&mut self) -> CH_HI_LIMIT_EN_W<LIMIT0_SPEC> {
         CH_HI_LIMIT_EN_W::new(self, 30)
     }
     #[doc = r" Writes raw bits to the register."]
@@ -91,20 +91,19 @@ impl W {
         self
     }
 }
-#[doc = "ADC Limit\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`limit::R`](R).  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`limit::W`](W). You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
-pub struct LIMIT_SPEC;
-impl crate::RegisterSpec for LIMIT_SPEC {
+#[doc = "ADC Limit\n\nYou can [`read`](crate::generic::Reg::read) this register and get [`limit0::R`](R).  You can [`reset`](crate::generic::Reg::reset), [`write`](crate::generic::Reg::write), [`write_with_zero`](crate::generic::Reg::write_with_zero) this register using [`limit0::W`](W). You can also [`modify`](crate::generic::Reg::modify) this register. See [API](https://docs.rs/svd2rust/#read--modify--write-api)."]
+pub struct LIMIT0_SPEC;
+impl crate::RegisterSpec for LIMIT0_SPEC {
     type Ux = u32;
 }
-#[doc = "`read()` method returns [`limit::R`](R) reader structure"]
-impl crate::Readable for LIMIT_SPEC {}
-#[doc = "`write(|w| ..)` method takes [`limit::W`](W) writer structure"]
-impl crate::Writable for LIMIT_SPEC {
+#[doc = "`read()` method returns [`limit0::R`](R) reader structure"]
+impl crate::Readable for LIMIT0_SPEC {}
+#[doc = "`write(|w| ..)` method takes [`limit0::W`](W) writer structure"]
+impl crate::Writable for LIMIT0_SPEC {
     const ZERO_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
     const ONE_TO_MODIFY_FIELDS_BITMAP: u32 = 0;
 }
-#[doc = "`reset()` method sets LIMIT[%s]
-to value 0"]
-impl crate::Resettable for LIMIT_SPEC {
+#[doc = "`reset()` method sets LIMIT0 to value 0"]
+impl crate::Resettable for LIMIT0_SPEC {
     const RESET_VALUE: u32 = 0;
 }
