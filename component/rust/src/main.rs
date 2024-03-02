@@ -33,8 +33,6 @@ use argon2::{
 const LEN_MAX_SECURE: usize = 64;
 const LEN_MAX_AP_BOOT_NOW: usize = 64;
 const LEN_MAX_BOOT_PINGPONG: usize = 64;
-const LEN_MAX_COMP_BOOT_MSG: usize = 64;
-const LEN_COMP_BOOT_MSG: usize = 22; //Temporary
 const LEN_MAX_AP_BOOT_MSG: usize = 64;
 const LEN_AP_ID: usize = 4;
 
@@ -67,14 +65,15 @@ fn send_attest_data() {
 // Called if recived message equals boot.ping
 fn validate_components() {
     let send_ap_pong: [u8; LEN_MAX_BOOT_PINGPONG] = [MAGIC_BOOT_PONG; LEN_MAX_BOOT_PINGPONG];
-    comp_secure_send(&send_ap_pong);
+    hide::comp_secure_send(&send_ap_pong);
 }       
 
 // Called if recived message equals Boot Now
 fn boot_components() {
-    let mut send_boot_msq: [u8; LEN_MAX_COMP_BOOT_MSG] = COMPONENT_BOOT_MSG.as_bytes(); // temp assignment should use flash function
-    send_boot_msg[0..LEN_COMP_BOOT_MSG].copy_from_slice(COMPONENT_BOOT_MSG.as_bytes());
-    comp_secure_send(&send_boot_msq)
+    hide::comp_secure_send(COMPONENT_BOOT_MSG.as_bytes())
+
+    // Start post boot
+    post_boot();
 }
 
 fn post_boot() {
