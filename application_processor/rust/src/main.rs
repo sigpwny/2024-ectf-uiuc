@@ -45,7 +45,7 @@ fn main() -> ! {
 
     test_ascon(&board);
     test_random(&board);
-    // test_flash(&board);
+    test_flash(&board);
     test_timer(&board);
 
     let mut count: i32 = 0;
