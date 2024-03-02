@@ -66,18 +66,15 @@ fn send_attest_data() {
 
 // Called if recived message equals boot.ping
 fn validate_components() {
-    let ap_id: [u8; LEN_AP_ID] = [0;LEN_AP_ID];
     let send_ap_pong: [u8; LEN_MAX_BOOT_PINGPONG] = [MAGIC_BOOT_PONG; LEN_MAX_BOOT_PINGPONG];
-    secure_send(ap_id, &send_ap_pong);
+    comp_secure_send(&send_ap_pong);
 }       
 
 // Called if recived message equals Boot Now
 fn boot_components() {
-    let ap_id: [u8; LEN_AP_ID] = [0;LEN_AP_ID];
-    let mut send_boot_msq: [u8; LEN_MAX_COMP_BOOT_MSG] = [0; LEN_MAX_COMP_BOOT_MSG];
-    // temp assignment should use flash function
-    send_boot_msg[0..LEN_COMP_BOOT_MSG].copy_from_slice(b"Component Boot Message");
-    secure_send(ap_id, &send_boot_msq)
+    let mut send_boot_msq: [u8; LEN_MAX_COMP_BOOT_MSG] = COMPONENT_BOOT_MSG.as_bytes(); // temp assignment should use flash function
+    send_boot_msg[0..LEN_COMP_BOOT_MSG].copy_from_slice(COMPONENT_BOOT_MSG.as_bytes());
+    comp_secure_send(&send_boot_msq)
 }
 
 fn post_boot() {
