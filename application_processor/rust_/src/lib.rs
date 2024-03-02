@@ -1,13 +1,11 @@
 #![no_std]
 #![no_main]
 
-fn secure_send(message: &[u8; 64]) {
-    // TODO
-}
+let MSG_REQ = 0001; //magic byte
+let CHAL_SEND = 0010; //magic byte
+let CHAL_RESP = 0011; //magic byte
+let device_id = get_id(); //assuming a device can access its own id
 
-fn secure_recv(message: &mut [u8; 64]) {
-    // TODO
-}
 
 // Delays the MCU by the number of microseconds provided (blocking)
 fn delay(us: u32) {

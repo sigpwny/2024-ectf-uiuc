@@ -1,21 +1,13 @@
 #![no_std]
 #![no_main]
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-use crate::*;
->>>>>>> 0d9312c (Bootstrap Rust code for AP and MSDK HAL)
 use cortex_m_rt::entry;
 use max78000_hal::tmr0;
 use board::{Board, Led, u8_to_hex_string, u32_to_hex_string};
 use board::secure_comms as hide;
 
 use argon2::{
-    password_hash::{
-        rand_core::OsRng,
-        PasswordHash, PasswordHasher, PasswordVerifier, SaltString
-    },
+    password_hash::PasswordHash,
     Argon2
 };
 
@@ -28,6 +20,9 @@ use ectf_params::{
     // ORIGINAL_COMPONENT_IDS, // DO NOT USE THESE!
 };
 
+mod post_boot;
+use post_boot::post_boot;
+
 mod tests;
 use tests::{
     test_uart,
@@ -39,29 +34,33 @@ use tests::{
 
 #[entry]
 fn main() -> ! {
-    // TODO: Initialization
-    // NOTE: We are on an embedded system, so we *cannot* use the Rust standard library
+    let board = Board::new();
+    board.send_host_debug(b"Board initialized!");
 
-    // That means we can't use String or str, so we'll have to use arrays of bytes (u8).
-    // Do not use arrays of chars (char) because Rust can consider them to be up to 4 bytes,
-    // and we're not doing unicode. Also, Rust strings are not null terminated.
-    let hello_string: [u8; 13] = "Hello, world!".as_bytes(); // the type, [u8; 13] means 13 bytes
-    // hello_string = "a new string!" // let is const by default, so you can't assign a new value!
-    let mut cool_string: [u8; 10] = "Kinda cool".as_bytes(); // make the variable mutable instead!
-    cool_string = "Super cool".as_bytes(); // note you HAVE to assign a new string of 10 bytes since that is the type of cool_string
+    test_ascon(&board);
+    test_random(&board);
+    test_flash(&board);
+    test_timer(&board);
 
-    send_host_info(&hello_string); // you'll need these functions for communicating with the Host Computer
-    send_host_ack(&hello_string);
-    send_host_success(&hello_string);
-    send_host_error(&hello_string);
-    send_host_debug(&hello_string);
+    let mut count: i32 = 0;
+    for _ in 0..20 {
+        let tick_count = tmr0::get_tick_count(&board.tmr0);
+        while tmr0::get_tick_count(&board.tmr0) < tick_count + 50_000_000 { }
+        if (count % 2) == 0 {
+            board.led_on(Led::Green);
+        } else {
+            board.led_off(Led::Green);
+        }
+        board.send_host_debug(b"Hello, world!");
+        count += 1;
+    }
 
-    let mut host_data: [u8; LEN_MAX_HOST];
-    recv_host(&host_data); // Read data from the Host!
-
-    //
     loop {
-        // TODO: UART loop to listen for messages from the Host Computer
+        test_uart(&board);
+        // Safety: This function is defined in our C code
+        // Unsafety: DO NOT DO THIS IN FINAL DESIGN! DO BOOT VERIFICATION FIRST!
+        unsafe { post_boot() };
+        continue;
     }
 }
 
@@ -118,29 +117,4 @@ fn replace_component() {
 // Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/boot_tool.py
 fn boot_verify() {
 
-}
-
-fn post_boot() {
-
-=======
-use cortex_m_rt::entry;
-
-#[entry]
-fn main() -> ! {
-<<<<<<< HEAD
-    loop {
-        // TODO
-    }
-=======
-=======
-use cortex_m_rt::entry;
-
-#[entry]
-fn main() -> ! {
-    loop {
-        // TODO
-    }
->>>>>>> 9b204d7 (Bootstrap Rust code for AP and MSDK HAL)
->>>>>>> 0d9312c (Bootstrap Rust code for AP and MSDK HAL)
-}>>>>>>> 9b204d7 (Bootstrap Rust code for AP and MSDK HAL)
 }

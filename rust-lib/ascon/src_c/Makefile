@@ -5,7 +5,7 @@ LD = arm-none-eabi-gcc
 TARGET = MAX78000
 BUILD_DIR = build
 
-CFLAGS = -mthumb -mcpu=cortex-m4 -mfloat-abi=softfp -mfpu=fpv4-sp-d16 -Wa,-mimplicit-it=thumb -O2 -ffunction-sections -fdata-sections -fsingle-precision-constant -Wall -Wno-format -Wdouble-promotion -MD -c -fno-isolate-erroneous-paths-dereference -Wall -MD -fdiagnostics-color=always -I.
+CFLAGS = -mthumb -mcpu=cortex-m4 -mgeneral-regs-only -Wa,-mimplicit-it=thumb -O2 -ffunction-sections -fdata-sections -Wall -Wno-format -MD -c -fno-isolate-erroneous-paths-dereference -Wall -MD -fdiagnostics-color=always -I.
 AFLAGS = -mthumb -mcpu=cortex-m4 -MD
 
 default:
