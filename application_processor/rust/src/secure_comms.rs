@@ -107,7 +107,7 @@ pub fn ap_secure_receive(comp_id: [u8; 4], output: &mut [u8], board: &Board) {
         *output = b"";
         return;
     }
-    m_enc_send(comp_id[3], chal_nonce);
+    m_enc_send(comp_id[3], chal_nonce, board);
     // Wait until message received and decrypt message, which is challenge response
     let chal_resp = m_enc_recv(comp_id[3]);
     // If chal_resp starts with the challenge nonce + 1, extract message
@@ -197,7 +197,7 @@ pub fn comp_secure_receive(output: &mut [u8], board: &Board) {
         *output = b"";
         return;
     }
-    s_enc_send(chal_nonce);
+    s_enc_send(chal_nonce, board);
     // Wait until message received and decrypt message, which is challenge response
     let chal_resp = s_enc_recv();
     // If chal_resp starts with the challenge nonce + 1, extract message
