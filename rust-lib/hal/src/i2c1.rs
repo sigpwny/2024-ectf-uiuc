@@ -19,10 +19,14 @@ pub enum SlaveI2CStatus {
 pub fn master_config(i2c1: &I2C1) {
     // Recover func call & check return
     // Disable I2C peripheral
-    i2c1.ctrl().modify(|_, w| w.en().clear_bit());
-    while i2c1.ctrl().read().en().bit_is_set() { }
+    // i2c1.ctrl().modify(|_, w| w.en().clear_bit());
+    // while i2c1.ctrl().read().en().bit_is_set() { }
+    // Enable I2C peripheral
+    i2c1.ctrl().modify(|_,w| w.en().set_bit());
+    while i2c1.ctrl().read().en().bit_is_clear() { }
     // Set master mode
     i2c1.ctrl().modify(|_, w| w.mst_mode().set_bit());
+    while i2c1.ctrl().read().mst_mode().bit_is_clear() { }
     // Clear FIFOs
     clear_txfifo(&i2c1);
     clear_rxfifo(&i2c1);
@@ -32,9 +36,6 @@ pub fn master_config(i2c1: &I2C1) {
     // set_tx_threshold(&i2c1, 2);
     // set_rx_threshold(&i2c1, 6);
     // How do we want to do error return?
-    // Enable I2C peripheral
-    i2c1.ctrl().modify(|_,w| w.en().set_bit());
-    while i2c1.ctrl().read().en().bit_is_clear() { }
 }
 
 /// Configure I2C slave for just-in-time configuration
@@ -183,37 +184,33 @@ pub fn master_read_bytes(i2c1: &I2C1, addr: u8, bytes: &mut [u8]) -> MasterI2CSt
     return MasterI2CStatus::Success;
 }
 
-/// Write data to a slave
-pub fn master_write_bytes(i2c1: &I2C1, addr: u8, bytes: &[u8]) -> MasterI2CStatus {
-    // Make sure read bit is not set
+pub fn master_write_bytes(i2c1: &I2C1, addr: u8, data: &[u8]) {
     let addr = (addr << 1) & 0xFE;
-    // The tx fifo should be empty when we call this function
-    if !tx_em(i2c1) {
-        return MasterI2CStatus::InvalidState;
+    let mut written = 0usize;
+    let mut started = false;
+
+    while written < data.len() + 1 {
+       
+        while !tx_em(i2c1) {}
+
+        if !started {
+            i2c1.fifo().modify(|_, w| unsafe { w.data().bits(addr) });
+            written += 1;
+        }
+        
+        while !tx_full(i2c1) && written < data.len() + 1 {
+            i2c1.fifo().modify(|_, w| unsafe { w.data().bits(data[written - 1]) });
+            written += 1;
+        }
+
+        // set master control start to 1
+        if !started {
+            i2c1.mstctrl().modify(|_, w| unsafe { w.start().bit(true)});
+            started = true;
+        }
+
     }
-    // Handle TX lockout
-    handle_tx_lockout(i2c1);
-    // Write the address byte of the slave
-    i2c1.fifo().modify(|_, w| unsafe { w.data().bits(addr) });
-    // Write the start bit
-    i2c1.mstctrl().modify(|_, w| w.start().set_bit() );
-    // Wait until we either receive an ACK or NACK
-    while
-        i2c1.intfl0().read().addr_ack().bit_is_clear() ||
-        i2c1.intfl0().read().addr_nack_err().bit_is_clear() { }
-    // If we received a NACK, we should stop
-    if i2c1.intfl0().read().addr_nack_err().bit_is_set() {
-        i2c1.mstctrl().modify(|_, w| w.stop().set_bit());
-        return MasterI2CStatus::Nack;
-    }
-    // Send bytes
-    for byte in bytes {
-        while tx_full(i2c1) { }
-        i2c1.fifo().modify(|_, w| unsafe { w.data().bits(*byte) });
-    }
-    // Set stop bit
-    i2c1.mstctrl().modify(|_, w| w.stop().set_bit());
-    return MasterI2CStatus::Success;
+    i2c1.mstctrl().modify(|_, w| unsafe { w.stop().bit(true)});
 }
 
 /// Read data from master
