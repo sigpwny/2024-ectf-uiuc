@@ -27,7 +27,7 @@ opt-level = 0
 
 [profile.release]
 opt-level = 0
-debug = true # TODO : Remove
+debug = false # TODO : Remove
 strip = true
 codegen-units = 1
 # lto = true
