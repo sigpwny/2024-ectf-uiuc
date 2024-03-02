@@ -14,12 +14,6 @@ use argon2::{
     Argon2
 };
 
-mod ectf_global_secrets;
-use ectf_global_secrets::{
-    ASCON_SECRET_KEY_AP_TO_C,
-    ASCON_SECRET_KEY_C_TO_AP,
-};
-
 mod ectf_params;
 use ectf_params::{
     AP_PIN_HASH,
@@ -69,35 +63,47 @@ fn replace_component(Board::&board) {
     let replacement_token = &buffer[0..16];
     let old_component_id = &buffer[16..20];
     let new_component_id = &buffer[20..24];
-
+        
     Argon2::new(Variant::Argon2i, Version::V0x13, params);
-
+        
     // Compare Token Attempt hash to stored Correct Token hash
-    Argon2::new(Variant::Argon2i, Version::V0x13, params);
-    if(Argon2::default().verify_password(password, &parsed_hash).is_ok()) {
-        flag = true;
-    }
+    // Argon2::new(Variant::Argon2i, Version::V0x13, params);
+
+    //password = replacement_token;
     
+    if(Argon2::default().verify_password(replacement_token, AP_TOKEN_HASH).is_ok()) {
+            flag = true;
+    }
+
+    
+            
     // Wait until 4.8 seconds total time elapsed since beginning of transaction
     board.delay_total_us(4800000);
-
+        
     // Update Component ID list with new Component ID if flag is true, and send success/error message
     if (flag) {
-        //TODO: Replace component here
-        board.write_flash_bytes();
-        let success_message: [u8; LEN_MAX_SECURE] = "%success: Replacement success%".as_bytes();
-        send_host_success(success_message);
+        for i in 0..COMPONENT_CNT {
+            if (board.get_provisioned_component_id(i) == old_component_id){
+                //TODO: Overwrite component i id with new_component_id (board.write_flash_bytes())
+                let success_message: [u8; LEN_MAX_SECURE] = "%success: Replacement success%".as_bytes();
+                send_host_success(success_message);
+            }
+            else {
+                let error_message: [u8; LEN_MAX_SECURE] = "%error: Replacement failed, no matching componentID%".as_bytes();
+                send_host_error(error_message);
+            }
+        }
     } else {
         let error_message: [u8; LEN_MAX_SECURE] = "%error: Replacement failed%".as_bytes();
         send_host_error(error_message);
-    }
-
+        }
+        
 }       board.send_host_debug(b"Hello, world!");
         count += 1;
     }
-
+        
     loop {
         test_uart(&board);
         continue;
-    }
+        }
 }

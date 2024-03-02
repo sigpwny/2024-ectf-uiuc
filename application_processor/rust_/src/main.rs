@@ -109,12 +109,21 @@ fn attest_component() {
 }
 
 // Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/replace_tool.py
+<<<<<<< HEAD
 fn replace_component(replacement_token : [u8; 16], old_component_id: u32, new_component_id : u32) {
     timer_reset();
     let board = Board::new();
     let mut flag : bool = false;
     // delay for 3 seconds
     delay_us(3000000);
+=======
+fn replace_component(Board:&board, replacement_token : [u8; 16], old_component_id: u32, new_component_id : u32) {
+    board.timer_reset();
+    let mut flag : bool = false;
+    // delay for 3 seconds
+    delay_us(3000000);
+    board.read_host_line();
+>>>>>>> b4b72295d03e7480e1a5f0f01c00f5db9db205f2
 
     // pre-defined salt needed
     Argon2::new(Variant::Argon2i, Version::V0x13, params)
