@@ -2,7 +2,7 @@
 # export BUILD_DIR
 CC = arm-none-eabi-gcc
 #FLAGS = -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Wa,-mimplicit-it=thumb -O2 -ffunction-sections -fdata-sections -Wall -Wno-format -MD -c -fno-isolate-erroneous-paths-dereference -g3 -ggdb -Wall -fdiagnostics-color=always -Iinc
-FLAGS = -mcpu=cortex-m4 -mthumb -mgeneral-regs-only -Wa,-mimplicit-it=thumb -O2 -ffunction-sections -fdata-sections -Wall -Wno-format -MD -c -fno-isolate-erroneous-paths-dereference -g3 -ggdb -Wall -fdiagnostics-color=always -Iinc
+FLAGS = -mcpu=cortex-m4 -mthumb -mgeneral-regs-only -Wa,-mimplicit-it=thumb -O2 -ffreestanding -ffunction-sections -fdata-sections -Wall -MD -c -fno-isolate-erroneous-paths-dereference -g3 -ggdb -Wall -fdiagnostics-color=always -Iinc
 AR = arm-none-eabi-ar
 default:
 	@echo "Usage: make [clean|release]"

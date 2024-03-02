@@ -11,7 +11,6 @@ cortex-m-rt = { version = "0.7.3", features = ["set-sp", "set-vtor"] }
 cortex-m-semihosting = "0.5.0"
 max78000-hal = { version = "0.1.0", path = "../../rust-lib/hal" }
 max78000-pac = { version = "0.1.0", features = ["rt"], path = "../../rust-lib/pac" }
-panic-halt = "0.2.0"
 
 [features]
 default = []
@@ -22,12 +21,12 @@ name = "board"
 path = "src/board.rs"
 
 [profile.dev]
-opt-level = 0
+opt-level = "s"
 # lto = true
 
 [profile.release]
-opt-level = 0
-debug = false # TODO : Remove
+opt-level = "s"
+debug = false
 strip = true
 codegen-units = 1
 # lto = true
