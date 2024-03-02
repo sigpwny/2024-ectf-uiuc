@@ -26,6 +26,7 @@ use ectf_params::{
     // ORIGINAL_COMPONENT_IDS, // DO NOT USE THESE!
 };
 
+mod c_ffi;
 mod post_boot;
 use post_boot::post_boot;
 
@@ -68,87 +69,4 @@ fn main() -> ! {
         unsafe { post_boot() };
         continue;
     }
-}
-
-use max78000_pac as pac;
-use max78000_hal as hal;
-
-#[no_mangle]
-pub extern "C" fn _read(fd: i32, buf: *mut u8, count: usize) -> isize {
-    if fd == 0 {
-        let uart0 = unsafe { pac::UART::steal() };
-        let mut num_read = 0;
-        for i in 0..count {
-            let byte = hal::uart0::read_byte(&uart0);
-            unsafe { buf.add(i).write(byte) };
-            hal::uart0::write_byte(&uart0, byte);
-            num_read += 1;
-            // if byte == '\r' as u8 {
-            //     hal::uart0::write_byte(&uart0, '\n' as u8);
-            //     break;
-            // }
-        }
-        return num_read as isize;
-    }
-    return -1;
-}
-
-#[no_mangle]
-pub extern "C" fn _write(fd: i32, buf: *const u8, count: usize) -> isize {
-    if fd == 1 || fd == 2 {
-        let uart0 = unsafe { pac::UART::steal() };
-        for i in 0..count {
-            let byte = unsafe { buf.add(i).read() };
-            // if byte == b'\n' as u8 {
-            //     hal::uart0::write_byte(&uart0, b'\r');
-            // }
-            hal::uart0::write_byte(&uart0, byte);
-        }
-    }
-    return -1;
-}
-
-#[no_mangle]
-pub extern "C" fn _exit() {
-    loop {}
-}
-
-#[no_mangle]
-pub extern "C" fn _open() -> i32 {
-    return -1;
-}
-
-#[no_mangle]
-pub extern "C" fn _close() -> i32 {
-    return -1;
-}
-
-#[no_mangle]
-pub extern "C" fn _isatty() -> i32 {
-    return -1;
-}
-
-#[no_mangle]
-pub extern "C" fn _lseek() -> i32 {
-    return -1;
-}
-
-#[no_mangle]
-pub extern "C" fn _fstat() -> i32 {
-    return -1;
-}
-
-#[no_mangle]
-pub extern "C" fn _sbrk() -> i32 {
-    return -1;
-}
-
-#[no_mangle]
-pub extern "C" fn _kill() -> i32 {
-    return -1;
-}
-
-#[no_mangle]
-pub extern "C" fn _getpid() -> i32 {
-    return -1;
 }

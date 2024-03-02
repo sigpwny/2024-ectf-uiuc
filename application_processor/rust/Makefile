@@ -2,7 +2,7 @@ BIN_NAME = ap
 
 default:
 	@echo "Usage: make [debug|semihosting|release|clean]"
-debug:
+release:
 	mkdir -p build
 	cargo build
 	cp target/thumbv7em-none-eabi/debug/${BIN_NAME} build/max78000.elf
@@ -14,7 +14,7 @@ semihosting:
 	cp target/thumbv7em-none-eabi/debug/${BIN_NAME} build/max78000-debug.elf
 	arm-none-eabi-objcopy -O binary build/max78000-debug.elf build/max78000-debug.bin
 	poetry run python3 package.py --bin build/max78000-debug.bin --img build/max78000-debug.img
-release:
+actual-release:
 	mkdir -p build
 	cargo build --release
 	cp target/thumbv7em-none-eabi/release/${BIN_NAME} build/max78000.elf
