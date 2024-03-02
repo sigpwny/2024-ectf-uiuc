@@ -26,7 +26,6 @@ use ectf_params::{
     // ORIGINAL_COMPONENT_IDS, // DO NOT USE THESE!
 };
 
-mod c_ffi;
 mod post_boot;
 use post_boot::post_boot;
 

@@ -56,7 +56,7 @@ impl Board {
         gcr::mxc_trng_shutdown(&p.GCR);
         gcr::mxc_trng_enable_clock(&p.GCR);
         // Initialize FLC
-        // flc::config(&p.FLC);
+        flc::config(&p.FLC);
         // Write lock flash pages
         // lock_pages(&p.FLC);
         // Initialize LEDs
