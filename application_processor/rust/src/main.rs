@@ -7,10 +7,7 @@ use board::{Board, Led, u8_to_hex_string, u32_to_hex_string};
 use board::secure_comms as hide;
 
 use argon2::{
-    password_hash::{
-        rand_core::OsRng,
-        PasswordHash, PasswordHasher, PasswordVerifier, SaltString
-    },
+    password_hash::PasswordHash,
     Argon2
 };
 
@@ -22,6 +19,9 @@ use ectf_params::{
     COMPONENT_CNT,
     // ORIGINAL_COMPONENT_IDS, // DO NOT USE THESE!
 };
+
+mod post_boot;
+use post_boot::post_boot;
 
 mod tests;
 use tests::{
@@ -57,6 +57,9 @@ fn main() -> ! {
 
     loop {
         test_uart(&board);
+        // Safety: This function is defined in our C code
+        // Unsafety: DO NOT DO THIS IN FINAL DESIGN! DO BOOT VERIFICATION FIRST!
+        unsafe { post_boot() };
         continue;
     }
 }
