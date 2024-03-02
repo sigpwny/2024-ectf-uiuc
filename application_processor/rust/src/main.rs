@@ -40,13 +40,23 @@ use argon2::{
 };
 
 
+//secure send and receive values
+let REQUEST_LOCATION: u32 = 0x60;
+let SEND_LOCATION: u32 = 0x61;
+let REQUEST_DATE: u32 = 0x62;
+let SEND_DATE: u32 = 0x63;
+let REQUEST_CUSTOMER: u32 = 0x64;
+let SEND_CUSTOMER: u32 = 0x65;
+
 
 fn send_attest_data(board: &Board) {
     //set the target duration of the operation
     board.timer_reset();
     //Receive comp ID and PIN
     let mut attestation_request: [u8; 64] = [0u8; 64];
+    let mut component_request: [u8; 64] = [0u8; 64];
     let mut len = board.read_host_line(&mut attestation_request);  
+      
     let mut correctlen : bool = True;
     let mut flag : bool = false;
     if(len != 7){
@@ -56,7 +66,21 @@ fn send_attest_data(board: &Board) {
     if(len != 11){
         correctlen = False;
     }
-
+    //ADD COMPONENT ID RECEIVE
+    let mut correct_complen : bool = True;
+    let mut component_len = board.read_host_line(&mut component_request);
+    if(component_len != 32){
+        correct_complen = False;
+    }
+    let mut component_id: u32;
+    if(correct_complen){
+       component_id = board.read_host_line(&mut component_request);
+    }else{
+       board.delay_us(5_000_000); 
+       let message: [u8] = "%error: ComponentID failed%".as_bytes();
+       send_host_error(&self, message: &[u8]); /// Write error to the host
+    }
+     
     //Wait a minimum of 0.8s TTT elapsed
     board.delay_total_us(800_000);
 
@@ -88,12 +112,38 @@ fn send_attest_data(board: &Board) {
     } 
     else { 
         //AP requests attestation data
-        get_provisioned_component_ids(&self) -> [u32; ATTEST_DATA]; // Get provisioned component IDs
+        //get_provisioned_component_ids(&self) -> [u32; ATTEST_DATA]; 
+        //let component_id1: u32 = board.get_provisioned_component_id(0); // Get provisioned component IDs
+        //let component_id: u32 = board.get_provisioned_component_id(1); // Get provisioned component IDs
         //AP sends attestation data
         send_host_info(&self, ATTEST_DATA); /// Write info to the host
-        let success_message: [u8; LEN_MAX_SECURE] = "%success: Replacement success%".as_bytes();
-        send_host_success(success_message);
-    }
+        // this is in main.rs for AP, you should define a constant for LEN_MSG
+        
+        //AP requests LOCATION
+        let mut message: u8 = REQUEST_LOCATION;
+        hide::ap_secure_send(&component_id, &message);
+        //AP receives LOCATION
+        let LOCATION: [u8; 64] = hide::ap_secure_receive(&component_id);
+
+        //AP requests DATE
+        message = SEND_DATE;
+        hide::ap_secure_send(&component_id, &message);
+        //AP receives DATE
+        let DATE: [u8; 64] = hide::ap_secure_receive(&component_id);
+
+        //AP requests CUSTOMER
+        message = SEND_CUSTOMER;
+        hide::ap_secure_send(&component_id, &message);
+        //AP receives CUSTOMER
+        let CUSTOMER: [u8; 64] = hide::ap_secure_receive(&component_id);
+
+        //send host info
+        //needs work
+        //send_host_info(&self, message: &[]);
+        //send_host_info(&self, message: &[u8]);
+        //send_host_info(&self, message: &[u8]);
+        //send_host_info(&self, message: &[u8]);
+    }   
 
 }
 
