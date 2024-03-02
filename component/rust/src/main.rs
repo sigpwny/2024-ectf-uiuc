@@ -4,37 +4,47 @@
 use crate::*;
 use cortex_m_rt::entry;
 
-const CID:u32 = 0x12345678;
+const COMPONENT_ID:[u8;4];
 
 #[entry]
 fn main() -> ! {
-    // TODO: Initialization
+    // Initialize peripherals
+    let peripherals = cortex_m::Peripherals::take().unwrap();
+    
+    // Initialize board 
+    let board = Board::init();
+
+    // Initialize I2C peripheral, how we will communicate with AP 
+    let i2c = I2c::new(peripherals.I2C, /* fill in your I2C configuration */);
+
     loop {
-        // TODO: I2C loop to listen for messages from the AP
+        // TODO: I2C loop to listen for messages from the AP 
+
+        
         
     }
+
+    
 }
 
 fn list_component(board: &Board) {
-    let mut response: [u8; LEN_MAX_SECURE];
-    let CID_str:[u8;8] = u32_to_hex_string(CID);
-    for i in 0 .. 8{
-        response[i] = CID_str[i];
-    }
-    board.securesend(&response);         // Send the component ID to the AP... Where are our CIDs located?
-
-
+    
+    const CID_STRING_LENGTH = 8;
+    let mut COMPONENT_ID_32 : u32;
+    COMPONENT_ID_32 = (COMPONENT_ID[3] as u32) | ((COMPONENT_ID[2] as u32) << 8) | ((COMPONENT_ID[1] as u32) << 16) | ((COMPONENT_ID[0] as u32) << 24)
+    let response: [u8; CID_STRING_LENGTH] = u32_to_hex_string(COMPONENT_ID_32);
+    hide::comp_secure_send(&response);         // Send the component ID to the AP
 
 }
 
-fn send_attest_data() {
+// fn send_attest_data() {
 
-}
+// }
 
-fn boot_verify() {
+// fn boot_verify() {
 
-}
+// }
 
-fn post_boot() {
+// fn post_boot() {
 
-}
+// }

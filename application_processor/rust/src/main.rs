@@ -68,8 +68,9 @@ fn list_components(board: &Board) {
     // first_send[u8; LEN_MAX_SECURE] = "PINGCOMPONENT".as_bytes(); // Ping the component. Then it should respond with it's ID.
     // secure_send(&first_send);
     // secure_recv(&first_response);
+    const CID_STRING_LENGTH = 8;
     let mut provision_response: [u8; 13] = b"P>0x00000000\n";    
-    let CID0_str: [u8;  8] = u32_to_hex_string(get_provisioned_component_id(0)); // We pass in 0 for the 0th component
+    let CID0_str: [u8;  CID_STRING_LENGTH] = u32_to_hex_string(get_provisioned_component_id(0)); // We pass in 0 for the 0th component
     for i in 0 .. 8{
         provision_response[i+4] = CID0_str[i];
     }
@@ -77,25 +78,28 @@ fn list_components(board: &Board) {
     board.send_host_info(&provision_response);
 
     
-    let CID1_str: [u8;  2] = u32_to_hex_string(get_provisioned_component_id(1)); // We pass in 1 for the 1st component
+    let CID1_str: [u8;  CID_STRING_LENGTH] = u32_to_hex_string(get_provisioned_component_id(1)); // We pass in 1 for the 1st component
     for i in 0 .. 8{
         provision_response[i+4] = CID1_str[i];
     }
     board.send_host_info(&provision_response);    
 
     // now process the response, etc.
-    let mut ping_byte: [u8; LEN_MAX_SECURE];
-    ping_byte[0] = MAGIC_LIST_PING;
-    let mut response: [u8; LEN_MAX_SECURE];
+    let mut ping_byte: u8 = MAGIC_LIST_PING;
+    let mut response: [u8;CID_STRING_LENGTH];
     let mut found_response:[u8;13] = b"F>0x00000000\n";
     let success_response: [u8;5 ] = b"List\n";
     for I2Caddr in 0x8..0x79{
         if addr == 0x18 || addr == 0x28 || addr == 0x36 {
             continue;
         }
-        
-        if board.securesend(I2Caddr,ping_byte) == 0 {
-            board.securerecv(I2Caddr,&response);
+        let mut fake_id:[u8;4];
+        fake_id[0] = 0;
+        fake_id[1] = 0;
+        fake_id[2] = 0;
+        fake_id[3] = I2Caddr as u8;
+        if hide::ap_secure_send(&fake_id,&ping_byte) == 0 {
+            hide::ap_secure_receive(&fake_id,&response);
             for i in 0 .. 8{
                 found_response[i+4] = response[i];
             }
