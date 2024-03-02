@@ -1,4 +1,5 @@
 use ascon::{crypto_aead_encrypt, crypto_aead_decrypt};
+use max78000_hal::i2c1;
 
 pub const LEN_ASCON_128_KEY:    usize = 16;
 pub const LEN_ASCON_128_TAG:    usize = 16;
@@ -36,6 +37,7 @@ let ap_id: [u8; 4] = [0u8, 0u8, 0u8, 0u8]; // AP doesn't have a unique id
 
 fn send(address: u8, message: &[u8], len: u8) {
     let mut buffer = [0u8; 112];
+    if len > 112 { len = 112; }
     for i in 0..len {
         buffer[i] = message[i];
     }
@@ -43,8 +45,7 @@ fn send(address: u8, message: &[u8], len: u8) {
 }
 
 fn send_c(address: u8, message: &[u8]) {
-    // Send message to address
-    // WILL BE WRAPPED IN RUST, CALLS C FUNCTION IMPLEMENTED ELSEWHERE
+    i2c1::master_write_bytes(i2c1, address, message);
 }
 
 fn recv(address: u8) -> &[u8] {
