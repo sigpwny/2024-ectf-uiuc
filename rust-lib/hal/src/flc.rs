@@ -14,7 +14,7 @@ pub enum FlashStatus {
 
 
 /// Configure the FLC peripheral
-#[link_section = ".flashprog.config"]
+// #[link_section = ".flashprog.config"]
 pub fn config(flc: &FLC) {
     // Wait for the FLC to be ready
     unsafe { while is_busy(flc) { } }
@@ -33,7 +33,7 @@ pub fn config(flc: &FLC) {
 /// into flash while a write or erase operation is in progress.
 /// Safety: This is a simple register read, so it should be safe.
 #[link_section = ".flashprog.is_busy"]
-#[inline(always)]
+// #[inline(always)]
 unsafe fn is_busy(_flc: &FLC) -> bool {
     let flc_ctrl_reg_addr = 0x4002_9008 as *const u32;
     return core::intrinsics::volatile_load(flc_ctrl_reg_addr) & 0b111 != 0;
