@@ -104,14 +104,6 @@ fn clear_rxfifo(i2c1: &I2C1){
     while i2c1.rxctrl0().read().flush().is_flush() {}
 }
 
-// fn set_tx_threshold(i2c1: &I2C1, threshold: u32){
-
-// }
-
-// fn set_rx_threshold(i2c1: &I2C1, threshold: u32){
-    
-// }
-
 /// Check if RX FIFO is empty
 fn rx_em(i2c1: &I2C1) -> bool {
     return i2c1.status().read().rx_em().bit_is_set();
@@ -161,15 +153,17 @@ pub fn master_read_bytes(i2c1: &I2C1, addr: u8, bytes: &mut [u8]) -> MasterI2CSt
     i2c1.fifo().modify(|_, w| unsafe { w.data().bits(addr) });
     // Write the start bit
     i2c1.mstctrl().modify(|_, w| w.start().set_bit() );
-    // Wait until we either receive an ACK or NACK
-    while
-        i2c1.intfl0().read().addr_ack().bit_is_clear() ||
-        i2c1.intfl0().read().addr_nack_err().bit_is_clear() { }
-    // If we received a NACK, we should stop
-    if i2c1.intfl0().read().addr_nack_err().bit_is_set() {
-        i2c1.mstctrl().modify(|_, w| w.stop().set_bit());
-        return MasterI2CStatus::Nack;
-    }
+
+//    // Wait until we either receive an ACK or NACK
+//    while
+//        i2c1.intfl0().read().addr_ack().bit_is_clear() ||
+//        i2c1.intfl0().read().addr_nack_err().bit_is_clear() { }
+//    // If we received a NACK, we should stop
+//    if i2c1.intfl0().read().addr_nack_err().bit_is_set() {
+//        i2c1.mstctrl().modify(|_, w| w.stop().set_bit());
+//        return MasterI2CStatus::Nack;
+//    }
+
     // Read in bytes
     for byte in bytes.iter_mut() {
         while rx_em(i2c1) { }
@@ -178,11 +172,13 @@ pub fn master_read_bytes(i2c1: &I2C1, addr: u8, bytes: &mut [u8]) -> MasterI2CSt
     // Handle transaction done interrupt flag
     if i2c1.intfl0().read().done().bit_is_set() {
         i2c1.intfl0().modify(|_, w| w.done().set_bit());
+        i2c1.mstctrl().modify(|_, w| unsafe { w.stop().bit(true)});
     } else {
         return MasterI2CStatus::InvalidState;
     }
     return MasterI2CStatus::Success;
 }
+
 
 pub fn master_write_bytes(i2c1: &I2C1, addr: u8, data: &[u8]) {
     let addr = (addr << 1) & 0xFE;
@@ -216,12 +212,9 @@ pub fn master_write_bytes(i2c1: &I2C1, addr: u8, data: &[u8]) {
 /// Read data from master
 pub fn slave_read_bytes(i2c1: &I2C1, bytes: &mut [u8]) -> SlaveI2CStatus {
     // Wait until addressed by master
-    while !i2c1.intfl0().read().addr_match().bit_is_set() { }
-    i2c1.intfl0().modify(|_, w| w.addr_match().clear_bit());
-    // Ensure master requested a read
-    if !i2c1.ctrl().read().read().bit_is_set() {
-        return SlaveI2CStatus::InvalidState;
-    }
+    while !i2c1.intfl0().read().rd_addr_match().bit_is_set() { }
+    
+
     i2c1.intfl0().modify(|_, w| w.addr_match().clear_bit());
     // Read byte from FIFO
     for byte in bytes.iter_mut() {
@@ -243,11 +236,9 @@ pub fn slave_read_bytes(i2c1: &I2C1, bytes: &mut [u8]) -> SlaveI2CStatus {
 /// Write data to master (when prompted)
 pub fn slave_write_bytes(i2c1: &I2C1, bytes: &[u8]) -> SlaveI2CStatus {
     // Wait until addressed by master
-    while !i2c1.intfl0().read().addr_match().bit_is_set() { }
+    while !i2c1.intfl0().read().wr_addr_match().bit_is_set() { }
     // Ensure master requested a write
-    if i2c1.ctrl().read().read().bit_is_set() {
-        return SlaveI2CStatus::InvalidState;
-    }
+
     i2c1.intfl0().modify(|_, w| w.addr_match().clear_bit());
     // There shouldn't be anything in the TX FIFO
     if !tx_em(i2c1) {
