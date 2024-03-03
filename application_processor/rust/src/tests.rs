@@ -18,12 +18,12 @@ pub fn test_uart(board: &Board) {
 }
 
 pub fn test_ascon(board: &Board) {
-    let message: [u8; hide::LEN_ASCON_128_PTXT] = [b'A'; hide::LEN_ASCON_128_PTXT];
+    let message: [u8; 64] = [b'A'; 64];
     let associated_data: [u8; hide::LEN_ASCON_128_AD] = [1, 2, 3, 4, 5, 6, 7, 8];
     let nonce: [u8; hide::LEN_ASCON_128_NONCE] = [7u8; hide::LEN_ASCON_128_NONCE];
-    let key: [u8; hide::LEN_ASCON_128_KEY] = [9u8; hide::LEN_ASCON_128_KEY];
-    let mut ciphertext: [u8; hide::LEN_ASCON_128_CTXT] = [0u8; hide::LEN_ASCON_128_CTXT];
-    let mut plaintext: [u8; hide::LEN_ASCON_128_PTXT] = [0u8; hide::LEN_ASCON_128_PTXT];
+    let key: &[u8] = b"\x12\x34\x56\x78\x90\xAB\xCD\xEF\x12\x34\x56\x78\x90\xAB\xCD\xEF";
+    let mut ciphertext: [u8; 64] = [0u8; 64];
+    let mut plaintext: [u8; 64] = [0u8; 64];
 
     board.send_host_debug(b"Testing Ascon-128!");
     board.send_host_debug(b"Original message:");

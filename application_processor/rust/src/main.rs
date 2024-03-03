@@ -76,20 +76,20 @@ fn list_components() {
     // secure_recv(&first_response);
 
     // now process the response, etc.
-    let ping_byte: u8 = MAGIC_LIST_PING;
-    let mut first_response: u8  = 0;
-    secure_send(&ping_byte); 
-    secure_recv(&first_response); // Check i2c bus if there is data, then repeatedly receive a response.
+    // let ping_byte: u8 = MAGIC_LIST_PING;
+    // let mut first_response: u8  = 0;
+    // secure_send(&ping_byte); 
+    // secure_recv(&first_response); // Check i2c bus if there is data, then repeatedly receive a response.
 
-    delay(1000000);
+    // delay(1000000);
 
-    if first_response == MAGIC_LIST_PONG{
-        let success_message: [u8; LEN_MAX_SECURE] = "%success: Component found%".as_bytes();
-        send_host_success(success_message);
-    } else {
-        let error_message: [u8; LEN_MAX_SECURE] = "%error: Component not found%".as_bytes();
-        send_host_error(error_message);
-    }
+    // if first_response == MAGIC_LIST_PONG{
+    //     let success_message: [u8; LEN_MAX_SECURE] = "%success: Component found%".as_bytes();
+    //     send_host_success(success_message);
+    // } else {
+    //     let error_message: [u8; LEN_MAX_SECURE] = "%error: Component not found%".as_bytes();
+    //     send_host_error(error_message);
+    // }
     /*
      let start_time = Instant::now();
         let timeout = Duration::from_secs(1);

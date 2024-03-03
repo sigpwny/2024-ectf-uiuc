@@ -5,6 +5,7 @@ use max78000_pac as pac;
 use max78000_hal::{*};
 
 pub mod secure_comms;
+pub mod ectf_global_secrets;
 
 pub enum Led {
     Red = 0,

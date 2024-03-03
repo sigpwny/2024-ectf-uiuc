@@ -70,7 +70,7 @@ void post_boot() {
 #ifdef POST_BOOT
     POST_BOOT
 #else
-    uint32_t number = 0;
+    int number = 0;
     while (1) {
         printf("Hello from POST_BOOT!\n%d", number);
         fflush(stdout);

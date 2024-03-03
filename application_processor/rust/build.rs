@@ -1,5 +1,3 @@
-use std::env;
-
 fn main() {
     // Link the POST_BOOT C code
     let current_dir = std::env::current_dir().unwrap();
