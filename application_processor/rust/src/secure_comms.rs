@@ -23,7 +23,6 @@ pub const LEN_HIDE_MESSAGE:     usize = LEN_HIDE_CHAL_NONCE + LEN_MISC_MESSAGE;
 pub const LEN_HIDE_PKT_REQ:     usize = 1;
 pub const LEN_HIDE_PKT_CHAL_SEND:   usize = LEN_ASCON_128_NONCE + LEN_HIDE_CHAL_NONCE;
 pub const LEN_HIDE_PKT_CHAL_RESP:   usize = LEN_ASCON_128_NONCE + LEN_HIDE_MESSAGE;
-pub const LEN_HIDE_PKT_MAX:     usize = LEN_HIDE_PKT_CHAL_RESP;
 
 // Ascon-128 lengths
 pub const LEN_ASCON_128_KEY:    usize = 16;
@@ -31,7 +30,8 @@ pub const LEN_ASCON_128_TAG:    usize = 16;
 pub const LEN_ASCON_128_NONCE:  usize = 16;
 pub const LEN_ASCON_128_AD:     usize = 8;
 pub const LEN_ASCON_128_PTXT:   usize = LEN_HIDE_MESSAGE;
-pub const LEN_ASCON_128_CTXT:   usize = LEN_ASCON_128_PTXT;
+pub const LEN_ASCON_128_CTXT:   usize = LEN_ASCON_128_PTXT + LEN_ASCON_128_TAG;
+pub const LEN_TRANSMIT_CTXT:    usize = LEN_ASCON_128_NONCE + LEN_ASCON_128_CTXT;
 
 #[repr(C, align(16))]
 pub struct Ascon128Keys {
@@ -71,7 +71,9 @@ impl Ascon128Data {
     }
     /// Helper function to set the MISC message in the HIDE packet
     pub fn set_misc_message(&mut self, misc_message: &[u8]) {
-        self.message[LEN_HIDE_CHAL_NONCE..].copy_from_slice(misc_message);
+        for i in 0..misc_message.len() {
+            self.message[LEN_HIDE_CHAL_NONCE + i] = misc_message[i];
+        }
     }
 }
 
@@ -294,9 +296,9 @@ fn ascon_send(
         return result;
     }
     // Send encrypted output
-    let mut send_buffer: [u8; LEN_HIDE_PKT_MAX] = [0u8; LEN_HIDE_PKT_MAX];
+    let mut send_buffer: [u8; LEN_TRANSMIT_CTXT] = [0u8; LEN_TRANSMIT_CTXT];
     send_buffer[0..LEN_ASCON_128_NONCE].copy_from_slice(&ascon_data.nonce);
-    send_buffer[LEN_ASCON_128_NONCE..LEN_HIDE_PKT_MAX].copy_from_slice(&ascon_data.ciphertext);
+    send_buffer[LEN_ASCON_128_NONCE..LEN_TRANSMIT_CTXT].copy_from_slice(&ascon_data.ciphertext);
     // DEBUG
     uart0::write_bytes(&board.uart0, b"Attempting to encrypt PKT_CHAL_SEND...\r\n");
     uart0::write_bytes(&board.uart0, b"Sending buffer: ");
@@ -326,6 +328,23 @@ fn ascon_send(
         uart0::write_bytes(&board.uart0, &u8_to_hex_string(*byte));
     }
     uart0::write_bytes(&board.uart0, b"\r\n");
+    // Try decrypting again
+    let mut dec_message: [u8; LEN_ASCON_128_PTXT] = [0u8; LEN_ASCON_128_PTXT];
+    let dec_result = ascon_decrypt(
+        &mut dec_message,
+        &ascon_data.ciphertext,
+        &ascon_data.ad,
+        &ascon_data.nonce,
+        key
+    );
+    uart0::write_bytes(&board.uart0, b"Decryption result: ");
+    uart0::write_bytes(&board.uart0, &u32_to_hex_string(dec_result as u32));
+    uart0::write_bytes(&board.uart0, b"\r\n");
+    uart0::write_bytes(&board.uart0, b"Decrypted message: ");
+    for byte in dec_message.iter() {
+        uart0::write_bytes(&board.uart0, &u8_to_hex_string(*byte));
+    }
+    uart0::write_bytes(&board.uart0, b"\r\n");
     // END MORE DEBUG
     if is_master {
         i2c1::master_write_bytes(&board.i2c1, i2c_addr, &send_buffer);
@@ -347,14 +366,14 @@ fn ascon_receive(
     ascon_data: &mut Ascon128Data
 ) -> i32 {
     // Receive the message
-    let mut recv_buffer = [0u8; LEN_HIDE_PKT_MAX];
+    let mut recv_buffer = [0u8; LEN_TRANSMIT_CTXT];
     if is_master {
         i2c1::master_read_bytes(&board.i2c1, i2c_addr, &mut recv_buffer);
     } else {
         i2c1::slave_read_bytes(&board.i2c1, &mut recv_buffer);
     }
     ascon_data.nonce.copy_from_slice(&recv_buffer[0..LEN_ASCON_128_NONCE]);
-    ascon_data.ciphertext.copy_from_slice(&recv_buffer[LEN_ASCON_128_NONCE..LEN_HIDE_PKT_MAX]);
+    ascon_data.ciphertext.copy_from_slice(&recv_buffer[LEN_ASCON_128_NONCE..LEN_TRANSMIT_CTXT]);
     // enc_message.copy_from_slice(&recv_buffer[LEN_ASCON_128_NONCE..LEN_HIDE_PKT_MAX]);
     // Set up associated data
     // let mut assoc_data: [u8; LEN_ASCON_128_AD] = [0u8; LEN_ASCON_128_AD];
@@ -424,10 +443,6 @@ pub fn ascon_encrypt(
 ) -> i32 {
     let mut _result: i32 = -1;
     let mut clen: u64 = 0;
-    // Check lengths of provided buffers
-    if message.len() != ciphertext.len() {
-        return -1;
-    }
     if key.len() != LEN_ASCON_128_KEY {
         return -1;
     }
@@ -445,6 +460,9 @@ pub fn ascon_encrypt(
             key.as_ptr(),
         )
     }
+    if clen != LEN_ASCON_128_CTXT as u64 {
+        return -1;
+    }
     _result
 }
 
@@ -459,10 +477,6 @@ pub fn ascon_decrypt(
 ) -> i32 {
     let mut _result: i32 = -1;
     let mut mlen: u64 = 0;
-    // Check lengths of provided buffers
-    if message.len() != ciphertext.len() {
-        return -1;
-    }
     if key.len() != LEN_ASCON_128_KEY {
         return -1;
     }
@@ -479,6 +493,9 @@ pub fn ascon_decrypt(
             nonce.as_ptr(),
             key.as_ptr(),
         )
+    }
+    if mlen != LEN_ASCON_128_PTXT as u64 {
+        return -1;
     }
     _result
 }
