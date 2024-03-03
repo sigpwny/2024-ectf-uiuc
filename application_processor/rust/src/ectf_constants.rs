@@ -1,0 +1,1 @@
+pub const LEN_COMPONENT_ID:     usize = 4;

@@ -25,6 +25,7 @@ use post_boot::post_boot;
 
 mod tests;
 use tests::{
+    test_hide,
     test_uart,
     test_ascon,
     test_random,
@@ -37,7 +38,8 @@ fn main() -> ! {
     let board = Board::new();
     board.send_host_debug(b"Board initialized!");
 
-    test_ascon(&board);
+    test_hide(&board, false);
+    // test_ascon(&board);
     test_random(&board);
     test_flash(&board);
     test_timer(&board);
@@ -62,4 +64,59 @@ fn main() -> ! {
         unsafe { post_boot() };
         continue;
     }
+}
+
+// Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/list_tool.py
+fn list_components() {
+    // Example of secure send/receive to component
+
+
+    // let first_send: [u8; LEN_MAX_SECURE] = [0; LEN_MAX_SECURE]; // initialize with null bytes
+    // let mut first_response: [u8; LEN_MAX_SECURE] = [0; LEN_MAX_SECURE];
+    // first_send[u8; LEN_MAX_SECURE] = "PINGCOMPONENT".as_bytes(); // Ping the component. Then it should respond with it's ID.
+    // secure_send(&first_send);
+    // secure_recv(&first_response);
+
+    // now process the response, etc.
+    // let ping_byte: u8 = MAGIC_LIST_PING;
+    // let mut first_response: u8  = 0;
+    // secure_send(&ping_byte); 
+    // secure_recv(&first_response); // Check i2c bus if there is data, then repeatedly receive a response.
+
+    // delay(1000000);
+
+    // if first_response == MAGIC_LIST_PONG{
+    //     let success_message: [u8; LEN_MAX_SECURE] = "%success: Component found%".as_bytes();
+    //     send_host_success(success_message);
+    // } else {
+    //     let error_message: [u8; LEN_MAX_SECURE] = "%error: Component not found%".as_bytes();
+    //     send_host_error(error_message);
+    // }
+    /*
+     let start_time = Instant::now();
+        let timeout = Duration::from_secs(1);
+        secure_recv(&first_response);
+        /*Wait for a response from the component */
+      if Instant::now() - start_time >= timeout {
+            println!("One second has elapsed. Exiting...");
+            break;
+        }
+     */
+
+
+}
+
+// Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/attestation_tool.py
+fn attest_component() {
+
+}
+
+// Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/replace_tool.py
+fn replace_component() {
+
+}
+
+// Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/boot_tool.py
+fn boot_verify() {
+
 }

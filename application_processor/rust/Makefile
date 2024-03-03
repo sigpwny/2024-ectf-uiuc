@@ -5,9 +5,9 @@ default:
 debug:
 	mkdir -p build
 	cargo build
-	cp target/thumbv7em-none-eabi/debug/${BIN_NAME} build/max78000.elf
-	arm-none-eabi-objcopy -O binary build/max78000.elf build/max78000.bin
-	poetry run python3 package.py --bin build/max78000.bin --img build/max78000.img
+	cp target/thumbv7em-none-eabi/debug/${BIN_NAME} build/max78000-debug.elf
+	arm-none-eabi-objcopy -O binary build/max78000-debug.elf build/max78000-debug.bin
+	poetry run python3 package.py --bin build/max78000-debug.bin --img build/max78000-debug.img
 semihosting:
 	mkdir -p build
 	cargo build --features semihosting

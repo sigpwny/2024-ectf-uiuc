@@ -1,26 +1,28 @@
 #![no_std]
 
+use cty;
+
 extern {
     pub fn crypto_aead_encrypt(
-        c: *mut u8,
-        clen: *mut u64,
-        m: *const u8,
-        mlen: u64,
-        ad: *const u8,
-        adlen: u64,
-        nsec: *const u8,
-        npub: *const u8,
-        k: *const u8,
-    ) -> i32;
+        c: *mut cty::c_uchar,
+        clen: *mut cty::c_ulonglong,
+        m: *const cty::c_uchar,
+        mlen: cty::c_ulonglong,
+        ad: *const cty::c_uchar,
+        adlen: cty::c_ulonglong,
+        nsec: *const cty::c_uchar,
+        npub: *const cty::c_uchar,
+        k: *const cty::c_uchar,
+    ) -> cty::c_int;
     pub fn crypto_aead_decrypt(
-        m: *mut u8,
-        mlen: *mut u64,
-        nsec: *mut u8,
-        c: *const u8,
-        clen: u64,
-        ad: *const u8,
-        adlen: u64,
-        npub: *const u8,
-        k: *const u8,
-    ) -> i32;
+        m: *mut cty::c_uchar,
+        mlen: *mut cty::c_ulonglong,
+        nsec: *mut cty::c_uchar,
+        c: *const cty::c_uchar,
+        clen: cty::c_ulonglong,
+        ad: *const cty::c_uchar,
+        adlen: cty::c_ulonglong,
+        npub: *const cty::c_uchar,
+        k: *const cty::c_uchar,
+    ) -> cty::c_int;
 }
