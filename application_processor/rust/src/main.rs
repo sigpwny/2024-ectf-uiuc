@@ -25,6 +25,7 @@ use post_boot::post_boot;
 
 mod tests;
 use tests::{
+    test_hide,
     test_uart,
     test_ascon,
     test_random,
@@ -37,7 +38,8 @@ fn main() -> ! {
     let board = Board::new();
     board.send_host_debug(b"Board initialized!");
 
-    test_ascon(&board);
+    test_hide(&board, false);
+    // test_ascon(&board);
     test_random(&board);
     test_flash(&board);
     test_timer(&board);

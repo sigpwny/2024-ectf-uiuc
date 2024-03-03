@@ -1,22 +1,12 @@
 use ascon::{crypto_aead_encrypt, crypto_aead_decrypt};
-use max78000_hal::i2c1;
+use max78000_hal::{i2c1, uart0};
 use max78000_hal::trng;
 use crate::Board;
-
-use crate::ectf_global_secrets::{
-    ASCON_SECRET_KEY_AP_TO_C,
-    ASCON_SECRET_KEY_C_TO_AP,
-};
-
-pub const LEN_ASCON_128_KEY:    usize = 16;
-pub const LEN_ASCON_128_TAG:    usize = 16;
-pub const LEN_ASCON_128_NONCE:  usize = 16;
-pub const LEN_ASCON_128_AD:     usize = 8;
-// pub const LEN_ASCON_128_PTXT:   usize = 64;
-// pub const LEN_ASCON_128_CTXT:   usize = LEN_ASCON_128_PTXT;
-
+use crate::{u8_to_hex_string, u32_to_hex_string};
+use crate::ectf_global_secrets::ASCON_SECRET_KEYS;
 
 // Length of component ID
+// TODO: move to different constants file
 pub const LEN_COMPONENT_ID:     usize = 4;
 
 /// Magic bytes for HIDE communication
@@ -24,16 +14,67 @@ pub const MAGIC_PKT_REQ:        u8 = 0x40;
 pub const MAGIC_PKT_CHAL_SEND:  u8 = 0x41;
 pub const MAGIC_PKT_CHAL_RESP:  u8 = 0x42;
 
-/// Message component lengths
-pub const LEN_HIDE_CHALLENGE_NONCE: usize = 16;
-pub const LEN_APP_MESSAGE:      usize = 80;
-pub const LEN_HIDE_MESSAGE:     usize = LEN_HIDE_CHALLENGE_NONCE + LEN_APP_MESSAGE;
+/// HIDE packet component lengths
+pub const LEN_HIDE_CHAL_NONCE:  usize = 16;
+pub const LEN_MISC_MESSAGE:     usize = 80;
+pub const LEN_HIDE_MESSAGE:     usize = LEN_HIDE_CHAL_NONCE + LEN_MISC_MESSAGE;
 
-// Message lengths
+// HIDE packet lengths
 pub const LEN_HIDE_PKT_REQ:     usize = 1;
-pub const LEN_HIDE_PKT_CHAL_SEND:   usize = LEN_ASCON_128_NONCE + LEN_HIDE_CHALLENGE_NONCE;
+pub const LEN_HIDE_PKT_CHAL_SEND:   usize = LEN_ASCON_128_NONCE + LEN_HIDE_CHAL_NONCE;
 pub const LEN_HIDE_PKT_CHAL_RESP:   usize = LEN_ASCON_128_NONCE + LEN_HIDE_MESSAGE;
 pub const LEN_HIDE_PKT_MAX:     usize = LEN_HIDE_PKT_CHAL_RESP;
+
+// Ascon-128 lengths
+pub const LEN_ASCON_128_KEY:    usize = 16;
+pub const LEN_ASCON_128_TAG:    usize = 16;
+pub const LEN_ASCON_128_NONCE:  usize = 16;
+pub const LEN_ASCON_128_AD:     usize = 8;
+pub const LEN_ASCON_128_PTXT:   usize = LEN_HIDE_MESSAGE;
+pub const LEN_ASCON_128_CTXT:   usize = LEN_ASCON_128_PTXT;
+
+#[repr(C, align(16))]
+pub struct Ascon128Keys {
+    pub ap_to_c:    [u8; 16],
+    pub c_to_ap:    [u8; 16],
+}
+
+#[repr(C, align(16))]
+pub struct Ascon128Data {
+    pub ciphertext: [u8; LEN_ASCON_128_CTXT],
+    pub message:    [u8; LEN_ASCON_128_PTXT],
+    pub ad:         [u8; LEN_ASCON_128_AD],
+    pub nonce:      [u8; LEN_ASCON_128_NONCE],
+}
+
+impl Ascon128Data {
+    pub fn new(
+        board: &Board,
+        comp_id: &[u8; LEN_COMPONENT_ID],
+        pkt_magic: u8,
+    ) -> Ascon128Data {
+        let mut ascon_data = Ascon128Data {
+            ciphertext: [0u8; LEN_ASCON_128_CTXT],
+            message:    [0u8; LEN_ASCON_128_PTXT],
+            ad:         [0u8; LEN_ASCON_128_AD],
+            nonce:      [0u8; LEN_ASCON_128_NONCE],
+        };
+        trng::random_bytes(&board.trng, &mut ascon_data.ciphertext);
+        trng::random_bytes(&board.trng, &mut ascon_data.message);
+        gen_associated_data(&mut ascon_data.ad, comp_id, pkt_magic);
+        trng::random_bytes(&board.trng, &mut ascon_data.nonce);
+        return ascon_data;
+    }
+    /// Helper function to set the HIDE challenge nonce
+    pub fn set_challenge_nonce(&mut self, challenge_nonce: &[u8; LEN_HIDE_CHAL_NONCE]) {
+        self.message[0..LEN_HIDE_CHAL_NONCE].copy_from_slice(challenge_nonce);
+    }
+    /// Helper function to set the MISC message in the HIDE packet
+    pub fn set_misc_message(&mut self, misc_message: &[u8]) {
+        self.message[LEN_HIDE_CHAL_NONCE..].copy_from_slice(misc_message);
+    }
+}
+
 
 /// For AP: Send a message to the component.
 /// Everything in `app_message` will be sent.
@@ -42,7 +83,7 @@ pub const LEN_HIDE_PKT_MAX:     usize = LEN_HIDE_PKT_CHAL_RESP;
 #[must_use]
 pub fn ap_secure_send(
     board: &Board,
-    comp_id: [u8; LEN_COMPONENT_ID],
+    comp_id: &[u8; LEN_COMPONENT_ID],
     app_message: &[u8]
 ) -> Option<usize> {
     return secure_send(board, true, comp_id, app_message);
@@ -53,7 +94,7 @@ pub fn ap_secure_send(
 #[must_use]
 pub fn comp_secure_send(
     board: &Board,
-    comp_id: [u8; LEN_COMPONENT_ID],
+    comp_id: &[u8; LEN_COMPONENT_ID],
     app_message: &[u8]
 ) -> Option<usize> {
     return secure_send(board, false, comp_id, app_message);
@@ -64,7 +105,7 @@ pub fn comp_secure_send(
 #[must_use]
 pub fn ap_secure_receive(
     board: &Board,
-    comp_id: [u8; LEN_COMPONENT_ID],
+    comp_id: &[u8; LEN_COMPONENT_ID],
     output: &mut [u8]
 ) -> Option<usize> {
     return secure_receive(board, true, comp_id, output);
@@ -75,7 +116,7 @@ pub fn ap_secure_receive(
 #[must_use]
 pub fn comp_secure_receive(
     board: &Board,
-    comp_id: [u8; LEN_COMPONENT_ID],
+    comp_id: &[u8; LEN_COMPONENT_ID],
     output: &mut [u8]
 ) -> Option<usize> {
     return secure_receive(board, false, comp_id, output);
@@ -86,37 +127,47 @@ pub fn comp_secure_receive(
 pub fn secure_send(
     board: &Board,
     is_master: bool,
-    comp_id: [u8; LEN_COMPONENT_ID],
-    app_message: &[u8]
+    comp_id: &[u8; LEN_COMPONENT_ID],
+    misc_message: &[u8]
 ) -> Option<usize> {
-    if app_message.len() > LEN_APP_MESSAGE {
+    if misc_message.len() > LEN_MISC_MESSAGE {
         return None;
     }
-    let addr = comp_id[LEN_COMPONENT_ID - 1];
+    let i2c_addr = comp_id[LEN_COMPONENT_ID - 1];
     // Step 1: Send PKT_REQ
     let packet_msg_req: [u8; LEN_HIDE_PKT_REQ] = [MAGIC_PKT_REQ; LEN_HIDE_PKT_REQ];
     if is_master {
-        i2c1::master_write_bytes(&board.i2c1, addr, &packet_msg_req);
+        i2c1::master_write_bytes(&board.i2c1, i2c_addr, &packet_msg_req);
     } else {
         i2c1::slave_write_bytes(&board.i2c1, &packet_msg_req);
     }
-    // Step 2: Receive PKT_CHAL_SEND, extract the challenge nonce and solve the challenge
-    let mut recv_buffer: [u8; LEN_HIDE_MESSAGE] = [0u8; LEN_HIDE_MESSAGE];
-    if ascon_receive(board, is_master, comp_id, MAGIC_PKT_CHAL_SEND, &mut recv_buffer) != 0 {
+    // Step 2: Receive PKT_CHAL_SEND, construct PKT_CHAL_RESP with solved challenge
+    // let mut recv_buffer: [u8; LEN_HIDE_MESSAGE] = [0u8; LEN_HIDE_MESSAGE];
+    let mut hide_pkt_chal_send = Ascon128Data::new(board, comp_id, MAGIC_PKT_CHAL_SEND);
+    // if ascon_receive(board, is_master, comp_id, MAGIC_PKT_CHAL_SEND, &mut recv_buffer) != 0 {
+    //     return None;
+    // }
+    if ascon_receive(board, is_master, i2c_addr, &mut hide_pkt_chal_send) != 0 {
         return None;
     }
-    let mut challenge_nonce: [u8; LEN_HIDE_CHALLENGE_NONCE] = [0u8; LEN_HIDE_CHALLENGE_NONCE];
-    challenge_nonce.copy_from_slice(&recv_buffer[0..LEN_HIDE_CHALLENGE_NONCE]);
-    let mut solved_nonce: [u8; LEN_HIDE_CHALLENGE_NONCE] = [0u8; LEN_HIDE_CHALLENGE_NONCE];
-    solve_nonce(&challenge_nonce, &mut solved_nonce);
+    let mut hide_pkt_chal_resp = Ascon128Data::new(board, comp_id, MAGIC_PKT_CHAL_RESP);
+    let mut solved_nonce: [u8; LEN_HIDE_CHAL_NONCE] = [0u8; LEN_HIDE_CHAL_NONCE];
+    solve_hide_challenge(&mut solved_nonce, &hide_pkt_chal_send.message);
     // Step 3: Send PKT_CHAL_RESP with our solve challenge and app message
-    let mut send_buffer: [u8; LEN_HIDE_MESSAGE] = [0; LEN_HIDE_MESSAGE];
-    trng::random_bytes(&board.trng, &mut send_buffer);
-    send_buffer[0..LEN_HIDE_CHALLENGE_NONCE].copy_from_slice(&solved_nonce);
+    // let mut send_buffer: [u8; LEN_HIDE_MESSAGE] = [0; LEN_HIDE_MESSAGE];
+    // trng::random_bytes(&board.trng, &mut send_buffer);
+    // send_buffer[0..LEN_HIDE_CHAL_NONCE].copy_from_slice(&solved_nonce);
     // TODO: Is this fine????
-    send_buffer[LEN_HIDE_CHALLENGE_NONCE..].copy_from_slice(&app_message);
-    ascon_send(board, is_master, comp_id, MAGIC_PKT_CHAL_RESP, &send_buffer);
-    return Some(app_message.len());
+    // send_buffer[LEN_HIDE_CHAL_NONCE..].copy_from_slice(&misc_message);
+    hide_pkt_chal_resp.set_challenge_nonce(&solved_nonce);
+    hide_pkt_chal_resp.set_misc_message(misc_message);
+    // if ascon_send(board, is_master, comp_id, MAGIC_PKT_CHAL_RESP, &send_buffer) != 0 {
+    //     return None;
+    // }
+    if ascon_send(board, is_master, i2c_addr, &mut hide_pkt_chal_resp) != 0 {
+        return None;
+    }
+    return Some(misc_message.len());
 }
 
 /// Implements the HIDE protocol to receive a message
@@ -124,68 +175,77 @@ pub fn secure_send(
 pub fn secure_receive(
     board: &Board,
     is_master: bool,
-    comp_id: [u8; LEN_COMPONENT_ID],
+    comp_id: &[u8; LEN_COMPONENT_ID],
     output: &mut [u8]
 ) -> Option<usize> {
-    if output.len() > LEN_APP_MESSAGE {
+    if output.len() > LEN_MISC_MESSAGE {
         return None;
     }
+    let i2c_addr = comp_id[LEN_COMPONENT_ID - 1];
     // Step 1: Wait until we receive a PKT_REQ
     let mut packet_msg_req: [u8; LEN_HIDE_PKT_REQ] = [0; LEN_HIDE_PKT_REQ];
     while packet_msg_req[0] != MAGIC_PKT_REQ {
         if is_master {
-            i2c1::master_read_bytes(&board.i2c1, comp_id[LEN_COMPONENT_ID - 1], &mut packet_msg_req);
+            i2c1::master_read_bytes(&board.i2c1, i2c_addr, &mut packet_msg_req);
         } else {
             i2c1::slave_read_bytes(&board.i2c1, &mut packet_msg_req);
         }
     }
     // Step 2: Generate a random challenge nonce and send PKT_CHAL_SEND
-    let mut chal_nonce: [u8; LEN_HIDE_CHALLENGE_NONCE] = [0u8; LEN_HIDE_CHALLENGE_NONCE];
+    let mut hide_pkt_chal_send = Ascon128Data::new(board, comp_id, MAGIC_PKT_CHAL_SEND);
+    let mut chal_nonce: [u8; LEN_HIDE_CHAL_NONCE] = [0u8; LEN_HIDE_CHAL_NONCE];
     trng::random_bytes(&board.trng, &mut chal_nonce);
-    let mut send_buffer: [u8; LEN_HIDE_MESSAGE] = [0u8; LEN_HIDE_MESSAGE];
-    trng::random_bytes(&board.trng, &mut send_buffer);
-    send_buffer[0..LEN_HIDE_CHALLENGE_NONCE].copy_from_slice(&chal_nonce);
-    if ascon_send(board, is_master, comp_id, MAGIC_PKT_CHAL_SEND, &send_buffer) != 0 {
-        return None;
-    };
-    // Step 3: Wait until we receive PKT_CHAL_RESP, then check the nonce and extract the message
-    let mut recv_buffer: [u8; LEN_HIDE_MESSAGE] = [0u8; LEN_HIDE_MESSAGE];
-    if ascon_receive(board, is_master, comp_id, MAGIC_PKT_CHAL_SEND, &mut recv_buffer) != 0 {
+    hide_pkt_chal_send.set_challenge_nonce(&chal_nonce);
+    // Solve the nonce to check if it's correct later
+    let mut solved_nonce: [u8; LEN_HIDE_CHAL_NONCE] = [0u8; LEN_HIDE_CHAL_NONCE];
+    solve_hide_challenge(&mut solved_nonce, &chal_nonce);
+    // let mut send_buffer: [u8; LEN_HIDE_MESSAGE] = [0u8; LEN_HIDE_MESSAGE];
+    // trng::random_bytes(&board.trng, &mut send_buffer);
+    // send_buffer[0..LEN_HIDE_CHAL_NONCE].copy_from_slice(&chal_nonce);
+    // if ascon_send(board, is_master, comp_id, MAGIC_PKT_CHAL_SEND, &send_buffer) != 0 {
+    //     return None;
+    // };
+    if ascon_send(board, is_master, i2c_addr, &mut hide_pkt_chal_send) != 0 {
         return None;
     }
-    // Check if the nonce was solved correctly
-    let mut solved_nonce: [u8; LEN_HIDE_CHALLENGE_NONCE] = [0u8; LEN_HIDE_CHALLENGE_NONCE];
-    solve_nonce(&chal_nonce, &mut solved_nonce);
+    // Step 3: Wait until we receive PKT_CHAL_RESP, then check the nonce and extract the message
+    // let mut recv_buffer: [u8; LEN_HIDE_MESSAGE] = [0u8; LEN_HIDE_MESSAGE];
+    // if ascon_receive(board, is_master, comp_id, MAGIC_PKT_CHAL_RESP, &mut recv_buffer) != 0 {
+    //     return None;
+    // }
+    let mut hide_pkt_chal_resp = Ascon128Data::new(board, comp_id, MAGIC_PKT_CHAL_RESP);
+    if ascon_receive(board, is_master, i2c_addr, &mut hide_pkt_chal_resp) != 0 {
+        return None;
+    }
+    let mut given_nonce: [u8; LEN_HIDE_CHAL_NONCE] = [0u8; LEN_HIDE_CHAL_NONCE];
+    given_nonce.copy_from_slice(&hide_pkt_chal_resp.message[0..LEN_HIDE_CHAL_NONCE]);
     // SECURITY CRITICAL: Check if the nonce was solved correctly
-    for i in 0..LEN_HIDE_CHALLENGE_NONCE {
-        if recv_buffer[i] != solved_nonce[i] {
+    for i in 0..LEN_HIDE_CHAL_NONCE {
+        if given_nonce[i] != solved_nonce[i] {
             return None;
         }
     }
     // Copy the message into the output
     for i in 0..output.len() {
-        output[i] = recv_buffer[LEN_HIDE_CHALLENGE_NONCE + i];
+        output[i] = hide_pkt_chal_resp.message[LEN_HIDE_CHAL_NONCE + i];
     }
     return Some(output.len());
 }
 
 /// Helper function to solve the challenge nonce
-fn solve_nonce(
-    nonce: &[u8; LEN_HIDE_CHALLENGE_NONCE],
-    solved_nonce: &mut [u8; LEN_HIDE_CHALLENGE_NONCE]
-) {
-    for i in 0..LEN_HIDE_CHALLENGE_NONCE {
+fn solve_hide_challenge(solved_nonce: &mut [u8], nonce: &[u8]) {
+    for i in 0..LEN_HIDE_CHAL_NONCE {
         solved_nonce[i] = nonce[i] ^ 0x55;
     }
 }
 
 /// Helper function to compute associated data for Ascon
-fn compute_associated_data(
+fn gen_associated_data(
     output: &mut [u8; LEN_ASCON_128_AD],
-    comp_id: [u8; LEN_COMPONENT_ID],
+    comp_id: &[u8; LEN_COMPONENT_ID],
     pkt_magic: u8
 ) {
-    output[0..LEN_COMPONENT_ID].copy_from_slice(&comp_id);
+    output[0..LEN_COMPONENT_ID].copy_from_slice(comp_id);
     output[LEN_COMPONENT_ID] = pkt_magic;
 }
 
@@ -194,29 +254,81 @@ fn compute_associated_data(
 fn ascon_send(
     board: &Board,
     is_master: bool,
-    comp_id: [u8; LEN_COMPONENT_ID],
-    pkt_magic: u8,
-    message: &[u8; LEN_HIDE_MESSAGE]
+    i2c_addr: u8,
+    // comp_id: &[u8; LEN_COMPONENT_ID],
+    // pkt_magic: u8,
+    // message: &[u8; LEN_HIDE_MESSAGE]
+    ascon_data: &mut Ascon128Data
 ) -> i32 {
     // Set up send buffer and associated data
-    let mut enc_message: [u8; LEN_HIDE_MESSAGE] = [0u8; LEN_HIDE_MESSAGE];
-    let mut assoc_data: [u8; LEN_ASCON_128_AD] = [0u8; LEN_ASCON_128_AD];
-    compute_associated_data(&mut assoc_data, comp_id, pkt_magic);
+    // let mut enc_message: [u8; LEN_HIDE_MESSAGE] = [0u8; LEN_HIDE_MESSAGE];
+    // let mut assoc_data: [u8; LEN_ASCON_128_AD] = [0u8; LEN_ASCON_128_AD];
+    // compute_associated_data(&mut assoc_data, comp_id, pkt_magic);
     // Generate random nonce for Ascon
-    let mut ascon_nonce: [u8; LEN_ASCON_128_NONCE] = [0u8; LEN_ASCON_128_NONCE];
-    trng::random_bytes(&board.trng, &mut ascon_nonce);
+    // let mut ascon_nonce: [u8; LEN_ASCON_128_NONCE] = [0u8; LEN_ASCON_128_NONCE];
+    // trng::random_bytes(&board.trng, &mut ascon_nonce);
+    uart0::write_bytes(&board.uart0, b"Plaintext message: ");
+    for byte in ascon_data.message.iter() {
+        uart0::write_bytes(&board.uart0, &u8_to_hex_string(*byte));
+    }
+    uart0::write_bytes(&board.uart0, b"\r\n");
+    uart0::write_bytes(&board.uart0, b"Associated data (BEFORE): ");
+    for byte in ascon_data.ad.iter() {
+        uart0::write_bytes(&board.uart0, &u8_to_hex_string(*byte));
+    }
+    uart0::write_bytes(&board.uart0, b"\r\n");
     // Encrypt message with Ascon
-    let mut result: i32 = -1;
-    result = ascon_encrypt(&mut enc_message, message, &assoc_data, &ascon_nonce, ASCON_SECRET_KEY_AP_TO_C);
+    let key = if is_master {
+        &ASCON_SECRET_KEYS.ap_to_c
+    } else {
+        &ASCON_SECRET_KEYS.c_to_ap
+    };
+    let result = ascon_encrypt(
+        &mut ascon_data.ciphertext,
+        &ascon_data.message,
+        &ascon_data.ad,
+        &ascon_data.nonce,
+        key
+    );
     if result != 0 {
         return result;
     }
     // Send encrypted output
     let mut send_buffer: [u8; LEN_HIDE_PKT_MAX] = [0u8; LEN_HIDE_PKT_MAX];
-    send_buffer[0..LEN_ASCON_128_NONCE].copy_from_slice(&ascon_nonce);
-    send_buffer[LEN_ASCON_128_NONCE..LEN_HIDE_PKT_MAX].copy_from_slice(&enc_message);
+    send_buffer[0..LEN_ASCON_128_NONCE].copy_from_slice(&ascon_data.nonce);
+    send_buffer[LEN_ASCON_128_NONCE..LEN_HIDE_PKT_MAX].copy_from_slice(&ascon_data.ciphertext);
+    // DEBUG
+    uart0::write_bytes(&board.uart0, b"Attempting to encrypt PKT_CHAL_SEND...\r\n");
+    uart0::write_bytes(&board.uart0, b"Sending buffer: ");
+    for byte in send_buffer.iter() {
+        uart0::write_bytes(&board.uart0, &u8_to_hex_string(*byte));
+    }
+    uart0::write_bytes(&board.uart0, b"\r\n");
+    uart0::write_bytes(&board.uart0, b"Parsed ascon nonce: ");
+    for byte in ascon_data.nonce.iter() {
+        uart0::write_bytes(&board.uart0, &u8_to_hex_string(*byte));
+    }
+    uart0::write_bytes(&board.uart0, b"\r\n");
+    uart0::write_bytes(&board.uart0, b"Encrypted message: ");
+    for byte in ascon_data.ciphertext.iter() {
+        uart0::write_bytes(&board.uart0, &u8_to_hex_string(*byte));
+    }
+    uart0::write_bytes(&board.uart0, b"\r\n");
+    uart0::write_bytes(&board.uart0, b"Associated data (AFTER): ");
+    for byte in ascon_data.ad.iter() {
+        uart0::write_bytes(&board.uart0, &u8_to_hex_string(*byte));
+    }
+    uart0::write_bytes(&board.uart0, b"\r\n");
+    // END DEBUG
+    // MORE DEBUG
+    uart0::write_bytes(&board.uart0, b"Key: ");
+    for byte in key.iter() {
+        uart0::write_bytes(&board.uart0, &u8_to_hex_string(*byte));
+    }
+    uart0::write_bytes(&board.uart0, b"\r\n");
+    // END MORE DEBUG
     if is_master {
-        i2c1::master_write_bytes(&board.i2c1, comp_id[LEN_COMPONENT_ID - 1], &send_buffer);
+        i2c1::master_write_bytes(&board.i2c1, i2c_addr, &send_buffer);
     } else {
         i2c1::slave_write_bytes(&board.i2c1, &send_buffer);
     }
@@ -228,26 +340,77 @@ fn ascon_send(
 fn ascon_receive(
     board: &Board,
     is_master: bool,
-    comp_id: [u8; LEN_COMPONENT_ID],
-    pkt_magic: u8,
-    message: &mut [u8; LEN_HIDE_MESSAGE]
+    // comp_id: &[u8; LEN_COMPONENT_ID],
+    i2c_addr: u8,
+    // pkt_magic: u8,
+    // message: &mut [u8; LEN_HIDE_MESSAGE]
+    ascon_data: &mut Ascon128Data
 ) -> i32 {
     // Receive the message
     let mut recv_buffer = [0u8; LEN_HIDE_PKT_MAX];
     if is_master {
-        i2c1::master_read_bytes(&board.i2c1, comp_id[LEN_COMPONENT_ID - 1], &mut recv_buffer);
+        i2c1::master_read_bytes(&board.i2c1, i2c_addr, &mut recv_buffer);
     } else {
         i2c1::slave_read_bytes(&board.i2c1, &mut recv_buffer);
     }
-    let mut ascon_nonce: [u8; LEN_ASCON_128_NONCE] = [0u8; LEN_ASCON_128_NONCE];
-    ascon_nonce.copy_from_slice(&recv_buffer[0..LEN_ASCON_128_NONCE]);
-    let mut enc_message: [u8; LEN_HIDE_MESSAGE] = [0u8; LEN_HIDE_MESSAGE];
-    enc_message.copy_from_slice(&recv_buffer[LEN_ASCON_128_NONCE..LEN_HIDE_PKT_MAX]);
+    ascon_data.nonce.copy_from_slice(&recv_buffer[0..LEN_ASCON_128_NONCE]);
+    ascon_data.ciphertext.copy_from_slice(&recv_buffer[LEN_ASCON_128_NONCE..LEN_HIDE_PKT_MAX]);
+    // enc_message.copy_from_slice(&recv_buffer[LEN_ASCON_128_NONCE..LEN_HIDE_PKT_MAX]);
     // Set up associated data
-    let mut assoc_data: [u8; LEN_ASCON_128_AD] = [0u8; LEN_ASCON_128_AD];
-    compute_associated_data(&mut assoc_data, comp_id, pkt_magic);
+    // let mut assoc_data: [u8; LEN_ASCON_128_AD] = [0u8; LEN_ASCON_128_AD];
+    // compute_associated_data(&mut assoc_data, comp_id, pkt_magic);
+    // DEBUG: Print decryption values
+    uart0::write_bytes(&board.uart0, b"Attempting to decrypt PKT_CHAL_SEND...\r\n");
+    uart0::write_bytes(&board.uart0, b"Received buffer: ");
+    for byte in recv_buffer.iter() {
+        uart0::write_bytes(&board.uart0, &u8_to_hex_string(*byte));
+    }
+    uart0::write_bytes(&board.uart0, b"\r\n");
+    uart0::write_bytes(&board.uart0, b"\r\nParsed ascon nonce: ");
+    for byte in ascon_data.nonce.iter() {
+        uart0::write_bytes(&board.uart0, &u8_to_hex_string(*byte));
+    }
+    uart0::write_bytes(&board.uart0, b"\r\n");
+    uart0::write_bytes(&board.uart0, b"Encrypted message: ");
+    for byte in ascon_data.ciphertext.iter() {
+        uart0::write_bytes(&board.uart0, &u8_to_hex_string(*byte));
+    }
+    uart0::write_bytes(&board.uart0, b"\r\n");
+    uart0::write_bytes(&board.uart0, b"Associated data: ");
+    for byte in ascon_data.ad.iter() {
+        uart0::write_bytes(&board.uart0, &u8_to_hex_string(*byte));
+    }
+    uart0::write_bytes(&board.uart0, b"\r\n");
+    // END DEBUG
     // Decrypt message
-    return ascon_decrypt(message, &enc_message, &assoc_data, &ascon_nonce, ASCON_SECRET_KEY_C_TO_AP);
+    let key = if is_master {
+        &ASCON_SECRET_KEYS.c_to_ap
+    } else {
+        &ASCON_SECRET_KEYS.ap_to_c
+    };
+    // MORE DEBUG
+    uart0::write_bytes(&board.uart0, b"Key: ");
+    for byte in key.iter() {
+        uart0::write_bytes(&board.uart0, &u8_to_hex_string(*byte));
+    }
+    uart0::write_bytes(&board.uart0, b"\r\n");
+    // END MORE DEBUG
+    let result = ascon_decrypt(
+        &mut ascon_data.message,
+        &ascon_data.ciphertext,
+        &ascon_data.ad,
+        &ascon_data.nonce,
+        key
+    );
+    uart0::write_bytes(&board.uart0, b"Decryption result: ");
+    uart0::write_bytes(&board.uart0, &u32_to_hex_string(result as u32));
+    uart0::write_bytes(&board.uart0, b"\r\n");
+    uart0::write_bytes(&board.uart0, b"Decrypted message: ");
+    for byte in ascon_data.message.iter() {
+        uart0::write_bytes(&board.uart0, &u8_to_hex_string(*byte));
+    }
+    uart0::write_bytes(&board.uart0, b"\r\n");
+    return result;
 }
 
 /// Encrypts a message using Ascon-128
