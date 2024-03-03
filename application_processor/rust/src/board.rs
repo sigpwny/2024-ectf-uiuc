@@ -1,12 +1,14 @@
 #![no_std]
 
-use core::panic::PanicInfo;
-use max78000_pac as pac;
-use max78000_hal::{*};
-
 pub mod secure_comms;
 pub mod ectf_constants;
 pub mod ectf_global_secrets;
+
+use max78000_pac as pac;
+use max78000_hal::{*};
+use core::panic::PanicInfo;
+use ectf_constants::{*};
+
 
 pub enum Led {
     Red = 0,
@@ -121,9 +123,9 @@ impl Board {
     /// Output sent via UART0
     #[cfg(all(debug_assertions, not(feature = "semihosting")))]
     pub fn send_host_debug(&self, message: &[u8]) {
-        uart0::write_bytes(&self.uart0, b"%debug ");
+        uart0::write_bytes(&self.uart0, b"%debug: ");
         uart0::write_bytes(&self.uart0, message);
-        uart0::write_bytes(&self.uart0, b"%\r\n");
+        uart0::write_bytes(&self.uart0, b"\r\n%\r\n");
     }
     
     /// Host debugging is only enabled in debug builds
@@ -131,10 +133,10 @@ impl Board {
     #[cfg(all(debug_assertions, feature = "semihosting"))]
     pub fn send_host_debug(&self, message: &[u8]) {
         use cortex_m_semihosting::{heprint, syscall};
-        heprint!("%debug ");
+        heprint!("%debug: ");
         // Safety: Required to print type &[u8] to the host
         unsafe { syscall!(WRITE, 1, message.as_ptr(), message.len()) };
-        heprint!("%\r\n");
+        heprint!("\r\n%\r\n");
     }
 
     /// Host debugging is disabled in release builds, so do nothing
@@ -145,28 +147,39 @@ impl Board {
 
     /// Write info to the host
     pub fn send_host_info(&self, message: &[u8]) {
-        uart0::write_bytes(&self.uart0, b"%info ");
+        uart0::write_bytes(&self.uart0, b"%info: ");
         uart0::write_bytes(&self.uart0, message);
-        uart0::write_bytes(&self.uart0, b"%\r\n");
+        uart0::write_bytes(&self.uart0, b"\r\n%\r\n");
     }
 
     /// Write error to the host
     pub fn send_host_error(&self, message: &[u8]) {
-        uart0::write_bytes(&self.uart0, b"%error ");
+        uart0::write_bytes(&self.uart0, b"%error: ");
         uart0::write_bytes(&self.uart0, message);
-        uart0::write_bytes(&self.uart0, b"%\r\n");
+        uart0::write_bytes(&self.uart0, b"\r\n%\r\n");
     }
 
     /// Write success to the host
     pub fn send_host_success(&self, message: &[u8]) {
-        uart0::write_bytes(&self.uart0, b"%success ");
+        uart0::write_bytes(&self.uart0, b"%success: ");
         uart0::write_bytes(&self.uart0, message);
-        uart0::write_bytes(&self.uart0, b"%\r\n");
+        uart0::write_bytes(&self.uart0, b"\r\n%\r\n");
     }
 
     /// Write ack to the host
     pub fn send_host_ack(&self) {
-        uart0::write_bytes(&self.uart0, b"%ack%\r\n");
+        uart0::write_bytes(&self.uart0, b"%ack\r\n%\r\n");
+    }
+
+    /// Send a formatted component ID to the host
+    pub fn send_host_cid(&self, prefix: u8, cid: &[u8; LEN_COMPONENT_ID]) {
+        uart0::write_bytes(&self.uart0, b"%info: ");
+        uart0::write_bytes(&self.uart0, &[prefix, b'>', b'0', b'x']);
+        uart0::write_bytes(&self.uart0, &u8_to_hex_string(cid[0]));
+        uart0::write_bytes(&self.uart0, &u8_to_hex_string(cid[1]));
+        uart0::write_bytes(&self.uart0, &u8_to_hex_string(cid[2]));
+        uart0::write_bytes(&self.uart0, &u8_to_hex_string(cid[3]));
+        uart0::write_bytes(&self.uart0, b"\r\n%\r\n");
     }
 
     /// Read a command from the host (terminated by '\r')
@@ -178,6 +191,7 @@ impl Board {
             // Echo the received byte
             uart0::write_byte(&self.uart0, result);
             if result == b'\r' {
+                self.send_host_ack();
                 return Some(index);
             }
             index += 1;
@@ -186,16 +200,24 @@ impl Board {
     }
 
     // Get provisioned component ID stored in flash
-    pub fn get_provisioned_component_id(&self, idx: u8) -> u32 {
-        // TODO, just return fixed original component IDs for now
+    pub fn get_provisioned_component_id(&self, cid: &mut [u8; LEN_COMPONENT_ID], idx: u8) -> Option<()> {
+        let cid_1: [u8; LEN_COMPONENT_ID] = [0x11, 0x11, 0x11, 0x24];
+        let cid_2: [u8; LEN_COMPONENT_ID] = [0x11, 0x11, 0x11, 0x25];
         match idx {
-            0 => 0x33556624,
-            1 => 0x66778825,
+            0 => {
+                self.send_host_debug(b"Getting component ID at index 0");
+                cid.copy_from_slice(&cid_1);
+            }
+            1 => {
+                self.send_host_debug(b"Getting component ID at index 1");
+                cid.copy_from_slice(&cid_2);
+            }
             _ => {
                 self.send_host_debug(b"Invalid component ID index");
-                panic!();
+                return None;
             }
         }
+        return Some(());
     }
 
     // TODO: Check if component IDs are initialized in flash
