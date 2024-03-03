@@ -41,6 +41,6 @@ pkgs.mkShell {
       export MAXIM_PATH=$PWD/msdk
 
       rustup default nightly
-      rustup target add thumbv7em-none-eabihf
+      rustup target add thumbv7em-none-eabi
     '';
 }

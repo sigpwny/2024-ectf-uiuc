@@ -6,10 +6,9 @@ use max78000_hal::tmr0;
 use board::{Board, Led, u8_to_hex_string, u32_to_hex_string};
 use board::secure_comms as hide;
 
-mod ectf_global_secrets;
-use ectf_global_secrets::{
-    ASCON_SECRET_KEY_AP_TO_C,
-    ASCON_SECRET_KEY_C_TO_AP,
+use argon2::{
+    password_hash::PasswordHash,
+    Argon2
 };
 
 mod ectf_params;
@@ -21,8 +20,12 @@ use ectf_params::{
     // ORIGINAL_COMPONENT_IDS, // DO NOT USE THESE!
 };
 
+mod post_boot;
+use post_boot::post_boot;
+
 mod tests;
 use tests::{
+    test_hide,
     test_uart,
     test_ascon,
     test_random,
@@ -35,7 +38,8 @@ fn main() -> ! {
     let board = Board::new();
     board.send_host_debug(b"Board initialized!");
 
-    test_ascon(&board);
+    test_hide(&board, false);
+    // test_ascon(&board);
     test_random(&board);
     test_flash(&board);
     test_timer(&board);
@@ -55,6 +59,9 @@ fn main() -> ! {
 
     loop {
         test_uart(&board);
+        // Safety: This function is defined in our C code
+        // Unsafety: DO NOT DO THIS IN FINAL DESIGN! DO BOOT VERIFICATION FIRST!
+        unsafe { post_boot() };
         continue;
     }
 }
@@ -108,5 +115,20 @@ fn list_components(board: &Board) {
        
     }
     board.send_host_success(&success_response);
+
+}
+
+// Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/attestation_tool.py
+fn attest_component() {
+
+}
+
+// Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/replace_tool.py
+fn replace_component() {
+
+}
+
+// Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/boot_tool.py
+fn boot_verify() {
 
 }
