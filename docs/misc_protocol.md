@@ -137,14 +137,15 @@ sequenceDiagram
   H ->> AP: Replacement Token
   H ->> AP: Old Component ID
   H ->> AP: New Component ID
-  Note over AP: Wait 3 seconds
-  Note over AP: Compute Argon2 hash of salt | Replacement Token
-  Note over AP: Compare hash to stored correct token hash
-  Note over H, AP: Wait until 4.8 seconds total time elapsed
-  alt Correct Replacement Token
-     Note over AP: Update Component ID list with new Component ID
-  end
+  Note over H, AP: 3 seconds elapsed
+  Note over AP: Compute Argon2 hash of <br/> salt | Replacement Token
+  Note over H, AP: 4.8 seconds TTT elapsed
+  alt Replacement Token Incorrect
+  AP -x H: Error: "Replace failed\n"
+  else
+     Note over AP: Update Component ID list <br/>with new Component ID
   AP -x H: Success: "Replace\n"
+  end
 
 ```
 
