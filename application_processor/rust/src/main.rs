@@ -117,6 +117,7 @@ fn list_components(board: &Board) {
             continue;
         }
         let test_id: [u8; LEN_COMPONENT_ID] = [0x00, 0x00, 0x00, addr];
+        board.send_host_cid(b'T', &test_id);
         let result = hide::ap_secure_send(board, &test_id, &magic_bytes);
         match result {
             Some(len) => {
