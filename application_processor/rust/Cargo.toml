@@ -1,5 +1,6 @@
 [package]
 name = "ap"
+authors = ["SIGPwny <ctf@sigpwny.com>"]
 version = "0.1.0"
 edition = "2021"
 
@@ -22,11 +23,9 @@ path = "src/board.rs"
 
 [profile.dev]
 opt-level = "s"
-# lto = true
 
 [profile.release]
 opt-level = "s"
 debug = false
 strip = true
 codegen-units = 1
-# lto = true
