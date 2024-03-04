@@ -2,12 +2,10 @@
 #![no_main]
 
 use cortex_m_rt::entry;
-use max78000_hal::tmr0;
 use board::{Board, Led, u8_to_hex_string, u32_to_hex_string};
 use board::secure_comms as hide;
-
-mod ectf_params;
-use ectf_params::{
+use board::ectf_constants::{*};
+use board::ectf_params::{
     COMPONENT_ID,
     COMPONENT_BOOT_MSG,
     ATTESTATION_LOCATION,
@@ -15,52 +13,121 @@ use ectf_params::{
     ATTESTATION_CUSTOMER,
 };
 
+mod post_boot;
+use post_boot::post_boot;
 
-// Argon2 hashing docs: https://docs.rs/argon2/latest/argon2/
-use argon2::{
-    password_hash::{
-        rand_core::OsRng,
-        PasswordHash, PasswordHasher, PasswordVerifier, SaltString
-    },
-    Argon2
-};
+pub enum ComponentCommand {
+    AttestReqLocation,
+    AttestReqDate,
+    AttestReqCustomer,
+    BootPing,
+    BootNow,
+}
 
-// Don't use magic numbers - always define as constants!
-
-/**
- * Lengths
- */
-const LEN_MAX_SECURE: usize = 64;
-const LEN_MAX_AP_BOOT_NOW: usize = 64;
-const LEN_MAX_BOOT_PINGPONG: usize = 64;
-const LEN_MAX_AP_BOOT_MSG: usize = 64;
-const LEN_AP_ID: usize = 4;
-
-
-/**
- * Magic bytes
- */
- // TODO: Add more here
- const MAGIC_BOOT_PING: u8 = 0x80;
- const MAGIC_BOOT_PONG: u8 = 0x81;
- const MAGIC_BOOT_NOW:  u8 = 0x82;
+// Every byte in the message should match the magic byte string for the command
+// Determine which command to check from the first byte
+fn resolve_command(board: &Board, bytes: &[u8]) -> Option<ComponentCommand> {
+    let initial = match bytes[0] {
+        MAGIC_MISC_REQ_LOCATION => ComponentCommand::AttestReqLocation,
+        MAGIC_MISC_REQ_DATE => ComponentCommand::AttestReqDate,
+        MAGIC_MISC_REQ_CUSTOMER => ComponentCommand::AttestReqCustomer,
+        MAGIC_MISC_BOOT_PING => ComponentCommand::BootPing,
+        MAGIC_MISC_BOOT_NOW => ComponentCommand::BootNow,
+        _ => {
+            board.send_host_debug(b"Unknown message");
+            return None;
+        }
+    };
+    for byte in bytes {
+        if *byte != bytes[0] {
+            board.send_host_debug(b"Magic byte mismatch");
+            return None;
+        }
+    }
+    Some(initial)
+}
 
 
 #[entry]
 fn main() -> ! {
-    // TODO: Initialization
+    let board = Board::new();
+    board.send_host_debug(b"Component initialized!");
+
     loop {
-        // TODO: I2C loop to listen for messages from the AP
+        let mut magic: [u8; LEN_MISC_MESSAGE] = [0u8; LEN_MISC_MESSAGE];
+        match hide::comp_secure_receive(&board, &COMPONENT_ID, &mut magic) {
+            Some(LEN_MISC_MESSAGE) => (),
+            _ => {
+                board.send_host_debug(b"Failed to receive message");
+                continue;
+            }
+        }
+        match resolve_command(&board, &magic) {
+            Some(ComponentCommand::AttestReqLocation) => {
+                send_attest_location(&board);
+            }
+            Some(ComponentCommand::AttestReqDate) => {
+                send_attest_date(&board);
+            }
+            Some(ComponentCommand::AttestReqCustomer) => {
+                send_attest_customer(&board);
+            }
+            Some(ComponentCommand::BootPing) => {
+                // boot_verify();
+            }
+            Some(ComponentCommand::BootNow) => {
+                // Safety: This function is defined in our C code
+                // Unsafety: DO NOT DO THIS IN FINAL DESIGN! DO BOOT VERIFICATION FIRST!
+                // unsafe { post_boot() };
+                continue;
+            }
+            None => {
+                continue;
+            }
+        }
+        continue;
     }
 }
 
-fn list_component() {
-
+/// Send the attestation location data to the host
+fn send_attest_location(board: &Board) {
+    let mut buffer: [u8; LEN_ATTEST_LOCATION] = [0u8; LEN_ATTEST_LOCATION];
+    for (i, byte) in ATTESTATION_LOCATION.iter().enumerate() {
+        buffer[i] = *byte;
+    }
+    match hide::comp_secure_send(&board, &COMPONENT_ID, &buffer) {
+        Some(LEN_ATTEST_LOCATION) => board.send_host_debug(b"Location sent"),
+        _ => board.send_host_debug(b"Failed to send location"),
+    }
 }
 
-fn send_attest_data() {
-
+/// Send the attestation date data to the host
+fn send_attest_date(board: &Board) {
+    let mut buffer: [u8; LEN_ATTEST_DATE] = [0u8; LEN_ATTEST_DATE];
+    for (i, byte) in ATTESTATION_DATE.iter().enumerate() {
+        buffer[i] = *byte;
+    }
+    match hide::comp_secure_send(&board, &COMPONENT_ID, &buffer) {
+        Some(LEN_ATTEST_DATE) => board.send_host_debug(b"Date sent"),
+        _ => board.send_host_debug(b"Failed to send date"),
+    }
 }
+
+/// Send the attestation customer data to the host
+fn send_attest_customer(board: &Board) {
+    let mut buffer: [u8; LEN_ATTEST_CUSTOMER] = [0u8; LEN_ATTEST_CUSTOMER];
+    for (i, byte) in ATTESTATION_CUSTOMER.iter().enumerate() {
+        buffer[i] = *byte;
+    }
+    match hide::comp_secure_send(&board, &COMPONENT_ID, &buffer) {
+        Some(LEN_ATTEST_CUSTOMER) => board.send_host_debug(b"Customer sent"),
+        _ => board.send_host_debug(b"Failed to send customer"),
+    }
+}
+
+// fn boot_verify() {
+
+// }
 
 // Called if recived message equals boot.ping
 fn validate_components() {
@@ -74,8 +141,4 @@ fn boot_components() {
 
     // Start post boot
     post_boot();
-}
-
-fn post_boot() {
-
 }

@@ -17,11 +17,18 @@ def error(msg):
 
 def gen_ascon_key():
     bytes = secrets.token_bytes(16)
-    return ''.join([f"\\x{byte:02x}" for byte in bytes])
+    return ', '.join([f"0x{byte:02x}" for byte in bytes])
 
 def gen_secrets_files():
-    secrets_file = f"pub const ASCON_SECRET_KEY_AP_TO_C: &[u8] = b\"{gen_ascon_key()}\";\n"
-    secrets_file += f"pub const ASCON_SECRET_KEY_C_TO_AP: &[u8] = b\"{gen_ascon_key()}\";\n"
+    secrets_file = (
+f"""use crate::secure_comms::Ascon128Keys;
+
+pub const ASCON_SECRET_KEYS: Ascon128Keys = Ascon128Keys {{
+    ap_to_c: [{gen_ascon_key()}],
+    c_to_ap: [{gen_ascon_key()}],
+}};
+"""
+    )
 
     for _dir in output_dirs:
         try:

@@ -24,8 +24,8 @@ const LEN_MAX_HOST:   usize = 32;
  * Magic bytes
  */
  // TODO: Add more here
-const CID1: u8 = 0x10;
-const CID2: u8 = 0x11;
+const CID1: u32 = 0x10;
+const CID2: u32 = 0x11;
 const MAGIC_LIST_PING: u8 = 0x50;
 const MAGIC_LIST_PONG: u8 = 0x51;
 
@@ -63,8 +63,10 @@ fn main() -> ! {
     }
 }
 
+
+
 // Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/list_tool.py
-fn list_components() {
+fn list_components(board: &Board) {
     // Example of secure send/receive to component
 
 
@@ -73,48 +75,68 @@ fn list_components() {
     // first_send[u8; LEN_MAX_SECURE] = "PINGCOMPONENT".as_bytes(); // Ping the component. Then it should respond with it's ID.
     // secure_send(&first_send);
     // secure_recv(&first_response);
+    let mut provision_response: [u8; 13] = "P>0x00000000\n".as_bytes();    
+    let CID0_str: [u8;  8] = u32_to_hex_string(get_provisioned_component_id(0)); // We pass in 0 for the 0th component
+    for i in 0 .. 9{
+        provision_response[i+4] = CID0_str[i];
+    }
+    
+    send_host_info(&provision_response);
+
+    
+    let CID1_str: [u8;  2] = u32_to_hex_string(get_provisioned_component_id(1)); // We pass in 1 for the 1st component
+    for i in 0 .. 9{
+        provision_response[i+4] = CID1_str[i];
+    }
+    send_host_info(&provision_response);    
 
     // now process the response, etc.
-    let ping_byte: u8 = MAGIC_LIST_PING;
-    let mut first_response: u8  = 0;
-    secure_send(&ping_byte); 
-    secure_recv(&first_response); // Check i2c bus if there is data, then repeatedly receive a response.
-
-    delay(1000000);
-
-    if first_response == MAGIC_LIST_PONG{
-        let success_message: [u8; LEN_MAX_SECURE] = "%success: Component found%".as_bytes();
-        send_host_success(success_message);
-    } else {
-        let error_message: [u8; LEN_MAX_SECURE] = "%error: Component not found%".as_bytes();
-        send_host_error(error_message);
-    }
-    /*
-     let start_time = Instant::now();
-        let timeout = Duration::from_secs(1);
-        secure_recv(&first_response);
-        /*Wait for a response from the component */
-      if Instant::now() - start_time >= timeout {
-            println!("One second has elapsed. Exiting...");
-            break;
+    let mut ping_byte: [u8; LEN_MAX_SECURE];
+    ping_byte[0] = MAGIC_LIST_PING;
+    let mut response: [u8; LEN_MAX_SECURE];
+    let mut found_response:[u8;13] = "F>0x00000000\n".as_bytes();
+    let success_response: [u8;5 ] = "List\n".as_bytes();
+    for I2Caddr in 0x8..0x79{
+        if addr == 0x18 || addr == 0x28 || addr == 0x36 {
+            continue;
         }
-     */
+        
+        if securesend(I2Caddr,ping_byte) == 0 {
+            securerecv(I2Caddr,&response);
+            for i in 0 .. 9{
+                found_response[i+4] = response[i];
+            }
+            board.send_host_info(&found_response);
+        } 
+       
+    }
+    send_host_success(&success_response);
+    delay(1000000);
 
 
 }
 
 // Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/attestation_tool.py
 fn attest_component() {
-
+    
 }
 
 // Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/replace_tool.py
+<<<<<<< HEAD
+fn replace_component(replacement_token : [u8; 16], old_component_id: u32, new_component_id : u32) {
+    timer_reset();
+    let board = Board::new();
+    let mut flag : bool = false;
+    // delay for 3 seconds
+    delay_us(3000000);
+=======
 fn replace_component(Board:&board, replacement_token : [u8; 16], old_component_id: u32, new_component_id : u32) {
     board.timer_reset();
     let mut flag : bool = false;
     // delay for 3 seconds
     delay_us(3000000);
     board.read_host_line();
+>>>>>>> b4b72295d03e7480e1a5f0f01c00f5db9db205f2
 
     // pre-defined salt needed
     Argon2::new(Variant::Argon2i, Version::V0x13, params)

@@ -21,11 +21,12 @@ name = "board"
 path = "src/board.rs"
 
 [profile.dev]
-opt-level = "z"
-lto = true
+opt-level = "s"
+# lto = true
 
 [profile.release]
+opt-level = "s"
 debug = false
 strip = true
 codegen-units = 1
-lto = true
+# lto = true
