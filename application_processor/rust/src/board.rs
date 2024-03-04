@@ -18,7 +18,6 @@ pub enum Led {
 }
 
 pub struct Board {
-    // pub peripherals: pac::Peripherals,
     pub flc: pac::FLC,
     pub gcr: pac::GCR,
     pub gpio0: pac::GPIO0,
@@ -73,7 +72,6 @@ impl Board {
         i2c1::master_config(&p.I2C1);
         // Return the Board instance
         Board {
-            // peripherals: p,
             flc: p.FLC,
             gcr: p.GCR,
             gpio0: p.GPIO0,
@@ -214,6 +212,25 @@ impl Board {
         uart0::write_bytes(&self.uart0, b"%info: ");
         uart0::write_bytes(&self.uart0, b"CUST>");
         uart0::write_bytes(&self.uart0, customer);
+        uart0::write_bytes(&self.uart0, b"\r\n%");
+    }
+
+    /// Send formatted AP boot message to the host
+    pub fn send_host_ap_boot_msg(&self, ap_boot_msg: &[u8]) {
+        uart0::write_bytes(&self.uart0, b"%info: AP>");
+        uart0::write_bytes(&self.uart0, ap_boot_msg);
+        uart0::write_bytes(&self.uart0, b"\r\n%");
+    }
+
+    /// Send formatted component boot message to the host
+    pub fn send_host_comp_boot_msg(&self, comp_id: &[u8; LEN_COMPONENT_ID], comp_boot_msg: &[u8]) {
+        uart0::write_bytes(&self.uart0, b"%info: 0x");
+        uart0::write_bytes(&self.uart0, &u8_to_hex_string(comp_id[0]));
+        uart0::write_bytes(&self.uart0, &u8_to_hex_string(comp_id[1]));
+        uart0::write_bytes(&self.uart0, &u8_to_hex_string(comp_id[2]));
+        uart0::write_bytes(&self.uart0, &u8_to_hex_string(comp_id[3]));
+        uart0::write_bytes(&self.uart0, b">");
+        uart0::write_bytes(&self.uart0, comp_boot_msg);
         uart0::write_bytes(&self.uart0, b"\r\n%");
     }
 

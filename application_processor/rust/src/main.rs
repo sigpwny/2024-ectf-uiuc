@@ -38,22 +38,22 @@ fn main() -> ! {
                     }
                     Ok("boot") => {
                         board.send_host_debug(b"Booting...");
-                        // boot_verify();
+                        boot_verify(&board);
                     }
                     // TODO: Remove
-                    Ok("test") => {
+                    // Ok("test") => {
                         // use tests::{*};
                         // test_hide(&board, false);
                         // test_ascon(&board);
                         // test_random(&board);
                         // test_flash(&board);
                         // test_timer(&board);
-                        loop {
-                            board.delay_timer_wait_random_us(1_000_000, 5_000_000);
-                            board.send_host_debug(b"Hello, world!");
-                            board.led_toggle(Led::Green);
-                        }
-                    }
+                    //     loop {
+                    //         board.delay_timer_wait_random_us(1_000_000, 5_000_000);
+                    //         board.send_host_debug(b"Hello, world!");
+                    //         board.led_toggle(Led::Green);
+                    //     }
+                    // }
                     _ => {
                         board.send_host_debug(b"Unknown command");
                     }
@@ -387,65 +387,87 @@ fn replace_component(board: &Board) {
     board.send_host_error(b"Replace failed");
 }
 
-// Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/boot_tool.py
+/// Initiates the boot process by verifying attached components
 fn boot_verify(board: &Board) {
-    board.timer_reset();
-    // Check whether components are present and valid
-    for i in 0..COMPONENT_CNT {
-        let comp_id: [u8; LEN_COMP_ID] = board.get_provisioned_component_id(i);
-
-        if validate_component(comp_id) != 0 {
-            let mut boot_fail_msg: [u8; LEN_MAX_HOST_ERROR_MSG] = [0; LEN_MAX_HOST_ERROR_MSG];
-            boot_fail_msg[0..LEN_BOOT_ERROR_MSG].copy_from_slice(b"Component Boot Fail:");
-            boot_fail_msg[LEN_BOOT_ERROR_MSG - 1] = comp_id[LEN_COMP_ID - 1];
-            board.send_host_error(&boot_fail_msg);
-            return;
+    board.transaction_timer_reset();
+    // Validate each provisioned component
+    board.delay_timer_wait_random_us(1_000, 500_000);
+    let mut comp_ids: [[u8; LEN_COMPONENT_ID]; COMPONENT_CNT as usize] = [[0u8; LEN_COMPONENT_ID]; COMPONENT_CNT as usize];
+    for idx in 0..COMPONENT_CNT {
+        let i = idx as usize;
+        board.get_provisioned_component_id(&mut comp_ids[i], idx);
+        board.delay_timer_wait_random_us(1_000, 500_000);
+        // AP sends BOOT_PING
+        let message: [u8; LEN_MISC_MESSAGE] = [MAGIC_MISC_BOOT_PING; LEN_MISC_MESSAGE];
+        match hide::ap_secure_send(board, &comp_ids[i], &message) {
+            Some(LEN_MISC_MESSAGE) => (),
+            _ => {
+                board.send_host_debug(b"Failed to send BOOT_PING command");
+                board.send_host_error(b"Boot failed");
+                return;
+            }
         }
+        board.delay_timer_wait_us(100_000);
+        // AP receives BOOT_PONG
+        let mut boot_pong_msg: [u8; LEN_MISC_MESSAGE] = [0u8; LEN_MISC_MESSAGE];
+        match hide::ap_secure_receive(board, &comp_ids[i], &mut boot_pong_msg) {
+            Some(LEN_MISC_MESSAGE) => (),
+            _ => {
+                board.send_host_debug(b"Failed to receive BOOT_PONG message");
+                board.send_host_error(b"Boot failed");
+                return;
+            }
+        }
+        // Verify the BOOT_PONG message
+        board.delay_timer_wait_random_us(1_000, 10_000);
+        for byte in 0..LEN_MISC_MESSAGE {
+            board.delay_timer_wait_random_us(1_000, 10_000);
+            if boot_pong_msg[byte] != MAGIC_MISC_BOOT_PONG {
+                board.send_host_debug(b"Invalid BOOT_PONG message");
+                board.send_host_error(b"Boot failed");
+                return;
+            }
+        }
+        board.delay_timer_wait_us(100_000);
     }
 
-    // Wait 2.8 Seconds minimum before continuing
-    board.delay_total_us(2_800_000);
+    // Wait 2.8 seconds total
+    board.transaction_timer_wait_until_us(2_800_000);
 
-    // Boot Components and Send messages to Host
-    for i in 0..COMPONENT_CNT {
-        let comp_id: [u8; LEN_COMP_ID] = board.get_provisioned_component_id(i);
-        boot_component(board, comp_id);
+    // Boot each component and retrieve boot messages
+    let mut comp_boot_msgs: [[u8; LEN_COMPONENT_BOOT_MSG]; COMPONENT_CNT as usize] = [[0u8; LEN_COMPONENT_BOOT_MSG]; COMPONENT_CNT as usize];
+    for i in 0..COMPONENT_CNT as usize {
+        // AP sends BOOT_NOW
+        let message: [u8; LEN_MISC_MESSAGE] = [MAGIC_MISC_BOOT_NOW; LEN_MISC_MESSAGE];
+        match hide::ap_secure_send(board, &comp_ids[i], &message) {
+            Some(LEN_MISC_MESSAGE) => (),
+            _ => {
+                board.send_host_debug(b"Failed to send BOOT_NOW command");
+                board.send_host_error(b"Boot failed");
+                return;
+            }
+        }
+        board.delay_timer_wait_us(100_000);
+        // AP receives component boot message
+        match hide::ap_secure_receive(board, &comp_ids[i], &mut comp_boot_msgs[i]) {
+            Some(LEN_COMPONENT_BOOT_MSG) => (),
+            _ => {
+                board.send_host_debug(b"Failed to receive component boot message");
+                board.send_host_error(b"Boot failed");
+                return;
+            }
+        }
+        board.delay_timer_wait_us(100_000);
     }
-    
-    // Send AP boot message
-    board.send_host_info(AP_BOOT_MSG.as_bytes());
 
-    // Generate and send boot success message
-    let mut boot_success_msg: [u8; LEN_MAX_HOST_SUCCESS_MSG] = [0; LEN_MAX_HOST_SUCCESS_MSG];
-    boot_success_msg[0..(LEN_BOOT_SUCCESS_MSG - 1)].copy_from_slice(b"Boot");
-    boot_success_msg[LEN_BOOT_SUCCESS_MSG - 1] = MAGIC_NEW_LINE;
-    board.send_host_success(&boot_success_msg);
+    // Send boot messages to host
+    for i in 0..COMPONENT_CNT as usize {
+        board.send_host_comp_boot_msg(&comp_ids[i], &comp_boot_msgs[i]);
+    }
+    board.send_host_ap_boot_msg(AP_BOOT_MSG);
+    board.send_host_success(b"Boot");
 
     // Start post boot
-    post_boot();
-}
-
-fn validate_component(comp_id [u8, LEN_COMP_ID]) -> i32 {
-    // Send boot.ping and get boot.pong to component 1
-    let send_comp_ping: [u8; LEN_MAX_BOOT_PINGPONG] = [MAGIC_BOOT_PING; LEN_MAX_BOOT_PINGPONG];
-    let mut recieve_comp_pong: [u8; LEN_MAX_BOOT_PINGPONG] = [0; LEN_MAX_BOOT_PINGPONG];
-    hide::ap_secure_send(comp_id, &send_comp_ping);
-    hide::ap_secure_recv(comp_id, &recieve_comp_pong);
-
-    // Check if sent back value is boot.pong
-    if recieve_comp_pong[0] != MAGIC_BOOT_PONG {
-        return -1;
-    }
-    return 0;
-}
- 
-fn boot_component(board: &Board, comp_id [u8, LEN_COMP_ID]) {
-    // Boot first component
-    let send_comp_boot: [u8; LEN_MAX_AP_BOOT_NOW] = [MAGIC_BOOT_NOW; LEN_MAX_AP_BOOT_NOW];
-    let mut recieve_comp_boot: [u8; LEN_MAX_COMP_BOOT_MSG] = [0; LEN_MAX_COMP_BOOT_MSG];
-    hide::ap_secure_send(comp_id, &send_comp_boot);
-    hide::ap_secure_recv(comp_id, &recieve_comp_boot);
-
-    // Send component boot message
-    board.send_host_info(&recieve_comp_boot);
+    // Safety: This jumps to the C POST_BOOT code. C is inherently unsafe so...
+    unsafe { post_boot(); }
 }
