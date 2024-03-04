@@ -1,7 +1,7 @@
 use ascon::{crypto_aead_encrypt, crypto_aead_decrypt};
 use max78000_hal::{i2c1, trng};
 use crate::Board;
-use crate::ectf_constants::LEN_COMPONENT_ID;
+use crate::ectf_constants::{LEN_COMPONENT_ID, LEN_MISC_MESSAGE};
 use crate::ectf_global_secrets::ASCON_SECRET_KEYS;
 
 /// Magic bytes for HIDE communication
@@ -12,7 +12,6 @@ pub const MAGIC_PKT_CHAL_RESP:  u8 = 0x43;
 
 /// HIDE packet component lengths
 pub const LEN_HIDE_CHAL_NONCE:  usize = 16;
-pub const LEN_MISC_MESSAGE:     usize = 80;
 pub const LEN_HIDE_MESSAGE:     usize = LEN_HIDE_CHAL_NONCE + LEN_MISC_MESSAGE;
 
 // HIDE packet lengths

@@ -196,6 +196,27 @@ impl Board {
         uart0::write_bytes(&self.uart0, b"\r\n%");
     }
 
+    /// Send formatted attestation data to the host
+    pub fn send_host_attest_data(
+        &self,
+        location: &[u8; LEN_ATTEST_LOCATION],
+        date: &[u8; LEN_ATTEST_DATE],
+        customer: &[u8; LEN_ATTEST_CUSTOMER]
+    ) {
+        uart0::write_bytes(&self.uart0, b"%info: ");
+        uart0::write_bytes(&self.uart0, b"LOC>");
+        uart0::write_bytes(&self.uart0, location);
+        uart0::write_bytes(&self.uart0, b"\r\n%");
+        uart0::write_bytes(&self.uart0, b"%info: ");
+        uart0::write_bytes(&self.uart0, b"DATE>");
+        uart0::write_bytes(&self.uart0, date);
+        uart0::write_bytes(&self.uart0, b"\r\n%");
+        uart0::write_bytes(&self.uart0, b"%info: ");
+        uart0::write_bytes(&self.uart0, b"CUST>");
+        uart0::write_bytes(&self.uart0, customer);
+        uart0::write_bytes(&self.uart0, b"\r\n%");
+    }
+
     /// Read a command from the host (terminated by '\r')
     pub fn read_host_line(&self, buffer: &mut [u8]) -> Option<usize> {
         let mut index = 0;
