@@ -103,6 +103,7 @@ fn handle_tx_lockout(i2c1: &I2C1) {
 /// The component MUST be waiting for the read. If the component does not 
 /// send an ack, this function will spin indefinitely. This function blocks 
 /// until all the data is received.
+#[must_use]
 pub fn master_read_bytes(i2c1: &I2C1, addr: u8, bytes: &mut [u8]) -> MasterI2CStatus {
     // Make sure read bit is set
     let addr = (addr << 1) | 0x1;
@@ -135,7 +136,15 @@ pub fn master_read_bytes(i2c1: &I2C1, addr: u8, bytes: &mut [u8]) -> MasterI2CSt
     // i2c1.intfl0().modify(|_, w| w.addr_ack().set_bit());
     // Read in bytes
     for byte in bytes.iter_mut() {
-        while rx_em(i2c1) { }
+        while rx_em(i2c1) {
+            // Terminate early if NACK is received
+            if i2c1.intfl0().read().addr_nack_err().bit_is_set() {
+                i2c1.mstctrl().modify(|_, w| w.stop().set_bit());
+                i2c1.intfl0().modify(|_, w| w.addr_nack_err().set_bit());
+                clear_rxfifo(i2c1);
+                return MasterI2CStatus::Nack;
+            }
+        }
         *byte = i2c1.fifo().read().data().bits();
     }
     // Set stop bit
@@ -146,6 +155,7 @@ pub fn master_read_bytes(i2c1: &I2C1, addr: u8, bytes: &mut [u8]) -> MasterI2CSt
 /// Write data to a slave.
 /// The slave must be waiting for the write. If the slave is not waiting and 
 /// this function is called, this will spin indefinitely.
+#[must_use]
 pub fn master_write_bytes(i2c1: &I2C1, addr: u8, bytes: &[u8]) -> MasterI2CStatus {
     // Make sure read bit is not set
     let addr = (addr << 1) & 0xFE;
@@ -156,33 +166,41 @@ pub fn master_write_bytes(i2c1: &I2C1, addr: u8, bytes: &[u8]) -> MasterI2CStatu
     i2c1.intfl0().modify(|_, w| w
         .addr_ack().set_bit()
         .addr_nack_err().set_bit()
+        .data_err().set_bit()
     );
     while i2c1.intfl0().read().addr_ack().bit_is_set() ||
-          i2c1.intfl0().read().addr_nack_err().bit_is_set() { }
+          i2c1.intfl0().read().addr_nack_err().bit_is_set() ||
+          i2c1.intfl0().read().data_err().bit_is_set() { }
     // Write the address byte of the slave
     i2c1.fifo().modify(|_, w| unsafe { w.data().bits(addr) });
     // Set start bit
     i2c1.mstctrl().modify(|_, w| w.start().set_bit());
-    // Wait until we either receive an ACK or NACK
-    // while
-    //     i2c1.intfl0().read().addr_ack().bit_is_clear() ||
-    //     i2c1.intfl0().read().addr_nack_err().bit_is_clear() { }
-    // // If we received a NACK, we should stop
-    // if i2c1.intfl0().read().addr_nack_err().bit_is_set() {
-    //     i2c1.intfl0().modify(|_, w| w.addr_nack_err().set_bit());
-    //     i2c1.mstctrl().modify(|_, w| w.stop().set_bit());
-    //     return MasterI2CStatus::Nack;
-    // }
-    // i2c1.intfl0().modify(|_, w| w.addr_ack().set_bit());
     // Write bytes
     for byte in bytes {
-        while tx_full(i2c1) { }
+        while tx_full(i2c1) {
+            // Terminate early if NACK is received
+            if i2c1.intfl0().read().addr_nack_err().bit_is_set() ||
+                i2c1.intfl0().read().data_err().bit_is_set() {
+                i2c1.mstctrl().modify(|_, w| w.stop().set_bit());
+                i2c1.intfl0().modify(|_, w| w.data_err().set_bit());
+                i2c1.intfl0().modify(|_, w| w.addr_nack_err().set_bit());
+                clear_txfifo(i2c1);
+                return MasterI2CStatus::Nack;
+            }
+        }
         i2c1.fifo().modify(|_, w| unsafe { w.data().bits(*byte) });
     }
     // Set stop bit
     i2c1.mstctrl().modify(|_, w| w.stop().set_bit());
-    // Wait until the last byte is sent
-    while !tx_em(i2c1) { }
+    // Abort if NACK is received
+    if i2c1.intfl0().read().addr_nack_err().bit_is_set() ||
+        i2c1.intfl0().read().data_err().bit_is_set() {
+        i2c1.mstctrl().modify(|_, w| w.stop().set_bit());
+        i2c1.intfl0().modify(|_, w| w.data_err().set_bit());
+        i2c1.intfl0().modify(|_, w| w.addr_nack_err().set_bit());
+        clear_txfifo(i2c1);
+        return MasterI2CStatus::Nack;
+    }
     return MasterI2CStatus::Success;
 }
 
