@@ -4,7 +4,7 @@
 use cortex_m_rt::entry;
 use sha3::{Digest, Sha3_512};
 use max78000_hal::i2c1;
-use board::{Board, Led, hex_string_to_u8};
+use board::{Board, hex_string_to_u8};
 use board::secure_comms as hide;
 use board::ectf_constants::{*};
 use board::ectf_params::{*};

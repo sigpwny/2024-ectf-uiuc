@@ -1,65 +1,10 @@
-// #include "mxc_delay.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-
-typedef uint8_t i2c_addr_t;
-// uint32_t SystemCoreClock __attribute__((section(".shared")));
-// volatile uint32_t mailbox __attribute__((section(".mailbox")));
-
-#ifndef POST_BOOT
+#include "post_boot.h"
 // #include "led.h"
-#endif
+// #include "mxc_delay.h"
 
-/******************************* POST BOOT FUNCTIONALITY *********************************/
-/**
- * @brief Secure Send 
- * 
- * @param address: i2c_addr_t, I2C address of recipient
- * @param buffer: uint8_t*, pointer to data to be send
- * @param len: uint8_t, size of data to be sent 
- * 
- * Securely send data over I2C. This function is utilized in POST_BOOT functionality.
- * This function must be implemented by your team to align with the security requirements.
-
-*/
-int secure_send(uint8_t address, uint8_t* buffer, uint8_t len) {
-    // return send_packet(address, len, buffer);
-    return -1;
-}
-
-/**
- * @brief Secure Receive
- * 
- * @param address: i2c_addr_t, I2C address of sender
- * @param buffer: uint8_t*, pointer to buffer to receive data to
- * 
- * @return int: number of bytes received, negative if error
- * 
- * Securely receive data over I2C. This function is utilized in POST_BOOT functionality.
- * This function must be implemented by your team to align with the security requirements.
-*/
-int secure_receive(i2c_addr_t address, uint8_t* buffer) {
-    // return poll_and_receive_packet(address, buffer);
-    return -1;
-}
-
-/**
- * @brief Get Provisioned IDs
- * 
- * @param uint32_t* buffer
- * 
- * @return int: number of ids
- * 
- * Return the currently provisioned IDs and the number of provisioned IDs
- * for the current AP. This functionality is utilized in POST_BOOT functionality.
- * This function must be implemented by your team.
-*/
-int get_provisioned_ids(uint32_t* buffer) {
-    // memcpy(buffer, flash_status.component_ids, flash_status.component_cnt * sizeof(uint32_t));
-    // return flash_status.component_cnt;
-    return 0;
-}
 
 /**
  * @brief Enter post boot functionality
@@ -72,21 +17,72 @@ void post_boot() {
 #else
     int number = 0;
     while (1) {
-        printf("Hello from POST_BOOT!\n%d", number);
+        printf("Hello from AP POST_BOOT! %d\n", number);
         fflush(stdout);
         number++;
-        // LED_On(LED1);
-        // MXC_Delay(500000);
-        // LED_On(LED2);
-        // MXC_Delay(500000);
-        // LED_On(LED3);
-        // MXC_Delay(500000);
-        // LED_Off(LED1);
-        // MXC_Delay(500000);
-        // LED_Off(LED2);
-        // MXC_Delay(500000);
-        // LED_Off(LED3);
-        // MXC_Delay(500000);
+        LED_On(LED1);
+        MXC_Delay(500000);
+        LED_On(LED2);
+        MXC_Delay(500000);
+        LED_On(LED3);
+        MXC_Delay(500000);
+        LED_Off(LED1);
+        MXC_Delay(500000);
+        LED_Off(LED2);
+        MXC_Delay(500000);
+        LED_Off(LED3);
+        MXC_Delay(500000);
+
+#define LEN_POISON 16
+#define LEN_SEND_BUFFER 16
+#define LEN_RECV_BUFFER 16
+#define LEN_PROVISIONED_IDS 1
+
+        // Testing for buffer overruns
+        char poisonA[LEN_POISON] = "\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55";
+        char send_buf[] = "Hello from AP\r\n\0";
+        char poisonB[LEN_POISON] = "\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55";
+        char recv_buf[] = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
+        char poisonC[LEN_POISON] = "\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55";
+        uint32_t provisioned_ids[] = {0};
+        char poisonD[LEN_POISON] = "\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55";
+        uint8_t *send_buf_ptr = send_buf;
+        uint8_t *recv_buf_ptr = recv_buf;
+        uint32_t *provisioned_ids_ptr = provisioned_ids;
+        // Send a message to each provisioned ID
+        int comp_count = get_provisioned_ids(provisioned_ids_ptr);
+        for (int i = 0; i < comp_count; i++) {
+            uint8_t addr = (uint8_t)provisioned_ids[i];
+            int result_send = secure_send(addr, send_buf_ptr, LEN_SEND_BUFFER);
+            if (result_send != 0) {
+                printf("Failed to send message to provisioned ID %d\r\n", addr);
+            }
+        }
+        // Receive a message from the first provisioned ID
+        int result_recv = secure_receive((i2c_addr_t)provisioned_ids[0], recv_buf_ptr);
+        if (result_recv < 0) {
+            printf("Failed to receive message from provisioned ID %d\r\n", (i2c_addr_t)provisioned_ids[0]);
+        } else {
+            printf("Received message of %d bytes from provisioned ID %d: ", result_recv, (i2c_addr_t)provisioned_ids[0]);
+            for (int i = 0; i < result_recv; i++) {
+                printf("%c", recv_buf[i]);
+            }
+        }
+        // Check that poison buffers are still intact
+        for (int i = 0; i < LEN_POISON; i++) {
+            if (poisonA[i] != 0x55) {
+                printf("PoisonA buffer has been modified!\r\n");
+            }
+            if (poisonB[i] != 0x55) {
+                printf("PoisonB buffer has been modified!\r\n");
+            }
+            if (poisonC[i] != 0x55) {
+                printf("PoisonC buffer has been modified!\r\n");
+            }
+            if (poisonD[i] != 0x55) {
+                printf("PoisonD buffer has been modified!\r\n");
+            }
+        }
     }
 #endif
 }
