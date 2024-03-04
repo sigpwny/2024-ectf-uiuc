@@ -5,6 +5,8 @@ HIDE effectively turns each message into a three-way challenge-response handshak
 
 We use the Authenticated Encryption (AE) cipher, Ascon, for our cryptographic scheme. We chose Ascon since it was selected in the NIST Lightweight Cryptography competition and has a masked software implementation that has been tested against various power analysis and hardware attacks.
 
+## HIDE Protocol
+
 ```mermaid
 sequenceDiagram
 participant AP as Device A<br />Application Processor<br />(or Component)
