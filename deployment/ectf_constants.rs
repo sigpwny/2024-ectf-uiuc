@@ -27,5 +27,5 @@ pub const MAGIC_MISC_BOOT_PONG:     u8 = 0x81;
 pub const MAGIC_MISC_BOOT_NOW:      u8 = 0x82;
 
 // Replace Components flash addresses
-pub const FLASH_ADDR_CID_0:         u32 = 0x1007_C000;
-pub const FLASH_ADDR_CID_1:         u32 = 0x1007_A000;
+pub const FLASH_ADDR_CID_0:         u32 = 0x1007_A000;
+pub const FLASH_ADDR_CID_1:         u32 = 0x1007_8000;

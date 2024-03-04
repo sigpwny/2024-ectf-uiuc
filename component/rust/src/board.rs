@@ -55,6 +55,10 @@ impl Board {
         // Initialize TRNG
         gcr::mxc_trng_shutdown(&p.GCR);
         gcr::mxc_trng_enable_clock(&p.GCR);
+        // Initialize FLC
+        flc::config(&p.FLC);
+        // Write lock flash pages
+        lock_pages(&p.FLC);
         // Initialize LEDs
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED0);
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED1);
@@ -174,6 +178,28 @@ impl Board {
             Led::Blue => gpio2::toggle_out(&self.gpio2, gpio2::GPIO2_CFG_LED2.pins),
         }
     }
+}
+
+/// Lock all flash pages except for pages where we store data,
+/// only lock flash pages in release builds
+#[cfg(not(debug_assertions))]
+pub fn lock_pages(flc: &pac::FLC) {
+    for i in 0..60 {
+        let addr = flc::FLASH_BASE + (i * flc::FLASH_PAGE_SIZE);
+        let result = flc::block_page_write(flc, addr);
+        match result {
+            flc::FlashStatus::Success => (),
+            _ => {
+                panic!();
+            }
+        }
+    }
+}
+
+/// Do not lock flash pages in debug builds
+#[cfg(debug_assertions)]
+pub fn lock_pages(_flc: &pac::FLC) {
+    cortex_m::asm::nop();
 }
 
 /// Convert a u8 to a hex byte string array

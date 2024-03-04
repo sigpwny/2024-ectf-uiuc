@@ -60,7 +60,7 @@ impl Board {
         // Initialize FLC
         flc::config(&p.FLC);
         // Write lock flash pages
-        // lock_pages(&p.FLC);
+        lock_pages(&p.FLC);
         // Initialize LEDs
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED0);
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED1);
@@ -235,7 +235,8 @@ impl Board {
     }
 
     /// Read a command from the host (terminated by '\r')
-    pub fn read_host_line(&self, buffer: &mut [u8]) -> Option<usize> {
+    /// Definitely safe :)
+    pub fn gets(&self, buffer: &mut [u8]) -> Option<usize> {
         let mut index = 0;
         for byte in buffer.iter_mut() {
             let result = uart0::read_byte(&self.uart0);
@@ -453,8 +454,8 @@ impl Board {
 /// only lock flash pages in release builds
 #[cfg(not(debug_assertions))]
 pub fn lock_pages(flc: &pac::FLC) {
-    for i in 0..64 {
-        let exclusions = [0x1004_2000, 0x1004_4000];
+    for i in 0..60 {
+        let exclusions = [FLASH_ADDR_CID_0, FLASH_ADDR_CID_1];
         let addr = flc::FLASH_BASE + (i * flc::FLASH_PAGE_SIZE);
         if exclusions.contains(&addr) {
             continue;
