@@ -2,7 +2,6 @@
 #![no_main]
 
 use cortex_m_rt::entry;
-use max78000_hal::tmr0;
 use board::{Board, Led, u8_to_hex_string, u32_to_hex_string};
 use board::secure_comms as hide;
 use board::ectf_constants::{*};
@@ -18,7 +17,6 @@ mod post_boot;
 use post_boot::post_boot;
 
 pub enum ComponentCommand {
-    ListPing,
     AttestReqLocation,
     AttestReqDate,
     AttestReqCustomer,
@@ -30,7 +28,6 @@ pub enum ComponentCommand {
 // Determine which command to check from the first byte
 fn resolve_command(board: &Board, bytes: &[u8]) -> Option<ComponentCommand> {
     let initial = match bytes[0] {
-        MAGIC_MISC_LIST_PING => ComponentCommand::ListPing,
         MAGIC_MISC_REQ_LOCATION => ComponentCommand::AttestReqLocation,
         MAGIC_MISC_REQ_DATE => ComponentCommand::AttestReqDate,
         MAGIC_MISC_REQ_CUSTOMER => ComponentCommand::AttestReqCustomer,
@@ -55,19 +52,6 @@ fn main() -> ! {
     let board = Board::new();
     board.send_host_debug(b"Component initialized!");
 
-    // let mut count: i32 = 0;
-    // for _ in 0..10 {
-    //     let tick_count = tmr0::get_tick_count(&board.tmr0);
-    //     while tmr0::get_tick_count(&board.tmr0) < tick_count + 50_000_000 { }
-    //     if (count % 2) == 0 {
-    //         board.led_on(Led::Green);
-    //     } else {
-    //         board.led_off(Led::Green);
-    //     }
-    //     board.send_host_debug(b"Hello, world! This is component!");
-    //     count += 1;
-    // }
-
     loop {
         let mut magic: [u8; hide::LEN_MISC_MESSAGE] = [0u8; hide::LEN_MISC_MESSAGE];
         let result = hide::comp_secure_receive(&board, &COMPONENT_ID, &mut magic);
@@ -84,9 +68,6 @@ fn main() -> ! {
             }
         }
         match resolve_command(&board, &magic) {
-            Some(ComponentCommand::ListPing) => {
-                list_pong(&board);
-            }
             Some(ComponentCommand::AttestReqLocation) => {
                 // send_attest_data();
             }
@@ -110,23 +91,6 @@ fn main() -> ! {
             }
         }
         continue;
-    }
-}
-
-fn list_pong(board: &Board) {
-    let result = hide::comp_secure_send(board, &COMPONENT_ID, &COMPONENT_ID);
-    match result {
-        Some(len) => {
-            if len != LEN_COMPONENT_ID {
-                board.send_host_debug(b"Length does not match");
-            } else {
-                board.send_host_debug(b"Sent message:");
-                // board.send_host_debug(&COMPONENT_ID);
-            }
-        }
-        None => {
-            board.send_host_debug(b"Failed to send message");
-        }
     }
 }
 

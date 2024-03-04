@@ -1,13 +1,13 @@
 #![no_std]
 
-use core::panic::PanicInfo;
-use max78000_pac as pac;
-use max78000_hal::{*};
-
 pub mod secure_comms;
 pub mod ectf_constants;
 pub mod ectf_global_secrets;
 pub mod ectf_params;
+
+use core::panic::PanicInfo;
+use max78000_pac as pac;
+use max78000_hal::{*};
 
 pub enum Led {
     Red = 0,
@@ -44,13 +44,11 @@ impl Board {
         gcr::mxc_uart0_enable_clock(&p.GCR);
         gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_UART0);
         uart0::config(&p.UART);
-        // Initialize TMR0
+        // Initialize TMR0 (total transaction timer)
         gcr::mxc_tmr0_shutdown(&p.GCR);
         gcr::mxc_tmr0_enable_clock(&p.GCR);
         gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_TMR0);
-        // Configure TMR0 as continuous 32-bit system tick timer
-        tmr0::config_as_systick(&p.TMR);
-        // Initialize TMR1
+        // Initialize TMR1 (delay timer)
         gcr::mxc_tmr1_shutdown(&p.GCR);
         gcr::mxc_tmr1_enable_clock(&p.GCR);
         gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_TMR1);
@@ -80,37 +78,37 @@ impl Board {
         }
     }
 
-    /// Reset the one-shot timer to 0 at the start of a transaction
-    pub fn timer_reset(&self) {
-        tmr1::config_as_oneshot(&self.tmr1);
+    /// Reset the transaction timer to 0
+    pub fn transaction_timer_reset(&self) {
+        tmr0::config(&self.tmr0);
         // Verify that the timer has just started
-        let start = tmr1::get_time_us(&self.tmr1);
+        let start = tmr0::get_time_us(&self.tmr0);
         if start > 100 {
             self.send_host_debug(b"Timer did not reset properly!");
             panic!();
         }
     }
 
-    /// Get the current time in microseconds (us)
-    pub fn timer_get_us(&self) -> u32 {
-        return tmr1::get_time_us(&self.tmr1);
+    /// Block until the specified number of microseconds has elapsed since the 
+    /// last transaction timer reset (total transaction time)
+    pub fn transaction_timer_wait_until_us(&self, us: u32) {
+        while tmr0::get_time_us(&self.tmr0) < us { }
     }
 
     /// Block for the specified number of microseconds
-    pub fn delay_us(&self, us: u32) {
+    pub fn delay_timer_wait_us(&self, us: u32) {
+        tmr1::config(&self.tmr1);
         let start = tmr1::get_time_us(&self.tmr1);
-        // Ensure there is no integer overflow
-        if start + us < start {
-            self.send_host_debug(b"Timer overflow");
-            panic!();
-        }
         while tmr1::get_time_us(&self.tmr1) < start + us { }
     }
 
-    /// Block until the specified number of microseconds has elapsed since the 
-    /// last reset (total transaction time)
-    pub fn delay_total_us(&self, us: u32) {
-        while tmr1::get_time_us(&self.tmr1) < us { }
+    /// Block for a random number of microseconds between min and max
+    pub fn delay_timer_wait_random_us(&self, min: u32, max: u32) {
+        let random = trng::random_u32(&self.trng);
+        let delay = random % (max - min) + min;
+        self.send_host_debug(b"Random delay (us): ");
+        self.send_host_debug(&u32_to_hex_string(delay));
+        self.delay_timer_wait_us(delay);
     }
 
     /// Host debugging is only enabled in debug builds

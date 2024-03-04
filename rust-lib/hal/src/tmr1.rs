@@ -16,8 +16,7 @@ pub fn get_tick_count(tmr1: &TMR1) -> u32 {
 /// - One-shot mode
 /// - 32-bit cascade mode
 /// - Range: 0x1 to 0xFFFFFFFF
-/// TODO: Move out of HAL module
-pub fn config_as_oneshot(tmr1: &TMR1) {
+pub fn config(tmr1: &TMR1) {
     disable(tmr1);
     // Set the TMR1 clock source to the ISO
     // Safety: The clksel_a field is 2 bits wide, which fits the value 0b00
