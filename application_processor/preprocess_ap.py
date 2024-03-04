@@ -40,14 +40,16 @@ def extract_params(path):
         error("Boot message is too long")
 
     params = {}
-    _ap_pin_salt_1 = os.urandom(16)
-    _ap_pin_hash_1 = hashlib.sha3_512(_ap_pin_salt_1 + _ap_pin.encode()).digest()
-    _ap_token_salt_1 = os.urandom(16)
-    _ap_token_hash_1 = hashlib.sha3_512(_ap_token_salt_1 + _ap_token.encode()).digest()
-    params["AP_PIN_SALT_1"] = ''.join('\\x{:02x}'.format(byte) for byte in _ap_pin_salt_1)
-    params["AP_PIN_HASH_1"] = ''.join('\\x{:02x}'.format(byte) for byte in _ap_pin_hash_1)
-    params["AP_TOKEN_SALT_1"] = ''.join('\\x{:02x}'.format(byte) for byte in _ap_token_salt_1)
-    params["AP_TOKEN_HASH_1"] = ''.join('\\x{:02x}'.format(byte) for byte in _ap_token_hash_1)
+    # Generate 3 sets of AP PIN and token salts and hashes
+    for i in range(3):
+        _ap_pin_salt = os.urandom(16)
+        _ap_pin_hash = hashlib.sha3_512(_ap_pin_salt + _ap_pin.encode()).digest()
+        _ap_token_salt = os.urandom(16)
+        _ap_token_hash = hashlib.sha3_512(_ap_token_salt + _ap_token.encode()).digest()
+        params[f"AP_PIN_SALT_{i+1}"] = ''.join('\\x{:02x}'.format(byte) for byte in _ap_pin_salt)
+        params[f"AP_PIN_HASH_{i+1}"] = ''.join('\\x{:02x}'.format(byte) for byte in _ap_pin_hash)
+        params[f"AP_TOKEN_SALT_{i+1}"] = ''.join('\\x{:02x}'.format(byte) for byte in _ap_token_salt)
+        params[f"AP_TOKEN_HASH_{i+1}"] = ''.join('\\x{:02x}'.format(byte) for byte in _ap_token_hash)
     params["AP_BOOT_MSG"] = _ap_boot_msg
     params["COMPONENT_CNT"] = _component_cnt
     params["COMPONENT_ID_0"] = ", ".join([f"0x{byte:02x}" for byte in _component_ids_as_ints[0].to_bytes(4, "big")])
@@ -68,6 +70,14 @@ def gen_params_file():
         pf.write(f'pub const AP_PIN_HASH_1: &[u8] = b"{params["AP_PIN_HASH_1"]}";\n')
         pf.write(f'pub const AP_TOKEN_SALT_1: &[u8] = b"{params["AP_TOKEN_SALT_1"]}";\n')
         pf.write(f'pub const AP_TOKEN_HASH_1: &[u8] = b"{params["AP_TOKEN_HASH_1"]}";\n')
+        pf.write(f'pub const AP_PIN_SALT_2: &[u8] = b"{params["AP_PIN_SALT_2"]}";\n')
+        pf.write(f'pub const AP_PIN_HASH_2: &[u8] = b"{params["AP_PIN_HASH_2"]}";\n')
+        pf.write(f'pub const AP_TOKEN_SALT_2: &[u8] = b"{params["AP_TOKEN_SALT_2"]}";\n')
+        pf.write(f'pub const AP_TOKEN_HASH_2: &[u8] = b"{params["AP_TOKEN_HASH_2"]}";\n')
+        pf.write(f'pub const AP_PIN_SALT_3: &[u8] = b"{params["AP_PIN_SALT_3"]}";\n')
+        pf.write(f'pub const AP_PIN_HASH_3: &[u8] = b"{params["AP_PIN_HASH_3"]}";\n')
+        pf.write(f'pub const AP_TOKEN_SALT_3: &[u8] = b"{params["AP_TOKEN_SALT_3"]}";\n')
+        pf.write(f'pub const AP_TOKEN_HASH_3: &[u8] = b"{params["AP_TOKEN_HASH_3"]}";\n')
         pf.write(f'pub const AP_BOOT_MSG: &[u8] = b"{params["AP_BOOT_MSG"]}";\n')
         pf.write(f'pub const COMPONENT_CNT: u8 = {params["COMPONENT_CNT"]};\n')
         pf.write(f'pub const COMPONENT_ID_0: [u8; 4] = [{params["COMPONENT_ID_0"]}];\n')

@@ -182,32 +182,53 @@ fn replace_component(board: &Board) {
         old_cid[i] = hex_string_to_u8(&in_old_cid[2*i..2*i+2]);
     }
 
-    // Validate SHA3-512 hash of the replacement token
-    board.delay_timer_wait_random_us(1_000, 3_000_000);
+    // Validate first SHA3-512 hash of the replacement token
+    board.delay_timer_wait_random_us(1_000, 1_000_000);
     let mut hasher = Sha3_512::new();
     hasher.update(AP_TOKEN_SALT_1);
     hasher.update(&token);
     let result = hasher.finalize();
-    // Compare the hash with the expected hash
+    board.delay_timer_wait_random_us(1_000, 500_000);
+    let is_correct1 = &result.as_slice() == &AP_TOKEN_HASH_1;
+    // Validate second SHA3-512 hash of the replacement token
     board.delay_timer_wait_random_us(1_000, 1_000_000);
-    let is_correct = &result.as_slice() == &AP_TOKEN_HASH_1;
+    let mut hasher = Sha3_512::new();
+    hasher.update(AP_TOKEN_SALT_2);
+    hasher.update(&token);
+    let result = hasher.finalize();
+    board.delay_timer_wait_random_us(1_000, 500_000);
+    let is_correct2 = &result.as_slice() == &AP_TOKEN_HASH_2;
+    // Validate third SHA3-512 hash of the replacement token
+    board.delay_timer_wait_random_us(1_000, 1_000_000);
+    let mut hasher = Sha3_512::new();
+    hasher.update(AP_TOKEN_SALT_3);
+    hasher.update(&token);
+    let result = hasher.finalize();
+    board.delay_timer_wait_random_us(1_000, 500_000);
+    let is_correct3 = &result.as_slice() == &AP_TOKEN_HASH_3;
 
     // Wait until 4.5 seconds total
     board.transaction_timer_wait_until_us(4_500_000);
 
+    /// If all three hashes are correct, replace the old component ID with the new component ID
     board.delay_timer_wait_random_us(1_000, 100_000);
-    if is_correct {
+    if is_correct1 {
         board.delay_timer_wait_random_us(1_000, 100_000);
-        for i in 0..COMPONENT_CNT {
-            let mut prov_cid: [u8; LEN_COMPONENT_ID] = [0u8; LEN_COMPONENT_ID];
-            board.get_provisioned_component_id(&mut prov_cid, i);
-            if old_cid == prov_cid {
-                if board.set_provisioned_component_id(&new_cid, i) {
-                    board.send_host_success(b"Replace");
-                    return;
+        if is_correct2 {
+            board.delay_timer_wait_random_us(1_000, 100_000);
+            if is_correct3 {
+                for i in 0..COMPONENT_CNT {
+                    let mut prov_cid: [u8; LEN_COMPONENT_ID] = [0u8; LEN_COMPONENT_ID];
+                    board.get_provisioned_component_id(&mut prov_cid, i);
+                    if old_cid == prov_cid {
+                        if board.set_provisioned_component_id(&new_cid, i) {
+                            board.send_host_success(b"Replace");
+                            return;
+                        }
+                        board.send_host_error(b"Flash failure");
+                        return;
+                    }
                 }
-                board.send_host_error(b"Flash failure");
-                return;
             }
         }
     }
