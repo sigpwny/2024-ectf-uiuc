@@ -14,18 +14,19 @@ We use two separate flash pages since we need to update Component IDs that were 
 0x1000_E000 │ AP Firmware           │     │ R  │
             │                       │     │    │
             │                       │     │    │
-0x1004_2000 ├───────────────────────┼─────┼────┤
-0x1004_2000 │ Boot Message          │ 64B │ R  │
+0x1004_0000 ├───────────────────────┼─────┼────┤
+0x1004_0000 │ Boot Message          │ 64B │ R  │
             │                       │     │    │
-0x1004_3000 │ Ascon Key (AP -> C)   │ 16B │ R  │
-0x1004_3080 │ Ascon Key (C -> AP)   │ 16B │ R  │
-0x1004_3400 │ Attest PIN Hash       │ 32B │ R  │
-0x1004_3480 │ Attest PIN Salt       │ 16B │ R  │
-0x1004_3800 │ Replace Token Hash    │ 32B │ R  │
-0x1004_3880 │ Replace Token Salt    │ 16B │ R  │
+0x1004_1000 │ Ascon Key (AP -> C)   │ 16B │ R  │
+0x1004_1080 │ Ascon Key (C -> AP)   │ 16B │ R  │
+0x1004_1400 │ Attest PIN Hash       │ 32B │ R  │
+0x1004_1480 │ Attest PIN Salt       │ 16B │ R  │
+0x1004_1800 │ Replace Token Hash    │ 32B │ R  │
+0x1004_1880 │ Replace Token Salt    │ 16B │ R  │
+0x1004_2000 ├───────────────────────┼─────┼────┤
+0x1004_2000 │ Prov. Component ID 1  │  4B │ RW │
 0x1004_4000 ├───────────────────────┼─────┼────┤
-0x1004_4100 │ Prov. Component ID 1  │  4B │ RW │
-0x1004_4110 │ Prov. Component ID 2  │  4B │ RW │
+0x1004_4000 │ Prov. Component ID 0  │  4B │ RW │
 0x1004_6000 └───────────────────────┴─────┴────┘
 ```
 
@@ -44,6 +45,6 @@ We use two separate flash pages since we need to update Component IDs that were 
 0x1004_3000 │ Ascon Key (AP -> C)   │ 16B │ R  │
 0x1004_3080 │ Ascon Key (C -> AP)   │ 16B │ R  │
 0x1004_4000 ├───────────────────────┼─────┼────┤
-0x1004_4000 │ Component ID (Self)   │  4B │ R  │
+0x1004_XXXX │ Component ID (Self)   │  4B │ R  │
 0x1004_6000 └───────────────────────┴─────┴────┘
 ```

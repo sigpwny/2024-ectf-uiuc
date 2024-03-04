@@ -1,4 +1,4 @@
-BIN_NAME = ap
+BIN_NAME = component
 
 default:
 	@echo "Usage: make [debug|semihosting|release|clean]"
