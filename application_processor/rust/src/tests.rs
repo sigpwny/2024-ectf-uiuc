@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use max78000_hal::{trng, i2c1};
 use board::{Board, u8_to_hex_string, u32_to_hex_string};
 use board::secure_comms as hide;

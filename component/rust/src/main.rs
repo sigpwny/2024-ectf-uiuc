@@ -53,29 +53,23 @@ fn main() -> ! {
     board.send_host_debug(b"Component initialized!");
 
     loop {
-        let mut magic: [u8; hide::LEN_MISC_MESSAGE] = [0u8; hide::LEN_MISC_MESSAGE];
-        let result = hide::comp_secure_receive(&board, &COMPONENT_ID, &mut magic);
-        match result {
-            Some(len) => {
-                if len != hide::LEN_MISC_MESSAGE {
-                    board.send_host_debug(b"Length does not match");
-                    continue;
-                }
-            }
-            None => {
+        let mut magic: [u8; LEN_MISC_MESSAGE] = [0u8; LEN_MISC_MESSAGE];
+        match hide::comp_secure_receive(&board, &COMPONENT_ID, &mut magic) {
+            Some(LEN_MISC_MESSAGE) => (),
+            _ => {
                 board.send_host_debug(b"Failed to receive message");
                 continue;
             }
         }
         match resolve_command(&board, &magic) {
             Some(ComponentCommand::AttestReqLocation) => {
-                // send_attest_data();
+                send_attest_location(&board);
             }
             Some(ComponentCommand::AttestReqDate) => {
-                // send_attest_data();
+                send_attest_date(&board);
             }
             Some(ComponentCommand::AttestReqCustomer) => {
-                // send_attest_data();
+                send_attest_customer(&board);
             }
             Some(ComponentCommand::BootPing) => {
                 // boot_verify();
@@ -94,9 +88,41 @@ fn main() -> ! {
     }
 }
 
-// fn send_attest_data() {
+/// Send the attestation location data to the host
+fn send_attest_location(board: &Board) {
+    let mut buffer: [u8; LEN_ATTEST_LOCATION] = [0u8; LEN_ATTEST_LOCATION];
+    for (i, byte) in ATTESTATION_LOCATION.iter().enumerate() {
+        buffer[i] = *byte;
+    }
+    match hide::comp_secure_send(&board, &COMPONENT_ID, &buffer) {
+        Some(LEN_ATTEST_LOCATION) => board.send_host_debug(b"Location sent"),
+        _ => board.send_host_debug(b"Failed to send location"),
+    }
+}
 
-// }
+/// Send the attestation date data to the host
+fn send_attest_date(board: &Board) {
+    let mut buffer: [u8; LEN_ATTEST_DATE] = [0u8; LEN_ATTEST_DATE];
+    for (i, byte) in ATTESTATION_DATE.iter().enumerate() {
+        buffer[i] = *byte;
+    }
+    match hide::comp_secure_send(&board, &COMPONENT_ID, &buffer) {
+        Some(LEN_ATTEST_DATE) => board.send_host_debug(b"Date sent"),
+        _ => board.send_host_debug(b"Failed to send date"),
+    }
+}
+
+/// Send the attestation customer data to the host
+fn send_attest_customer(board: &Board) {
+    let mut buffer: [u8; LEN_ATTEST_CUSTOMER] = [0u8; LEN_ATTEST_CUSTOMER];
+    for (i, byte) in ATTESTATION_CUSTOMER.iter().enumerate() {
+        buffer[i] = *byte;
+    }
+    match hide::comp_secure_send(&board, &COMPONENT_ID, &buffer) {
+        Some(LEN_ATTEST_CUSTOMER) => board.send_host_debug(b"Customer sent"),
+        _ => board.send_host_debug(b"Failed to send customer"),
+    }
+}
 
 // fn boot_verify() {
 

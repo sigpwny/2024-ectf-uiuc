@@ -118,7 +118,7 @@ fn list_components(board: &Board) {
 
 // Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/attestation_tool.py
 fn attest_component() {
-
+    
 }
 
 // Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/replace_tool.py
