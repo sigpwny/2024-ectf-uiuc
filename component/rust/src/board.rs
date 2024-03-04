@@ -1,14 +1,13 @@
 #![no_std]
 
+use core::panic::PanicInfo;
+use max78000_pac as pac;
+use max78000_hal::{*};
+
 pub mod secure_comms;
 pub mod ectf_constants;
 pub mod ectf_global_secrets;
-
-use max78000_pac as pac;
-use max78000_hal::{*};
-use core::panic::PanicInfo;
-use ectf_constants::{*};
-
+pub mod ectf_params;
 
 pub enum Led {
     Red = 0,
@@ -17,7 +16,6 @@ pub enum Led {
 }
 
 pub struct Board {
-    // pub peripherals: pac::Peripherals,
     pub flc: pac::FLC,
     pub gcr: pac::GCR,
     pub gpio0: pac::GPIO0,
@@ -59,10 +57,6 @@ impl Board {
         // Initialize TRNG
         gcr::mxc_trng_shutdown(&p.GCR);
         gcr::mxc_trng_enable_clock(&p.GCR);
-        // Initialize FLC
-        flc::config(&p.FLC);
-        // Write lock flash pages
-        // lock_pages(&p.FLC);
         // Initialize LEDs
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED0);
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED1);
@@ -71,10 +65,9 @@ impl Board {
         gcr::mxc_i2c1_shutdown(&p.GCR);
         gcr::mxc_i2c1_enable_clock(&p.GCR);
         gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_I2C1);
-        i2c1::master_config(&p.I2C1);
+        i2c1::slave_config(&p.I2C1, ectf_params::COMPONENT_ID[3]);
         // Return the Board instance
         Board {
-            // peripherals: p,
             flc: p.FLC,
             gcr: p.GCR,
             gpio0: p.GPIO0,
@@ -124,7 +117,7 @@ impl Board {
     /// Output sent via UART0
     #[cfg(all(debug_assertions, not(feature = "semihosting")))]
     pub fn send_host_debug(&self, message: &[u8]) {
-        uart0::write_bytes(&self.uart0, b"%debug: ");
+        uart0::write_bytes(&self.uart0, b"%debug ");
         uart0::write_bytes(&self.uart0, message);
         uart0::write_bytes(&self.uart0, b"\r\n%");
     }
@@ -132,13 +125,13 @@ impl Board {
     pub fn send_host_debug_no_fmt(&self, message: &[u8]) {
         uart0::write_bytes(&self.uart0, message);
     }
-    
+
     /// Host debugging is only enabled in debug builds
     /// Output sent via semihosting (requires a debugger to be attached)
     #[cfg(all(debug_assertions, feature = "semihosting"))]
     pub fn send_host_debug(&self, message: &[u8]) {
         use cortex_m_semihosting::{heprint, syscall};
-        heprint!("%debug: ");
+        heprint!("%debug ");
         // Safety: Required to print type &[u8] to the host
         unsafe { syscall!(WRITE, 1, message.as_ptr(), message.len()) };
         heprint!("\r\n%");
@@ -158,148 +151,6 @@ impl Board {
     #[cfg(not(debug_assertions))]
     pub fn send_host_debug_no_fmt(&self, _message: &[u8]) {
         cortex_m::asm::nop();
-    }
-
-    /// Write info to the host
-    pub fn send_host_info(&self, message: &[u8]) {
-        uart0::write_bytes(&self.uart0, b"%info: ");
-        uart0::write_bytes(&self.uart0, message);
-        uart0::write_bytes(&self.uart0, b"\r\n%");
-    }
-
-    /// Write error to the host
-    pub fn send_host_error(&self, message: &[u8]) {
-        uart0::write_bytes(&self.uart0, b"%error: ");
-        uart0::write_bytes(&self.uart0, message);
-        uart0::write_bytes(&self.uart0, b"\r\n%");
-    }
-
-    /// Write success to the host
-    pub fn send_host_success(&self, message: &[u8]) {
-        uart0::write_bytes(&self.uart0, b"%success: ");
-        uart0::write_bytes(&self.uart0, message);
-        uart0::write_bytes(&self.uart0, b"\r\n%");
-    }
-
-    /// Write ack to the host
-    pub fn send_host_ack(&self) {
-        uart0::write_bytes(&self.uart0, b"%ack\r\n%");
-    }
-
-    /// Send a formatted component ID to the host
-    pub fn send_host_cid(&self, prefix: u8, cid: &[u8; LEN_COMPONENT_ID]) {
-        uart0::write_bytes(&self.uart0, b"%info: ");
-        uart0::write_bytes(&self.uart0, &[prefix, b'>', b'0', b'x']);
-        uart0::write_bytes(&self.uart0, &u8_to_hex_string(cid[0]));
-        uart0::write_bytes(&self.uart0, &u8_to_hex_string(cid[1]));
-        uart0::write_bytes(&self.uart0, &u8_to_hex_string(cid[2]));
-        uart0::write_bytes(&self.uart0, &u8_to_hex_string(cid[3]));
-        uart0::write_bytes(&self.uart0, b"\r\n%");
-    }
-
-    /// Read a command from the host (terminated by '\r')
-    pub fn read_host_line(&self, buffer: &mut [u8]) -> Option<usize> {
-        let mut index = 0;
-        for byte in buffer.iter_mut() {
-            let result = uart0::read_byte(&self.uart0);
-            *byte = result;
-            // Echo the received byte
-            uart0::write_byte(&self.uart0, result);
-            if result == b'\r' {
-                self.send_host_ack();
-                return Some(index);
-            }
-            index += 1;
-        }
-        return None;
-    }
-
-    // Get provisioned component ID stored in flash
-    pub fn get_provisioned_component_id(&self, cid: &mut [u8; LEN_COMPONENT_ID], idx: u8) -> Option<()> {
-        let cid_1: [u8; LEN_COMPONENT_ID] = [0x11, 0x11, 0x11, 0x24];
-        let cid_2: [u8; LEN_COMPONENT_ID] = [0x11, 0x11, 0x11, 0x25];
-        match idx {
-            0 => {
-                self.send_host_debug(b"Getting component ID at index 0");
-                cid.copy_from_slice(&cid_1);
-            }
-            1 => {
-                self.send_host_debug(b"Getting component ID at index 1");
-                cid.copy_from_slice(&cid_2);
-            }
-            _ => {
-                self.send_host_debug(b"Invalid component ID index");
-                return None;
-            }
-        }
-        return Some(());
-    }
-
-    // TODO: Check if component IDs are initialized in flash
-    pub fn check_provisioned_component_ids(&self) {
-        // TODO
-    }
-
-    /// Write 4 bytes to flash at the given address (erases the flash page if necessary)
-    pub fn write_flash_bytes(&self, addr: u32, data: &[u8; 4]) {
-        let result = flc::write_32(&self.flc, addr, bytes_to_u32(data));
-        match result {
-            flc::FlashStatus::Success => (),
-            flc::FlashStatus::NeedsErase => {
-                // Erase the flash page
-                let result = flc::erase_page(&self.flc, addr & 0xFFFF_E000);
-                // Verify the erase
-                for i in 0..4 {
-                    let addr_ptr = addr as *const u8;
-                    let byte = unsafe { addr_ptr.add(i).read() };
-                    if byte != 0xff {
-                        self.send_host_debug(b"Flash was not erased!");
-                        panic!();
-                    }
-                }
-                match result {
-                    flc::FlashStatus::Success => {
-                        // Retry the write
-                        let result = flc::write_32(&self.flc, addr, bytes_to_u32(data));
-                        match result {
-                            flc::FlashStatus::Success => (),
-                            _ => {
-                                self.send_host_debug(b"Failed to write to flash after erasing page");
-                                panic!();
-                            },
-                        }
-                    },
-                    flc::FlashStatus::AccessViolation => {
-                        self.send_host_debug(b"Access violation during flash erase");
-                        self.send_host_debug(b"Failed to erase flash page");
-                        panic!();
-                    },
-                    flc::FlashStatus::InvalidAddress => {
-                        self.send_host_debug(b"Invalid address during flash erase");
-                        self.send_host_debug(b"Failed to erase flash page");
-                        panic!();
-                    },
-                    _ => {
-                        self.send_host_debug(b"Unknown error");
-                        self.send_host_debug(b"Failed to erase flash page");
-                        panic!();
-                    }
-                }
-            },
-            _ => {
-                self.send_host_debug(b"Failed to write to flash");
-                panic!();
-            }
-        }
-        // Verify the write
-        let addr_ptr = addr as *const u8;
-        for i in 0..4 {
-            let byte = unsafe { addr_ptr.add(i).read() };
-            if byte != data[i] {
-                self.send_host_debug(b"Flash write verification failed");
-                panic!();
-            }
-        }
     }
 
     pub fn led_on(&self, led: Led) {
@@ -325,32 +176,6 @@ impl Board {
             Led::Blue => gpio2::toggle_out(&self.gpio2, gpio2::GPIO2_CFG_LED2.pins),
         }
     }
-}
-
-/// Lock all flash pages except for pages where we store data,
-/// only lock flash pages in release builds
-#[cfg(not(debug_assertions))]
-pub fn lock_pages(flc: &pac::FLC) {
-    for i in 0..64 {
-        let exclusions = [0x1004_2000, 0x1004_4000];
-        let addr = flc::FLASH_BASE + (i * flc::FLASH_PAGE_SIZE);
-        if exclusions.contains(&addr) {
-            continue;
-        }
-        let result = flc::block_page_write(flc, addr);
-        match result {
-            flc::FlashStatus::Success => (),
-            _ => {
-                panic!();
-            }
-        }
-    }
-}
-
-/// Do not lock flash pages in debug builds
-#[cfg(debug_assertions)]
-pub fn lock_pages(_flc: &pac::FLC) {
-    cortex_m::asm::nop();
 }
 
 /// Convert a u8 to a hex byte string array
