@@ -2,16 +2,10 @@
 #![no_main]
 
 use cortex_m_rt::entry;
-use board::{Board, Led, u8_to_hex_string, u32_to_hex_string};
+use board::Board;
 use board::secure_comms as hide;
 use board::ectf_constants::{*};
-use board::ectf_params::{
-    COMPONENT_ID,
-    COMPONENT_BOOT_MSG,
-    ATTESTATION_LOCATION,
-    ATTESTATION_DATE,
-    ATTESTATION_CUSTOMER,
-};
+use board::ectf_params::{*};
 
 mod post_boot;
 use post_boot::post_boot;
@@ -24,28 +18,6 @@ pub enum ComponentCommand {
     BootNow,
 }
 
-// Every byte in the message should match the magic byte string for the command
-// Determine which command to check from the first byte
-fn resolve_command(board: &Board, bytes: &[u8]) -> Option<ComponentCommand> {
-    let initial = match bytes[0] {
-        MAGIC_MISC_REQ_LOCATION => ComponentCommand::AttestReqLocation,
-        MAGIC_MISC_REQ_DATE => ComponentCommand::AttestReqDate,
-        MAGIC_MISC_REQ_CUSTOMER => ComponentCommand::AttestReqCustomer,
-        MAGIC_MISC_BOOT_PING => ComponentCommand::BootPing,
-        MAGIC_MISC_BOOT_NOW => ComponentCommand::BootNow,
-        _ => {
-            board.send_host_debug(b"Unknown message");
-            return None;
-        }
-    };
-    for byte in bytes {
-        if *byte != bytes[0] {
-            board.send_host_debug(b"Magic byte mismatch");
-            return None;
-        }
-    }
-    Some(initial)
-}
 
 #[entry]
 fn main() -> ! {
@@ -72,13 +44,10 @@ fn main() -> ! {
                 send_attest_customer(&board);
             }
             Some(ComponentCommand::BootPing) => {
-                // boot_verify();
+                send_boot_pong(&board);
             }
             Some(ComponentCommand::BootNow) => {
-                // Safety: This function is defined in our C code
-                // Unsafety: DO NOT DO THIS IN FINAL DESIGN! DO BOOT VERIFICATION FIRST!
-                // unsafe { post_boot() };
-                continue;
+                boot_component(&board);
             }
             None => {
                 continue;
@@ -86,6 +55,31 @@ fn main() -> ! {
         }
         continue;
     }
+}
+
+// Every byte in the message should match the magic byte string for the command
+// Determine which command to check from the first byte
+fn resolve_command(board: &Board, bytes: &[u8]) -> Option<ComponentCommand> {
+    let initial = match bytes[0] {
+        MAGIC_MISC_REQ_LOCATION => ComponentCommand::AttestReqLocation,
+        MAGIC_MISC_REQ_DATE => ComponentCommand::AttestReqDate,
+        MAGIC_MISC_REQ_CUSTOMER => ComponentCommand::AttestReqCustomer,
+        MAGIC_MISC_BOOT_PING => ComponentCommand::BootPing,
+        MAGIC_MISC_BOOT_NOW => ComponentCommand::BootNow,
+        _ => {
+            board.send_host_debug(b"Unknown message");
+            return None;
+        }
+    };
+    board.delay_timer_wait_random_us(1_000, 10_000);
+    for byte in bytes {
+        board.delay_timer_wait_random_us(100, 1_000);
+        if *byte != bytes[0] {
+            board.send_host_debug(b"Magic byte mismatch");
+            return None;
+        }
+    }
+    Some(initial)
 }
 
 /// Send the attestation location data to the host
@@ -124,6 +118,30 @@ fn send_attest_customer(board: &Board) {
     }
 }
 
-// fn boot_verify() {
+/// Sends a boot pong message to the AP
+fn send_boot_pong(board: &Board) {
+    let boot_pong_msg: [u8; LEN_MISC_MESSAGE] = [MAGIC_MISC_BOOT_PONG; LEN_MISC_MESSAGE];
+    match hide::comp_secure_send(board, &COMPONENT_ID, &boot_pong_msg) {
+        Some(LEN_MISC_MESSAGE) => board.send_host_debug(b"Boot pong sent"),
+        _ => board.send_host_debug(b"Failed to send boot pong"),
+    }
+}
 
-// }
+/// Sends the boot message to the AP and boots the component
+fn boot_component(board: &Board) {
+    let mut boot_msg: [u8; LEN_COMPONENT_BOOT_MSG] = [0u8; LEN_COMPONENT_BOOT_MSG];
+    for (i, byte) in COMPONENT_BOOT_MSG.iter().enumerate() {
+        boot_msg[i] = *byte;
+    }
+    match hide::comp_secure_send(&board, &COMPONENT_ID, &boot_msg) {
+        Some(LEN_COMPONENT_BOOT_MSG) => board.send_host_debug(b"Boot message sent"),
+        _ => {
+            board.send_host_debug(b"Failed to send boot message");
+            return;
+        }
+    }
+
+    // Start post boot
+    // Safety: This jumps to the C POST_BOOT code. C is inherently unsafe so...
+    unsafe { post_boot(); }
+}

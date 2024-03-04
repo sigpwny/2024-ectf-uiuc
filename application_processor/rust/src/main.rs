@@ -38,22 +38,22 @@ fn main() -> ! {
                     }
                     Ok("boot") => {
                         board.send_host_debug(b"Booting...");
-                        // boot_verify();
+                        boot_verify(&board);
                     }
                     // TODO: Remove
-                    Ok("test") => {
+                    // Ok("test") => {
                         // use tests::{*};
                         // test_hide(&board, false);
                         // test_ascon(&board);
                         // test_random(&board);
                         // test_flash(&board);
                         // test_timer(&board);
-                        loop {
-                            board.delay_timer_wait_random_us(1_000_000, 5_000_000);
-                            board.send_host_debug(b"Hello, world!");
-                            board.led_toggle(Led::Green);
-                        }
-                    }
+                    //     loop {
+                    //         board.delay_timer_wait_random_us(1_000_000, 5_000_000);
+                    //         board.send_host_debug(b"Hello, world!");
+                    //         board.led_toggle(Led::Green);
+                    //     }
+                    // }
                     _ => {
                         board.send_host_debug(b"Unknown command");
                     }
@@ -387,7 +387,87 @@ fn replace_component(board: &Board) {
     board.send_host_error(b"Replace failed");
 }
 
-// Host I/O should conform with https://github.com/sigpwny/2024-ectf-uiuc/blob/main/ectf_tools/boot_tool.py
-fn boot_verify() {
+/// Initiates the boot process by verifying attached components
+fn boot_verify(board: &Board) {
+    board.transaction_timer_reset();
+    // Validate each provisioned component
+    board.delay_timer_wait_random_us(1_000, 500_000);
+    let mut comp_ids: [[u8; LEN_COMPONENT_ID]; COMPONENT_CNT as usize] = [[0u8; LEN_COMPONENT_ID]; COMPONENT_CNT as usize];
+    for idx in 0..COMPONENT_CNT {
+        let i = idx as usize;
+        board.get_provisioned_component_id(&mut comp_ids[i], idx);
+        board.delay_timer_wait_random_us(1_000, 500_000);
+        // AP sends BOOT_PING
+        let message: [u8; LEN_MISC_MESSAGE] = [MAGIC_MISC_BOOT_PING; LEN_MISC_MESSAGE];
+        match hide::ap_secure_send(board, &comp_ids[i], &message) {
+            Some(LEN_MISC_MESSAGE) => (),
+            _ => {
+                board.send_host_debug(b"Failed to send BOOT_PING command");
+                board.send_host_error(b"Boot failed");
+                return;
+            }
+        }
+        board.delay_timer_wait_us(100_000);
+        // AP receives BOOT_PONG
+        let mut boot_pong_msg: [u8; LEN_MISC_MESSAGE] = [0u8; LEN_MISC_MESSAGE];
+        match hide::ap_secure_receive(board, &comp_ids[i], &mut boot_pong_msg) {
+            Some(LEN_MISC_MESSAGE) => (),
+            _ => {
+                board.send_host_debug(b"Failed to receive BOOT_PONG message");
+                board.send_host_error(b"Boot failed");
+                return;
+            }
+        }
+        // Verify the BOOT_PONG message
+        board.delay_timer_wait_random_us(1_000, 10_000);
+        for byte in 0..LEN_MISC_MESSAGE {
+            board.delay_timer_wait_random_us(1_000, 10_000);
+            if boot_pong_msg[byte] != MAGIC_MISC_BOOT_PONG {
+                board.send_host_debug(b"Invalid BOOT_PONG message");
+                board.send_host_error(b"Boot failed");
+                return;
+            }
+        }
+        board.delay_timer_wait_us(100_000);
+    }
 
+    // Wait 2.8 seconds total
+    board.transaction_timer_wait_until_us(2_800_000);
+
+    // Boot each component and retrieve boot messages
+    let mut comp_boot_msgs: [[u8; LEN_COMPONENT_BOOT_MSG]; COMPONENT_CNT as usize] = [[0u8; LEN_COMPONENT_BOOT_MSG]; COMPONENT_CNT as usize];
+    for i in 0..COMPONENT_CNT as usize {
+        // AP sends BOOT_NOW
+        let message: [u8; LEN_MISC_MESSAGE] = [MAGIC_MISC_BOOT_NOW; LEN_MISC_MESSAGE];
+        match hide::ap_secure_send(board, &comp_ids[i], &message) {
+            Some(LEN_MISC_MESSAGE) => (),
+            _ => {
+                board.send_host_debug(b"Failed to send BOOT_NOW command");
+                board.send_host_error(b"Boot failed");
+                return;
+            }
+        }
+        board.delay_timer_wait_us(100_000);
+        // AP receives component boot message
+        match hide::ap_secure_receive(board, &comp_ids[i], &mut comp_boot_msgs[i]) {
+            Some(LEN_COMPONENT_BOOT_MSG) => (),
+            _ => {
+                board.send_host_debug(b"Failed to receive component boot message");
+                board.send_host_error(b"Boot failed");
+                return;
+            }
+        }
+        board.delay_timer_wait_us(100_000);
+    }
+
+    // Send boot messages to host
+    for i in 0..COMPONENT_CNT as usize {
+        board.send_host_comp_boot_msg(&comp_ids[i], &comp_boot_msgs[i]);
+    }
+    board.send_host_ap_boot_msg(AP_BOOT_MSG);
+    board.send_host_success(b"Boot");
+
+    // Start post boot
+    // Safety: This jumps to the C POST_BOOT code. C is inherently unsafe so...
+    unsafe { post_boot(); }
 }

@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 
 use max78000_hal::{trng, i2c1};
-use board::{Board, u8_to_hex_string, u32_to_hex_string};
+use board::{Board, u8_to_hex_string};
 use board::secure_comms as hide;
 
 pub fn test_hide(board: &Board, is_ap: bool) {
@@ -92,7 +92,7 @@ pub fn test_uart(board: &Board) {
     }
 }
 
-pub fn test_ascon(board: &Board) {
+pub fn test_ascon(_board: &Board) {
     // let message: [u8; 96] = [b'A'; 96];
     // let associated_data: [u8; hide::LEN_ASCON_128_AD] = [1, 2, 3, 4, 5, 6, 7, 8];
     // let nonce: [u8; hide::LEN_ASCON_128_NONCE] = [7u8; hide::LEN_ASCON_128_NONCE];
