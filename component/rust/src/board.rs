@@ -119,9 +119,13 @@ impl Board {
     pub fn send_host_debug(&self, message: &[u8]) {
         uart0::write_bytes(&self.uart0, b"%debug ");
         uart0::write_bytes(&self.uart0, message);
-        uart0::write_bytes(&self.uart0, b"%\r\n");
+        uart0::write_bytes(&self.uart0, b"\r\n%");
     }
-    
+    #[cfg(all(debug_assertions, not(feature = "semihosting")))]
+    pub fn send_host_debug_no_fmt(&self, message: &[u8]) {
+        uart0::write_bytes(&self.uart0, message);
+    }
+
     /// Host debugging is only enabled in debug builds
     /// Output sent via semihosting (requires a debugger to be attached)
     #[cfg(all(debug_assertions, feature = "semihosting"))]
@@ -130,12 +134,22 @@ impl Board {
         heprint!("%debug ");
         // Safety: Required to print type &[u8] to the host
         unsafe { syscall!(WRITE, 1, message.as_ptr(), message.len()) };
-        heprint!("%\r\n");
+        heprint!("\r\n%");
+    }
+    #[cfg(all(debug_assertions, feature = "semihosting"))]
+    pub fn send_host_debug_no_fmt(&self, message: &[u8]) {
+        use cortex_m_semihosting::{heprint, syscall};
+        // Safety: Required to print type &[u8] to the host
+        unsafe { syscall!(WRITE, 1, message.as_ptr(), message.len()) };
     }
 
     /// Host debugging is disabled in release builds, so do nothing
     #[cfg(not(debug_assertions))]
     pub fn send_host_debug(&self, _message: &[u8]) {
+        cortex_m::asm::nop();
+    }
+    #[cfg(not(debug_assertions))]
+    pub fn send_host_debug_no_fmt(&self, _message: &[u8]) {
         cortex_m::asm::nop();
     }
 
