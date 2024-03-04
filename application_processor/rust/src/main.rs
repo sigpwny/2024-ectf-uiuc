@@ -424,8 +424,8 @@ fn boot_verify(board: &Board) {
         board.delay_timer_wait_us(10_000);
     }
 
-    // Wait 1.5 seconds total
-    board.transaction_timer_wait_until_us(1_500_000);
+    // Wait 1 second total
+    board.transaction_timer_wait_until_us(1_000_000);
 
     // Boot each component and retrieve boot messages
     let mut comp_boot_msgs: [[u8; LEN_COMPONENT_BOOT_MSG]; COMPONENT_CNT as usize] = [[0u8; LEN_COMPONENT_BOOT_MSG]; COMPONENT_CNT as usize];
