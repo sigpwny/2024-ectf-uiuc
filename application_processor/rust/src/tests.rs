@@ -3,7 +3,7 @@ use board::{Board, u8_to_hex_string, u32_to_hex_string};
 use board::secure_comms as hide;
 
 pub fn test_hide(board: &Board, is_ap: bool) {
-    board.timer_reset();
+    board.transaction_timer_reset();
     let component_id: &[u8; 4] = b"\x11\x11\x11\x24";
     const MSG_LEN_1: usize = 19;
     const MSG_LEN_2: usize = 4;
@@ -25,7 +25,7 @@ pub fn test_hide(board: &Board, is_ap: bool) {
             }
         }
         let mut buffer: [u8; MSG_LEN_2] = [0u8; MSG_LEN_2];
-        board.delay_us(1_000_000);
+        board.delay_timer_wait_us(1_000_000);
         let result = hide::ap_secure_receive(&board, &component_id, &mut buffer);
         match result {
             Some(len) => {
@@ -183,35 +183,35 @@ pub fn test_flash(board: &Board) {
     board.send_host_debug(b"Success: Wrote to flash!");
 }
 
-pub fn test_timer(board: &Board) {
-    board.timer_reset();
-    board.send_host_debug(b"Timer reset!");
-    let current_us = board.timer_get_us();
-    board.send_host_debug(b"Current time (us):");
-    board.send_host_debug(&u32_to_hex_string(current_us));
-    // Block for 1 second
-    board.delay_us(1_000_000);
-    board.send_host_debug(b"1 second has passed!");
-    // Block for 2 seconds
-    board.delay_us(2_000_000);
-    board.send_host_debug(b"3 seconds have passed!");
-    // Block until 5 seconds total (since reset) have passed
-    board.delay_total_us(10_000_000);
-    board.send_host_debug(b"10 seconds have passed!");
-    board.timer_reset();
-    board.send_host_debug(b"Timer reset!");
-    let current_us = board.timer_get_us();
-    board.send_host_debug(b"Current time (us):");
-    board.send_host_debug(&u32_to_hex_string(current_us));
-    // Block for 1 second
-    board.delay_us(1_000_000);
-    board.send_host_debug(b"1 second has passed!");
-    // Block for 2 seconds
-    board.delay_us(2_000_000);
-    board.send_host_debug(b"3 seconds have passed!");
-    // Block until 5 seconds total (since reset) have passed
-    board.delay_total_us(10_000_000);
-    board.send_host_debug(b"10 seconds have passed!");
-    board.timer_reset();
-    board.send_host_debug(b"Timer reset!");
+pub fn test_timer(_board: &Board) {
+    // board.timer_reset();
+    // board.send_host_debug(b"Timer reset!");
+    // let current_us = board.timer_get_us();
+    // board.send_host_debug(b"Current time (us):");
+    // board.send_host_debug(&u32_to_hex_string(current_us));
+    // // Block for 1 second
+    // board.delay_us(1_000_000);
+    // board.send_host_debug(b"1 second has passed!");
+    // // Block for 2 seconds
+    // board.delay_us(2_000_000);
+    // board.send_host_debug(b"3 seconds have passed!");
+    // // Block until 5 seconds total (since reset) have passed
+    // board.delay_total_us(10_000_000);
+    // board.send_host_debug(b"10 seconds have passed!");
+    // board.timer_reset();
+    // board.send_host_debug(b"Timer reset!");
+    // let current_us = board.timer_get_us();
+    // board.send_host_debug(b"Current time (us):");
+    // board.send_host_debug(&u32_to_hex_string(current_us));
+    // // Block for 1 second
+    // board.delay_us(1_000_000);
+    // board.send_host_debug(b"1 second has passed!");
+    // // Block for 2 seconds
+    // board.delay_us(2_000_000);
+    // board.send_host_debug(b"3 seconds have passed!");
+    // // Block until 5 seconds total (since reset) have passed
+    // board.delay_total_us(10_000_000);
+    // board.send_host_debug(b"10 seconds have passed!");
+    // board.timer_reset();
+    // board.send_host_debug(b"Timer reset!");
 }

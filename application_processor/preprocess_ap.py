@@ -1,8 +1,8 @@
 import argparse
+import hashlib
 import os
 import re
 import sys
-from argon2 import PasswordHasher, Type
 
 header_path = "inc/ectf_params.h"
 params_rs_path = "rust/src/ectf_params.rs"
@@ -39,14 +39,22 @@ def extract_params(path):
     if len(_ap_boot_msg) > 64:
         error("Boot message is too long")
 
-    # TODO: Adjust hashing parameters
-    hasher = PasswordHasher(type=Type.I)
     params = {}
-    params["AP_PIN_HASH"] = hasher.hash(_ap_pin)
-    params["AP_TOKEN_HASH"] = hasher.hash(_ap_token)
+    _ap_pin_salt_1 = os.urandom(16)
+    _ap_pin_hash_1 = hashlib.sha3_512(_ap_pin_salt_1 + _ap_pin.encode()).digest()
+    _ap_token_salt_1 = os.urandom(16)
+    _ap_token_hash_1 = hashlib.sha3_512(_ap_token_salt_1 + _ap_token.encode()).digest()
+    params["AP_PIN_SALT_1"] = ''.join('\\x{:02x}'.format(byte) for byte in _ap_pin_salt_1)
+    params["AP_PIN_HASH_1"] = ''.join('\\x{:02x}'.format(byte) for byte in _ap_pin_hash_1)
+    params["AP_TOKEN_SALT_1"] = ''.join('\\x{:02x}'.format(byte) for byte in _ap_token_salt_1)
+    params["AP_TOKEN_HASH_1"] = ''.join('\\x{:02x}'.format(byte) for byte in _ap_token_hash_1)
     params["AP_BOOT_MSG"] = _ap_boot_msg
     params["COMPONENT_CNT"] = _component_cnt
-    params["ORIGINAL_COMPONENT_IDS"] = _component_ids
+    params["COMPONENT_ID_0"] = ", ".join([f"0x{byte:02x}" for byte in _component_ids_as_ints[0].to_bytes(4, "big")])
+    if _component_cnt == 2:
+        params["COMPONENT_ID_1"] = ", ".join([f"0x{byte:02x}" for byte in _component_ids_as_ints[1].to_bytes(4, "big")])
+    else:
+        params["COMPONENT_ID_1"] = "0xFF, 0xFF, 0xFF, 0xFF"
     return params
 
 def gen_params_file():
@@ -56,12 +64,14 @@ def gen_params_file():
     except:
         error("Could not open ectf_params.rs")
     try:
-        pf.write(f'pub const AP_PIN_HASH: &[u8] = b"{params["AP_PIN_HASH"]}";\n')
-        pf.write(f'pub const AP_TOKEN_HASH: &[u8] = b"{params["AP_TOKEN_HASH"]}";\n')
+        pf.write(f'pub const AP_PIN_SALT_1: &[u8] = b"{params["AP_PIN_SALT_1"]}";\n')
+        pf.write(f'pub const AP_PIN_HASH_1: &[u8] = b"{params["AP_PIN_HASH_1"]}";\n')
+        pf.write(f'pub const AP_TOKEN_SALT_1: &[u8] = b"{params["AP_TOKEN_SALT_1"]}";\n')
+        pf.write(f'pub const AP_TOKEN_HASH_1: &[u8] = b"{params["AP_TOKEN_HASH_1"]}";\n')
         pf.write(f'pub const AP_BOOT_MSG: &[u8] = b"{params["AP_BOOT_MSG"]}";\n')
         pf.write(f'pub const COMPONENT_CNT: u8 = {params["COMPONENT_CNT"]};\n')
-        # TODO: Fix to handle 1 component ID
-        pf.write(f'pub const ORIGINAL_COMPONENT_IDS: [u32; 2] = [{params["ORIGINAL_COMPONENT_IDS"]}];\n')
+        pf.write(f'pub const COMPONENT_ID_0: [u8; 4] = [{params["COMPONENT_ID_0"]}];\n')
+        pf.write(f'pub const COMPONENT_ID_1: [u8; 4] = [{params["COMPONENT_ID_1"]}];\n')
         print(f"Generated {params_rs_path}")
     except:
         error("Could not write to ectf_params.rs")
