@@ -2,7 +2,7 @@
 #![no_main]
 
 use cortex_m_rt::entry;
-use max78000_hal::tmr0;
+use max78000_hal::{i2c1, tmr0};
 use board::{Board, Led, u8_to_hex_string, u32_to_hex_string};
 use board::secure_comms as hide;
 use board::ectf_constants::{*};
@@ -45,18 +45,18 @@ fn main() -> ! {
     // test_flash(&board);
     // test_timer(&board);
 
-    let mut count: i32 = 0;
-    for _ in 0..10 {
-        let tick_count = tmr0::get_tick_count(&board.tmr0);
-        while tmr0::get_tick_count(&board.tmr0) < tick_count + 50_000_000 { }
-        if (count % 2) == 0 {
-            board.led_on(Led::Green);
-        } else {
-            board.led_off(Led::Green);
-        }
-        board.send_host_debug(b"Hello, world! This is AP!");
-        count += 1;
-    }
+    // let mut count: i32 = 0;
+    // for _ in 0..10 {
+    //     let tick_count = tmr0::get_tick_count(&board.tmr0);
+    //     while tmr0::get_tick_count(&board.tmr0) < tick_count + 50_000_000 { }
+    //     if (count % 2) == 0 {
+    //         board.led_on(Led::Green);
+    //     } else {
+    //         board.led_off(Led::Green);
+    //     }
+    //     board.send_host_debug(b"Hello, world! This is AP!");
+    //     count += 1;
+    // }
 
     loop {
         let mut host_command: [u8; 64] = [0u8; 64];
@@ -93,7 +93,9 @@ fn main() -> ! {
     }
 }
 
+/// List all provisioned components and scan for connected components
 fn list_components(board: &Board) {
+    board.timer_reset();
     // Print each provisioned component first
     for comp_idx in 0..COMPONENT_CNT {
         let mut prov_cid: [u8; LEN_COMPONENT_ID] = [0u8; LEN_COMPONENT_ID];
@@ -106,45 +108,29 @@ fn list_components(board: &Board) {
             }
         }
     }  
-
-    // now process the response, etc.
-    let mut magic_bytes: [u8; hide::LEN_MISC_MESSAGE] = [0u8; hide::LEN_MISC_MESSAGE];
-    for i in 0..hide::LEN_MISC_MESSAGE {
-        magic_bytes[i] = MAGIC_MISC_LIST_PING;
-    }
-    for addr in 0x8..0x79{
+    // Scan for components on the I2C bus
+    for addr in 0x8..0x78 {
         if addr == 0x18 || addr == 0x28 || addr == 0x36 {
             continue;
         }
-        let test_id: [u8; LEN_COMPONENT_ID] = [0x00, 0x00, 0x00, addr];
-        board.send_host_cid(b'T', &test_id);
-        let result = hide::ap_secure_send(board, &test_id, &magic_bytes);
+        // Small delay in between requests
+        board.delay_us(10_000);
+        let hide_pkt_req_list: [u8; hide::LEN_HIDE_PKT_REQ] = [hide::MAGIC_PKT_REQ_LIST; hide::LEN_HIDE_PKT_REQ];
+        let mut component_id: [u8; LEN_COMPONENT_ID] = [0u8; LEN_COMPONENT_ID];
+        let result = i2c1::master_write_bytes(&board.i2c1, addr, &hide_pkt_req_list);
         match result {
-            Some(len) => {
-                if len != hide::LEN_MISC_MESSAGE {
-                    board.send_host_debug(b"Length does not match");
-                    break;
-                }
-                let mut buffer: [u8; LEN_COMPONENT_ID] = [0u8; LEN_COMPONENT_ID];
-                let result = hide::ap_secure_receive(board, &test_id, &mut buffer);
-                match result {
-                    Some(len) => {
-                        if len != LEN_COMPONENT_ID {
-                            board.send_host_debug(b"Length does not match");
-                        } else {
-                            board.send_host_cid(b'F', &buffer);
-                        }
+            i2c1::MasterI2CStatus::Success => {
+                // Small delay to allow the component to respond
+                board.delay_us(10_000);
+                let comp_result = i2c1::master_read_bytes(&board.i2c1, addr, &mut component_id);
+                match comp_result {
+                    i2c1::MasterI2CStatus::Success => {
+                        board.send_host_cid(b'F', &component_id);
                     }
-                    None => {
-                        board.send_host_debug(b"Failed to receive message");
-                        break;
-                    }
+                    _ => ()
                 }
             }
-            None => {
-                // board.send_host_debug(b"Failed to send message");
-                break;
-            }
+            _ => ()
         }
     }
     board.send_host_success(b"List");

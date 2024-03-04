@@ -126,7 +126,11 @@ impl Board {
     pub fn send_host_debug(&self, message: &[u8]) {
         uart0::write_bytes(&self.uart0, b"%debug: ");
         uart0::write_bytes(&self.uart0, message);
-        uart0::write_bytes(&self.uart0, b"\r\n%\r\n");
+        uart0::write_bytes(&self.uart0, b"\r\n%");
+    }
+    #[cfg(all(debug_assertions, not(feature = "semihosting")))]
+    pub fn send_host_debug_no_fmt(&self, message: &[u8]) {
+        uart0::write_bytes(&self.uart0, message);
     }
     
     /// Host debugging is only enabled in debug builds
@@ -137,7 +141,13 @@ impl Board {
         heprint!("%debug: ");
         // Safety: Required to print type &[u8] to the host
         unsafe { syscall!(WRITE, 1, message.as_ptr(), message.len()) };
-        heprint!("\r\n%\r\n");
+        heprint!("\r\n%");
+    }
+    #[cfg(all(debug_assertions, feature = "semihosting"))]
+    pub fn send_host_debug_no_fmt(&self, message: &[u8]) {
+        use cortex_m_semihosting::{heprint, syscall};
+        // Safety: Required to print type &[u8] to the host
+        unsafe { syscall!(WRITE, 1, message.as_ptr(), message.len()) };
     }
 
     /// Host debugging is disabled in release builds, so do nothing
@@ -145,31 +155,35 @@ impl Board {
     pub fn send_host_debug(&self, _message: &[u8]) {
         cortex_m::asm::nop();
     }
+    #[cfg(not(debug_assertions))]
+    pub fn send_host_debug_no_fmt(&self, _message: &[u8]) {
+        cortex_m::asm::nop();
+    }
 
     /// Write info to the host
     pub fn send_host_info(&self, message: &[u8]) {
         uart0::write_bytes(&self.uart0, b"%info: ");
         uart0::write_bytes(&self.uart0, message);
-        uart0::write_bytes(&self.uart0, b"\r\n%\r\n");
+        uart0::write_bytes(&self.uart0, b"\r\n%");
     }
 
     /// Write error to the host
     pub fn send_host_error(&self, message: &[u8]) {
         uart0::write_bytes(&self.uart0, b"%error: ");
         uart0::write_bytes(&self.uart0, message);
-        uart0::write_bytes(&self.uart0, b"\r\n%\r\n");
+        uart0::write_bytes(&self.uart0, b"\r\n%");
     }
 
     /// Write success to the host
     pub fn send_host_success(&self, message: &[u8]) {
         uart0::write_bytes(&self.uart0, b"%success: ");
         uart0::write_bytes(&self.uart0, message);
-        uart0::write_bytes(&self.uart0, b"\r\n%\r\n");
+        uart0::write_bytes(&self.uart0, b"\r\n%");
     }
 
     /// Write ack to the host
     pub fn send_host_ack(&self) {
-        uart0::write_bytes(&self.uart0, b"%ack\r\n%\r\n");
+        uart0::write_bytes(&self.uart0, b"%ack\r\n%");
     }
 
     /// Send a formatted component ID to the host
@@ -180,7 +194,7 @@ impl Board {
         uart0::write_bytes(&self.uart0, &u8_to_hex_string(cid[1]));
         uart0::write_bytes(&self.uart0, &u8_to_hex_string(cid[2]));
         uart0::write_bytes(&self.uart0, &u8_to_hex_string(cid[3]));
-        uart0::write_bytes(&self.uart0, b"\r\n%\r\n");
+        uart0::write_bytes(&self.uart0, b"\r\n%");
     }
 
     /// Read a command from the host (terminated by '\r')
