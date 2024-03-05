@@ -69,7 +69,6 @@ impl Board {
         gcr::mxc_i2c1_shutdown(&p.GCR);
         gcr::mxc_i2c1_enable_clock(&p.GCR);
         gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_I2C1);
-        i2c1::master_config(&p.I2C1);
         // Return the Board instance
         Board {
             flc: p.FLC,
