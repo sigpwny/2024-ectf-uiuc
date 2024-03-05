@@ -9,6 +9,7 @@ use ectf_board::{
     secure_comms as hide,
     ectf_constants::{*},
 };
+use once_cell::sync::Lazy;
 
 mod ectf_ap_params;
 use ectf_ap_params::{*};
@@ -16,10 +17,11 @@ use ectf_ap_params::{*};
 mod post_boot;
 mod flash;
 
+pub const BOARD: Lazy<Board> = Lazy::new(|| Board::new());
 
 #[entry]
 fn main() -> ! {
-    let board = Board::new();
+    let board = &BOARD;
     i2c1::master_config(&board.i2c1);
     board.send_host_debug(b"AP initialized!");
 

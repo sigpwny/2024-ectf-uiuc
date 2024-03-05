@@ -2,7 +2,10 @@ import argparse
 import hashlib
 import os
 import re
+import secrets
 import sys
+
+RNG_SEED_SIZE = 64
 
 header_path = "inc/ectf_params.h"
 params_rs_path = "rust/src/ectf_ap_params.rs"
@@ -10,6 +13,9 @@ params_rs_path = "rust/src/ectf_ap_params.rs"
 def error(msg):
     print(msg, file=sys.stderr)
     exit(1)
+
+def to_hex_str(bytes):
+    return ''.join('\\x{:02x}'.format(byte) for byte in bytes)
 
 def extract_params(path):
     try:
@@ -42,25 +48,26 @@ def extract_params(path):
     params = {}
     # Generate 3 sets of AP PIN and token salts and hashes
     for i in range(3):
-        _ap_pin_salt = os.urandom(16)
+        _ap_pin_salt = secrets.token_bytes(16)
         _ap_pin_hash = hashlib.sha3_512(_ap_pin_salt + _ap_pin.encode()).digest()
-        _ap_token_salt = os.urandom(16)
+        _ap_token_salt = secrets.token_bytes(16)
         _ap_token_hash = hashlib.sha3_512(_ap_token_salt + _ap_token.encode()).digest()
-        params[f"AP_PIN_SALT_{i+1}"] = ''.join('\\x{:02x}'.format(byte) for byte in _ap_pin_salt)
-        params[f"AP_PIN_HASH_{i+1}"] = ''.join('\\x{:02x}'.format(byte) for byte in _ap_pin_hash)
-        params[f"AP_TOKEN_SALT_{i+1}"] = ''.join('\\x{:02x}'.format(byte) for byte in _ap_token_salt)
-        params[f"AP_TOKEN_HASH_{i+1}"] = ''.join('\\x{:02x}'.format(byte) for byte in _ap_token_hash)
+        params[f"AP_PIN_SALT_{i+1}"] = to_hex_str(_ap_pin_salt)
+        params[f"AP_PIN_HASH_{i+1}"] = to_hex_str(_ap_pin_hash)
+        params[f"AP_TOKEN_SALT_{i+1}"] = to_hex_str(_ap_token_salt)
+        params[f"AP_TOKEN_HASH_{i+1}"] = to_hex_str(_ap_token_hash)
     params["AP_BOOT_MSG"] = _ap_boot_msg
     params["COMPONENT_CNT"] = _component_cnt
-    params["COMPONENT_ID_0"] = ", ".join([f"0x{byte:02x}" for byte in _component_ids_as_ints[0].to_bytes(4, "big")])
+    params["COMPONENT_ID_0"] = to_hex_str(_component_ids_as_ints[0].to_bytes(4, "big"))
     if _component_cnt == 2:
-        params["COMPONENT_ID_1"] = ", ".join([f"0x{byte:02x}" for byte in _component_ids_as_ints[1].to_bytes(4, "big")])
+        params["COMPONENT_ID_1"] = to_hex_str(_component_ids_as_ints[1].to_bytes(4, "big"))
     else:
-        params["COMPONENT_ID_1"] = "0xFF, 0xFF, 0xFF, 0xFF"
+        params["COMPONENT_ID_1"] = "\\xFF\\xFF\\xFF\\xFF"
     return params
 
 def gen_params_file():
     params = extract_params(header_path)
+    rng_seed = to_hex_str(secrets.token_bytes(RNG_SEED_SIZE))
     try:
         pf = open(params_rs_path, "w")
     except:
@@ -80,8 +87,9 @@ def gen_params_file():
         pf.write(f'pub const AP_TOKEN_HASH_3: &[u8] = b"{params["AP_TOKEN_HASH_3"]}";\n')
         pf.write(f'pub const AP_BOOT_MSG: &[u8] = b"{params["AP_BOOT_MSG"]}";\n')
         pf.write(f'pub const COMPONENT_CNT: u8 = {params["COMPONENT_CNT"]};\n')
-        pf.write(f'pub const COMPONENT_ID_0: [u8; 4] = [{params["COMPONENT_ID_0"]}];\n')
-        pf.write(f'pub const COMPONENT_ID_1: [u8; 4] = [{params["COMPONENT_ID_1"]}];\n')
+        pf.write(f'pub const COMPONENT_ID_0: [u8; 4] = *b"{params["COMPONENT_ID_0"]}";\n')
+        pf.write(f'pub const COMPONENT_ID_1: [u8; 4] = *b"{params["COMPONENT_ID_1"]}";\n')
+        pf.write(f'pub const RNG_SEED: [u8; {RNG_SEED_SIZE}] = *b"{rng_seed}";\n')
         print(f"Generated {params_rs_path}")
     except:
         error(f"Could not write to {params_rs_path}")

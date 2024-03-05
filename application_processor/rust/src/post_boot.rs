@@ -6,6 +6,7 @@ use ectf_board::{
     ectf_constants::{LEN_COMPONENT_ID, LEN_MISC_MESSAGE}
 };
 use crate::{
+    BOARD,
     ectf_ap_params::COMPONENT_CNT,
     flash
 };
@@ -23,18 +24,6 @@ pub extern "C" fn secure_send(address: u8, buffer: *mut u8, len: u8) -> i32 {
     if len > LEN_MAX_POST_BOOT_MSG {
         return -1;
     }
-    let p = unsafe { pac::Peripherals::steal() };
-    let board = Board {
-        flc: p.FLC,
-        gcr: p.GCR,
-        gpio0: p.GPIO0,
-        gpio2: p.GPIO2,
-        i2c1: p.I2C1,
-        tmr0: p.TMR,
-        tmr1: p.TMR1,
-        trng: p.TRNG,
-        uart0: p.UART,
-    };
     // Delay to allow the I2C slave to get ready
     MXC_Delay(10_000);
     // Find the component ID with the provided I2C address
@@ -58,7 +47,7 @@ pub extern "C" fn secure_send(address: u8, buffer: *mut u8, len: u8) -> i32 {
         let idx = i as usize;
         message[idx+1] = unsafe { buffer.add(idx).read() };
     }
-    match hide::ap_secure_send(&board, &comp_id, &message) {
+    match hide::ap_secure_send(&BOARD, &comp_id, &message) {
         Some(LEN_MISC_MESSAGE) => 0,
         _ => -1,
     }
@@ -68,18 +57,6 @@ pub extern "C" fn secure_send(address: u8, buffer: *mut u8, len: u8) -> i32 {
 /// Returns number of bytes received on success, -1 on failure
 #[no_mangle]
 pub extern "C" fn secure_receive(address: u8, buffer: *mut u8) -> i32 {
-    let p = unsafe { pac::Peripherals::steal() };
-    let board = Board {
-        flc: p.FLC,
-        gcr: p.GCR,
-        gpio0: p.GPIO0,
-        gpio2: p.GPIO2,
-        i2c1: p.I2C1,
-        tmr0: p.TMR,
-        tmr1: p.TMR1,
-        trng: p.TRNG,
-        uart0: p.UART,
-    };
     // Delay to allow the I2C slave to get ready
     MXC_Delay(10_000);
     // Find the component ID with the provided I2C address
@@ -97,7 +74,7 @@ pub extern "C" fn secure_receive(address: u8, buffer: *mut u8) -> i32 {
         return -1;
     }
     let mut message: [u8; LEN_MISC_MESSAGE] = [0u8; LEN_MISC_MESSAGE];
-    match hide::ap_secure_receive(&board, &comp_id, &mut message) {
+    match hide::ap_secure_receive(&BOARD, &comp_id, &mut message) {
         Some(LEN_MISC_MESSAGE) => {
             // Decode the message length
             let len: u8 = message[0];

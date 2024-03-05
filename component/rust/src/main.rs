@@ -8,6 +8,7 @@ use ectf_board::{
     secure_comms as hide,
     ectf_constants::{*},
 };
+use once_cell::sync::Lazy;
 
 mod ectf_comp_params;
 use ectf_comp_params::{*};
@@ -22,10 +23,11 @@ pub enum ComponentCommand {
     BootNow,
 }
 
+pub const BOARD: Lazy<Board> = Lazy::new(|| Board::new());
 
 #[entry]
 fn main() -> ! {
-    let board = Board::new();
+    let board = &BOARD;
     hal::i2c1::slave_config(&board.i2c1, COMPONENT_ID[3]);
     board.send_host_debug(b"Component initialized!");
 

@@ -60,6 +60,14 @@ pub const GPIO2_CFG_LED2: Gpio2Config = Gpio2Config {
     vssel: Gpio2VSSel::Vddioh,
 };
 
+/// Pin config for TMR4
+pub const GPIO2_CFG_TMR4: Gpio2Config = Gpio2Config {
+    pins: Gpio2Pin::Pin4 as u32,
+    func: Gpio2Func::Alt2,
+    pad: Gpio2Pad::None,
+    vssel: Gpio2VSSel::Vddio,
+};
+
 /// Configure a GPIO2 peripheral
 pub fn config(gpio2: &GPIO2, config: Gpio2Config) {
     // Safety: Only valid configs are allowed

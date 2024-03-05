@@ -1,8 +1,10 @@
 #![allow(dead_code)]
 
-use max78000_hal::{trng, i2c1};
-use board::{Board, u8_to_hex_string};
-use board::secure_comms as hide;
+use max78000_hal::{i2c1, tmr0, trng};
+use rand::RngCore;
+use crate::rng::CustomRng;
+use crate::{Board, u8_to_hex_string, u32_to_hex_string, tmr2, tmr4};
+use crate::secure_comms as hide;
 
 pub fn test_hide(board: &Board, is_ap: bool) {
     board.transaction_timer_reset();
@@ -216,4 +218,27 @@ pub fn test_timer(_board: &Board) {
     // board.send_host_debug(b"10 seconds have passed!");
     // board.timer_reset();
     // board.send_host_debug(b"Timer reset!");
+}
+
+pub fn test_rng(board: &Board) {
+    let rng_seed: [u8; 64] = *b"\x98\x0c\x37\x95\x16\x66\x89\x3c\xf9\xff\x88\xc3\xfe\x5f\x0d\x25\x71\xa7\x55\x7b\xaa\x0b\xcf\x73\x2c\xf9\xe8\x77\xd7\x25\x7e\x8f\xd3\xcc\x55\xd2\xcc\x3c\x28\x4b\x69\xaf\x21\x75\x8b\x18\x82\x08\x0e\x4e\xcf\x86\xf4\x74\x8c\x76\x30\x11\x0f\x3a\x88\x8a\x59\x0d";
+    loop {
+        board.send_host_debug(b"tmr2");
+        for _ in 0..10 {
+            board.send_host_debug(&u32_to_hex_string(tmr2::get_tick_count(&board.tmr2)));
+            board.delay_timer_wait_us(10_000);
+        }
+        board.send_host_debug(b"tmr4");
+        for _ in 0..10 {
+            board.send_host_debug(&u32_to_hex_string(tmr4::get_tick_count(&board.tmr4).into()));
+            board.delay_timer_wait_us(10_000);
+        }
+        tmr0::config(&board.tmr0);
+        board.send_host_debug(b"!!!!!");
+        let mut rng = CustomRng::new(board, rng_seed);
+        board.send_host_debug(&u32_to_hex_string(rng.next_u32()));
+        board.send_host_debug(&u32_to_hex_string(tmr0::get_time_us(&board.tmr0)));
+        board.send_host_debug(b"!!!!!");
+        board.delay_timer_wait_us(2_000_000);
+    }
 }

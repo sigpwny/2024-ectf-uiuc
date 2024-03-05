@@ -4,6 +4,7 @@ pub mod secure_comms;
 pub mod post_boot_shared;
 pub mod ectf_constants;
 pub mod ectf_global_secrets;
+pub mod rng;
 
 pub use max78000_pac as pac;
 pub use max78000_hal as hal;
@@ -25,6 +26,8 @@ pub struct Board {
     pub i2c1: pac::I2C1,
     pub tmr0: pac::TMR,
     pub tmr1: pac::TMR1,
+    pub tmr2: pac::TMR2,
+    pub tmr4: pac::TMR4,
     pub trng: pac::TRNG,
     pub uart0: pac::UART,
 }
@@ -33,7 +36,7 @@ impl Board {
     /// Create a new Board instance
     pub fn new() -> Self {
         // Safety: We only steal the peripherals once and we have exclusive access
-        let p: pac::Peripherals = unsafe { pac::Peripherals::steal() };
+        let p: pac::Peripherals = pac::Peripherals::take().unwrap();
         // Initialize clocks
         gcr::system_clock_ipo_init(&p.GCR);
         gcr::iso_init(&p.GCR);
@@ -54,6 +57,16 @@ impl Board {
         gcr::mxc_tmr1_shutdown(&p.GCR);
         gcr::mxc_tmr1_enable_clock(&p.GCR);
         gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_TMR1);
+        // Initialize TMR2 (entropy source)
+        gcr::mxc_tmr2_shutdown(&p.GCR);
+        gcr::mxc_tmr2_enable_clock(&p.GCR);
+        tmr2::config(&p.TMR2);
+        gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_TMR2);
+        // Initialize TMR4 (entropy source)
+        gcr::mxc_tmr4_shutdown(&p.LPGCR);
+        gcr::mxc_tmr4_enable_clock(&p.LPGCR);
+        tmr4::config(&p.TMR4);
+        gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_TMR4);
         // Initialize TRNG
         gcr::mxc_trng_shutdown(&p.GCR);
         gcr::mxc_trng_enable_clock(&p.GCR);
@@ -78,6 +91,8 @@ impl Board {
             i2c1: p.I2C1,
             tmr0: p.TMR,
             tmr1: p.TMR1,
+            tmr2: p.TMR2,
+            tmr4: p.TMR4,
             trng: p.TRNG,
             uart0: p.UART,
         }

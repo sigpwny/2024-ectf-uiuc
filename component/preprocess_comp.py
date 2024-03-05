@@ -1,7 +1,10 @@
 import argparse
 import os
 import re
+import secrets
 import sys
+
+RNG_SEED_SIZE = 64
 
 header_path = "inc/ectf_params.h"
 params_rs_path = "rust/src/ectf_comp_params.rs"
@@ -9,6 +12,9 @@ params_rs_path = "rust/src/ectf_comp_params.rs"
 def error(msg):
     print(msg, file=sys.stderr)
     exit(1)
+
+def to_hex_str(bytes):
+    return ''.join('\\x{:02x}'.format(byte) for byte in bytes)
 
 def extract_params(path):
     try:
@@ -37,7 +43,7 @@ def extract_params(path):
         error("Attestation customer is too long")
 
     params = {}
-    _component_id = ", ".join([f"0x{byte:02x}" for byte in _component_id.to_bytes(4, "big")])
+    _component_id = to_hex_str(_component_id.to_bytes(4, "big"))
     params["COMPONENT_ID"] = _component_id
     params["COMPONENT_BOOT_MSG"] = _component_boot_msg
     params["ATTESTATION_LOCATION"] = _attestation_loc
@@ -47,16 +53,18 @@ def extract_params(path):
 
 def gen_params_file():
     params = extract_params(header_path)
+    rng_seed = to_hex_str(secrets.token_bytes(RNG_SEED_SIZE))
     try:
         pf = open(params_rs_path, "w")
     except:
         error(f"Could not open {params_rs_path}")
     try:
-        pf.write(f"pub const COMPONENT_ID: [u8; 4] = [{params['COMPONENT_ID']}];\n")
+        pf.write(f'pub const COMPONENT_ID: [u8; 4] = *b"{params["COMPONENT_ID"]}";\n')
         pf.write(f'pub const COMPONENT_BOOT_MSG: &[u8] = b"{params["COMPONENT_BOOT_MSG"]}";\n')
         pf.write(f'pub const ATTESTATION_LOCATION: &[u8] = b"{params["ATTESTATION_LOCATION"]}";\n')
         pf.write(f'pub const ATTESTATION_DATE: &[u8] = b"{params["ATTESTATION_DATE"]}";\n')
         pf.write(f'pub const ATTESTATION_CUSTOMER: &[u8] = b"{params["ATTESTATION_CUSTOMER"]}";\n')
+        pf.write(f'pub const RNG_SEED: [u8; {RNG_SEED_SIZE}] = *b"{rng_seed}";\n')
         print(f"Generated {params_rs_path}")
     except:
         error(f"Could not write to {params_rs_path}")

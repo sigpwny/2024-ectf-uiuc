@@ -1,4 +1,4 @@
-pub use max78000_pac::GCR;
+use max78000_pac::{GCR, LPGCR};
 
 pub const CLOCK_HZ_IPO:         u32 = 100_000_000;
 pub const CLOCK_HZ_ISO:         u32 = 60_000_000;
@@ -108,6 +108,50 @@ pub fn mxc_tmr1_reset(gcr: &GCR) {
 pub fn mxc_tmr1_enable_clock(gcr: &GCR) {
     gcr.pclkdis0().modify(|_, w| w.tmr1().clear_bit());
     while gcr.pclkdis0().read().tmr1().bit_is_set() { }
+}
+
+////////////////////////////////////////
+// TMR2 Peripheral
+////////////////////////////////////////
+
+/// Disable the TMR2 peripheral clock
+pub fn mxc_tmr2_shutdown(gcr: &GCR) {
+    gcr.pclkdis0().modify(|_, w| w.tmr2().set_bit());
+    while gcr.pclkdis0().read().tmr2().bit_is_clear() { }
+}
+
+/// Reset the TMR2 peripheral
+pub fn mxc_tmr2_reset(gcr: &GCR) {
+    gcr.rst0().modify(|_, w| w.tmr2().set_bit());
+    while gcr.rst0().read().tmr2().bit_is_clear() { }
+}
+
+/// Enable the TMR1 peripheral clock
+pub fn mxc_tmr2_enable_clock(gcr: &GCR) {
+    gcr.pclkdis0().modify(|_, w| w.tmr2().clear_bit());
+    while gcr.pclkdis0().read().tmr2().bit_is_set() { }
+}
+
+////////////////////////////////////////
+// TMR4 Peripheral
+////////////////////////////////////////
+
+/// Disable the TMR4 peripheral clock
+pub fn mxc_tmr4_shutdown(lpgcr: &LPGCR) {
+    lpgcr.pclkdis().modify(|_, w| w.tmr4().set_bit());
+    while lpgcr.pclkdis().read().tmr4().bit_is_clear() { }
+}
+
+/// Reset the TMR4 peripheral
+pub fn mxc_tmr4_reset(lpgcr: &LPGCR) {
+    lpgcr.rst().modify(|_, w| w.tmr4().set_bit());
+    while lpgcr.rst().read().tmr4().bit_is_clear() { }
+}
+
+/// Enable the TMR4 peripheral clock
+pub fn mxc_tmr4_enable_clock(lpgcr: &LPGCR) {
+    lpgcr.pclkdis().modify(|_, w| w.tmr4().clear_bit());
+    while lpgcr.pclkdis().read().tmr4().bit_is_set() { }
 }
 
 ////////////////////////////////////////
