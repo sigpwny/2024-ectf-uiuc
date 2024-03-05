@@ -60,7 +60,7 @@ impl Board {
         // Initialize FLC
         flc::config(&p.FLC);
         // Write lock flash pages
-        // lock_pages(&p.FLC);
+        lock_pages(&p.FLC);
         // Initialize LEDs
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED0);
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_LED1);
@@ -345,11 +345,7 @@ impl Board {
 #[cfg(not(debug_assertions))]
 pub fn lock_pages(flc: &pac::FLC) {
     for i in 7..60 {
-        let exclusions = [FLASH_ADDR_CID_0, FLASH_ADDR_CID_1];
         let addr = flc::FLASH_BASE + (i * flc::FLASH_PAGE_SIZE);
-        if exclusions.contains(&addr) {
-            continue;
-        }
         let result = flc::block_page_write(flc, addr);
         match result {
             flc::FlashStatus::Success => (),
