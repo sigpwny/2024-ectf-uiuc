@@ -1,6 +1,9 @@
 use ectf_board::{
     Board,
-    ectf_constants::{*}
+    hal::flc,
+    ectf_constants::{*},
+    bytes_to_u32,
+    debug
 };
 use crate::ectf_ap_params::{*};
 
@@ -96,6 +99,68 @@ pub fn set_provisioned_component_id(board: &Board, cid: &[u8; LEN_COMPONENT_ID],
         1 => FLASH_ADDR_CID_1,
         _ => return false,
     };
-    board.write_flash_bytes(flash_addr, cid);
+    write_flash_bytes(board, flash_addr, cid);
     return true;
+}
+
+/// Write 4 bytes to flash at the given address (erases the flash page if necessary)
+pub fn write_flash_bytes(board: &Board, addr: u32, data: &[u8; 4]) {
+    let result = flc::write_32(&board.flc, addr, bytes_to_u32(data));
+    match result {
+        flc::FlashStatus::Success => (),
+        flc::FlashStatus::NeedsErase => {
+            // Erase the flash page
+            let result = flc::erase_page(&board.flc, addr & 0xFFFF_E000);
+            // Verify the erase
+            for i in 0..4 {
+                let addr_ptr = addr as *const u8;
+                let byte = unsafe { addr_ptr.add(i).read() };
+                if byte != 0xff {
+                    debug!(board, b"Flash was not erased!");
+                    panic!();
+                }
+            }
+            match result {
+                flc::FlashStatus::Success => {
+                    // Retry the write
+                    let result = flc::write_32(&board.flc, addr, bytes_to_u32(data));
+                    match result {
+                        flc::FlashStatus::Success => (),
+                        _ => {
+                            debug!(board, b"Failed to write to flash after erasing page");
+                            panic!();
+                        },
+                    }
+                },
+                flc::FlashStatus::AccessViolation => {
+                    debug!(board, b"Access violation during flash erase");
+                    debug!(board, b"Failed to erase flash page");
+                    panic!();
+                },
+                flc::FlashStatus::InvalidAddress => {
+                    debug!(board, b"Invalid address during flash erase");
+                    debug!(board, b"Failed to erase flash page");
+                    panic!();
+                },
+                _ => {
+                    debug!(board, b"Unknown error");
+                    debug!(board, b"Failed to erase flash page");
+                    panic!();
+                }
+            }
+        },
+        _ => {
+            debug!(board, b"Failed to write to flash");
+            panic!();
+        }
+    }
+    // Verify the write
+    let addr_ptr = addr as *const u8;
+    for i in 0..4 {
+        let byte = unsafe { addr_ptr.add(i).read() };
+        if byte != data[i] {
+            debug!(board, b"Flash write verification failed");
+            panic!();
+        }
+    }
 }

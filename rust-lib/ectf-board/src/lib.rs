@@ -89,7 +89,6 @@ impl Board {
         // Verify that the timer has just started
         let start = tmr0::get_time_us(&self.tmr0);
         if start > 100 {
-            self.send_host_debug(b"Timer did not reset properly!");
             panic!();
         }
     }
@@ -160,13 +159,6 @@ impl Board {
     #[cfg(not(debug_assertions))]
     pub fn send_host_debug_no_fmt(&self, _message: &[u8]) {
         cortex_m::asm::nop();
-    }
-
-    /// Write info to the host
-    pub fn send_host_info(&self, message: &[u8]) {
-        uart0::write_bytes(&self.uart0, b"%info: ");
-        uart0::write_bytes(&self.uart0, message);
-        uart0::write_bytes(&self.uart0, b"\r\n%");
     }
 
     /// Write error to the host
@@ -256,68 +248,6 @@ impl Board {
         return None;
     }
 
-    /// Write 4 bytes to flash at the given address (erases the flash page if necessary)
-    pub fn write_flash_bytes(&self, addr: u32, data: &[u8; 4]) {
-        let result = flc::write_32(&self.flc, addr, bytes_to_u32(data));
-        match result {
-            flc::FlashStatus::Success => (),
-            flc::FlashStatus::NeedsErase => {
-                // Erase the flash page
-                let result = flc::erase_page(&self.flc, addr & 0xFFFF_E000);
-                // Verify the erase
-                for i in 0..4 {
-                    let addr_ptr = addr as *const u8;
-                    let byte = unsafe { addr_ptr.add(i).read() };
-                    if byte != 0xff {
-                        self.send_host_debug(b"Flash was not erased!");
-                        panic!();
-                    }
-                }
-                match result {
-                    flc::FlashStatus::Success => {
-                        // Retry the write
-                        let result = flc::write_32(&self.flc, addr, bytes_to_u32(data));
-                        match result {
-                            flc::FlashStatus::Success => (),
-                            _ => {
-                                self.send_host_debug(b"Failed to write to flash after erasing page");
-                                panic!();
-                            },
-                        }
-                    },
-                    flc::FlashStatus::AccessViolation => {
-                        self.send_host_debug(b"Access violation during flash erase");
-                        self.send_host_debug(b"Failed to erase flash page");
-                        panic!();
-                    },
-                    flc::FlashStatus::InvalidAddress => {
-                        self.send_host_debug(b"Invalid address during flash erase");
-                        self.send_host_debug(b"Failed to erase flash page");
-                        panic!();
-                    },
-                    _ => {
-                        self.send_host_debug(b"Unknown error");
-                        self.send_host_debug(b"Failed to erase flash page");
-                        panic!();
-                    }
-                }
-            },
-            _ => {
-                self.send_host_debug(b"Failed to write to flash");
-                panic!();
-            }
-        }
-        // Verify the write
-        let addr_ptr = addr as *const u8;
-        for i in 0..4 {
-            let byte = unsafe { addr_ptr.add(i).read() };
-            if byte != data[i] {
-                self.send_host_debug(b"Flash write verification failed");
-                panic!();
-            }
-        }
-    }
-
     pub fn led_on(&self, led: Led) {
         match led {
             Led::Red => gpio2::set_out(&self.gpio2, gpio2::GPIO2_CFG_LED0.pins),
@@ -366,6 +296,38 @@ pub fn lock_pages(flc: &pac::FLC) {
 #[cfg(debug_assertions)]
 pub fn lock_pages(_flc: &pac::FLC) {
     cortex_m::asm::nop();
+}
+
+/// Print an eCTF debug message
+#[macro_export]
+macro_rules! debug {
+    ($board:ident, $msg:expr) => {{
+        // If this is standard debug build, print to UART0
+        #[cfg(all(debug_assertions, not(feature = "semihosting")))]
+        {
+            $board.send_host_debug($msg);
+        }
+        // If this is a semihosting debug build, print via semihosting
+        #[cfg(all(debug_assertions, feature = "semihosting"))]
+        {
+            use cortex_m_semihosting::{heprint, syscall};
+            heprint!("%debug: ");
+            // Safety: Required to print type &[u8] to the host
+            unsafe { syscall!(WRITE, 1, $msg.as_ptr(), $msg.len()) };
+            heprint!("\r\n%");
+        }
+        // If this is a release build, do nothing
+        #[cfg(not(debug_assertions))]
+        { }
+    }};
+}
+/// Print an eCTF error message and return
+#[macro_export]
+macro_rules! ret_error {
+    ($board:ident, $msg:expr) => {{
+        $board.send_host_error($msg);
+        return;
+    }};
 }
 
 /// Convert a u8 to a hex byte string array

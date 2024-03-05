@@ -8,6 +8,8 @@ use ectf_board::{
     hal::i2c1,
     secure_comms as hide,
     ectf_constants::{*},
+    debug,
+    ret_error,
 };
 
 mod ectf_ap_params;
@@ -21,7 +23,7 @@ mod flash;
 fn main() -> ! {
     let board = Board::new();
     i2c1::master_config(&board.i2c1);
-    board.send_host_debug(b"AP initialized!");
+    debug!(board, b"AP initialized!");
 
     loop {
         let mut host_command: [u8; LEN_MAX_INPUT] = [0u8; LEN_MAX_INPUT];
@@ -29,19 +31,19 @@ fn main() -> ! {
             Some(len) => {
                 match core::str::from_utf8(&host_command[0..len]) {
                     Ok("list") => {
-                        board.send_host_debug(b"Listing components...");
+                        debug!(board, b"Listing components...");
                         list_components(&board);
                     }
                     Ok("attest") => {
-                        board.send_host_debug(b"Attesting component...");
+                        debug!(board, b"Attesting component...");
                         attest_component(&board);
                     }
                     Ok("replace") => {
-                        board.send_host_debug(b"Replacing component...");
+                        debug!(board, b"Replacing component...");
                         replace_component(&board);
                     }
                     Ok("boot") => {
-                        board.send_host_debug(b"Booting...");
+                        debug!(board, b"Booting...");
                         boot_verify(&board);
                     }
                     // TODO: Remove
@@ -54,21 +56,32 @@ fn main() -> ! {
                     //     test_timer(&board);
                     //     loop {
                     //         board.delay_timer_wait_random_us(1_000_000, 5_000_000);
-                    //         board.send_host_debug(b"Hello, world!");
+                    //         debug!(board, b"Hello, world!");
                     //         board.led_toggle(Led::Green);
                     //     }
                     // }
                     _ => {
-                        board.send_host_debug(b"Unknown command");
+                        debug!(board, b"Unknown command");
                     }
                 }
             }
             None => {
-                board.send_host_debug(b"No buffer overflow for you!");
+                debug!(board, b"No buffer overflow for you!");
             }
         }
         continue;
     }
+}
+
+/// Compare a SHA3-512 hash with a salt and password
+macro_rules! compare_sha3_512_hash {
+    ($correct_hash:expr, $salt:expr, $password:expr) => {{
+        let mut hasher = Sha3_512::new();
+        hasher.update($salt);
+        hasher.update($password);
+        let result = hasher.finalize();
+        &result.as_slice() == &$correct_hash
+    }};
 }
 
 /// List all provisioned components and scan for connected components
@@ -79,7 +92,7 @@ fn list_components(board: &Board) {
         let mut prov_cid: [u8; LEN_COMPONENT_ID] = [0u8; LEN_COMPONENT_ID];
         match flash::get_provisioned_component_id(&mut prov_cid, comp_idx) {
             true => board.send_host_cid(b'P', &prov_cid),
-            false => board.send_host_debug(b"Failed to get provisioned component ID"),
+            false => debug!(board, b"Failed to get provisioned component ID"),
         }
     }
     // Scan for components on the I2C bus
@@ -114,61 +127,32 @@ fn attest_component(board: &Board) {
     let mut pin: [u8; LEN_ATTEST_PIN] = [0u8; LEN_ATTEST_PIN];
     board.send_host_ack();
     match board.gets(&mut input) {
-        Some(LEN_ATTEST_PIN) => {
-            pin.copy_from_slice(&input[0..LEN_ATTEST_PIN]);
-        },
-        _ => {
-            board.send_host_error(b"Invalid attestation PIN length");
-            return;
-        }
+        Some(LEN_ATTEST_PIN) => pin.copy_from_slice(&input[0..LEN_ATTEST_PIN]),
+        _ => ret_error!(board, b"Invalid attestation PIN length"),
     }
-    board.send_host_debug(b"Got PIN: ");
-    board.send_host_debug(&pin);
+    debug!(board, b"Got PIN: ");
+    debug!(board, &pin);
     // Get the component ID
     let mut in_cid: [u8; LEN_CID_HEX_STRING] = [0u8; LEN_CID_HEX_STRING];
     board.send_host_ack();
     match board.gets(&mut input) {
-        Some(LEN_INPUT_CID_HEX_STRING) => {
-            // Truncate "0x" from the input component ID
-            in_cid.copy_from_slice(&input[2..LEN_INPUT_CID_HEX_STRING]);
-        },
-        _ => {
-            board.send_host_error(b"Invalid component ID length");
-            return;
-        }
+        Some(LEN_INPUT_CID_HEX_STRING) => in_cid.copy_from_slice(&input[2..LEN_INPUT_CID_HEX_STRING]),
+        _ => ret_error!(board, b"Invalid component ID length"),
     }
-    board.send_host_debug(b"Got new CID: ");
-    board.send_host_debug(&in_cid);
-    // Convert from ASCII hex string [u8; 8] to byte string [u8; 4]
+    debug!(board, b"Got new CID: ");
+    debug!(board, &in_cid);
     let mut cid: [u8; LEN_COMPONENT_ID] = [0u8; LEN_COMPONENT_ID];
     for i in 0..LEN_COMPONENT_ID {
         cid[i] = ectf_board::hex_string_to_u8(&in_cid[2*i..2*i+2]);
     }
 
-    // Validate first SHA3-512 hash of the attestation PIN
+    // Validate hashes of the attestation PIN
     board.delay_timer_wait_random_us(100, 100_000);
-    let mut hasher = Sha3_512::new();
-    hasher.update(AP_PIN_SALT_1);
-    hasher.update(&pin);
-    let result = hasher.finalize();
+    let is_correct1 = compare_sha3_512_hash!(AP_PIN_HASH_1, AP_PIN_SALT_1, &pin);
     board.delay_timer_wait_random_us(100, 100_000);
-    let is_correct1 = &result.as_slice() == &AP_PIN_HASH_1;
-    // Validate second SHA3-512 hash of the attestation PIN
+    let is_correct2 = compare_sha3_512_hash!(AP_PIN_HASH_2, AP_PIN_SALT_2, &pin);
     board.delay_timer_wait_random_us(100, 100_000);
-    let mut hasher = Sha3_512::new();
-    hasher.update(AP_PIN_SALT_2);
-    hasher.update(&pin);
-    let result = hasher.finalize();
-    board.delay_timer_wait_random_us(100, 100_000);
-    let is_correct2 = &result.as_slice() == &AP_PIN_HASH_2;
-    // Validate third SHA3-512 hash of the attestation PIN
-    board.delay_timer_wait_random_us(100, 100_000);
-    let mut hasher = Sha3_512::new();
-    hasher.update(AP_PIN_SALT_3);
-    hasher.update(&pin);
-    let result = hasher.finalize();
-    board.delay_timer_wait_random_us(100, 100_000);
-    let is_correct3 = &result.as_slice() == &AP_PIN_HASH_3;
+    let is_correct3 = compare_sha3_512_hash!(AP_PIN_HASH_3, AP_PIN_SALT_3, &pin);
 
     // Wait until 1.5 seconds total
     board.transaction_timer_wait_until_us(1_500_000);
@@ -183,13 +167,17 @@ fn attest_component(board: &Board) {
                 if retrieve_attest_data(&board, &cid) == 0 {
                     return;
                 }
+            } else {
+                panic!();
             }
+        } else {
+            panic!();
         }
     }
 
     // Wait until 7.5 seconds total (3 second requirement + 5 second attack delay)
     board.transaction_timer_wait_until_us(7_500_000);
-    board.send_host_error(b"Attest failed");
+    ret_error!(board, b"Attest failed");
 }
 
 /// Retrieve attestation data from a component and send it to the host.
@@ -204,7 +192,7 @@ fn retrieve_attest_data(board: &Board, cid: &[u8; LEN_COMPONENT_ID]) -> i32 {
             match hide::ap_secure_send(board, cid, &message) {
                 Some(LEN_MISC_MESSAGE) => (),
                 _ => {
-                    board.send_host_debug(b"Failed to send LOCATION request");
+                    debug!(board, b"Failed to send LOCATION request");
                     return -1;
                 }
             }
@@ -214,7 +202,7 @@ fn retrieve_attest_data(board: &Board, cid: &[u8; LEN_COMPONENT_ID]) -> i32 {
             match hide::ap_secure_receive(board, cid, &mut attest_location) {
                 Some(LEN_ATTEST_LOCATION) => (),
                 _ => {
-                    board.send_host_debug(b"Failed to receive LOCATION");
+                    debug!(board, b"Failed to receive LOCATION");
                     return -1;
                 }
             }
@@ -224,7 +212,7 @@ fn retrieve_attest_data(board: &Board, cid: &[u8; LEN_COMPONENT_ID]) -> i32 {
             match hide::ap_secure_send(board, cid, &message) {
                 Some(LEN_MISC_MESSAGE) => (),
                 _ => {
-                    board.send_host_debug(b"Failed to send DATE request");
+                    debug!(board, b"Failed to send DATE request");
                     return -1;
                 }
             }
@@ -234,7 +222,7 @@ fn retrieve_attest_data(board: &Board, cid: &[u8; LEN_COMPONENT_ID]) -> i32 {
             match hide::ap_secure_receive(board, cid, &mut attest_date) {
                 Some(LEN_ATTEST_DATE) => (),
                 _ => {
-                    board.send_host_debug(b"Failed to receive DATE"); // rip :(
+                    debug!(board, b"Failed to receive DATE"); // rip :(
                     return -1;
                 }
             }
@@ -244,7 +232,7 @@ fn retrieve_attest_data(board: &Board, cid: &[u8; LEN_COMPONENT_ID]) -> i32 {
             match hide::ap_secure_send(board, cid, &message) {
                 Some(LEN_MISC_MESSAGE) => (),
                 _ => {
-                    board.send_host_debug(b"Failed to send CUSTOMER request");
+                    debug!(board, b"Failed to send CUSTOMER request");
                     return -1;
                 }
             }
@@ -254,12 +242,12 @@ fn retrieve_attest_data(board: &Board, cid: &[u8; LEN_COMPONENT_ID]) -> i32 {
             match hide::ap_secure_receive(board, cid, &mut attest_customer) {
                 Some(LEN_ATTEST_CUSTOMER) => (),
                 _ => {
-                    board.send_host_debug(b"Failed to receive CUSTOMER");
+                    debug!(board, b"Failed to receive CUSTOMER");
                     return -1;
                 }
             }
             board.delay_timer_wait_us(10_000);
-            
+
             // Send the attestation data to the host
             board.send_host_cid(b'C', &cid);
             board.send_host_attest_data(&attest_location, &attest_date, &attest_customer);
@@ -278,31 +266,20 @@ fn replace_component(board: &Board) {
     let mut token: [u8; LEN_REPLACEMENT_TOKEN] = [0u8; LEN_REPLACEMENT_TOKEN];
     board.send_host_ack();
     match board.gets(&mut input) {
-        Some(LEN_REPLACEMENT_TOKEN) => {
-            token.copy_from_slice(&input[0..LEN_REPLACEMENT_TOKEN]);
-        },
-        _ => {
-            board.send_host_error(b"Invalid replacement token length");
-            return;
-        }
+        Some(LEN_REPLACEMENT_TOKEN) => token.copy_from_slice(&input[0..LEN_REPLACEMENT_TOKEN]),
+        _ => ret_error!(board, b"Invalid replacement token length")
     }
-    board.send_host_debug(b"Got token: ");
-    board.send_host_debug(&token);
+    debug!(board, b"Got token: ");
+    debug!(board, &token);
     // Get the new component ID
     let mut in_new_cid: [u8; LEN_CID_HEX_STRING] = [0u8; LEN_CID_HEX_STRING];
     board.send_host_ack();
     match board.gets(&mut input) {
-        Some(LEN_INPUT_CID_HEX_STRING) => {
-            // Truncate "0x" from the input component ID
-            in_new_cid.copy_from_slice(&input[2..LEN_INPUT_CID_HEX_STRING]);
-        },
-        _ => {
-            board.send_host_error(b"Invalid new component ID length");
-            return;
-        }
+        Some(LEN_INPUT_CID_HEX_STRING) => in_new_cid.copy_from_slice(&input[2..LEN_INPUT_CID_HEX_STRING]),
+        _ => ret_error!(board, b"Invalid new component ID length")
     }
-    board.send_host_debug(b"Got new CID: ");
-    board.send_host_debug(&in_new_cid);
+    debug!(board, b"Got new CID: ");
+    debug!(board, &in_new_cid);
     // Convert from ASCII hex string [u8; 8] to byte string [u8; 4]
     let mut new_cid: [u8; LEN_COMPONENT_ID] = [0u8; LEN_COMPONENT_ID];
     for i in 0..LEN_COMPONENT_ID {
@@ -312,47 +289,24 @@ fn replace_component(board: &Board) {
     let mut in_old_cid: [u8; LEN_CID_HEX_STRING] = [0u8; LEN_CID_HEX_STRING];
     board.send_host_ack();
     match board.gets(&mut input) {
-        Some(LEN_INPUT_CID_HEX_STRING) => {
-            // Truncate "0x" from the input component ID
-            in_old_cid.copy_from_slice(&input[2..LEN_INPUT_CID_HEX_STRING]);
-        },
-        _ => {
-            board.send_host_error(b"Invalid old component ID length");
-            return;
-        }
+        Some(LEN_INPUT_CID_HEX_STRING) => in_old_cid.copy_from_slice(&input[2..LEN_INPUT_CID_HEX_STRING]),
+        _ => ret_error!(board, b"Invalid old component ID length")
     }
-    board.send_host_debug(b"Got old CID: ");
-    board.send_host_debug(&in_old_cid);
+    debug!(board, b"Got old CID: ");
+    debug!(board, &in_old_cid);
     // Convert from ASCII hex string [u8; 8] to byte string [u8; 4]
     let mut old_cid: [u8; LEN_COMPONENT_ID] = [0u8; LEN_COMPONENT_ID];
     for i in 0..LEN_COMPONENT_ID {
         old_cid[i] = ectf_board::hex_string_to_u8(&in_old_cid[2*i..2*i+2]);
     }
 
-    // Validate first SHA3-512 hash of the replacement token
-    board.delay_timer_wait_random_us(100, 500_000);
-    let mut hasher = Sha3_512::new();
-    hasher.update(AP_TOKEN_SALT_1);
-    hasher.update(&token);
-    let result = hasher.finalize();
-    board.delay_timer_wait_random_us(100, 500_000);
-    let is_correct1 = &result.as_slice() == &AP_TOKEN_HASH_1;
-    // Validate second SHA3-512 hash of the replacement token
-    board.delay_timer_wait_random_us(100, 500_000);
-    let mut hasher = Sha3_512::new();
-    hasher.update(AP_TOKEN_SALT_2);
-    hasher.update(&token);
-    let result = hasher.finalize();
-    board.delay_timer_wait_random_us(100, 500_000);
-    let is_correct2 = &result.as_slice() == &AP_TOKEN_HASH_2;
-    // Validate third SHA3-512 hash of the replacement token
-    board.delay_timer_wait_random_us(100, 500_000);
-    let mut hasher = Sha3_512::new();
-    hasher.update(AP_TOKEN_SALT_3);
-    hasher.update(&token);
-    let result = hasher.finalize();
-    board.delay_timer_wait_random_us(100, 500_000);
-    let is_correct3 = &result.as_slice() == &AP_TOKEN_HASH_3;
+    // Validate hashes of the replacement token
+    board.delay_timer_wait_random_us(100, 1_000_000);
+    let is_correct1 = compare_sha3_512_hash!(AP_TOKEN_HASH_1, AP_TOKEN_SALT_1, &token);
+    board.delay_timer_wait_random_us(100, 1_000_000);
+    let is_correct2 = compare_sha3_512_hash!(AP_TOKEN_HASH_2, AP_TOKEN_SALT_2, &token);
+    board.delay_timer_wait_random_us(100, 1_000_000);
+    let is_correct3 = compare_sha3_512_hash!(AP_TOKEN_HASH_3, AP_TOKEN_SALT_3, &token);
 
     // Wait until 4.5 seconds total
     board.transaction_timer_wait_until_us(4_500_000);
@@ -372,16 +326,19 @@ fn replace_component(board: &Board) {
                             board.send_host_success(b"Replace");
                             return;
                         }
-                        board.send_host_error(b"Flash failure");
-                        return;
+                        ret_error!(board, b"Flash failure");
                     }
                 }
+            } else {
+                panic!();
             }
+        } else {
+            panic!();
         }
     }
     // Wait until 9.5 seconds total (5 second requirement + 5 second attack delay)
     board.transaction_timer_wait_until_us(9_500_000);
-    board.send_host_error(b"Replace failed");
+    ret_error!(board, b"Replace failed");
 }
 
 /// Initiates the boot process by verifying attached components
@@ -399,9 +356,8 @@ fn boot_verify(board: &Board) {
         match hide::ap_secure_send(board, &comp_ids[i], &message) {
             Some(LEN_MISC_MESSAGE) => (),
             _ => {
-                board.send_host_debug(b"Failed to send BOOT_PING command");
-                board.send_host_error(b"Boot failed");
-                return;
+                debug!(board, b"Failed to send BOOT_PING command");
+                ret_error!(board, b"Boot failed");
             }
         }
         board.delay_timer_wait_us(10_000);
@@ -410,9 +366,8 @@ fn boot_verify(board: &Board) {
         match hide::ap_secure_receive(board, &comp_ids[i], &mut boot_pong_msg) {
             Some(LEN_MISC_MESSAGE) => (),
             _ => {
-                board.send_host_debug(b"Failed to receive BOOT_PONG message");
-                board.send_host_error(b"Boot failed");
-                return;
+                debug!(board, b"Failed to receive BOOT_PONG message");
+                ret_error!(board, b"Boot failed");
             }
         }
         // Verify the BOOT_PONG message
@@ -420,9 +375,8 @@ fn boot_verify(board: &Board) {
         for byte in 0..LEN_MISC_MESSAGE {
             board.delay_timer_wait_random_us(100, 10_000);
             if boot_pong_msg[byte] != MAGIC_MISC_BOOT_PONG {
-                board.send_host_debug(b"Invalid BOOT_PONG message");
-                board.send_host_error(b"Boot failed");
-                return;
+                debug!(board, b"Invalid BOOT_PONG message");
+                ret_error!(board, b"Boot failed");
             }
         }
         board.delay_timer_wait_us(10_000);
@@ -439,9 +393,8 @@ fn boot_verify(board: &Board) {
         match hide::ap_secure_send(board, &comp_ids[i], &message) {
             Some(LEN_MISC_MESSAGE) => (),
             _ => {
-                board.send_host_debug(b"Failed to send BOOT_NOW command");
-                board.send_host_error(b"Boot failed");
-                return;
+                debug!(board, b"Failed to send BOOT_NOW command");
+                ret_error!(board, b"Boot failed");
             }
         }
         board.delay_timer_wait_us(10_000);
@@ -449,9 +402,8 @@ fn boot_verify(board: &Board) {
         match hide::ap_secure_receive(board, &comp_ids[i], &mut comp_boot_msgs[i]) {
             Some(LEN_COMPONENT_BOOT_MSG) => (),
             _ => {
-                board.send_host_debug(b"Failed to receive component boot message");
-                board.send_host_error(b"Boot failed");
-                return;
+                debug!(board, b"Failed to receive component boot message");
+                ret_error!(board, b"Boot failed");
             }
         }
         board.delay_timer_wait_us(10_000);
