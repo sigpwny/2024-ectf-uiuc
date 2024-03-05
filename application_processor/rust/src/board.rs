@@ -235,7 +235,8 @@ impl Board {
     }
 
     /// Read a command from the host (terminated by '\r')
-    pub fn read_host_line(&self, buffer: &mut [u8]) -> Option<usize> {
+    /// Definitely safe :)
+    pub fn gets(&self, buffer: &mut [u8]) -> Option<usize> {
         let mut index = 0;
         for byte in buffer.iter_mut() {
             let result = uart0::read_byte(&self.uart0);
@@ -449,12 +450,15 @@ impl Board {
     }
 }
 
-/// Lock all flash pages except for pages where we store data,
-/// only lock flash pages in release builds
+/// Lock all flash pages except:
+/// - 0x1000_0000 - 0x1000_DFFF (Bootloader)
+/// - 0x1007_8000 - 0x1007_BFFF (Our flash for component IDs)
+/// - 0x1007_C000 - 0x1007_FFFF (Bootloader Data and ROM)
+/// We only lock flash pages in release builds
 #[cfg(not(debug_assertions))]
 pub fn lock_pages(flc: &pac::FLC) {
-    for i in 0..64 {
-        let exclusions = [0x1004_2000, 0x1004_4000];
+    for i in 7..60 {
+        let exclusions = [FLASH_ADDR_CID_0, FLASH_ADDR_CID_1];
         let addr = flc::FLASH_BASE + (i * flc::FLASH_PAGE_SIZE);
         if exclusions.contains(&addr) {
             continue;

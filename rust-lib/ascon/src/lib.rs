@@ -1,7 +1,5 @@
 #![no_std]
 
-use cty;
-
 extern {
     pub fn crypto_aead_encrypt(
         c: *mut cty::c_uchar,

@@ -28,7 +28,7 @@ pkgs.mkShell {
     pkgs.gcc-arm-embedded
     pkgs.poetry
     pkgs.cacert
-    (pkgs.callPackage custom_nix_pkgs/analog_openocd.nix { })
+    #(pkgs.callPackage custom_nix_pkgs/analog_openocd.nix { })
     pkgs.minicom
   ];
 
@@ -37,9 +37,6 @@ pkgs.mkShell {
 
   shellHook =
     ''
-      chmod -R u+rwX,go+rX,go-w $PWD/msdk
-      export MAXIM_PATH=$PWD/msdk
-
       rustup default nightly
       rustup target add thumbv7em-none-eabi
     '';
