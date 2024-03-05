@@ -3,20 +3,24 @@
 
 use cortex_m_rt::entry;
 use sha3::{Digest, Sha3_512};
-use max78000_hal::i2c1;
-use board::{Board, hex_string_to_u8};
-use board::secure_comms as hide;
-use board::ectf_constants::{*};
-use board::ectf_params::{*};
+use ectf_board::{
+    Board,
+    hal::i2c1,
+    secure_comms as hide,
+    ectf_constants::{*},
+};
+
+mod ectf_ap_params;
+use ectf_ap_params::{*};
 
 mod post_boot;
-use post_boot::post_boot;
+mod flash;
 
-mod tests;
 
 #[entry]
 fn main() -> ! {
     let board = Board::new();
+    i2c1::master_config(&board.i2c1);
     board.send_host_debug(b"AP initialized!");
 
     loop {
@@ -73,14 +77,14 @@ fn list_components(board: &Board) {
     // Print each provisioned component first
     for comp_idx in 0..COMPONENT_CNT {
         let mut prov_cid: [u8; LEN_COMPONENT_ID] = [0u8; LEN_COMPONENT_ID];
-        match board.get_provisioned_component_id(&mut prov_cid, comp_idx) {
+        match flash::get_provisioned_component_id(&mut prov_cid, comp_idx) {
             true => board.send_host_cid(b'P', &prov_cid),
             false => board.send_host_debug(b"Failed to get provisioned component ID"),
         }
     }
     // Scan for components on the I2C bus
     for addr in 0x8..0x78 {
-        if board.is_i2c_addr_blacklisted(addr) {
+        if flash::is_i2c_addr_blacklisted(addr) {
             continue;
         }
         // Small delay in between requests
@@ -138,7 +142,7 @@ fn attest_component(board: &Board) {
     // Convert from ASCII hex string [u8; 8] to byte string [u8; 4]
     let mut cid: [u8; LEN_COMPONENT_ID] = [0u8; LEN_COMPONENT_ID];
     for i in 0..LEN_COMPONENT_ID {
-        cid[i] = hex_string_to_u8(&in_cid[2*i..2*i+2]);
+        cid[i] = ectf_board::hex_string_to_u8(&in_cid[2*i..2*i+2]);
     }
 
     // Validate first SHA3-512 hash of the attestation PIN
@@ -193,7 +197,7 @@ fn retrieve_attest_data(board: &Board, cid: &[u8; LEN_COMPONENT_ID]) -> i32 {
     // Validate that the requested component ID is provisioned
     for i in 0..COMPONENT_CNT {
         let mut prov_cid: [u8; LEN_COMPONENT_ID] = [0u8; LEN_COMPONENT_ID];
-        board.get_provisioned_component_id(&mut prov_cid, i);
+        flash::get_provisioned_component_id(&mut prov_cid, i);
         if *cid == prov_cid {
             // AP requests LOCATION
             let message: [u8; LEN_MISC_MESSAGE] = [MAGIC_MISC_REQ_LOCATION; LEN_MISC_MESSAGE];
@@ -302,7 +306,7 @@ fn replace_component(board: &Board) {
     // Convert from ASCII hex string [u8; 8] to byte string [u8; 4]
     let mut new_cid: [u8; LEN_COMPONENT_ID] = [0u8; LEN_COMPONENT_ID];
     for i in 0..LEN_COMPONENT_ID {
-        new_cid[i] = hex_string_to_u8(&in_new_cid[2*i..2*i+2]);
+        new_cid[i] = ectf_board::hex_string_to_u8(&in_new_cid[2*i..2*i+2]);
     }
     // Get the old component ID to replace
     let mut in_old_cid: [u8; LEN_CID_HEX_STRING] = [0u8; LEN_CID_HEX_STRING];
@@ -322,7 +326,7 @@ fn replace_component(board: &Board) {
     // Convert from ASCII hex string [u8; 8] to byte string [u8; 4]
     let mut old_cid: [u8; LEN_COMPONENT_ID] = [0u8; LEN_COMPONENT_ID];
     for i in 0..LEN_COMPONENT_ID {
-        old_cid[i] = hex_string_to_u8(&in_old_cid[2*i..2*i+2]);
+        old_cid[i] = ectf_board::hex_string_to_u8(&in_old_cid[2*i..2*i+2]);
     }
 
     // Validate first SHA3-512 hash of the replacement token
@@ -362,9 +366,9 @@ fn replace_component(board: &Board) {
             if is_correct3 {
                 for i in 0..COMPONENT_CNT {
                     let mut prov_cid: [u8; LEN_COMPONENT_ID] = [0u8; LEN_COMPONENT_ID];
-                    board.get_provisioned_component_id(&mut prov_cid, i);
+                    flash::get_provisioned_component_id(&mut prov_cid, i);
                     if old_cid == prov_cid {
-                        if board.set_provisioned_component_id(&new_cid, i) {
+                        if flash::set_provisioned_component_id(board, &new_cid, i) {
                             board.send_host_success(b"Replace");
                             return;
                         }
@@ -388,7 +392,7 @@ fn boot_verify(board: &Board) {
     let mut comp_ids: [[u8; LEN_COMPONENT_ID]; COMPONENT_CNT as usize] = [[0u8; LEN_COMPONENT_ID]; COMPONENT_CNT as usize];
     for idx in 0..COMPONENT_CNT {
         let i = idx as usize;
-        board.get_provisioned_component_id(&mut comp_ids[i], idx);
+        flash::get_provisioned_component_id(&mut comp_ids[i], idx);
         board.delay_timer_wait_random_us(100, 500_000);
         // AP sends BOOT_PING
         let message: [u8; LEN_MISC_MESSAGE] = [MAGIC_MISC_BOOT_PING; LEN_MISC_MESSAGE];
@@ -424,8 +428,8 @@ fn boot_verify(board: &Board) {
         board.delay_timer_wait_us(10_000);
     }
 
-    // Wait 1 second total
-    board.transaction_timer_wait_until_us(1_000_000);
+    // Wait 0.5 second total
+    board.transaction_timer_wait_until_us(500_000);
 
     // Boot each component and retrieve boot messages
     let mut comp_boot_msgs: [[u8; LEN_COMPONENT_BOOT_MSG]; COMPONENT_CNT as usize] = [[0u8; LEN_COMPONENT_BOOT_MSG]; COMPONENT_CNT as usize];
@@ -462,5 +466,5 @@ fn boot_verify(board: &Board) {
 
     // Start post boot
     // Safety: This jumps to the C POST_BOOT code. C is inherently unsafe so...
-    unsafe { post_boot(); }
+    unsafe { post_boot::post_boot(); }
 }

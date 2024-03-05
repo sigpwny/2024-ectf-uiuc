@@ -2,13 +2,17 @@
 #![no_main]
 
 use cortex_m_rt::entry;
-use board::Board;
-use board::secure_comms as hide;
-use board::ectf_constants::{*};
-use board::ectf_params::{*};
+use ectf_board::{
+    Board,
+    hal,
+    secure_comms as hide,
+    ectf_constants::{*},
+};
+
+mod ectf_comp_params;
+use ectf_comp_params::{*};
 
 mod post_boot;
-use post_boot::post_boot;
 
 pub enum ComponentCommand {
     AttestReqLocation,
@@ -22,6 +26,7 @@ pub enum ComponentCommand {
 #[entry]
 fn main() -> ! {
     let board = Board::new();
+    hal::i2c1::slave_config(&board.i2c1, COMPONENT_ID[3]);
     board.send_host_debug(b"Component initialized!");
 
     loop {
@@ -142,5 +147,5 @@ fn boot_component(board: &Board) {
 
     // Start post boot
     // Safety: This jumps to the C POST_BOOT code. C is inherently unsafe so...
-    unsafe { post_boot(); }
+    unsafe { post_boot::post_boot(); }
 }
