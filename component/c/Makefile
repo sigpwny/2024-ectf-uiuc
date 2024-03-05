@@ -12,5 +12,5 @@ clean:
 	@rm -rf build
 release:
 	@mkdir -p build
-	$(CC) $(FLAGS) -c src/post_boot.c -o build/post_boot.o
-	$(AR) rcs build/libpostboot.a build/post_boot.o
+	@$(CC) $(FLAGS) -c src/post_boot.c -o build/post_boot.o
+	@$(AR) rcs build/libpostboot.a build/post_boot.o

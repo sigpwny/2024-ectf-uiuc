@@ -1,4 +1,4 @@
 all:
-	python3 global_secrets.py
+	python3 gen_global_secrets.py
 clean:
-	python3 global_secrets.py --clean
+	python3 gen_global_secrets.py --clean

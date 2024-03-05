@@ -16,74 +16,56 @@ void post_boot() {
 #ifdef POST_BOOT
     POST_BOOT
 #else
-    int number = 0;
-    while (1) {
-        printf("Hello from AP POST_BOOT! %d\n", number);
-        fflush(stdout);
-        number++;
-        LED_On(LED1);
-        MXC_Delay(500000);
-        LED_On(LED2);
-        MXC_Delay(500000);
-        LED_On(LED3);
-        MXC_Delay(500000);
-        LED_Off(LED1);
-        MXC_Delay(500000);
-        LED_Off(LED2);
-        MXC_Delay(500000);
-        LED_Off(LED3);
-        MXC_Delay(500000);
-
-#define LEN_POISON 16
-#define LEN_SEND_BUFFER 16
-#define LEN_RECV_BUFFER 16
-#define LEN_PROVISIONED_IDS 1
-
-        // Testing for buffer overruns
-        char poisonA[LEN_POISON] = "\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55";
-        char send_buf[] = "Hello from AP\r\n\0";
-        char poisonB[LEN_POISON] = "\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55";
-        char recv_buf[] = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
-        char poisonC[LEN_POISON] = "\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55";
-        uint32_t provisioned_ids[] = {0};
-        char poisonD[LEN_POISON] = "\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55\x55";
-        uint8_t *send_buf_ptr = send_buf;
-        uint8_t *recv_buf_ptr = recv_buf;
-        uint32_t *provisioned_ids_ptr = provisioned_ids;
-        // Send a message to each provisioned ID
-        int comp_count = get_provisioned_ids(provisioned_ids_ptr);
-        for (int i = 0; i < comp_count; i++) {
-            uint8_t addr = (uint8_t)provisioned_ids[i];
-            int result_send = secure_send(addr, send_buf_ptr, LEN_SEND_BUFFER);
-            if (result_send != 0) {
-                printf("Failed to send message to provisioned ID %d\r\n", addr);
-            }
+    // Application Processor
+    uint8_t post_boot_buffer[256];
+    printf("Post boot: Insulin Pump started!\n ");
+    uint32_t post_boot_component_ids[10];
+    int post_boot_component_cnt;
+    post_boot_component_cnt = get_provisioned_ids(post_boot_component_ids);
+    uint8_t post_boot_sensor_addr = 0;
+    uint8_t post_boot_actuator_addr = 0;
+    for (int i = 0; i < post_boot_component_cnt; i++) {
+        uint8_t addr = (uint8_t)(post_boot_component_ids[i] & 0xFF);
+        printf("Found address: %d\n", addr);
+        post_boot_buffer[0] = 0;
+        secure_send(addr, post_boot_buffer, 1);
+        secure_receive(addr, post_boot_buffer);
+        switch (post_boot_buffer[0]) {
+            case 0:
+                printf("Found address for sensor: %d\n", addr);
+                post_boot_sensor_addr = addr;
+                break;
+            case 1:
+                printf("Found address for actuator: %d\n", addr);
+                post_boot_actuator_addr = addr;
+                break;
         }
-        // Receive a message from the first provisioned ID
-        int result_recv = secure_receive((i2c_addr_t)provisioned_ids[0], recv_buf_ptr);
-        if (result_recv < 0) {
-            printf("Failed to receive message from provisioned ID %d\r\n", (i2c_addr_t)provisioned_ids[0]);
+    }
+    uint32_t sensor_values[5] = {0, 0, 0, 0, 0};
+    int array_index = 0;
+    while (true) {
+        post_boot_buffer[0] = 1;
+        secure_send(post_boot_sensor_addr, post_boot_buffer, 1);
+        secure_receive(post_boot_sensor_addr, post_boot_buffer);
+        sensor_values[array_index] = *(uint32_t*)post_boot_buffer;
+        array_index = (array_index + 1) % 5;
+        uint32_t sensor_sum = 0;
+        for (int i = 0; i < 5; i++) {
+            sensor_sum += sensor_values[i];
+        }
+        float sensor_avg = ((float)sensor_sum) / 5.0;
+        if (sensor_avg > 128.0) {
+            post_boot_buffer[0] = 1;
+            post_boot_buffer[1] = 1;
+            secure_send(post_boot_actuator_addr, post_boot_buffer, 2);
+            secure_receive(post_boot_actuator_addr, post_boot_buffer);
+            printf("%%success: %s\n%%", post_boot_buffer);
         } else {
-            printf("Received message of %d bytes from provisioned ID %d: ", result_recv, (i2c_addr_t)provisioned_ids[0]);
-            for (int i = 0; i < result_recv; i++) {
-                printf("%c", recv_buf[i]);
-            }
+            post_boot_buffer[0] = 1;
+            post_boot_buffer[1] = 0;
+            secure_send(post_boot_actuator_addr, post_boot_buffer, 2);
         }
-        // Check that poison buffers are still intact
-        for (int i = 0; i < LEN_POISON; i++) {
-            if (poisonA[i] != 0x55) {
-                printf("PoisonA buffer has been modified!\r\n");
-            }
-            if (poisonB[i] != 0x55) {
-                printf("PoisonB buffer has been modified!\r\n");
-            }
-            if (poisonC[i] != 0x55) {
-                printf("PoisonC buffer has been modified!\r\n");
-            }
-            if (poisonD[i] != 0x55) {
-                printf("PoisonD buffer has been modified!\r\n");
-            }
-        }
+        MXC_Delay(500000);
     }
 #endif
 }

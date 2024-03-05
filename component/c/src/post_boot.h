@@ -1,5 +1,6 @@
-// See `component/rust/src/post_boot.rs` for the implementation
-// of these functions.
+// See the following files for the implementation of these functions:
+// - component/rust/src/post_boot.rs
+// - deployment/rust-lib/ectf-board/src/post_boot_shared.rs
 #ifndef POST_BOOT_H
 #define POST_BOOT_H
 #include <stdint.h>

@@ -4,7 +4,7 @@ import re
 import sys
 
 header_path = "inc/ectf_params.h"
-params_rs_path = "rust/src/ectf_params.rs"
+params_rs_path = "rust/src/ectf_comp_params.rs"
 
 def error(msg):
     print(msg, file=sys.stderr)
@@ -14,7 +14,7 @@ def extract_params(path):
     try:
         header_file = open(path).read()
     except:
-        error("Could not open ectf_params.h")
+        error(f"Could not open {path}")
 
     # Extract params from ectf_params.h
     _component_id = re.search(r'COMPONENT_ID (.*?)\n', header_file).group(1)
@@ -50,7 +50,7 @@ def gen_params_file():
     try:
         pf = open(params_rs_path, "w")
     except:
-        error("Could not open ectf_params.rs")
+        error(f"Could not open {params_rs_path}")
     try:
         pf.write(f"pub const COMPONENT_ID: [u8; 4] = [{params['COMPONENT_ID']}];\n")
         pf.write(f'pub const COMPONENT_BOOT_MSG: &[u8] = b"{params["COMPONENT_BOOT_MSG"]}";\n')
@@ -59,7 +59,7 @@ def gen_params_file():
         pf.write(f'pub const ATTESTATION_CUSTOMER: &[u8] = b"{params["ATTESTATION_CUSTOMER"]}";\n')
         print(f"Generated {params_rs_path}")
     except:
-        error("Could not write to ectf_params.rs")
+        error(f"Could not write to {params_rs_path}")
 
 def clean_params_file():
     try:
