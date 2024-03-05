@@ -145,7 +145,7 @@ impl Board {
     }
 
     /// Read a command from the host (terminated by '\r')
-    pub fn read_host_line(&self, buffer: &mut [u8]) -> Option<usize> {
+    pub fn gets(&self, buffer: &mut [u8]) -> Option<usize> {
         let mut index = 0;
         for byte in buffer.iter_mut() {
             let result = uart0::read_byte(&self.uart0);

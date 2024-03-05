@@ -73,7 +73,6 @@ fn resolve_command(board: &Board, bytes: &[u8]) -> Option<ComponentCommand> {
     };
     board.delay_timer_wait_random_us(1_000, 10_000);
     for byte in bytes {
-        board.delay_timer_wait_random_us(100, 1_000);
         if *byte != bytes[0] {
             board.send_host_debug(b"Magic byte mismatch");
             return None;

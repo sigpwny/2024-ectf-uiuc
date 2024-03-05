@@ -80,7 +80,7 @@ pub fn test_hide(board: &Board, is_ap: bool) {
 pub fn test_uart(board: &Board) {
     let mut buffer: [u8; 64] = [0u8; 64];
     board.send_host_debug(b"Enter a message:");
-    let len = board.read_host_line(&mut buffer);
+    let len = board.gets(&mut buffer);
     match len {
         Some(len) => {
             board.send_host_debug(b"Received message:");
