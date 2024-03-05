@@ -3,7 +3,7 @@ import os
 import secrets
 import sys
 
-output_file = "./rust-lib/ectf-board/src/ectf_global_secrets.rs"
+output_file = "../rust-lib/ectf-board/src/ectf_global_secrets.rs"
 
 def error(msg):
     print(msg, file=sys.stderr)
