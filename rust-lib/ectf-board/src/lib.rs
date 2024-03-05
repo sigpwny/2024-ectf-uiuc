@@ -100,20 +100,26 @@ impl Board {
         while tmr0::get_time_us(&self.tmr0) < us { }
     }
 
+    /// Block for the specified number of ticks
+    pub fn delay_timer_wait_ticks(&self, ticks: u32) {
+        tmr1::config(&self.tmr1);
+        let start = tmr1::get_tick_count(&self.tmr1);
+        while tmr1::get_tick_count(&self.tmr1) < start + ticks { }
+    }
+
     /// Block for the specified number of microseconds
     pub fn delay_timer_wait_us(&self, us: u32) {
-        tmr1::config(&self.tmr1);
-        let start = tmr1::get_time_us(&self.tmr1);
-        while tmr1::get_time_us(&self.tmr1) < start + us { }
+        let ticks = tmr1::us_to_ticks(us);
+        self.delay_timer_wait_ticks(ticks);
     }
 
     /// Block for a random number of microseconds between min and max
     pub fn delay_timer_wait_random_us(&self, min: u32, max: u32) {
         let random = trng::random_u32(&self.trng);
-        let delay = random % (max - min) + min;
-        self.send_host_debug(b"Random delay (us): ");
-        self.send_host_debug(&u32_to_hex_string(delay));
-        self.delay_timer_wait_us(delay);
+        let max_ticks = tmr1::us_to_ticks(max);
+        let min_ticks = tmr1::us_to_ticks(min);
+        let ticks = min_ticks + (random % (max_ticks - min_ticks));
+        self.delay_timer_wait_ticks(ticks);
     }
 
     /// Host debugging is only enabled in debug builds

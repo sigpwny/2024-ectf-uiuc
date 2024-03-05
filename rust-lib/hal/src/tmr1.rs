@@ -11,6 +11,11 @@ pub fn get_tick_count(tmr1: &TMR1) -> u32 {
     return tmr1.cnt().read().bits();
 }
 
+/// Convert microseconds (us) to ticks
+pub fn us_to_ticks(us: u32) -> u32 {
+    return us * (CLOCK_HZ_ISO / 1_000_000);
+}
+
 /// Configure TMR1 as transaction one-shot timer
 /// - 60MHz (ISO, no prescaler)
 /// - One-shot mode
