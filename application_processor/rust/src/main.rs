@@ -46,21 +46,6 @@ fn main() -> ! {
                         board.send_host_debug(b"Booting...");
                         boot_verify(&board);
                     }
-                    // TODO: Remove
-                    Ok("test") => {
-                        use ectf_board::tests::{*};
-                        test_rng(&board);
-                    //     test_hide(&board, false);
-                    //     test_ascon(&board);
-                    //     test_random(&board);
-                    //     test_flash(&board);
-                    //     test_timer(&board);
-                    //     loop {
-                    //         board.delay_timer_wait_random_us(1_000_000, 5_000_000);
-                    //         board.send_host_debug(b"Hello, world!");
-                    //         board.led_toggle(Led::Green);
-                    //     }
-                    }
                     _ => {
                         board.send_host_debug(b"Unknown command");
                     }

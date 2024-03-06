@@ -2,7 +2,6 @@
 
 pub mod secure_comms;
 pub mod rng;
-pub mod tests;
 pub mod ectf_constants;
 pub mod ectf_global_secrets;
 
@@ -404,7 +403,7 @@ impl Board {
         }
     }
 
-    // Not RngCore because we are doing the inner mutability stuff :((
+    // Not RngCore because we are doing the interior mutability stuff :((
     /// Generate random bytes
     pub fn fill_bytes(&self, dest: &mut [u8]) {
         critical_section::with(|_| {
