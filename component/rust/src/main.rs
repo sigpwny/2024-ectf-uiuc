@@ -42,11 +42,8 @@ fn main() -> ! {
         }
         match resolve_command(&board, &magic) {
             Some(ComponentCommand::AttestReqLocation) => send_attest_location(&board),
-            Some(ComponentCommand::AttestReqDate) => send_attest_date(&board),
-            Some(ComponentCommand::AttestReqCustomer) => send_attest_customer(&board),
             Some(ComponentCommand::BootPing) => send_boot_pong(&board),
-            Some(ComponentCommand::BootNow) => panic!(),
-            _ => continue;
+            _ => panic!(),
         }
         continue;
     }
@@ -84,7 +81,17 @@ fn send_attest_location(board: &Board) {
     }
     match hide::comp_secure_send(&board, &COMPONENT_ID, &buffer) {
         Some(LEN_ATTEST_LOCATION) => board.send_host_debug(b"Location sent"),
-        _ => board.send_host_debug(b"Failed to send location"),
+        _ => panic!(),
+    }
+    // At this point, the next message should be a request for the date
+    let mut magic: [u8; LEN_MISC_MESSAGE] = [0u8; LEN_MISC_MESSAGE];
+    match hide::comp_secure_receive(&board, &COMPONENT_ID, &mut magic) {
+        Some(LEN_MISC_MESSAGE) => (),
+        _ => panic!()
+    }
+    match resolve_command(&board, &magic) {
+        Some(ComponentCommand::AttestReqDate) => send_attest_date(&board),
+        _ => panic!(),
     }
 }
 
@@ -96,7 +103,17 @@ fn send_attest_date(board: &Board) {
     }
     match hide::comp_secure_send(&board, &COMPONENT_ID, &buffer) {
         Some(LEN_ATTEST_DATE) => board.send_host_debug(b"Date sent"),
-        _ => board.send_host_debug(b"Failed to send date"),
+        _ => panic!(),
+    }
+    // At this point, the next message should be a request for the customer
+    let mut magic: [u8; LEN_MISC_MESSAGE] = [0u8; LEN_MISC_MESSAGE];
+    match hide::comp_secure_receive(&board, &COMPONENT_ID, &mut magic) {
+        Some(LEN_MISC_MESSAGE) => (),
+        _ => panic!()
+    }
+    match resolve_command(&board, &magic) {
+        Some(ComponentCommand::AttestReqCustomer) => send_attest_customer(&board),
+        _ => panic!(),
     }
 }
 
@@ -108,7 +125,7 @@ fn send_attest_customer(board: &Board) {
     }
     match hide::comp_secure_send(&board, &COMPONENT_ID, &buffer) {
         Some(LEN_ATTEST_CUSTOMER) => board.send_host_debug(b"Customer sent"),
-        _ => board.send_host_debug(b"Failed to send customer"),
+        _ => panic!(),
     }
 }
 

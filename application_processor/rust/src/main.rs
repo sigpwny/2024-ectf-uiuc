@@ -158,8 +158,8 @@ fn attest_component(board: &Board) {
     board.delay_timer_wait_random_us(100, 100_000);
     let is_correct3 = &result.as_slice() == &AP_PIN_HASH_3;
 
-    // Wait until 1.5 seconds total
-    board.transaction_timer_wait_until_us(1_500_000);
+    // Wait until 2.5 seconds total
+    board.transaction_timer_wait_until_us(2_500_000);
 
     // If all three hashes are correct, send the attestation data
     board.delay_timer_wait_random_us(100, 10_000);
