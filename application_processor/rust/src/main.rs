@@ -9,6 +9,7 @@ use ectf_board::{
     secure_comms as hide,
     ectf_constants::{*},
 };
+use once_cell::sync::Lazy;
 
 mod ectf_ap_params;
 use ectf_ap_params::{*};
@@ -16,10 +17,11 @@ use ectf_ap_params::{*};
 mod post_boot;
 mod flash;
 
+pub static BOARD: Lazy<Board> = Lazy::new(|| Board::new(RNG_SEED));
 
 #[entry]
 fn main() -> ! {
-    let board = Board::new();
+    let board = &BOARD;
     i2c1::master_config(&board.i2c1);
     board.send_host_debug(b"AP initialized!");
 
@@ -44,20 +46,6 @@ fn main() -> ! {
                         board.send_host_debug(b"Booting...");
                         boot_verify(&board);
                     }
-                    // TODO: Remove
-                    // Ok("test") => {
-                    //     use tests::{*};
-                    //     test_hide(&board, false);
-                    //     test_ascon(&board);
-                    //     test_random(&board);
-                    //     test_flash(&board);
-                    //     test_timer(&board);
-                    //     loop {
-                    //         board.delay_timer_wait_random_us(1_000_000, 5_000_000);
-                    //         board.send_host_debug(b"Hello, world!");
-                    //         board.led_toggle(Led::Green);
-                    //     }
-                    // }
                     _ => {
                         board.send_host_debug(b"Unknown command");
                     }
@@ -170,8 +158,8 @@ fn attest_component(board: &Board) {
     board.delay_timer_wait_random_us(100, 100_000);
     let is_correct3 = &result.as_slice() == &AP_PIN_HASH_3;
 
-    // Wait until 1.5 seconds total
-    board.transaction_timer_wait_until_us(1_500_000);
+    // Wait until 2.5 seconds total
+    board.transaction_timer_wait_until_us(2_500_000);
 
     // If all three hashes are correct, send the attestation data
     board.delay_timer_wait_random_us(100, 10_000);

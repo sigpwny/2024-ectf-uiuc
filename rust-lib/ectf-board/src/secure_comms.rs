@@ -1,5 +1,6 @@
 use ascon::{crypto_aead_encrypt, crypto_aead_decrypt};
-use max78000_hal::{i2c1, trng};
+use max78000_hal::i2c1;
+
 use crate::Board;
 use crate::ectf_constants::{LEN_COMPONENT_ID, LEN_MISC_MESSAGE};
 use crate::ectf_global_secrets::ASCON_SECRET_KEYS;
@@ -28,12 +29,14 @@ pub const LEN_ASCON_128_PTXT:   usize = LEN_HIDE_MESSAGE;
 pub const LEN_ASCON_128_CTXT:   usize = LEN_ASCON_128_PTXT + LEN_ASCON_128_TAG;
 pub const LEN_TRANSMIT_CTXT:    usize = LEN_ASCON_128_NONCE + LEN_ASCON_128_CTXT;
 
+/// Struct representing the two keys used in our design
 #[repr(C, align(16))]
 pub struct Ascon128Keys {
     pub ap_to_c:    [u8; 16],
     pub c_to_ap:    [u8; 16],
 }
 
+/// Struct containing all encryption data for a message
 #[repr(C, align(16))]
 pub struct Ascon128Data {
     pub ciphertext: [u8; LEN_ASCON_128_CTXT],
@@ -43,6 +46,7 @@ pub struct Ascon128Data {
 }
 
 impl Ascon128Data {
+    /// Use board to initialize encryption data
     pub fn new(
         board: &Board,
         comp_id: &[u8; LEN_COMPONENT_ID],
@@ -54,10 +58,10 @@ impl Ascon128Data {
             ad:         [0u8; LEN_ASCON_128_AD],
             nonce:      [0u8; LEN_ASCON_128_NONCE],
         };
-        trng::random_bytes(&board.trng, &mut ascon_data.ciphertext);
-        trng::random_bytes(&board.trng, &mut ascon_data.message);
+        board.fill_bytes(&mut ascon_data.ciphertext);
+        board.fill_bytes(&mut ascon_data.message);
         gen_associated_data(&mut ascon_data.ad, comp_id, pkt_magic);
-        trng::random_bytes(&board.trng, &mut ascon_data.nonce);
+        board.fill_bytes(&mut ascon_data.nonce);
         return ascon_data;
     }
     /// Helper function to set the HIDE challenge nonce
@@ -228,7 +232,7 @@ pub fn secure_receive(
     // Step 2: Generate a random challenge nonce and send PKT_CHAL_SEND
     let mut hide_pkt_chal_send = Ascon128Data::new(board, comp_id, MAGIC_PKT_CHAL_SEND);
     let mut chal_nonce: [u8; LEN_HIDE_CHAL_NONCE] = [0u8; LEN_HIDE_CHAL_NONCE];
-    trng::random_bytes(&board.trng, &mut chal_nonce);
+    board.fill_bytes(&mut chal_nonce);
     hide_pkt_chal_send.set_challenge_nonce(&chal_nonce);
     // Solve the nonce to check if it's correct later
     let mut solved_nonce: [u8; LEN_HIDE_CHAL_NONCE] = [0u8; LEN_HIDE_CHAL_NONCE];
@@ -331,38 +335,6 @@ fn ascon_send(
     } else {
         i2c1::slave_write_bytes(&board.i2c1, &send_buffer);
     }
-    // DEBUG
-    // board.send_host_debug(b"[ascon_send] Preparing plaintext: ");
-    // for i in 0..LEN_ASCON_128_PTXT {
-    //     board.send_host_debug_no_fmt(&u8_to_hex_string(ascon_data.message[i]));
-    // }
-    // board.send_host_debug_no_fmt(b"\r\n");
-    // board.send_host_debug(b"[ascon_send] Using key: ");
-    // for i in 0..LEN_ASCON_128_KEY {
-    //     board.send_host_debug_no_fmt(&u8_to_hex_string(key[i]));
-    // }
-    // board.send_host_debug_no_fmt(b"\r\n");
-    // board.send_host_debug(b"[ascon_send] Using nonce: ");
-    // for i in 0..LEN_ASCON_128_NONCE {
-    //     board.send_host_debug_no_fmt(&u8_to_hex_string(ascon_data.nonce[i]));
-    // }
-    // board.send_host_debug_no_fmt(b"\r\n");
-    // board.send_host_debug(b"[ascon_send] Using AD: ");
-    // for i in 0..LEN_ASCON_128_AD {
-    //     board.send_host_debug_no_fmt(&u8_to_hex_string(ascon_data.ad[i]));
-    // }
-    // board.send_host_debug_no_fmt(b"\r\n");
-    // board.send_host_debug(b"[ascon_send] Created ciphertext: ");
-    // for i in 0..LEN_ASCON_128_CTXT {
-    //     board.send_host_debug_no_fmt(&u8_to_hex_string(ascon_data.ciphertext[i]));
-    // }
-    // board.send_host_debug_no_fmt(b"\r\n");
-    // board.send_host_debug(b"[ascon_send] Sending: ");
-    // for i in 0..LEN_TRANSMIT_CTXT {
-    //     board.send_host_debug_no_fmt(&u8_to_hex_string(send_buffer[i]));
-    // }
-    // board.send_host_debug_no_fmt(b"\r\n");
-    // END DEBUG
     return Some(0);
 }
 
@@ -402,38 +374,6 @@ fn ascon_receive(
         &ascon_data.nonce,
         key
     );
-    // DEBUG
-    // board.send_host_debug(b"[ascon_send] Decrypted plaintext: ");
-    // for i in 0..LEN_ASCON_128_PTXT {
-    //     board.send_host_debug_no_fmt(&u8_to_hex_string(ascon_data.message[i]));
-    // }
-    // board.send_host_debug_no_fmt(b"\r\n");
-    // board.send_host_debug(b"[ascon_send] Using key: ");
-    // for i in 0..LEN_ASCON_128_KEY {
-    //     board.send_host_debug_no_fmt(&u8_to_hex_string(key[i]));
-    // }
-    // board.send_host_debug_no_fmt(b"\r\n");
-    // board.send_host_debug(b"[ascon_send] Using nonce: ");
-    // for i in 0..LEN_ASCON_128_NONCE {
-    //     board.send_host_debug_no_fmt(&u8_to_hex_string(ascon_data.nonce[i]));
-    // }
-    // board.send_host_debug_no_fmt(b"\r\n");
-    // board.send_host_debug(b"[ascon_send] Using AD: ");
-    // for i in 0..LEN_ASCON_128_AD {
-    //     board.send_host_debug_no_fmt(&u8_to_hex_string(ascon_data.ad[i]));
-    // }
-    // board.send_host_debug_no_fmt(b"\r\n");
-    // board.send_host_debug(b"[ascon_send] Received ciphertext: ");
-    // for i in 0..LEN_ASCON_128_CTXT {
-    //     board.send_host_debug_no_fmt(&u8_to_hex_string(ascon_data.ciphertext[i]));
-    // }
-    // board.send_host_debug_no_fmt(b"\r\n");
-    // board.send_host_debug(b"[ascon_send] Received raw bytes: ");
-    // for i in 0..LEN_TRANSMIT_CTXT {
-    //     board.send_host_debug_no_fmt(&u8_to_hex_string(recv_buffer[i]));
-    // }
-    // board.send_host_debug_no_fmt(b"\r\n");
-    // END DEBUG
     return Some(result);
 }
 

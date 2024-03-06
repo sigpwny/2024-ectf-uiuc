@@ -9,17 +9,20 @@ def error(msg):
     print(msg, file=sys.stderr)
     exit(1)
 
+def to_hex_str(bytes):
+    return ''.join('\\x{:02x}'.format(byte) for byte in bytes)
+
 def gen_ascon_key():
     bytes = secrets.token_bytes(16)
-    return ', '.join([f"0x{byte:02x}" for byte in bytes])
+    return to_hex_str(bytes)
 
 def gen_secrets_files():
     secrets_file = (
 f"""use crate::secure_comms::Ascon128Keys;
 
 pub const ASCON_SECRET_KEYS: Ascon128Keys = Ascon128Keys {{
-    ap_to_c: [{gen_ascon_key()}],
-    c_to_ap: [{gen_ascon_key()}],
+    ap_to_c: *b"{gen_ascon_key()}",
+    c_to_ap: *b"{gen_ascon_key()}",
 }};
 """
     )

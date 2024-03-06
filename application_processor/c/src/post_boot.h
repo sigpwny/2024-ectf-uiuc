@@ -1,6 +1,5 @@
 // See the following files for the implementation of these functions:
 // - application_processor/rust/src/post_boot.rs
-// - deployment/rust-lib/ectf-board/src/post_boot_shared.rs
 #ifndef POST_BOOT_H
 #define POST_BOOT_H
 #include <stdint.h>
