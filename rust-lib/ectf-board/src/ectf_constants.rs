@@ -4,6 +4,7 @@ pub const LEN_MISC_MESSAGE:         usize = 80;
 pub const LEN_CID_HEX_STRING:       usize = 8;
 pub const LEN_INPUT_CID_HEX_STRING: usize = 2 + LEN_CID_HEX_STRING;
 pub const LEN_MAX_INPUT:            usize = 64;
+pub const LEN_MAX_POST_BOOT_MSG:    u8 = 64;
 
 // MISC secrets lengths
 pub const LEN_ATTEST_PIN:           usize = 6;

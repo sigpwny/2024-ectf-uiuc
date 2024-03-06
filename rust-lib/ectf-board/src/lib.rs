@@ -2,9 +2,10 @@
 
 pub mod secure_comms;
 pub mod post_boot_shared;
+pub mod rng;
+pub mod tests;
 pub mod ectf_constants;
 pub mod ectf_global_secrets;
-pub mod rng;
 
 pub use max78000_pac as pac;
 pub use max78000_hal as hal;
@@ -35,10 +36,12 @@ pub struct Board {
     rng: RefCell<CustomRng>,
 }
 
+// Safety: Board is a singleton and we only use one core.
+unsafe impl Sync for Board {}
+
 impl Board {
     /// Create a new Board instance
     pub fn new(seed: [u8; 64]) -> Self {
-        // Safety: We only steal the peripherals once and we have exclusive access
         let p: pac::Peripherals = pac::Peripherals::take().unwrap();
         // Initialize clocks
         gcr::system_clock_ipo_init(&p.GCR);
@@ -339,6 +342,17 @@ impl Board {
         }
     }
 
+    /// Converts a u32 to an Led
+    pub fn led_idx_to_color(led: u32) -> Led {
+        match led {
+            0 => Led::Red,
+            1 => Led::Green,
+            2 => Led::Blue,
+            _ => panic!(),
+        }
+    }
+
+    /// Turn on the specified LED
     pub fn led_on(&self, led: Led) {
         match led {
             Led::Red => gpio2::set_out(&self.gpio2, gpio2::GPIO2_CFG_LED0.pins),
@@ -347,6 +361,7 @@ impl Board {
         }
     }
 
+    /// Turn off the specified LED
     pub fn led_off(&self, led: Led) {
         match led {
             Led::Red => gpio2::clr_out(&self.gpio2, gpio2::GPIO2_CFG_LED0.pins),
@@ -355,6 +370,7 @@ impl Board {
         }
     }
 
+    /// Toggle the specified LED
     pub fn led_toggle(&self, led: Led) {
         match led {
             Led::Red => gpio2::toggle_out(&self.gpio2, gpio2::GPIO2_CFG_LED0.pins),
