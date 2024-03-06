@@ -6,8 +6,9 @@ edition = "2021"
 
 [dependencies]
 ascon = { version = "0.1.0", path = "../ascon" }
-cortex-m = { version = "0.7.7", features = ["inline-asm"] }
+cortex-m = { version = "0.7.7", features = ["critical-section-single-core", "inline-asm"] }
 cortex-m-semihosting = "0.5.0"
+critical-section = "1.1"
 max78000-hal = { version = "0.1.0", path = "../hal" }
 max78000-pac = { version = "0.1.0", features = ["rt", "critical-section"], path = "../pac" }
 rand = { version = "0.8.5", default-features = false }

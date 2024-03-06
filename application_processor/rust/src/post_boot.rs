@@ -74,21 +74,22 @@ pub extern "C" fn secure_receive(address: u8, buffer: *mut u8) -> i32 {
         return -1;
     }
     let mut message: [u8; LEN_MISC_MESSAGE] = [0u8; LEN_MISC_MESSAGE];
-    match hide::ap_secure_receive(&BOARD, &comp_id, &mut message) {
-        Some(LEN_MISC_MESSAGE) => {
-            // Decode the message length
-            let len: u8 = message[0];
-            if len > LEN_MAX_POST_BOOT_MSG {
-                return -1;
-            }
-            for i in 0..len {
-                let idx = i as usize;
-                unsafe { buffer.add(idx).write(message[idx+1]) };
-            }
-            return len as i32;
-        }
-        _ => -1,
-    }
+    // match hide::ap_secure_receive(&BOARD, &comp_id, &mut message) {
+    //     Some(LEN_MISC_MESSAGE) => {
+    //         // Decode the message length
+    //         let len: u8 = message[0];
+    //         if len > LEN_MAX_POST_BOOT_MSG {
+    //             return -1;
+    //         }
+    //         for i in 0..len {
+    //             let idx = i as usize;
+    //             unsafe { buffer.add(idx).write(message[idx+1]) };
+    //         }
+    //         return len as i32;
+    //     }
+    //     _ => -1,
+    // }
+    -1
 }
 
 /// int get_provisioned_ids(uint32_t* buffer);

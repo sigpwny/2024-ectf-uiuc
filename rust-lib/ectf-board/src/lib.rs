@@ -10,7 +10,9 @@ pub use max78000_pac as pac;
 pub use max78000_hal as hal;
 use max78000_hal::{*};
 use ectf_constants::{*};
-use core::panic::PanicInfo;
+use rand::RngCore;
+use rng::CustomRng;
+use core::{cell::RefCell, panic::PanicInfo};
 
 pub enum Led {
     Red = 0,
@@ -30,11 +32,12 @@ pub struct Board {
     pub tmr4: pac::TMR4,
     pub trng: pac::TRNG,
     pub uart0: pac::UART,
+    rng: RefCell<CustomRng>,
 }
 
 impl Board {
     /// Create a new Board instance
-    pub fn new() -> Self {
+    pub fn new(seed: [u8; 64]) -> Self {
         // Safety: We only steal the peripherals once and we have exclusive access
         let p: pac::Peripherals = pac::Peripherals::take().unwrap();
         // Initialize clocks
@@ -82,6 +85,8 @@ impl Board {
         gcr::mxc_i2c1_shutdown(&p.GCR);
         gcr::mxc_i2c1_enable_clock(&p.GCR);
         gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_I2C1);
+        // Create custom RNG instane
+        let rng = CustomRng::new(&p.TMR2, &p.TMR4, &p.TRNG, seed);
         // Return the Board instance
         Board {
             flc: p.FLC,
@@ -95,6 +100,7 @@ impl Board {
             tmr4: p.TMR4,
             trng: p.TRNG,
             uart0: p.UART,
+            rng: RefCell::new(rng),
         }
     }
 
@@ -130,7 +136,7 @@ impl Board {
 
     /// Block for a random number of microseconds between min and max
     pub fn delay_timer_wait_random_us(&self, min: u32, max: u32) {
-        let random = trng::random_u32(&self.trng);
+        let random = self.next_u32();
         let max_ticks = tmr1::us_to_ticks(max);
         let min_ticks = tmr1::us_to_ticks(min);
         let ticks = min_ticks + (random % (max_ticks - min_ticks));
@@ -355,6 +361,31 @@ impl Board {
             Led::Green => gpio2::toggle_out(&self.gpio2, gpio2::GPIO2_CFG_LED1.pins),
             Led::Blue => gpio2::toggle_out(&self.gpio2, gpio2::GPIO2_CFG_LED2.pins),
         }
+    }
+
+    // Not RngCore because we are doing the inner mutability stuff :((
+    pub fn fill_bytes(&self, dest: &mut [u8]) {
+        critical_section::with(|_| {
+            self.rng.borrow_mut().fill_bytes(dest)
+        })
+    }
+
+    pub fn next_u32(&self) -> u32 {
+        critical_section::with(|_| {
+            self.rng.borrow_mut().next_u32()
+        })
+    }
+
+    pub fn next_u64(&self) -> u64 {
+        critical_section::with(|_| {
+            self.rng.borrow_mut().next_u64()
+        })
+    }
+
+    pub fn try_fill_bytes(&self, dest: &mut [u8]) -> Result<(), rand::Error> {
+        critical_section::with(|_| {
+            self.rng.borrow_mut().try_fill_bytes(dest)
+        })
     }
 }
 

@@ -17,7 +17,7 @@ use ectf_ap_params::{*};
 mod post_boot;
 mod flash;
 
-pub const BOARD: Lazy<Board> = Lazy::new(|| Board::new());
+pub const BOARD: Lazy<Board> = Lazy::new(|| Board::new(RNG_SEED));
 
 #[entry]
 fn main() -> ! {

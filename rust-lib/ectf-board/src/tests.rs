@@ -235,7 +235,7 @@ pub fn test_rng(board: &Board) {
         }
         tmr0::config(&board.tmr0);
         board.send_host_debug(b"!!!!!");
-        let mut rng = CustomRng::new(board, rng_seed);
+        let mut rng = CustomRng::new(&board.tmr2, &board.tmr4, &board.trng, rng_seed);
         board.send_host_debug(&u32_to_hex_string(rng.next_u32()));
         board.send_host_debug(&u32_to_hex_string(tmr0::get_time_us(&board.tmr0)));
         board.send_host_debug(b"!!!!!");
