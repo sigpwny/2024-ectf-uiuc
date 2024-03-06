@@ -47,10 +47,9 @@ Our design expands upon the required functionality by implementing the following
 
 ## Documentation
 
-We provide our design document in the `docs` directory in both markdown and PDF format. We love Mermaid sequence diagrams and those are provided as well. Here are some quick links:
+We provide our design document in the `docs` directory in both markdown and PDF format. We love Mermaid sequence diagrams and those are provided as well. Here is a quick link:
 
 - [UIUC Design Document](docs/2024_eCTF_UIUC_Design_Document.pdf)
-- [Building and Flashing](docs/building.md)
 
 The code itself is also heavily documented using Rust doc comments. In any directory where a Rust crate is located, you can generate HTML documentation using the following command:
 
