@@ -74,3 +74,5 @@ Description TODO.
 
 > [!NOTE]  
 > Application messages can only be a maximum of 64 bytes. We provide up to 80 bytes for posterity.
+
+\newpage

@@ -1,6 +1,6 @@
 # MISC Protocol
 
-Description TODO. All MISC messages are sent over the [HIDE protocol](./hide_protocol.md).
+The Medical Infrastructure Supply Chain (MISC) . All MISC messages are sent over the [HIDE protocol](./hide_protocol.md).
 
 > [!NOTE]  
 > "TTT" refers to "total transaction time" and is used to ensure timing functionality requirements are met.
@@ -10,7 +10,7 @@ The host will ask the Application Processor to "list" its components.
 The Application Processor, upon receiving the message from the host, will list its provisioned components.
 It will then send a magic byte as a ping to every I2C address. For components that are present and responsive, they will send a magic byte pong as well as its component ID, which will prompt the Application Processor to send the component ID to the host.
 
-```mermaid
+```{.mermaid loc=img}
 sequenceDiagram
   participant H as Host
   participant AP as Application Processor
@@ -19,7 +19,7 @@ sequenceDiagram
   loop For each provisioned component
     AP ->> H: Info: "P>0x" + CID + "\n"
   end
-  loop For each I2C addr
+  loop For each I2C address
     AP ->> C: LIST_PING
     alt C is attached and responsive
       C ->> AP: LIST_PONG
@@ -55,7 +55,7 @@ Description TODO.
 > [!NOTE]
 > The PIN attempt and component ID need to be transmitted at the beginning in a way that the host tool can understand.
 
-```mermaid
+```{.mermaid loc=img}
 sequenceDiagram
   Host ->> AP: "attest\r"
   Host ->> AP: PIN Attempt
@@ -128,90 +128,97 @@ Description TODO.
 | Customer         | `0x01` | 64           | `\x?? * 64`        |
 
 ## Replace Components
-Description TODO.
+The AP keeps tracks of Components which are provisioned for it by storing their Component IDs. When a Component is replaced, the AP will update its list of provisioned Components with the new Component ID.
 
-```mermaid
+Because this is a sensitive operation, the AP requires a Replacement Token to be sent by the host to validate the replacement. The Replacement Token is a 16-byte string that is assigned during the AP's build process. The Replacement Token is used to ensure that the host is authorized to replace the Component.
+
+In order to protect the Replacement Token from being compromised, the AP stores the Replacement Token as three uniquely salted SHA3-512 hashes. The salt is a random 16-byte string that is generated during the AP's build process and is prepended to the Replacement Token before hashing. Each salt and hash pair is stored in the AP so that the Replacement Token is never stored in plaintext.
+
+Additionally, a fixed transaction delay of 4.5 seconds is sent in place to prevent brute force attacks.
+
+```{.mermaid loc=img caption="Replace components protocol"}
 sequenceDiagram
   participant H as Host
   participant AP as Application Processor
-  H ->> AP: Replacement Token
-  H ->> AP: Old Component ID
+  H ->> AP: "replace"
+  H ->> AP: Replacement Token attempt
   H ->> AP: New Component ID
-  Note over H, AP: 3 seconds elapsed
-  Note over AP: Compute Argon2 hash of <br/> salt | Replacement Token
-  Note over H, AP: 4.8 seconds TTT elapsed
-  alt Replacement Token Incorrect
-  AP -x H: Error: "Replace failed\n"
+  H ->> AP: Old Component ID
+  loop For each N Salt-Hash pair
+    Note over AP: Compute SHA3-512(Salt N, Replacement Token attempt) <br />and compare with stored Hash N
+  end
+  Note over H, AP: 4.5 seconds TTT elapsed
+  alt Any hash is incorrect
+    Note over H, AP: Delay for an additional 5s
+  AP -x H: Error: "Replace failed"
   else
-     Note over AP: Update Component ID list <br/>with new Component ID
-  AP -x H: Success: "Replace\n"
+    Note over AP: Update Component ID list <br/>with new Component ID
+  AP ->> H: Success: "Replace"
+  Note over H: <5s TTT on success
   end
 
 ```
 
 ## Boot Verification
-Description TODO.
+The boot verification process is used to ensure that the Application Processor (AP) only boots if all expected Components are present and valid. The AP will verify that each Component is attached and responsive before booting. The AP will then collect each Component's boot message and send it to the host.
 
-```mermaid
+```{.mermaid loc=img}
 sequenceDiagram
   participant H as Host
   participant AP as Application Processor
-  participant C1 as Component 1
-  participant C2 as Component 2
-  H ->> AP: "boot\r"
-  Note over AP, C2: BOOT_PINGs are sent in order, one at a time
-  AP ->> C1: BOOT_PING
-    alt C1 is attached and responsive
-    C1 ->> AP: BOOT_PONG
-    Note over AP: Continue
-  else C1 is unresponsive
-    Note over AP: Abort boot
-    AP -x H: Error: "Boot failed!\n"
+  participant C as Component
+  H ->> AP: "boot"
+  loop For each provisioned Component
+    AP ->> C: BOOT_PING
+      alt Component is attached and responsive
+      C ->> AP: BOOT_PONG
+      Note over AP: Continue
+    else Component is unresponsive
+      Note over AP: Abort boot
+      AP -x H: Error: "Boot failed"
+    end
   end
-  AP ->> C2: BOOT_PING
-  alt C2 is attached and responsive
-    C2 ->> AP: BOOT_PONG
-    Note over AP: Continue
-  else C2 is unresponsive
-    Note over AP: Abort boot
-    AP -x H: Error: "Boot failed!\n"
+  Note over H, C: AP has verified each Component is attached and responsive
+  loop For each provisioned Component
+    AP ->> C: BOOT_NOW
+    C -->> AP: Component's Boot Message
+    Note over C: Component enters POST_BOOT
   end
-  Note over H, C2: Minimum 2.8s TTT elapsed
-  AP ->> C1: BOOT_NOW
-  C1 -->> AP: C1 Boot Message
-  Note over C1: C1 enters POST_BOOT
-  AP ->> C2: BOOT_NOW
-  C2 -->> AP: C2 Boot Message
-  Note over C2: C2 enters POST_BOOT
-  AP ->> H: "Boot Success"
-  AP -->> H: AP Boot Message
-  AP -->> H: C1 Boot Message
-  AP -->> H: C2 Boot Message
+  Note over H, C: AP has collected all Component boot messages
+  loop For each provisioned Component
+    AP ->> H: Info: Component's Boot Message
+  end
+  AP ->> H: Info: AP's Boot Message
+  AP ->> H: Success: "Boot"
   Note over AP: AP enters POST_BOOT
   Note over H: <3s TTT on success
 ```
 
 ### BOOT_PING
-Description TODO.
+Sent from the Application Processor to each Component to "ping" the Component to ensure it is attached and responsive. Expected to receive a BOOT_PONG in response.
 
-| Name      | Offset | Size (bytes) | Content |
-| --------- | ------ | ------------ | ------- |
-| Magic     | `0x00` | 1            | `\x80`  |
+| Name      | Offset | Size (bytes) | Content      |
+| --------- | ------ | ------------ | ------------ |
+| Magic     | `0x00` | 80           | `\x80` * 80  |
 
 ### BOOT_PONG
-Description TODO.
+Sent from the Component to the Application Processor in response to a BOOT_PING. This indicates that the Component is attached and responsive.
 
-| Name      | Offset | Size (bytes) | Content |
-| --------- | ------ | ------------ | ------- |
-| Magic     | `0x00` | 1            | `\x81`  |
+| Name      | Offset | Size (bytes) | Content      |
+| --------- | ------ | ------------ | ------------ |
+| Magic     | `0x00` | 80           | `\x81` * 80  |
 
 ### BOOT_NOW
-Description TODO.
+Sent from the Application Processor to each Component to command the Component to boot. The Component will then send its boot message (of length 64) to the Application Processor.
 
-| Name      | Offset | Size (bytes) | Content |
-| --------- | ------ | ------------ | ------- |
-| Magic     | `0x00` | 1            | `\x82`  |
+| Name      | Offset | Size (bytes) | Content      |
+| --------- | ------ | ------------ | ------------ |
+| Magic     | `0x00` | 80           | `\x82` * 80  |
+
+> [!WARNING]  
+> The component should not respond to a BOOT_NOW if it has not received a BOOT_PING beforehand.
 
 ## Post-Boot Communication
 Description TODO.
 
+\newpage
