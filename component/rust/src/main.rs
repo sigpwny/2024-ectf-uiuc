@@ -23,7 +23,7 @@ pub enum ComponentCommand {
     BootNow,
 }
 
-pub const BOARD: Lazy<Board> = Lazy::new(|| Board::new());
+pub static BOARD: Lazy<Board> = Lazy::new(|| Board::new());
 
 #[entry]
 fn main() -> ! {

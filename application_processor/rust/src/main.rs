@@ -17,7 +17,7 @@ use ectf_ap_params::{*};
 mod post_boot;
 mod flash;
 
-pub const BOARD: Lazy<Board> = Lazy::new(|| Board::new());
+pub static BOARD: Lazy<Board> = Lazy::new(|| Board::new());
 
 #[entry]
 fn main() -> ! {
@@ -47,8 +47,9 @@ fn main() -> ! {
                         boot_verify(&board);
                     }
                     // TODO: Remove
-                    // Ok("test") => {
-                    //     use tests::{*};
+                    Ok("test") => {
+                        use ectf_board::tests::{*};
+                        test_rng(&board);
                     //     test_hide(&board, false);
                     //     test_ascon(&board);
                     //     test_random(&board);
@@ -59,7 +60,7 @@ fn main() -> ! {
                     //         board.send_host_debug(b"Hello, world!");
                     //         board.led_toggle(Led::Green);
                     //     }
-                    // }
+                    }
                     _ => {
                         board.send_host_debug(b"Unknown command");
                     }
