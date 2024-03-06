@@ -1,7 +1,6 @@
 #![no_std]
 
 pub mod secure_comms;
-pub mod post_boot_shared;
 pub mod rng;
 pub mod tests;
 pub mod ectf_constants;
@@ -19,6 +18,17 @@ pub enum Led {
     Red = 0,
     Green = 1,
     Blue = 2,
+}
+
+impl Led {
+    pub fn from_u32(value: u32) -> Option<Led> {
+        match value {
+            0 => Some(Led::Red),
+            1 => Some(Led::Green),
+            2 => Some(Led::Blue),
+            _ => None,
+        }
+    }
 }
 
 pub struct Board {
@@ -88,7 +98,7 @@ impl Board {
         gcr::mxc_i2c1_shutdown(&p.GCR);
         gcr::mxc_i2c1_enable_clock(&p.GCR);
         gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_I2C1);
-        // Create custom RNG instane
+        // Create custom RNG instance
         let rng = CustomRng::new(&p.TMR2, &p.TMR4, &p.TRNG, seed);
         // Return the Board instance
         Board {
@@ -266,18 +276,42 @@ impl Board {
     /// Read a command from the host (terminated by '\r')
     /// Definitely safe :)
     pub fn gets(&self, buffer: &mut [u8]) -> Option<usize> {
-        let mut index = 0;
-        for byte in buffer.iter_mut() {
-            let result = uart0::read_byte(&self.uart0);
-            *byte = result;
-            // Echo the received byte
-            uart0::write_byte(&self.uart0, result);
-            if result == b'\r' {
-                return Some(index);
+        let mut num_read = 0;
+        for out_byte in buffer.iter_mut() {
+            let in_byte = uart0::read_byte(&self.uart0);
+            uart0::write_byte(&self.uart0, in_byte);
+            *out_byte = in_byte;
+            if in_byte == b'\r' {
+                return Some(num_read);
             }
-            index += 1;
+            num_read += 1;
         }
         return None;
+    }
+
+    /// Read from UART, safe for C by rewriting input '\r' as '\n'
+    /// Intended for POST_BOOT C code, based on MSDK stdio.c implementation
+    pub fn libc_read_uart(&self, buffer: &mut [u8]) {
+        for out_byte in buffer.iter_mut() {
+            let in_byte = uart0::read_byte(&self.uart0);
+            uart0::write_byte(&self.uart0, in_byte);
+            if in_byte == b'\r' {
+                *out_byte = b'\n';
+                break;
+            }
+            *out_byte = in_byte;
+        }
+    }
+
+    /// Write to UART, rewrites output byte '\n' as '\r\n'
+    /// Intended for POST_BOOT C code, based on MSDK stdio.c implementation
+    pub fn libc_write_uart(&self, buffer: &[u8]) {
+        for byte in buffer.iter() {
+            if *byte == b'\n' {
+                uart0::write_byte(&self.uart0, b'\r');
+            }
+            uart0::write_byte(&self.uart0, *byte);
+        }
     }
 
     /// Write 4 bytes to flash at the given address (erases the flash page if necessary)
@@ -342,16 +376,6 @@ impl Board {
         }
     }
 
-    /// Converts a u32 to an Led
-    pub fn led_idx_to_color(led: u32) -> Led {
-        match led {
-            0 => Led::Red,
-            1 => Led::Green,
-            2 => Led::Blue,
-            _ => panic!(),
-        }
-    }
-
     /// Turn on the specified LED
     pub fn led_on(&self, led: Led) {
         match led {
@@ -380,24 +404,28 @@ impl Board {
     }
 
     // Not RngCore because we are doing the inner mutability stuff :((
+    /// Generate random bytes
     pub fn fill_bytes(&self, dest: &mut [u8]) {
         critical_section::with(|_| {
             self.rng.borrow_mut().fill_bytes(dest)
         })
     }
 
+    /// Generate a random u32
     pub fn next_u32(&self) -> u32 {
         critical_section::with(|_| {
             self.rng.borrow_mut().next_u32()
         })
     }
 
+    /// Generate a random u64
     pub fn next_u64(&self) -> u64 {
         critical_section::with(|_| {
             self.rng.borrow_mut().next_u64()
         })
     }
 
+    /// Try to generate random bytes
     pub fn try_fill_bytes(&self, dest: &mut [u8]) -> Result<(), rand::Error> {
         critical_section::with(|_| {
             self.rng.borrow_mut().try_fill_bytes(dest)
