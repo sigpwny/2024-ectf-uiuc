@@ -41,24 +41,12 @@ fn main() -> ! {
             }
         }
         match resolve_command(&board, &magic) {
-            Some(ComponentCommand::AttestReqLocation) => {
-                send_attest_location(&board);
-            }
-            Some(ComponentCommand::AttestReqDate) => {
-                send_attest_date(&board);
-            }
-            Some(ComponentCommand::AttestReqCustomer) => {
-                send_attest_customer(&board);
-            }
-            Some(ComponentCommand::BootPing) => {
-                send_boot_pong(&board);
-            }
-            Some(ComponentCommand::BootNow) => {
-                boot_component(&board);
-            }
-            None => {
-                continue;
-            }
+            Some(ComponentCommand::AttestReqLocation) => send_attest_location(&board),
+            Some(ComponentCommand::AttestReqDate) => send_attest_date(&board),
+            Some(ComponentCommand::AttestReqCustomer) => send_attest_customer(&board),
+            Some(ComponentCommand::BootPing) => send_boot_pong(&board),
+            Some(ComponentCommand::BootNow) => panic!(),
+            _ => continue;
         }
         continue;
     }
@@ -130,6 +118,16 @@ fn send_boot_pong(board: &Board) {
     match hide::comp_secure_send(board, &COMPONENT_ID, &boot_pong_msg) {
         Some(LEN_MISC_MESSAGE) => board.send_host_debug(b"Boot pong sent"),
         _ => board.send_host_debug(b"Failed to send boot pong"),
+    }
+    // At this point, the next message should be a BOOT_NOW
+    let mut magic: [u8; LEN_MISC_MESSAGE] = [0u8; LEN_MISC_MESSAGE];
+    match hide::comp_secure_receive(&board, &COMPONENT_ID, &mut magic) {
+        Some(LEN_MISC_MESSAGE) => (),
+        _ => panic!()
+    }
+    match resolve_command(&board, &magic) {
+        Some(ComponentCommand::BootNow) => boot_component(board),
+        _ => panic!(),
     }
 }
 
