@@ -18,6 +18,7 @@ pkgs.mkShell {
     pkgs.pandoc
     pkgs.nodejs
     pkgs.tectonic
+    pkgs.haskellPackages.pandoc-crossref
     pkgs.mermaid-filter
     #(pkgs.callPackage custom_nix_pkgs/analog_openocd.nix { })
   ];
