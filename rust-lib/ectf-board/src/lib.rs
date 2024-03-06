@@ -13,6 +13,7 @@ use ectf_constants::{*};
 use rand::RngCore;
 use rng::CustomRng;
 use core::{cell::RefCell, panic::PanicInfo};
+use core::arch::asm;
 
 pub enum Led {
     Red = 0,
@@ -508,19 +509,85 @@ pub fn bytes_to_u32(data: &[u8; 4]) -> u32 {
     ((data[3] as u32) << 24)
 }
 
+///🙄
 #[panic_handler]
 pub fn panic(_info: &PanicInfo) -> ! {
-    // Safety: We're panicking, nothing is safe anymore
-    let p = unsafe { pac::Peripherals::steal() };
-    loop {
-        // Blink the red LED to indicate a panic
-        gpio2::set_out(&p.GPIO2, gpio2::GPIO2_CFG_LED0.pins);
-        for _ in 0..1_000_000 {
-            cortex_m::asm::nop();
-        }
-        gpio2::clr_out(&p.GPIO2, gpio2::GPIO2_CFG_LED0.pins);
-        for _ in 0..1_000_000 {
-            cortex_m::asm::nop();
-        }
+    unsafe {
+        asm!(
+            "1337:",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b"
+        );
     }
+    loop { }
 }
