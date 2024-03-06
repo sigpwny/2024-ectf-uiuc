@@ -76,13 +76,13 @@ impl Board {
         // Initialize TMR2 (entropy source)
         gcr::mxc_tmr2_shutdown(&p.GCR);
         gcr::mxc_tmr2_enable_clock(&p.GCR);
-        tmr2::config(&p.TMR2);
         gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_TMR2);
+        tmr2::config(&p.TMR2);
         // Initialize TMR4 (entropy source)
         gcr::mxc_tmr4_shutdown(&p.LPGCR);
         gcr::mxc_tmr4_enable_clock(&p.LPGCR);
-        tmr4::config(&p.TMR4);
         gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_TMR4);
+        tmr4::config(&p.TMR4);
         // Initialize TRNG
         gcr::mxc_trng_shutdown(&p.GCR);
         gcr::mxc_trng_enable_clock(&p.GCR);
