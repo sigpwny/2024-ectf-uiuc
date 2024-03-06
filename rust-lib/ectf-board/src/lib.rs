@@ -1,7 +1,7 @@
 #![no_std]
 
 pub mod secure_comms;
-pub mod post_boot_shared;
+pub mod rng;
 pub mod ectf_constants;
 pub mod ectf_global_secrets;
 
@@ -9,12 +9,26 @@ pub use max78000_pac as pac;
 pub use max78000_hal as hal;
 use max78000_hal::{*};
 use ectf_constants::{*};
-use core::panic::PanicInfo;
+use rand::RngCore;
+use rng::CustomRng;
+use core::{cell::RefCell, panic::PanicInfo};
+use core::arch::asm;
 
 pub enum Led {
     Red = 0,
     Green = 1,
     Blue = 2,
+}
+
+impl Led {
+    pub fn from_u32(value: u32) -> Option<Led> {
+        match value {
+            0 => Some(Led::Red),
+            1 => Some(Led::Green),
+            2 => Some(Led::Blue),
+            _ => None,
+        }
+    }
 }
 
 pub struct Board {
@@ -25,15 +39,20 @@ pub struct Board {
     pub i2c1: pac::I2C1,
     pub tmr0: pac::TMR,
     pub tmr1: pac::TMR1,
+    pub tmr2: pac::TMR2,
+    pub tmr4: pac::TMR4,
     pub trng: pac::TRNG,
     pub uart0: pac::UART,
+    rng: RefCell<CustomRng>,
 }
+
+// Safety: Board is a singleton and we only use one core.
+unsafe impl Sync for Board {}
 
 impl Board {
     /// Create a new Board instance
-    pub fn new() -> Self {
-        // Safety: We only steal the peripherals once and we have exclusive access
-        let p: pac::Peripherals = unsafe { pac::Peripherals::steal() };
+    pub fn new(seed: [u8; 64]) -> Self {
+        let p: pac::Peripherals = pac::Peripherals::take().unwrap();
         // Initialize clocks
         gcr::system_clock_ipo_init(&p.GCR);
         gcr::iso_init(&p.GCR);
@@ -54,6 +73,16 @@ impl Board {
         gcr::mxc_tmr1_shutdown(&p.GCR);
         gcr::mxc_tmr1_enable_clock(&p.GCR);
         gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_TMR1);
+        // Initialize TMR2 (entropy source)
+        gcr::mxc_tmr2_shutdown(&p.GCR);
+        gcr::mxc_tmr2_enable_clock(&p.GCR);
+        gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_TMR2);
+        tmr2::config(&p.TMR2);
+        // Initialize TMR4 (entropy source)
+        gcr::mxc_tmr4_shutdown(&p.LPGCR);
+        gcr::mxc_tmr4_enable_clock(&p.LPGCR);
+        gpio2::config(&p.GPIO2, gpio2::GPIO2_CFG_TMR4);
+        tmr4::config(&p.TMR4);
         // Initialize TRNG
         gcr::mxc_trng_shutdown(&p.GCR);
         gcr::mxc_trng_enable_clock(&p.GCR);
@@ -69,6 +98,8 @@ impl Board {
         gcr::mxc_i2c1_shutdown(&p.GCR);
         gcr::mxc_i2c1_enable_clock(&p.GCR);
         gpio0::config(&p.GPIO0, gpio0::GPIO0_CFG_I2C1);
+        // Create custom RNG instance
+        let rng = CustomRng::new(&p.TMR2, &p.TMR4, &p.TRNG, seed);
         // Return the Board instance
         Board {
             flc: p.FLC,
@@ -78,8 +109,11 @@ impl Board {
             i2c1: p.I2C1,
             tmr0: p.TMR,
             tmr1: p.TMR1,
+            tmr2: p.TMR2,
+            tmr4: p.TMR4,
             trng: p.TRNG,
             uart0: p.UART,
+            rng: RefCell::new(rng),
         }
     }
 
@@ -89,6 +123,7 @@ impl Board {
         // Verify that the timer has just started
         let start = tmr0::get_time_us(&self.tmr0);
         if start > 100 {
+            self.send_host_debug(b"Timer did not reset properly!");
             panic!();
         }
     }
@@ -114,7 +149,7 @@ impl Board {
 
     /// Block for a random number of microseconds between min and max
     pub fn delay_timer_wait_random_us(&self, min: u32, max: u32) {
-        let random = trng::random_u32(&self.trng);
+        let random = self.next_u32();
         let max_ticks = tmr1::us_to_ticks(max);
         let min_ticks = tmr1::us_to_ticks(min);
         let ticks = min_ticks + (random % (max_ticks - min_ticks));
@@ -159,6 +194,13 @@ impl Board {
     #[cfg(not(debug_assertions))]
     pub fn send_host_debug_no_fmt(&self, _message: &[u8]) {
         cortex_m::asm::nop();
+    }
+
+    /// Write info to the host
+    pub fn send_host_info(&self, message: &[u8]) {
+        uart0::write_bytes(&self.uart0, b"%info: ");
+        uart0::write_bytes(&self.uart0, message);
+        uart0::write_bytes(&self.uart0, b"\r\n%");
     }
 
     /// Write error to the host
@@ -234,20 +276,107 @@ impl Board {
     /// Read a command from the host (terminated by '\r')
     /// Definitely safe :)
     pub fn gets(&self, buffer: &mut [u8]) -> Option<usize> {
-        let mut index = 0;
-        for byte in buffer.iter_mut() {
-            let result = uart0::read_byte(&self.uart0);
-            *byte = result;
-            // Echo the received byte
-            uart0::write_byte(&self.uart0, result);
-            if result == b'\r' {
-                return Some(index);
+        let mut num_read = 0;
+        for out_byte in buffer.iter_mut() {
+            let in_byte = uart0::read_byte(&self.uart0);
+            uart0::write_byte(&self.uart0, in_byte);
+            *out_byte = in_byte;
+            if in_byte == b'\r' {
+                return Some(num_read);
             }
-            index += 1;
+            num_read += 1;
         }
         return None;
     }
 
+    /// Read from UART, safe for C by rewriting input '\r' as '\n'
+    /// Intended for POST_BOOT C code, based on MSDK stdio.c implementation
+    pub fn libc_read_uart(&self, buffer: &mut [u8]) {
+        for out_byte in buffer.iter_mut() {
+            let in_byte = uart0::read_byte(&self.uart0);
+            uart0::write_byte(&self.uart0, in_byte);
+            if in_byte == b'\r' {
+                *out_byte = b'\n';
+                break;
+            }
+            *out_byte = in_byte;
+        }
+    }
+
+    /// Write to UART, rewrites output byte '\n' as '\r\n'
+    /// Intended for POST_BOOT C code, based on MSDK stdio.c implementation
+    pub fn libc_write_uart(&self, buffer: &[u8]) {
+        for byte in buffer.iter() {
+            if *byte == b'\n' {
+                uart0::write_byte(&self.uart0, b'\r');
+            }
+            uart0::write_byte(&self.uart0, *byte);
+        }
+    }
+
+    /// Write 4 bytes to flash at the given address (erases the flash page if necessary)
+    pub fn write_flash_bytes(&self, addr: u32, data: &[u8; 4]) {
+        let result = flc::write_32(&self.flc, addr, bytes_to_u32(data));
+        match result {
+            flc::FlashStatus::Success => (),
+            flc::FlashStatus::NeedsErase => {
+                // Erase the flash page
+                let result = flc::erase_page(&self.flc, addr & 0xFFFF_E000);
+                // Verify the erase
+                for i in 0..4 {
+                    let addr_ptr = addr as *const u8;
+                    let byte = unsafe { addr_ptr.add(i).read() };
+                    if byte != 0xff {
+                        self.send_host_debug(b"Flash was not erased!");
+                        panic!();
+                    }
+                }
+                match result {
+                    flc::FlashStatus::Success => {
+                        // Retry the write
+                        let result = flc::write_32(&self.flc, addr, bytes_to_u32(data));
+                        match result {
+                            flc::FlashStatus::Success => (),
+                            _ => {
+                                self.send_host_debug(b"Failed to write to flash after erasing page");
+                                panic!();
+                            },
+                        }
+                    },
+                    flc::FlashStatus::AccessViolation => {
+                        self.send_host_debug(b"Access violation during flash erase");
+                        self.send_host_debug(b"Failed to erase flash page");
+                        panic!();
+                    },
+                    flc::FlashStatus::InvalidAddress => {
+                        self.send_host_debug(b"Invalid address during flash erase");
+                        self.send_host_debug(b"Failed to erase flash page");
+                        panic!();
+                    },
+                    _ => {
+                        self.send_host_debug(b"Unknown error");
+                        self.send_host_debug(b"Failed to erase flash page");
+                        panic!();
+                    }
+                }
+            },
+            _ => {
+                self.send_host_debug(b"Failed to write to flash");
+                panic!();
+            }
+        }
+        // Verify the write
+        let addr_ptr = addr as *const u8;
+        for i in 0..4 {
+            let byte = unsafe { addr_ptr.add(i).read() };
+            if byte != data[i] {
+                self.send_host_debug(b"Flash write verification failed");
+                panic!();
+            }
+        }
+    }
+
+    /// Turn on the specified LED
     pub fn led_on(&self, led: Led) {
         match led {
             Led::Red => gpio2::set_out(&self.gpio2, gpio2::GPIO2_CFG_LED0.pins),
@@ -256,6 +385,7 @@ impl Board {
         }
     }
 
+    /// Turn off the specified LED
     pub fn led_off(&self, led: Led) {
         match led {
             Led::Red => gpio2::clr_out(&self.gpio2, gpio2::GPIO2_CFG_LED0.pins),
@@ -264,12 +394,42 @@ impl Board {
         }
     }
 
+    /// Toggle the specified LED
     pub fn led_toggle(&self, led: Led) {
         match led {
             Led::Red => gpio2::toggle_out(&self.gpio2, gpio2::GPIO2_CFG_LED0.pins),
             Led::Green => gpio2::toggle_out(&self.gpio2, gpio2::GPIO2_CFG_LED1.pins),
             Led::Blue => gpio2::toggle_out(&self.gpio2, gpio2::GPIO2_CFG_LED2.pins),
         }
+    }
+
+    // Not RngCore because we are doing the interior mutability stuff :((
+    /// Generate random bytes
+    pub fn fill_bytes(&self, dest: &mut [u8]) {
+        critical_section::with(|_| {
+            self.rng.borrow_mut().fill_bytes(dest)
+        })
+    }
+
+    /// Generate a random u32
+    pub fn next_u32(&self) -> u32 {
+        critical_section::with(|_| {
+            self.rng.borrow_mut().next_u32()
+        })
+    }
+
+    /// Generate a random u64
+    pub fn next_u64(&self) -> u64 {
+        critical_section::with(|_| {
+            self.rng.borrow_mut().next_u64()
+        })
+    }
+
+    /// Try to generate random bytes
+    pub fn try_fill_bytes(&self, dest: &mut [u8]) -> Result<(), rand::Error> {
+        critical_section::with(|_| {
+            self.rng.borrow_mut().try_fill_bytes(dest)
+        })
     }
 }
 
@@ -296,38 +456,6 @@ pub fn lock_pages(flc: &pac::FLC) {
 #[cfg(debug_assertions)]
 pub fn lock_pages(_flc: &pac::FLC) {
     cortex_m::asm::nop();
-}
-
-/// Print an eCTF debug message
-#[macro_export]
-macro_rules! debug {
-    ($board:ident, $msg:expr) => {{
-        // If this is standard debug build, print to UART0
-        #[cfg(all(debug_assertions, not(feature = "semihosting")))]
-        {
-            $board.send_host_debug($msg);
-        }
-        // If this is a semihosting debug build, print via semihosting
-        #[cfg(all(debug_assertions, feature = "semihosting"))]
-        {
-            use cortex_m_semihosting::{heprint, syscall};
-            heprint!("%debug: ");
-            // Safety: Required to print type &[u8] to the host
-            unsafe { syscall!(WRITE, 1, $msg.as_ptr(), $msg.len()) };
-            heprint!("\r\n%");
-        }
-        // If this is a release build, do nothing
-        #[cfg(not(debug_assertions))]
-        { }
-    }};
-}
-/// Print an eCTF error message and return
-#[macro_export]
-macro_rules! ret_error {
-    ($board:ident, $msg:expr) => {{
-        $board.send_host_error($msg);
-        return;
-    }};
 }
 
 /// Convert a u8 to a hex byte string array
@@ -380,19 +508,85 @@ pub fn bytes_to_u32(data: &[u8; 4]) -> u32 {
     ((data[3] as u32) << 24)
 }
 
+///🙄
 #[panic_handler]
 pub fn panic(_info: &PanicInfo) -> ! {
-    // Safety: We're panicking, nothing is safe anymore
-    let p = unsafe { pac::Peripherals::steal() };
-    loop {
-        // Blink the red LED to indicate a panic
-        gpio2::set_out(&p.GPIO2, gpio2::GPIO2_CFG_LED0.pins);
-        for _ in 0..1_000_000 {
-            cortex_m::asm::nop();
-        }
-        gpio2::clr_out(&p.GPIO2, gpio2::GPIO2_CFG_LED0.pins);
-        for _ in 0..1_000_000 {
-            cortex_m::asm::nop();
-        }
+    unsafe {
+        asm!(
+            "1337:",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b",
+            "b 1337b"
+        );
     }
+    loop { }
 }
