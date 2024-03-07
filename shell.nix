@@ -15,11 +15,6 @@ pkgs.mkShell {
     pkgs.gcc-arm-embedded
     pkgs.poetry
     pkgs.cacert
-    pkgs.pandoc
-    pkgs.nodejs
-    pkgs.tectonic
-    pkgs.haskellPackages.pandoc-crossref
-    pkgs.mermaid-filter
     #(pkgs.callPackage custom_nix_pkgs/analog_openocd.nix { })
   ];
 
