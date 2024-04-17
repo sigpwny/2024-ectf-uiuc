@@ -16,7 +16,7 @@ Every AP and Component built from the same deployment will share the same keys. 
 
 ## HIDE Secure Protocol
 
-```{.mermaid loc=img #fig:hide-secure caption="HIDE secure communications protocol"}
+```mermaid
 sequenceDiagram
 	participant AP as Device A<br />Application Processor<br />(or Component)
 	participant C as Device B<br />Component<br />(or Application Processor)
@@ -87,7 +87,7 @@ As part of the MISC system, we also must implement functionality to list all Com
 
 The AP will send an unencrypted request packet which contains the magic bytes corresponding to a list request. The Component will then respond immediately with its 4-byte Component ID.
 
-```{.mermaid loc=img #fig:hide-list caption="HIDE list protocol"}
+```mermaid
 sequenceDiagram
 	participant AP as Application Processor
 	AP ->> C: (Unencrypted): HIDE_PKT_REQ_LIST

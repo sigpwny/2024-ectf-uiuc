@@ -12,7 +12,7 @@ Since listing a component is not considered a sensitive operation, there is no r
 
 Note that the listing components protocol is an exception to the rest of the MISC protocol, which use the full HIDE protocol by sending a HIDE secure packet request.
 
-```{.mermaid loc=img #fig:list caption="List components protocol"}
+```mermaid
 sequenceDiagram
   participant H as Host
   participant AP as Application Processor
@@ -45,7 +45,7 @@ The transfer of the Attestation Data is broken into three parts in order to meet
 Additionally, a fixed transaction delay of 2.5 seconds is sent in place to prevent brute force attacks.
 
 
-```{.mermaid loc=img #fig:attest caption="Attest components protocol"}
+```mermaid
 sequenceDiagram
   participant H as Host
   participant AP as Application Processor
@@ -134,7 +134,7 @@ In order to protect the Replacement Token from being compromised, the AP stores 
 
 Additionally, a fixed transaction delay of 4.5 seconds is sent in place to prevent brute force attacks.
 
-```{.mermaid loc=img #fig:replace caption="Replace components protocol"}
+```mermaid
 sequenceDiagram
   participant H as Host
   participant AP as Application Processor
@@ -160,7 +160,7 @@ sequenceDiagram
 ## Boot Verification
 The boot verification process is used to ensure that the Application Processor (AP) only boots if all expected Components are present and valid. The AP will verify that each Component is attached and responsive before booting. The AP will then collect each Component's boot message and send it to the host.
 
-```{.mermaid loc=img #fig:boot caption="Boot verification protocol"}
+```mermaid
 sequenceDiagram
   participant H as Host
   participant AP as Application Processor
